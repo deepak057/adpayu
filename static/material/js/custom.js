@@ -113,15 +113,48 @@ $(function () {
     // ============================================================== 
     //tooltip
     // ============================================================== 
-   /* $(function () {
+    $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     // ============================================================== 
     //Popover
     // ============================================================== 
     $(function () {
-            $('[data-toggle="popover"]').popover()
+            
+              $(document).on("mouseover",'[data-toggle="popover"]', function(){
+               var atr = "done-tip";
+
+                 $(this).popover();
+
+                 return;
+
+               var attr = $(this).attr(atr);
+
+               if (typeof attr !== typeof undefined && attr !== false) {
+
+
+               }
+
+               else {
+                     $(this).popover();
+                     $(this).attr(atr, "true");
+
+               }
+
+
+                
+            });
         })
+
+    $('body').on('click', function (e) {
+        $('[data-toggle=popover]').each(function () {
+            // hide any open popovers when the anywhere else in the body is clicked
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });
+   /*
     // ============================================================== 
     // Sidebarmenu
     // ============================================================== 

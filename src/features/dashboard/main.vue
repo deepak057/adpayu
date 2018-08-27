@@ -34,7 +34,7 @@
         .card-body
           .profiletimeline
             .sl-item(v-for="f in feed" :class="f['type']=='ad'? 'ribbon-wrapper': '' " v-show="f['show']")
-              .ribbon.ribbon-bookmark.ribbon-warning.f-w-400(v-if="f['type']=='ad'") Sponsored + $ {{f['cpv']}}
+              .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['type']=='ad'" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['cpv'])") Sponsored + $ {{f['cpv']}}
                  i.mdi.mdi-information.m-l-5.cursor-hand
               .sl-left
                 img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
@@ -46,13 +46,16 @@
                   .row.m-0.feed-video-wrap(v-if="f['video']")
                     .col-lg-6.col-md-6.video-container
                       <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
+                    .col-lg-6.col-md-6
+                      span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['cpc'])") + $ {{f['cpc']}}
+                        i.mdi.mdi-information.m-l-4.cursor-hand
                   .row(v-if="f['imgs'].length > 0")
                     .col-lg-3.col-md-6.m-b-20(v-for="img in f['imgs']")
                       img.img-responsive.radius(:src="img")
                   p(v-if="f['cpc']")
                     a.m-r-5(href="#") Get The Product Now
-                    span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999 + $ {{f['cpc']}}
-                      i.mdi.mdi-information.m-l-4.cursor-hand
+                    span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['cpc'])") + $ {{f['cpc']}}
+                      i.mdi.mdi-information.m-l-4
                   .like-comm
                     a.link.m-r-10(href='javascript:void(0)') 2 comment
                     a.link.m-r-10(href='javascript:void(0)')
@@ -171,12 +174,12 @@ export default {
           'static/assets/images/big/img1.jpg'
         ],
         cpv: 0.2,
-        cpc: 1,
+        cpc: 0,
         video: false,
         show: true
       },
       {
-        type: 'newsFeed',
+        type: 'ad',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
         imgs: [
         ],
@@ -213,6 +216,15 @@ export default {
   mounted () {
   },
   methods: {
+    getCPCText (cost) {
+      return 'You wil get $' + cost + ' for clicking this link'
+    },
+    getCPVText (cost) {
+      return 'You have got $' + cost + ' for seeing this ad'
+    },
+    getCPVVText (cost) {
+      return 'You will get $' + cost + ' for watching this video'
+    },
     showHideFeed () {
       for (var i in this.feed) {
         if (this.feed[i]['type'] === 'ad') {
