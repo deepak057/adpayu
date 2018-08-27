@@ -33,19 +33,19 @@ aside.left-sidebar(style='overflow: visible;')
       nav.sidebar-nav
         ul#sidebarnav
           li
-            a.waves-effect.waves-dark(href='#', aria-expanded='false')
+            a.waves-effect.waves-dark(href='/', aria-expanded='false' :class="{'active': (cat==='all') }")
               i.mdi.mdi-gauge
               span.hide-menu All
           li
-            a.waves-effect.waves-dark(href='#', aria-expanded='false')
+            a.waves-effect.waves-dark(href='/technology', aria-expanded='false' :class="{'active': (cat==='technology') }")
               i.mdi.mdi-laptop-windows
               span.hide-menu Technology
           li
-            a.waves-effect.waves-dark(href='#', aria-expanded='false')
+            a.waves-effect.waves-dark(href='/fashion', aria-expanded='false' :class="{'active': (cat==='fashion') }")
               i.mdi.mdi-bullseye
               span.hide-menu Fashion
           li
-            a.waves-effect.waves-dark(href='#', aria-expanded='false')
+            a.waves-effect.waves-dark(href='/science', aria-expanded='false' :class="{'active': (cat==='science') }")
               i.mdi.mdi-chart-bubble
               span.hide-menu Science
       // End Sidebar navigation
@@ -69,7 +69,12 @@ import auth from '@/auth/helpers'
 
 export default {
   name: 'AppSidebar',
-
+  props: {
+    cat: {
+      type: String,
+      default: 'all'
+    }
+  },
   computed: {
     isActive: {
       get () {

@@ -1,7 +1,7 @@
 <template lang="pug">
 #main-wrapper
   <app-bar/>
-  <app-sidebar/>
+  <app-sidebar :cat="cat"/>
   .page-wrapper
     router-view
     <app-footer/>
@@ -16,6 +16,9 @@ export default {
   name: 'DefaultLayout',
 
   components: { AppBar, AppSidebar, AppFooter },
+
+  created () {
+  },
 
   methods: {
 

@@ -5,7 +5,7 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Dashboard
+      h3.text-themecolor.m-b-0.m-t-0 {{cat}}
       ol.breadcrumb
         li.breadcrumb-item
           a(href='javascript:void(0)') Home
@@ -172,6 +172,12 @@ export default {
 
   components: {
     myVideo
+  },
+  props: {
+    cat: {
+      type: String,
+      default: 'Dashboard'
+    }
   },
   data () {
     return {

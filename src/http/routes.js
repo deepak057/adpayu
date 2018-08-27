@@ -20,6 +20,14 @@ const routes = [
     isPublic: false
   },
   {
+    name: 'home',
+    path: '/:cat',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
+    title: 'Dashboard',
+    layout: 'DefaultLayout',
+    isPublic: false
+  },
+  {
     name: 'dashboard',
     path: '/dashboard',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
