@@ -9,7 +9,7 @@
       ol.breadcrumb
         li.breadcrumb-item
           a(href='javascript:void(0)') Home
-        li.breadcrumb-item.active Dashboard
+        li.breadcrumb-item.active {{cat}}
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
