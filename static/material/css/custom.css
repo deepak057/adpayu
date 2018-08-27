@@ -58,6 +58,10 @@
 	position: relative;
 	top: -2px;
 }
+.pr-t-2{
+	position: relative;
+	top: 2px;
+}
 
 .f-s-12{
 	font-size: 12px;
@@ -81,4 +85,9 @@
 
 .profiletimeline .ribbon-wrapper{
 	padding-bottom: 0px;
+}
+.pr-t--3-l--3{
+	position: relative;
+	top: -3px;
+	left: -3px;
 }
