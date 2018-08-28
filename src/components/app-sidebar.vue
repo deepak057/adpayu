@@ -71,15 +71,18 @@ export default {
       menuItems: [
         {
           name: 'all',
-          icon: 'mdi-gauge'
+          icon: 'mdi-gauge',
+          default: true
         },
         {
           name: 'science',
-          icon: 'mdi-laptop-windows'
+          icon: 'mdi-laptop-windows',
+          default: false
         },
         {
           name: 'technology',
-          icon: 'mdi-bullseye'
+          icon: 'mdi-bullseye',
+          default: false
         },
         {
           name: 'fashion',
