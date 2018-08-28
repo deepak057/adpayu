@@ -5,11 +5,11 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 {{cat}}
+      h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
         li.breadcrumb-item
           a(href='javascript:void(0)') Home
-        li.breadcrumb-item.active {{cat}}
+        li.breadcrumb-item.active {{pageTitle() | capitalize}}
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
@@ -166,13 +166,14 @@
 
 <script>
 import myVideo from 'vue-video'
+import mixin from '../../globals/mixin.js'
 
 export default {
   name: 'Dashboard',
-
   components: {
     myVideo
   },
+  mixins: [mixin],
   props: {
     cat: {
       type: String,
@@ -277,6 +278,7 @@ export default {
     }
   },
   created () {
+    this.setDocumentTitle()
     this.showHideFeed()
   },
   mounted () {
@@ -319,6 +321,17 @@ export default {
     },
     deleteComment (feedItem, index_) {
       feedItem['comments'].splice(index_, 1)
+    },
+    getTitle () {
+      return this.$route.params.cat
+    },
+    setDocumentTitle () {
+      var t_ = this.getTitle()
+      document.title = t_.charAt(0).toUpperCase() + t_.slice(1)
+    },
+    pageTitle () {
+      var t = this.getTitle()
+      return !t || t === 'all' ? 'Dashboard' : t
     }
   }
 }

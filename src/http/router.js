@@ -28,8 +28,9 @@ function guardRoute (to, from, next) {
  * The Router instance containing all the routes for the application.
  */
 const router = new Router({
-  base: '/app',
+  base: '/',
   mode: 'history',
+  linkActiveClass: 'active',
   routes: routes.map(route => ({
     name: route.name,
     path: route.path,

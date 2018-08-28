@@ -32,22 +32,11 @@ aside.left-sidebar(style='overflow: visible;')
       // Sidebar navigation
       nav.sidebar-nav
         ul#sidebarnav
-          li
-            a.waves-effect.waves-dark(href='/', aria-expanded='false' :class="{'active': (cat==='all') }")
-              i.mdi.mdi-gauge
-              span.hide-menu All
-          li
-            a.waves-effect.waves-dark(href='/technology', aria-expanded='false' :class="{'active': (cat==='technology') }")
-              i.mdi.mdi-laptop-windows
-              span.hide-menu Technology
-          li
-            a.waves-effect.waves-dark(href='/fashion', aria-expanded='false' :class="{'active': (cat==='fashion') }")
-              i.mdi.mdi-bullseye
-              span.hide-menu Fashion
-          li
-            a.waves-effect.waves-dark(href='/science', aria-expanded='false' :class="{'active': (cat==='science') }")
-              i.mdi.mdi-chart-bubble
-              span.hide-menu Science
+          <router-link tag="li" v-for="item in menuItems" :to="item.name">
+            a.waves-effect.waves-dark(aria-expanded='false')
+              i.mdi(:class="item.icon")
+              span.hide-menu {{item.name | capitalize}}
+          </router-link>
       // End Sidebar navigation
     // End Sidebar scroll
     // Bottom points
@@ -66,13 +55,37 @@ aside.left-sidebar(style='overflow: visible;')
 
 <script>
 import auth from '@/auth/helpers'
+import mixin from '../globals/mixin.js'
 
 export default {
   name: 'AppSidebar',
+  mixins: [mixin],
   props: {
     cat: {
       type: String,
       default: 'all'
+    }
+  },
+  data () {
+    return {
+      menuItems: [
+        {
+          name: 'all',
+          icon: 'mdi-gauge'
+        },
+        {
+          name: 'science',
+          icon: 'mdi-laptop-windows'
+        },
+        {
+          name: 'technology',
+          icon: 'mdi-bullseye'
+        },
+        {
+          name: 'fashion',
+          icon: 'mdi-chart-bubble'
+        }
+      ]
     }
   },
   computed: {

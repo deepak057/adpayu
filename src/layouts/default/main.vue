@@ -3,7 +3,7 @@
   <app-bar/>
   <app-sidebar :cat="cat"/>
   .page-wrapper
-    <router-view :cat="cat"></router-view>
+    router-view
     <app-footer/>
 </template>
 

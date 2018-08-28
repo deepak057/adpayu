@@ -25,7 +25,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
     title: 'Dashboard',
     layout: 'DefaultLayout',
-    isPublic: false
+    isPublic: false,
+    props: true
   },
   {
     name: 'dashboard',
