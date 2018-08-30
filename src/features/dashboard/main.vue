@@ -32,6 +32,8 @@
     .col-12.feed-container-col
       .card
         .card-body
+          button.btn.btn-secondary.btn-circle.btn-add-feed(type="button" data-toggle="tooltip" data-placement="left" title="Click to post something")
+            i.fa.fa-plus
           .profiletimeline
             .sl-item(v-for="f in feed" :class="f['type']=='ad'? 'ribbon-wrapper': '' " v-show="f['show']")
               .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['type']=='ad'" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['cpv'])") Sponsored + $ {{f['cpv']}}
