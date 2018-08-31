@@ -82,7 +82,9 @@
 	padding-bottom: 20px;
 }
 
-
+.none{
+	display: none;
+}
 .profiletimeline .ribbon-wrapper{
 	padding-bottom: 0px;
 }
@@ -98,3 +100,19 @@
 	right: 8px;
 	z-index: 1;
 }
+/*
+** Altering Bootstrap Modal
+*/
+body { 
+	padding-right: 0 !important 
+}
+
+.modal {
+   position: absolute !important;
+   overflow: auto;
+   overflow-y: auto;
+}
+
+/*
+** Bootstrap Modal ends
+*/

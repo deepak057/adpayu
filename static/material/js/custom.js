@@ -121,11 +121,10 @@ $(function () {
     // ============================================================== 
     $(function () {
             
-             $(document).on("mouseover",'[data-toggle="tooltip"]', function(){
+             $(document).on("mouseover",'[data-toggle-tooltip="tooltip"]', function(){
                 $(this).tooltip('show')
              });
-
-
+           
               $(document).on("mouseover",'[data-toggle="popover"]', function(){
                var atr = "done-tip";
 

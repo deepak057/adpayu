@@ -32,8 +32,23 @@
     .col-12.feed-container-col
       .card
         .card-body
-          button.btn.btn-secondary.btn-circle.btn-add-feed(type="button" data-toggle="tooltip" data-placement="left" title="Click to post something")
-            i.fa.fa-plus
+          .btn-group.btn-add-feed
+            button.btn.waves-effect.waves-light.btn-outline-secondary.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+              i.fa.fa-plus.m-r-5
+              | Post Somehting
+            .dropdown-menu(x-placement='bottom-start')
+              a.dropdown-item(href='#' data-toggle="modal" data-target="#status-update-modal")
+                i.fa.fa-bullhorn.m-r-5
+                | Status Update
+              a.dropdown-item(href='#' data-toggle="modal" data-target="#ask-question-modal")
+                .fa.fa-question-circle.m-r-5
+                | Ask Question
+              a.dropdown-item(href='#' data-toggle="modal" data-target="#pictures-modal")
+                i.fa.fa-image.m-r-5
+                | Pictures
+              a.dropdown-item(href='#' data-toggle="modal" data-target="#video-modal")
+                i.fa.fa-video-camera.m-r-5
+                | Video
           .profiletimeline
             .sl-item(v-for="f in feed" :class="f['type']=='ad'? 'ribbon-wrapper': '' " v-show="f['show']")
               .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['type']=='ad'" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['cpv'])") Sponsored + $ {{f['cpv']}}
@@ -161,6 +176,56 @@
               span
                 | Pwandeep rajan
                 small.text-success online
+  #status-update-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Share something new
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        .modal-body
+          form
+            .form-group
+              textarea#message-text.form-control(placeholder="Share your mind")
+        .modal-footer
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal') Close
+          button.btn.btn-danger.waves-effect.waves-light(type='button') Save changes
+  #ask-question-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Ask your question
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        .modal-body
+          form
+            .form-group
+              textarea#message-text.form-control(placeholder="Share your mind")
+        .modal-footer
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal') Close
+          button.btn.btn-danger.waves-effect.waves-light(type='button') Save changes
+  #pictures-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Post pictures
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        .modal-body
+          input.dropify(type='file')
+        .modal-footer
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal') Close
+          button.btn.btn-danger.waves-effect.waves-light(type='button') Save changes
+  #video-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title Post a video
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        .modal-body
+          form
+            .form-group
+              textarea#message-text.form-control(placeholder="Share your mind")
+        .modal-footer
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal') Close
+          button.btn.btn-danger.waves-effect.waves-light(type='button') Save changes
   // ==============================================================
   // End Right sidebar
   // ==============================================================
