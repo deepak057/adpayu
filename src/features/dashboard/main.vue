@@ -37,21 +37,12 @@
               i.fa.fa-plus.m-r-5
               | Post Somehting
             .dropdown-menu(x-placement='bottom-start')
-              a.dropdown-item(href='#' data-toggle="modal" data-target="#status-update-modal")
-                i.fa.fa-bullhorn.m-r-5
-                | Status Update
-              a.dropdown-item(href='#' data-toggle="modal" data-target="#ask-question-modal")
-                .fa.fa-question-circle.m-r-5
-                | Ask Question
-              a.dropdown-item(href='#' data-toggle="modal" data-target="#pictures-modal")
-                i.fa.fa-image.m-r-5
-                | Pictures
-              a.dropdown-item(href='#' data-toggle="modal" data-target="#video-modal")
-                i.fa.fa-video-camera.m-r-5
-                | Video
+              a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
+                i.fa.m-r-5(:class="pOpt.icon")
+                | {{pOpt.label}}
           .profiletimeline
-            .sl-item(v-for="f in feed" :class="f['type']=='ad'? 'ribbon-wrapper': '' " v-show="f['show']")
-              .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['type']=='ad'" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['cpv'])") Sponsored + $ {{f['cpv']}}
+            .sl-item(v-for="f in feed" :class="f['adOptions'].postIsAd? 'ribbon-wrapper': '' " v-show="f['show']")
+              .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['adOptions'].postIsAd" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['adOptions'].cpv)") Sponsored + $ {{f['adOptions'].cpv}}
                  i.mdi.mdi-information.m-l-5.cursor-hand
               .sl-left
                 img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
@@ -64,14 +55,14 @@
                     .col-lg-6.col-md-6.video-container
                       <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
                     .col-lg-6.col-md-6
-                      span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['cpc'])") + $ {{f['cpc']}}
+                      span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['adOptions'].cpc)") + $ {{f['adOptions'].cpc}}
                         i.mdi.mdi-information.m-l-4.cursor-hand
                   .row(v-if="f['imgs'].length > 0")
                     .col-lg-3.col-md-6.m-b-20(v-for="img in f['imgs']")
                       img.img-responsive.radius(:src="img")
-                  p(v-if="f['cpc']")
+                  p(v-if="f['adOptions'].cpc")
                     a.m-r-5(href="#") Get The Product Now
-                    span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['cpc'])") + $ {{f['cpc']}}
+                    span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['adOptions'].cpc)") + $ {{f['adOptions'].cpc}}
                       i.mdi.mdi-information.m-l-4
                   .like-comm
                     a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments'].length}} {{f['comments'].length>1? "Comments": 'comment'}}
@@ -176,7 +167,7 @@
               span
                 | Pwandeep rajan
                 small.text-success online
-  <status-update @statusPosted="postStatus"></status-update>
+  <status-update @statusPosted="postStatus" :options="postOptionsDefault"></status-update>
   // ==============================================================
   // End Right sidebar
   // ==============================================================
@@ -205,6 +196,44 @@ export default {
       adEnabled: true,
       newsFeedEnabled: true,
       newCommentText: '',
+      postOptionsDefault: {},
+      postOptions: [
+        {
+          type: 'text',
+          label: 'Status Update',
+          icon: 'fa-bullhorn',
+          popupTitle: 'Share Something New',
+          buttonLabel: 'Share',
+          showPopup: false
+        },
+        {
+          type: 'question',
+          label: 'Ask Question',
+          icon: 'fa-question-circle',
+          popupTitle: 'Ask your question',
+          buttonLabel: 'Ask',
+          showPopup: false
+
+        },
+        {
+          type: 'picture',
+          label: 'Pictures',
+          icon: 'fa-image',
+          popupTitle: 'Post Pictures',
+          buttonLabel: 'Post',
+          showPopup: false
+
+        },
+        {
+          type: 'video',
+          label: 'Video',
+          icon: 'fa-video-camera',
+          popupTitle: 'Post a video',
+          buttonLabel: 'Post',
+          showPopup: false
+
+        }
+      ],
       feed: [{
         type: 'ad',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
@@ -214,8 +243,11 @@ export default {
           'static/assets/images/big/img3.jpg',
           'static/assets/images/big/img4.jpg'
         ],
-        cpv: 0.2,
-        cpc: 1,
+        adOptions: {
+          postIsAd: true,
+          cpv: 0.2,
+          cpc: 1
+        },
         video: false,
         show: true,
         love: {
@@ -242,8 +274,11 @@ export default {
         imgs: [
           'static/assets/images/big/img1.jpg'
         ],
-        cpv: 0.2,
-        cpc: 0,
+        adOptions: {
+          postIsAd: false,
+          cpv: 0,
+          cpc: 0
+        },
         video: false,
         show: true,
         love: {
@@ -258,8 +293,11 @@ export default {
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
         imgs: [
         ],
-        cpv: 0.2,
-        cpc: 1,
+        adOptions: {
+          postIsAd: true,
+          cpv: 0.2,
+          cpc: 1
+        },
         video: {
           sources: [{
             src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
@@ -300,6 +338,7 @@ export default {
   created () {
     this.setDocumentTitle()
     this.showHideFeed()
+    this.setPostDefaultOptions()
   },
   mounted () {
   },
@@ -355,6 +394,13 @@ export default {
     },
     postStatus (feed) {
       this.feed.unshift(feed)
+    },
+    setPostDefaultOptions () {
+      this.postOptionsDefault = this.postOptions[0]
+    },
+    triggerPostPopup (postOptions) {
+      postOptions.showPopup = true
+      this.postOptionsDefault = postOptions
     }
   }
 }
