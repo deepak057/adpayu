@@ -9,7 +9,8 @@ div
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
-          <ad @adOptionsUpdated="getAdData"></ad>
+          <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
+          <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
@@ -18,12 +19,14 @@ div
 <script>
 
 import TextStatus from './text-status'
+import Question from './question'
 import Ad from './ad'
 
 export default {
   name: 'StatusUpdate',
   components: {
     TextStatus,
+    Question,
     Ad
   },
   props: {
@@ -35,13 +38,18 @@ export default {
   data () {
     return {
       postStatus: '',
-      adOptions: {}
+      adOptions: {},
+      question: {
+        question: '',
+        description: ''
+      }
     }
   },
   watch: {
     options: {
       handler (val) {
         if (val.showPopup) {
+          this.resetData()
           document.getElementById('trigger-post-modal').click()
         }
       },
@@ -50,13 +58,12 @@ export default {
   },
   methods: {
     postShareStatus () {
-      if (!this.postStatus) {
-        return
-      }
       var feed = {
+        type: this.options.type,
         content: this.postStatus,
         imgs: [],
         adOptions: this.adOptions,
+        question: this.question,
         video: false,
         show: true,
         love: {
@@ -66,13 +73,17 @@ export default {
         showComments: false,
         comments: []
       }
-      this.postStatus = ''
-      this.adOptions = {}
+      this.resetData()
       this.$emit('statusPosted', feed)
       document.getElementById('post-status-buton-close').click()
     },
     getTextStatus (text_) {
       this.postStatus = text_
+    },
+    resetData () {
+      this.postStatus = ''
+      this.adOptions = {}
+      this.question = {}
     },
     getAdData (adOptions) {
       this.adOptions = adOptions

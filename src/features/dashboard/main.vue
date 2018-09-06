@@ -49,8 +49,13 @@
               .sl-right
                 div
                   a.link(href='#') John Doe
+                  |  {{getPostDescriptionText(f)}}
                   span.sl-date  5 minutes ago
                   p.m-t-10(v-if="f['content']") {{f['content']}}
+                  div.m-t-10(v-if="f['question']")
+                    h3.font-bold
+                      | {{f['question'].question}}
+                    p.text-muted {{f['question'].description}}
                   .row.m-0.feed-video-wrap(v-if="f['video']")
                     .col-lg-6.col-md-6.video-container
                       <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
@@ -65,7 +70,7 @@
                     span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['adOptions'].cpc)") + $ {{f['adOptions'].cpc}}
                       i.mdi.mdi-information.m-l-4
                   .like-comm
-                    a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments'].length}} {{f['comments'].length>1? "Comments": 'comment'}}
+                    a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments'].length}} {{f['question']? 'Answer': 'Comment'}}{{f['comments'].length>1? "s": ''}}
                     a.link.m-r-10(href='javascript:void(0)' @click="loveToggle(f)" title="Click to like or unlike it")
                       i.text-danger(:class="{'ti-heart pr-t-2': !f['love'].loved, 'fa fa-heart': f['love'].loved}")
                       |  {{f['love'].total}} {{f['love'].loved? 'Loved': 'Love'}}
@@ -235,7 +240,7 @@ export default {
         }
       ],
       feed: [{
-        type: 'ad',
+        type: 'text',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
         imgs: [
           'static/assets/images/big/img1.jpg',
@@ -248,6 +253,7 @@ export default {
           cpv: 0.2,
           cpc: 1
         },
+        question: false,
         video: false,
         show: true,
         love: {
@@ -269,15 +275,17 @@ export default {
         ]
       },
       {
-        type: 'newsFeed',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
-        imgs: [
-          'static/assets/images/big/img1.jpg'
-        ],
+        type: 'question',
+        content: '',
+        imgs: [],
         adOptions: {
           postIsAd: false,
           cpv: 0,
           cpc: 0
+        },
+        question: {
+          question: 'What are some things that make or have made you lose faith in humanity?',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper'
         },
         video: false,
         show: true,
@@ -289,7 +297,7 @@ export default {
         comments: []
       },
       {
-        type: 'ad',
+        type: 'video',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
         imgs: [
         ],
@@ -298,6 +306,7 @@ export default {
           cpv: 0.2,
           cpc: 1
         },
+        question: false,
         video: {
           sources: [{
             src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
@@ -354,7 +363,7 @@ export default {
     },
     showHideFeed () {
       for (var i in this.feed) {
-        if (this.feed[i]['type'] === 'ad') {
+        if (this.feed[i]['adOptions'].postIsAd) {
           this.feed[i]['show'] = this.adEnabled
         } else {
           this.feed[i]['show'] = this.newsFeedEnabled
@@ -399,8 +408,22 @@ export default {
       this.postOptionsDefault = this.postOptions[0]
     },
     triggerPostPopup (postOptions) {
-      postOptions.showPopup = true
+      var max = 1000000
+      var min = 1
+      postOptions.showPopup = Math.floor(Math.random() * (+max - +min)) + +min
       this.postOptionsDefault = postOptions
+    },
+    getPostDescriptionText (f) {
+      switch (f.type) {
+        case 'text':
+          return ''
+        case 'question':
+          return 'asked a question'
+        case 'pictures':
+          return ''
+        default:
+          return ''
+      }
     }
   }
 }
