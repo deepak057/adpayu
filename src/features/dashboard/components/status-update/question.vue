@@ -1,12 +1,12 @@
 <template lang="pug">
-form
+form(onsubmit="return false")
   .form-group.has-success
     <label>Question*</label>
-    input.form-control(placeholder="Enter your question" v-model="question.question")
+    input.form-control(placeholder="Enter your question" v-model.trim="question.question")
   .form-group
     label
       | Description
-    textarea.form-control(placeholder="Enter Description" rows="4" v-model="question.description")
+    textarea.form-control(placeholder="Enter Description" rows="4" v-model.trim="question.description")
 </template>
 <script>
 export default {
@@ -14,7 +14,12 @@ export default {
   props: {
     question: {
       type: Object,
-      required: true
+      default () {
+        return {
+          question: '',
+          description: ''
+        }
+      }
     }
   },
   watch: {

@@ -13,11 +13,6 @@ export default {
       default: ''
     }
   },
-  data () {
-    return {
-      postStatus: ''
-    }
-  },
   watch: {
     status (val_) {
       this.$emit('textStatusEntered', val_)

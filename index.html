@@ -14,6 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="static/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/assets/plugins/dropify/dist/css/dropify.min.css">
+    <link rel="stylesheet" href="static/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
     <!-- Custom CSS -->
     <link href="static/material/css/style.css" rel="stylesheet">
     <!-- Custom CSS  outside of theme -->
@@ -62,11 +63,18 @@
 
     <!-- jQuery file upload -->
     <script src="static/assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <!-- wysuhtml5 Plugin JavaScript -->
+    <script src="static/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+    <script src="static/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+
     <script>
         // Basic
         $(document).on('mouseover', '.dropify', function(){
             $(this).dropify();
-        });
+        }).on('mouseover', '.textarea_editor', function() {
+            $(this).wysihtml5()
+        })
+
     </script>
     <script src="static/material/js/custom.js"></script>
     <!-- ============================================================== -->

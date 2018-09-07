@@ -39,10 +39,7 @@ export default {
     return {
       postStatus: '',
       adOptions: {},
-      question: {
-        question: '',
-        description: ''
-      }
+      question: {}
     }
   },
   watch: {
@@ -57,6 +54,16 @@ export default {
     }
   },
   methods: {
+    validatePost (feed) {
+      switch (feed.type) {
+        case 'text':
+          return feed.content || false
+        case 'question':
+          return feed.question.question || false
+        default:
+          return true
+      }
+    },
     postShareStatus () {
       var feed = {
         type: this.options.type,
@@ -73,9 +80,11 @@ export default {
         showComments: false,
         comments: []
       }
-      this.resetData()
-      this.$emit('statusPosted', feed)
-      document.getElementById('post-status-buton-close').click()
+      if (this.validatePost(feed)) {
+        this.$emit('statusPosted', feed)
+        this.resetData()
+        document.getElementById('post-status-buton-close').click()
+      }
     },
     getTextStatus (text_) {
       this.postStatus = text_

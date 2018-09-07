@@ -40,65 +40,7 @@
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")
                 | {{pOpt.label}}
-          .profiletimeline
-            .sl-item(v-for="f in feed" :class="f['adOptions'].postIsAd? 'ribbon-wrapper': '' " v-show="f['show']")
-              .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['adOptions'].postIsAd" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['adOptions'].cpv)") Sponsored + $ {{f['adOptions'].cpv}}
-                 i.mdi.mdi-information.m-l-5.cursor-hand
-              .sl-left
-                img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
-              .sl-right
-                div
-                  a.link(href='#') John Doe
-                  |  {{getPostDescriptionText(f)}}
-                  span.sl-date  5 minutes ago
-                  p.m-t-10(v-if="f['content']") {{f['content']}}
-                  div.m-t-10(v-if="f['question']")
-                    h3.font-bold
-                      | {{f['question'].question}}
-                    p.text-muted {{f['question'].description}}
-                  .row.m-0.feed-video-wrap(v-if="f['video']")
-                    .col-lg-6.col-md-6.video-container
-                      <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
-                    .col-lg-6.col-md-6
-                      span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['adOptions'].cpc)") + $ {{f['adOptions'].cpc}}
-                        i.mdi.mdi-information.m-l-4.cursor-hand
-                  .row(v-if="f['imgs'].length > 0")
-                    .col-lg-3.col-md-6.m-b-20(v-for="img in f['imgs']")
-                      img.img-responsive.radius(:src="img")
-                  p(v-if="f['adOptions'].cpc")
-                    a.m-r-5(href="#") Get The Product Now
-                    span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['adOptions'].cpc)") + $ {{f['adOptions'].cpc}}
-                      i.mdi.mdi-information.m-l-4
-                  .like-comm
-                    a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments'].length}} {{f['question']? 'Answer': 'Comment'}}{{f['comments'].length>1? "s": ''}}
-                    a.link.m-r-10(href='javascript:void(0)' @click="loveToggle(f)" title="Click to like or unlike it")
-                      i.text-danger(:class="{'ti-heart pr-t-2': !f['love'].loved, 'fa fa-heart': f['love'].loved}")
-                      |  {{f['love'].total}} {{f['love'].loved? 'Loved': 'Love'}}
-              .comment-widgets(v-show="f['showComments']")
-                .d-flex.flex-row.comment-row(v-for="(comment, n) in f['comments']")
-                  .p-2
-                    span.round
-                      img(src='static/assets/images/users/1.jpg', alt='user', width='50')
-                  .comment-text.w-100
-                    h5 James Anderson
-                    p.m-b-5
-                      | {{comment.comment}}
-                    .comment-footer
-                      span.text-muted.pull-right {{comment.date}}
-                      span.action-icons
-                        a(href='javascript:void(0)')
-                          i.ti-pencil-alt
-                        a(href='javascript:void(0)' @click='deleteComment(f, n)')
-                          i.ti-trash
-                        a(href='javascript:void(0)')
-                          i.ti-heart
-                .row.m-t-10
-                  .col-11
-                    textarea.form-control.b-0(placeholder='Type your message here' v-model.trim="newCommentText" @keyup.enter="leaveComment(f)")
-                  .col-1.text-right
-                    button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment(f)')
-                      i.fa.fa-paper-plane-o.pr-t--3-l--3
-              hr
+          <feed :feed="feed"></feed>
           .nothing-to-show(v-show="!newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
@@ -179,15 +121,15 @@
 </template>
 
 <script>
-import myVideo from 'vue-video'
-import StatusUpdate from './components/status-update/main'
 import mixin from '../../globals/mixin.js'
+import StatusUpdate from './components/status-update/main'
+import Feed from './components/feed/feed'
 
 export default {
   name: 'Dashboard',
   components: {
-    myVideo,
-    StatusUpdate
+    StatusUpdate,
+    Feed
   },
   mixins: [mixin],
   props: {
@@ -352,15 +294,6 @@ export default {
   mounted () {
   },
   methods: {
-    getCPCText (cost) {
-      return 'You wil get $' + cost + ' for clicking this link'
-    },
-    getCPVText (cost) {
-      return 'You have got $' + cost + ' for seeing this ad'
-    },
-    getCPVVText (cost) {
-      return 'You will get $' + cost + ' for watching this video'
-    },
     showHideFeed () {
       for (var i in this.feed) {
         if (this.feed[i]['adOptions'].postIsAd) {
@@ -369,26 +302,6 @@ export default {
           this.feed[i]['show'] = this.newsFeedEnabled
         }
       }
-    },
-    loveToggle (feedItem) {
-      if (feedItem['love'].loved) {
-        feedItem['love'].total--
-      } else {
-        feedItem['love'].total++
-      }
-      feedItem['love'].loved = !feedItem['love'].loved
-    },
-    toggleComments (feedItem) {
-      feedItem['showComments'] = !feedItem['showComments']
-    },
-    leaveComment (feedItem) {
-      if (this.newCommentText) {
-        this.$set(feedItem['comments'], feedItem['comments'].length, {uid: 1, comment: this.newCommentText, date: '21 August, 2018'})
-        this.newCommentText = ''
-      }
-    },
-    deleteComment (feedItem, index_) {
-      feedItem['comments'].splice(index_, 1)
     },
     getTitle () {
       return this.$route.params.cat
@@ -412,18 +325,6 @@ export default {
       var min = 1
       postOptions.showPopup = Math.floor(Math.random() * (+max - +min)) + +min
       this.postOptionsDefault = postOptions
-    },
-    getPostDescriptionText (f) {
-      switch (f.type) {
-        case 'text':
-          return ''
-        case 'question':
-          return 'asked a question'
-        case 'pictures':
-          return ''
-        default:
-          return ''
-      }
     }
   }
 }

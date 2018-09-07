@@ -31,7 +31,13 @@ export default {
   props: {
     adOptions: {
       type: Object,
-      required: true
+      default () {
+        return {
+          postIsAd: false,
+          cpv: '',
+          cpc: ''
+        }
+      }
     }
   },
   watch: {
