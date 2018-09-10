@@ -30,21 +30,21 @@
             i.mdi.mdi-information.m-l-4
         .like-comm
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments'].length}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['comments'].length>1? "s": ''}}
-          a.link.m-r-10(href='javascript:void(0)' @click="loveToggle(f)" title="Click to like or unlike it")
-            i.text-danger(:class="{'ti-heart pr-t-2': !f['love'].loved, 'fa fa-heart': f['love'].loved}")
-            |  {{f['love'].total}} {{f['love'].loved? 'Loved': 'Love'}}
+          <like :likes="f['likes']"></like>
     <comments :comments="f['comments']" :commentType="f['type']" v-show="f['showComments']"></comments>
     hr
 </template>
 <script>
 import myVideo from 'vue-video'
 import Comments from './comments'
+import Like from './like'
 
 export default {
   name: 'Feed',
   components: {
     myVideo,
-    Comments
+    Comments,
+    Like
   },
   props: {
     feed: {
@@ -65,14 +65,6 @@ export default {
     },
     getCPVVText (cost) {
       return 'You will get $' + cost + ' for watching this video'
-    },
-    loveToggle (feedItem) {
-      if (feedItem['love'].loved) {
-        feedItem['love'].total--
-      } else {
-        feedItem['love'].total++
-      }
-      feedItem['love'].loved = !feedItem['love'].loved
     },
     toggleComments (feedItem) {
       feedItem['showComments'] = !feedItem['showComments']

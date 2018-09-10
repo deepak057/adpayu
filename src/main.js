@@ -10,6 +10,7 @@ import Loading from './components/loading'
 import Appbar from './components/app-bar'
 import Appfooter from './components/app-footer'
 import ToggleButton from 'vue-js-toggle-button'
+import wysiwyg from 'vue-wysiwyg'
 
 Vue.config.productionTip = false
 
@@ -25,6 +26,9 @@ Vue.use(auth)
 
 // Switch button
 Vue.use(ToggleButton)
+
+// WYSIWYG editor
+Vue.use(wysiwyg, {})
 
 // Vuetify
 Vue.use(Vuetify, {

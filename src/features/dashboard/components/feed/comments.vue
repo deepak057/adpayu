@@ -6,27 +6,33 @@
         img(src='static/assets/images/users/1.jpg', alt='user', width='50')
     .comment-text.w-100
       h5 James Anderson
-      p.m-b-5
+      p.m-b-5(v-if="!isQuestion()")
         | {{comment.comment}}
+      div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
       .comment-footer
         span.text-muted.pull-right {{comment.date}}
-        span.action-icons
+        span.action-icons.visible
           a(href='javascript:void(0)')
             i.ti-pencil-alt
           a(href='javascript:void(0)' @click='deleteComment(n)')
             i.ti-trash
-          a(href='javascript:void(0)')
-            i.ti-heart
+          <like :likes="comment.likes"></like>
   .row.m-t-10
     .col-11
-      textarea.form-control.b-0(:placeholder="placeholderText()" v-model.trim="newCommentText" @keyup.enter="leaveComment(f)")
+      <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
+      textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keyup.enter="leaveComment(f)")
     .col-1.text-right
       button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3
 </template>
 <script>
+import Like from './like'
+import 'vue-wysiwyg/dist/vueWysiwyg.css'
 export default {
   name: 'Comments',
+  components: {
+    Like
+  },
   props: {
     comments: {
       type: Array,
@@ -53,8 +59,11 @@ export default {
       this.comments.splice(index_, 1)
     },
     placeholderText () {
-      var text_ = this.commentType === 'question' ? 'answer' : 'comment'
+      var text_ = this.isQuestion() ? 'answer' : 'comment'
       return 'Type your ' + text_ + ' here'
+    },
+    isQuestion () {
+      return this.commentType === 'question' || false
     }
   }
 }

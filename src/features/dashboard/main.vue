@@ -198,21 +198,29 @@ export default {
         question: false,
         video: false,
         show: true,
-        love: {
-          total: 2,
-          loved: true
+        likes: {
+          count: 2,
+          liked: true
         },
         showComments: false,
         comments: [
           {
             uid: 2,
             comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 14, 2018'
+            date: 'April 14, 2018',
+            likes: {
+              count: 3,
+              liked: true
+            }
           },
           {
             uid: 1,
             comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 12, 2018'
+            date: 'April 12, 2018',
+            likes: {
+              count: 0,
+              liked: false
+            }
           }
         ]
       },
@@ -231,9 +239,9 @@ export default {
         },
         video: false,
         show: true,
-        love: {
-          total: 5,
-          loved: false
+        likes: {
+          count: 5,
+          liked: false
         },
         showComments: false,
         comments: []
@@ -262,16 +270,20 @@ export default {
           }
         },
         show: true,
-        love: {
-          total: 2,
-          loved: false
+        likes: {
+          count: 2,
+          liked: false
         },
         showComments: false,
         comments: [
           {
             uid: 4,
             comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 14, 2018'
+            date: 'April 14, 2018',
+            likes: {
+              count: 0,
+              liked: false
+            }
           }
         ]
       }

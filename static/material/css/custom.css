@@ -116,3 +116,9 @@ body {
 /*
 ** Bootstrap Modal ends
 */
+.block {
+	display: block !important;
+}
+.visible {
+	visibility: visible !important;
+}
