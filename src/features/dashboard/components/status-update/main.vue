@@ -10,6 +10,7 @@ div
         .modal-body
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
+          <post-tags></post-tags>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
@@ -21,13 +22,15 @@ div
 import TextStatus from './text-status'
 import Question from './question'
 import Ad from './ad'
+import PostTags from './post-tags'
 
 export default {
   name: 'StatusUpdate',
   components: {
     TextStatus,
     Question,
-    Ad
+    Ad,
+    PostTags
   },
   props: {
     options: {

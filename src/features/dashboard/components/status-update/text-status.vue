@@ -1,6 +1,6 @@
 <template lang="pug">
 form
-  .form-group.has-success
+  .form-group
     textarea#message-text.form-control(placeholder="Share your mind" v-model.trim="status")
 </template>
 

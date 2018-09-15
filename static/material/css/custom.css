@@ -122,3 +122,17 @@ body {
 .visible {
 	visibility: visible !important;
 }
+
+/** Tags Input **/
+.tags .tag, .autocomplete li:hover {
+	background-color: #868e96 !important;
+	color: #fff
+}
+.vue-tags-input {
+	max-width: 100% !important;
+}
+.vue-tags-input .input {
+	border-radius: .25rem;
+	border: 1px solid rgba(0,0,0,.15) !important;
+}
+/** Tags Input Ends **/ 

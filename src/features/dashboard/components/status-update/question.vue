@@ -6,7 +6,7 @@ form(onsubmit="return false")
   .form-group
     label
       | Description
-    textarea.form-control(placeholder="Enter Description" rows="4" v-model.trim="question.description")
+    textarea.form-control(placeholder="Enter Description (optional)" rows="4" v-model.trim="question.description")
 </template>
 <script>
 export default {
