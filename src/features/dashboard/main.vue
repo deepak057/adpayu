@@ -184,6 +184,16 @@ export default {
       feed: [{
         type: 'text',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
+        tags: [
+          {
+            text: 'Technology',
+            id: 1
+          },
+          {
+            text: 'Science',
+            id: 2
+          }
+        ],
         imgs: [
           'static/assets/images/big/img1.jpg',
           'static/assets/images/big/img2.jpg',
@@ -227,6 +237,7 @@ export default {
       {
         type: 'question',
         content: '',
+        tags: [],
         imgs: [],
         adOptions: {
           postIsAd: false,
@@ -249,6 +260,12 @@ export default {
       {
         type: 'video',
         content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
+        tags: [
+          {
+            text: 'Nukes',
+            id: 7
+          }
+        ],
         imgs: [
         ],
         adOptions: {

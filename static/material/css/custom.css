@@ -136,3 +136,11 @@ body {
 	border: 1px solid rgba(0,0,0,.15) !important;
 }
 /** Tags Input Ends **/ 
+
+.feed-tags {
+	font-size: 12px;
+}
+.feed-tags a {
+	color: #99abb4 !important;
+	padding: 1px 5px;
+}
