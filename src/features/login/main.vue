@@ -4,6 +4,8 @@
       .card-body
         form#loginform.form-horizontal.form-material(onSubmit="return false")
           h3.box-title.m-b-20 Sign In
+          .alert.alert-danger(v-show="error")
+            | {{error}}
           .form-group
             .col-xs-12
               input.form-control(required='', placeholder='Username', type='text')(v-model="credentials.username")
@@ -74,11 +76,18 @@ export default {
         password: this.credentials.password
       }
 
-      // auth.login(credentials, 'dashboard', ({isSuccess, data, errorMessage}) => {
-      auth.fakeLogin(credentials, 'dashboard')
+      auth.login(credentials, 'dashboard', ({isSuccess, data, errorMessage}) => {
+        console.log('Look here ' + data)
+      })
+        .then((data) => {
+          if (!data.success) {
+            this.error = data.error
+          }
+        })
+      /* auth.fakeLogin(credentials, 'dashboard')
         .then((data) => {
           this.loading = false
-        })
+        }) */
     }
   }
 }

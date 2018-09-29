@@ -291,7 +291,7 @@ header.topbar
                     |  Account Setting
                 li.divider(role='separator')
                 li
-                  a(href='#')
+                  a(href='javascript:void(0)' @click="logout")
                     i.fa.fa-power-off
                     |  Logout
           // ==============================================================
@@ -316,6 +316,8 @@ header.topbar
 </template>
 
 <script>
+import auth from '@/auth/helpers'
+
 export default {
   name: 'AppBar',
 
@@ -329,6 +331,9 @@ export default {
   methods: {
     toggleSidebar () {
       this.$store.dispatch('common/updateSidebar', { visible: !this.$store.state.common.sidebar.visible })
+    },
+    logout () {
+      auth.logout()
     }
   }
 }

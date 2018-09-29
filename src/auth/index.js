@@ -82,7 +82,7 @@ export default {
     const auth = store.state.auth
 
     auth.isLoggedIn = true
-    auth.accessToken = response.data.accessToken
+    auth.accessToken = response.data.token
     auth.refreshToken = response.data.refreshToken
     // @TODO: get user's name from response from Oauth server.
     auth.user.name = 'David Graham'

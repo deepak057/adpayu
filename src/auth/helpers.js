@@ -2,8 +2,9 @@ import Vue from 'vue'
 import { router } from '@/http'
 import store from '@/store'
 import auth from './'
+import * as constants from '@/constants'
 
-const LOGIN_URL = '/auth'
+const LOGIN_URL = constants.API_BASE_URL + '/users/login'
 
 // const CLIENT_SECRET = 'ZGVtb2FwcDpkZW1vcGFzcw==' // Base64(client_id:client_secret) "demoapp:demopass"
 
@@ -28,7 +29,7 @@ export default {
         grant_type: 'password',
         client_id: 'demoapp',
         client_secret: 'demopass',
-        username: creds.username,
+        email: creds.username,
         password: creds.password
       })
     })
@@ -36,16 +37,16 @@ export default {
         auth.storeToken(response)
 
         if (redirect) router.push({ name: redirect })
-        return response
+        return response.response.data
       })
       .catch((error) => {
-        let errorMessage = null
-
-        if (error.response) errorMessage = error.response.status
+        /* let errorMessage = null */
+        return error.response.data
+        /* if (error.response) errorMessage = error.response.status
         else if (error.request) errorMessage = 'no response from server'
         else errorMessage = error.message
 
-        return errorMessage
+        return errorMessage */
       })
   },
 
