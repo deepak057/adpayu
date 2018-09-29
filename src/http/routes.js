@@ -12,6 +12,14 @@ const routes = [
     isPublic: true
   },
   {
+    name: 'signup',
+    path: '/signup',
+    component: () => import(/* webpackChunkName: "login" */ '@/features/register/main.vue'),
+    title: 'Sign Up',
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
     name: 'home',
     path: '/',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),

@@ -34,8 +34,10 @@
             .col-sm-12.text-center
               p
                 | Don't have an account?
-                a.text-info.m-l-5(href='register.html')
-                  b Sign Up
+                <router-link to="signup">
+                  a.text-info.m-l-5
+                    b Sign Up
+                </router-link>
         form#recoverform.form-horizontal(action='index.html')
           .form-group
             .col-xs-12
@@ -92,35 +94,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-  .my-login
-    background-color: $app-primary
-
-    &__logo
-      max-width: 46px
-      padding-left: 12px
-      padding-top: 4px
-
-    &__logo-name
-
-      img
-        max-width: 200px
-        width: 100%
-
-    &__subheading
-      color: white
-      padding-top: 10px
-      padding-bottom: 20px
-
-    &__card
-      max-width: 370px
-      margin: 0 auto
-
-    &__card-title
-      justify-content: center
-
-    &__card-actions
-      justify-content: center
-
-</style>
