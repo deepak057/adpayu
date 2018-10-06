@@ -4,8 +4,6 @@ import store from '@/store'
 import auth from './'
 import * as constants from '@/constants'
 
-const LOGIN_URL = constants.API_BASE_URL + '/users/login'
-
 // const CLIENT_SECRET = 'ZGVtb2FwcDpkZW1vcGFzcw==' // Base64(client_id:client_secret) "demoapp:demopass"
 
 export default {
@@ -17,10 +15,42 @@ export default {
     return params
   },
 
+  signup (creds, redirect, callback) {
+    return Vue.http({
+      method: 'post',
+      url: constants.API_BASE_URL + '/users',
+      // headers: {
+      //  'Authorization': 'Basic ' + CLIENT_SECRET,
+      //  'Content-Type': 'application/x-www-form-urlencoded'
+      // },
+      data: this.URLSearchParams({
+        email: creds.email,
+        password: creds.password,
+        first: creds.first,
+        last: creds.last
+      })
+    })
+      .then((response) => {
+        auth.storeToken(response)
+
+        if (redirect) router.push({ name: redirect })
+        return response.data
+      })
+      .catch((error) => {
+        /* let errorMessage = null */
+        return error.response.data
+        /* if (error.response) errorMessage = error.response.status
+        else if (error.request) errorMessage = 'no response from server'
+        else errorMessage = error.message
+
+        return errorMessage */
+      })
+  },
+
   login (creds, redirect, callback) {
     return Vue.http({
       method: 'post',
-      url: LOGIN_URL,
+      url: constants.API_BASE_URL + '/users/login',
       // headers: {
       //  'Authorization': 'Basic ' + CLIENT_SECRET,
       //  'Content-Type': 'application/x-www-form-urlencoded'

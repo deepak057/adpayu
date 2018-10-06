@@ -4,6 +4,8 @@
     .card-body
       form#loginform.form-horizontal.form-material(onSubmit="return false")
         h3.box-title.m-b-20 Sign Up
+        .alert.alert-danger(v-show="error")
+            | {{error}}
         .form-group(:class="{'has-danger': nameError.length}")
           .col-xs-12
             input.form-control(placeholder='Full Name', type='text' v-model.trim='name' :class="{'form-control-danger': nameError.length}")
@@ -26,8 +28,8 @@
               label(for='checkbox-signup')
                 | I agree to all
                 a.m-l-5(href='#') Terms
-              small.form-control-feedback(v-show="termsError.length")
-              | {{termsError}}
+              small.form-control-feedback.block.m-t-10(v-show="termsError.length")
+                | {{termsError}}
         .form-group.text-center.m-t-20
           .col-xs-12
             button.btn.btn-info.btn-lg.btn-block.text-uppercase.waves-effect.waves-light(type='submit' @click="signup") Sign Up
@@ -42,6 +44,8 @@
 </template>
 
 <script>
+import auth from '@/auth/helpers'
+
 export default {
   name: 'SignupPage',
   data () {
@@ -55,7 +59,8 @@ export default {
       password: '',
       passwordError: '',
       terms: false,
-      termsError: ''
+      termsError: '',
+      error: ''
     }
   },
   watch: {
@@ -76,7 +81,21 @@ export default {
     },
     validate () {
       if (this.nameValidate() && this.emailValidate() && this.passwordValidate() && this.termsValidate()) {
-        alert('Success')
+        var data = {
+          email: this.email,
+          password: this.password,
+          first: this.first,
+          last: this.last
+        }
+        auth.signup(data, 'dashboard', ({isSuccess, data, errorMessage}) => {
+        })
+          .then((data) => {
+            if (!data.success) {
+              this.error = data.error
+            } else {
+              this.error = ''
+            }
+          })
       }
     },
     nameValidate () {
