@@ -24,11 +24,11 @@ export default {
       return state.auth.accessToken
     }, (accessToken) => {
       if (!constants.DEBUG) {
-        Vue.auth.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken
-        Vue.auth.defaults.transformRequest = [(data, headers) => {
-          data.access_token = accessToken
+        Vue.auth.defaults.headers.common['Authorization'] = accessToken
+        /* Vue.auth.defaults.transformRequest = [(data, headers) => {
+          // data.access_token = accessToken
           return data
-        }]
+        }] */
       }
 
       if (constants.DEBUG) {

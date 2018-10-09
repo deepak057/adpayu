@@ -23,9 +23,11 @@ import TextStatus from './text-status'
 import Question from './question'
 import Ad from './ad'
 import PostTags from './post-tags'
+import Service from './service'
 
 export default {
   name: 'StatusUpdate',
+  service: new Service(),
   components: {
     TextStatus,
     Question,
@@ -87,6 +89,7 @@ export default {
       }
       if (this.validatePost(feed)) {
         this.$emit('statusPosted', feed)
+        this.$options.service.createPost(feed)
         this.resetData()
         document.getElementById('post-status-buton-close').click()
       }

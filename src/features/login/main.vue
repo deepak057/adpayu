@@ -8,7 +8,7 @@
             | {{error}}
           .form-group
             .col-xs-12
-              input.form-control(required='', placeholder='Username', type='text')(v-model="credentials.username")
+              input.form-control(required='', placeholder='Email', type='text')(v-model="credentials.username")
           .form-group
             .col-xs-12
               input.form-control(required='', placeholder='Password', type='password')(v-model="credentials.password")
@@ -61,8 +61,8 @@ export default {
     return {
       passwordHidden: true,
       credentials: {
-        username: 'user@user.com',
-        password: 'password'
+        username: '',
+        password: ''
       },
       error: '',
       loading: false

@@ -1,5 +1,5 @@
 // Testing
-export const DEBUG = true
+export const DEBUG = false
 
 // Backend API endpoints
 export const API_BASE_URL = 'http://localhost:3000/v1'

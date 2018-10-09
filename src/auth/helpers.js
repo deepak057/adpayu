@@ -100,7 +100,8 @@ export default {
     const config = {
       params: {
         username: store.state.auth.user.id,
-        orgId: store.state.auth.user.orgId
+        orgId: store.state.auth.user.orgId,
+        token: store.state.auth.accessToken
       }
     }
 
@@ -131,6 +132,48 @@ export default {
       })
   },
 
+  post (url, data = {}) {
+    const config = {}
+
+    /* const defaultData = {
+      username: store.state.auth.user.id,
+      orgId: store.state.auth.user.orgId
+    } */
+
+    // data = Object.assign(defaultData, data)
+
+    console.log('\ndata here' + data.content)
+
+    return Vue.auth.post(constants.API_BASE_URL + url, data, config)
+      .then((response) => {
+        if (response.data.errors) {
+          return new Promise((resolve, reject) => {
+            reject(new Error(response.data.errors[0].user_message))
+          })
+        }
+
+        return new Promise((resolve) => {
+          // @TODO check for no response.data.data?
+          resolve(response.data.data)
+        })
+      })
+      .catch((error) => {
+        // Standardize errors.
+        let errorMessage = null
+
+        if (error.response) {
+          errorMessage = error.response.statusText || error.response.status
+        } else if (error.request) {
+          errorMessage = 'no response from server'
+        } else {
+          errorMessage = error.message
+        }
+
+        return new Promise((resolve, reject) => {
+          reject(new Error(errorMessage))
+        })
+      })
+  },
   put (url, data = {}) {
     const config = {}
 
