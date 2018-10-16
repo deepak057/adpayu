@@ -5,6 +5,8 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
+      button(@click="getFeed")
+        | Get Feed
       h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
         li.breadcrumb-item
@@ -124,6 +126,7 @@
 import mixin from '../../globals/mixin.js'
 import StatusUpdate from './components/status-update/main'
 import Feed from './components/feed/feed'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Dashboard',
@@ -323,6 +326,12 @@ export default {
   mounted () {
   },
   methods: {
+    getFeed () {
+      auth.get('/posts')
+        .then((data) => {
+          alert(data)
+        })
+    },
     showHideFeed () {
       for (var i in this.feed) {
         if (this.feed[i]['adOptions'].postIsAd) {

@@ -107,7 +107,7 @@ export default {
 
     config.params = Object.assign(config.params, params)
 
-    return Vue.auth.get(url, config)
+    return Vue.auth.get(constants.API_BASE_URL + url, config)
       .then((response) => {
         return new Promise((resolve) => {
           // @TODO check for no response.data.data?
