@@ -19,17 +19,21 @@ export default {
   },
 
   addInterceptors () {
+    if (store.state.auth.accessToken) {
+      Vue.auth.defaults.headers.common['Authorization'] = store.state.auth.accessToken
+    }
+
     // Watch for accessToken changes and update our common Auth header.
     store.watch((state) => {
       return state.auth.accessToken
     }, (accessToken) => {
-      if (!constants.DEBUG) {
-        Vue.auth.defaults.headers.common['Authorization'] = accessToken
-        /* Vue.auth.defaults.transformRequest = [(data, headers) => {
+      /* if (!constants.DEBUG) { */
+      Vue.auth.defaults.headers.common['Authorization'] = accessToken
+      /* Vue.auth.defaults.transformRequest = [(data, headers) => {
           // data.access_token = accessToken
           return data
         }] */
-      }
+      /* } */
 
       if (constants.DEBUG) {
         console.log('token set')
@@ -40,11 +44,12 @@ export default {
 
     // Intercept the response and refresh (one retry) if invalid token.
     Vue.auth.interceptors.response.use(function (response) {
-      if (constants.DEBUG) return Promise.resolve(response)
+      return Promise.resolve(response)
+      /* if (constants.DEBUG) return Promise.resolve(response) */
 
-      if (this.isInvalidToken(response)) {
+    /*  if (this.isInvalidToken(response)) {
         return this.refreshToken(response.request)
-      }
+      } */
     }, function (error) {
       return Promise.reject(error)
     })
@@ -85,8 +90,8 @@ export default {
     auth.accessToken = response.data.token
     auth.refreshToken = response.data.refreshToken
     // @TODO: get user's name from response from Oauth server.
-    auth.user.name = 'David Graham'
-    auth.user.id = 'e3f657cb80354820b657cb8035c8208e'
+    auth.user.name = response.data.first + ' ' + response.data.last
+    auth.user.id = response.data.id
 
     store.dispatch('auth/update', auth)
   },

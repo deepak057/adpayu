@@ -9,9 +9,6 @@ export default class Service {
   createPost (feed) {
     return auth.post('/posts', feed)
       .then((response) => {
-        alert(response)
-        console.log(response)
-
         return new Promise((resolve) => { resolve(response) })
       })
       .catch((error) => {

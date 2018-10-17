@@ -88,8 +88,10 @@ export default {
         comments: []
       }
       if (this.validatePost(feed)) {
-        this.$emit('statusPosted', feed)
         this.$options.service.createPost(feed)
+          .then((data) => {
+            this.$emit('statusPosted', data)
+          })
         this.resetData()
         document.getElementById('post-status-buton-close').click()
       }

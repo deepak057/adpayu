@@ -5,8 +5,6 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
-      button(@click="getFeed")
-        | Get Feed
       h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
         li.breadcrumb-item
@@ -42,7 +40,8 @@
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")
                 | {{pOpt.label}}
-          <feed :feed="feed"></feed>
+          <preloader :show="preloader"></preloader>
+          <feed v-if="!preloader" :feed="feed"></feed>
           .nothing-to-show(v-show="!newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
@@ -124,6 +123,7 @@
 
 <script>
 import mixin from '../../globals/mixin.js'
+import Preloader from './../../components/preloader'
 import StatusUpdate from './components/status-update/main'
 import Feed from './components/feed/feed'
 import auth from '@/auth/helpers'
@@ -132,7 +132,8 @@ export default {
   name: 'Dashboard',
   components: {
     StatusUpdate,
-    Feed
+    Feed,
+    Preloader
   },
   mixins: [mixin],
   props: {
@@ -147,6 +148,7 @@ export default {
       newsFeedEnabled: true,
       newCommentText: '',
       postOptionsDefault: {},
+      preloader: true,
       postOptions: [
         {
           type: 'text',
@@ -324,17 +326,28 @@ export default {
     this.setPostDefaultOptions()
   },
   mounted () {
+    this.getFeed()
   },
   methods: {
     getFeed () {
+      this.preloader = true
+      let that = this
       auth.get('/posts')
         .then((data) => {
-          alert(data)
+          that.preloader = false
+          that.feed = that.prepareFeed(data.posts)
         })
+    },
+    prepareFeed (posts) {
+      for (let i in posts) {
+        posts[i].showComments = false
+      }
+
+      return posts
     },
     showHideFeed () {
       for (var i in this.feed) {
-        if (this.feed[i]['adOptions'].postIsAd) {
+        if (this.feed[i]['AdOption']) {
           this.feed[i]['show'] = this.adEnabled
         } else {
           this.feed[i]['show'] = this.newsFeedEnabled

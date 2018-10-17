@@ -144,3 +144,6 @@ body {
 	color: #99abb4 !important;
 	padding: 1px 5px;
 }
+.feed-preloader {
+	height: 500px;
+}
