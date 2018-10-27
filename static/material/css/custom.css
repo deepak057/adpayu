@@ -146,4 +146,6 @@ body {
 }
 .feed-preloader {
 	height: 500px;
+	text-align: center;
+	padding-top: 14%;
 }

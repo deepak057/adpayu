@@ -40,7 +40,8 @@
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")
                 | {{pOpt.label}}
-          <preloader :show="preloader"></preloader>
+          .feed-preloader(v-show="preloader")
+            <preloader></preloader>
           <feed v-if="!preloader" :feed="feed"></feed>
           .nothing-to-show(v-show="!newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
@@ -318,6 +319,9 @@ export default {
     },
     adEnabled () {
       this.showHideFeed()
+    },
+    feed () {
+      this.feed = this.prepareFeed(this.feed)
     }
   },
   created () {
@@ -335,7 +339,7 @@ export default {
       auth.get('/posts')
         .then((data) => {
           that.preloader = false
-          that.feed = that.prepareFeed(data.posts)
+          that.feed = data.posts
         })
     },
     prepareFeed (posts) {

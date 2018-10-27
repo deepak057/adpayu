@@ -15,6 +15,8 @@ div
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
+          div(v-show="preloader")
+            <preloader></preloader>
 </template>
 
 <script>
@@ -24,6 +26,7 @@ import Question from './question'
 import Ad from './ad'
 import PostTags from './post-tags'
 import Service from './service'
+import Preloader from './../../../../components/preloader'
 
 export default {
   name: 'StatusUpdate',
@@ -32,7 +35,8 @@ export default {
     TextStatus,
     Question,
     Ad,
-    PostTags
+    PostTags,
+    Preloader
   },
   props: {
     options: {
@@ -45,7 +49,8 @@ export default {
       postStatus: '',
       adOptions: {},
       question: {},
-      tags: []
+      tags: [],
+      preloader: false
     }
   },
   watch: {
@@ -88,8 +93,10 @@ export default {
         comments: []
       }
       if (this.validatePost(feed)) {
+        this.preloader = true
         this.$options.service.createPost(feed)
           .then((data) => {
+            this.preloader = false
             this.$emit('statusPosted', data)
           })
         this.resetData()
