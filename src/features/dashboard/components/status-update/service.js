@@ -15,4 +15,14 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  tagsAutoSuggestions (tag) {
+    return auth.get('/tags', {tag: tag})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }
