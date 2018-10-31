@@ -29,8 +29,11 @@ aside.left-sidebar(style='overflow: visible;')
               i.fa.fa-power-off
               |  Logout
       // End User profile text
+      // Preloader
+      .sidebar-preloader(v-show="preloader")
+        <preloader></preloader>
       // Sidebar navigation
-      nav.sidebar-nav
+      nav.sidebar-nav(v-show="!preloader")
         ul#sidebarnav
           <router-link tag="li" v-for="item in menuItems" :to="item.name">
             a.waves-effect.waves-dark(aria-expanded='false')
@@ -56,9 +59,15 @@ aside.left-sidebar(style='overflow: visible;')
 <script>
 import auth from '@/auth/helpers'
 import mixin from '../globals/mixin.js'
+import Service from './service'
+import Preloader from './preloader'
 
 export default {
   name: 'AppSidebar',
+  service: new Service(),
+  components: {
+    Preloader
+  },
   mixins: [mixin],
   props: {
     cat: {
@@ -68,6 +77,12 @@ export default {
   },
   data () {
     return {
+      preloader: true,
+      defaultItem: {
+        name: 'all',
+        icon: 'mdi-gauge',
+        default: true
+      },
       menuItems: [
         {
           name: 'all',
@@ -101,7 +116,19 @@ export default {
       }
     }
   },
-
+  mounted () {
+    let that = this
+    this.$options.service.getTags()
+      .then((data) => {
+        // add the default menu item
+        data.tags.unshift(that.defaultItem)
+        that.menuItems = data.tags
+        that.preloader = false
+      })
+      .catch((Tagserror) => {
+        alert('Soemthing went wrong while getting your tags')
+      })
+  },
   methods: {
     logout () {
       auth.logout()

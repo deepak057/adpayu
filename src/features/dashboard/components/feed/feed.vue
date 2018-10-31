@@ -28,9 +28,9 @@
           a.m-r-5(href="#") Get The Product Now
           span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
-        p.feed-tags(v-if="f['tags']")
-          a.m-r-5.label-default(v-for="tag in f['tags']" href="#" :title="getTagTooltip(tag.text)")
-            | &#x23;{{tag.text}}
+        p.feed-tags(v-if="f['Tags']")
+          a.m-r-5.label-default(v-for="tag in f['Tags']" href="#" :title="getTagTooltip(tag.name)")
+            | &#x23;{{tag.name}}
         .like-comm
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments']}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['comments']? "s": ''}}
           <like :likes="f['likes']"></like>

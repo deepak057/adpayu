@@ -149,3 +149,7 @@ body {
 	text-align: center;
 	padding-top: 14%;
 }
+.sidebar-preloader {
+	text-align: center;
+	margin-top: 40px;
+}
