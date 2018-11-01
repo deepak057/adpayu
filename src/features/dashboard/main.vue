@@ -187,130 +187,7 @@ export default {
 
         }
       ],
-      feed: [{
-        type: 'text',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
-        tags: [
-          {
-            text: 'Technology',
-            id: 1
-          },
-          {
-            text: 'Science',
-            id: 2
-          }
-        ],
-        imgs: [
-          'static/assets/images/big/img1.jpg',
-          'static/assets/images/big/img2.jpg',
-          'static/assets/images/big/img3.jpg',
-          'static/assets/images/big/img4.jpg'
-        ],
-        adOptions: {
-          postIsAd: true,
-          cpv: 0.2,
-          cpc: 1
-        },
-        question: false,
-        video: false,
-        show: true,
-        likes: {
-          count: 2,
-          liked: true
-        },
-        showComments: false,
-        comments: [
-          {
-            uid: 2,
-            comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 14, 2018',
-            likes: {
-              count: 3,
-              liked: true
-            }
-          },
-          {
-            uid: 1,
-            comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 12, 2018',
-            likes: {
-              count: 0,
-              liked: false
-            }
-          }
-        ]
-      },
-      {
-        type: 'question',
-        content: '',
-        tags: [],
-        imgs: [],
-        adOptions: {
-          postIsAd: false,
-          cpv: 0,
-          cpc: 0
-        },
-        question: {
-          question: 'What are some things that make or have made you lose faith in humanity?',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper'
-        },
-        video: false,
-        show: true,
-        likes: {
-          count: 5,
-          liked: false
-        },
-        showComments: false,
-        comments: []
-      },
-      {
-        type: 'video',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper',
-        tags: [
-          {
-            text: 'Nukes',
-            id: 7
-          }
-        ],
-        imgs: [
-        ],
-        adOptions: {
-          postIsAd: true,
-          cpv: 0.2,
-          cpc: 1
-        },
-        question: false,
-        video: {
-          sources: [{
-            src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            type: 'video/mp4'
-          }
-          ],
-          options: {
-            autoplay: false,
-            volume: 0.6,
-            poster: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'
-          }
-        },
-        show: true,
-        likes: {
-          count: 2,
-          liked: false
-        },
-        showComments: false,
-        comments: [
-          {
-            uid: 4,
-            comment: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.',
-            date: 'April 14, 2018',
-            likes: {
-              count: 0,
-              liked: false
-            }
-          }
-        ]
-      }
-      ]
+      feed: []
     }
   },
   watch: {
@@ -322,6 +199,9 @@ export default {
     },
     feed () {
       this.feed = this.prepareFeed(this.feed)
+    },
+    '$route.params.cat' (newCat) {
+      this.getFeed()
     }
   },
   created () {
@@ -336,7 +216,7 @@ export default {
     getFeed () {
       this.preloader = true
       let that = this
-      auth.get('/posts')
+      auth.get('/posts/' + (this.$route.params.cat || 'all'))
         .then((data) => {
           that.preloader = false
           that.feed = data.posts
