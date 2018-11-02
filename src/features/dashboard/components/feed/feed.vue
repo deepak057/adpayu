@@ -1,5 +1,13 @@
 <template lang="pug">
 .profiletimeline
+  .nothing-to-show(v-if="!feed.length")
+    .jumbotron.white-back.text-center
+      h1.display-3 Nothing Here!
+      p.lead
+        | There are no feed under this tag
+      hr.my-4
+      p
+        | You will see stuff here soon. For now, switch to a different Tag.
   .sl-item(v-for="f in feed" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
@@ -32,9 +40,9 @@
           a.m-r-5.label-default(v-for="tag in f['Tags']" href="#" :title="getTagTooltip(tag.name)")
             | &#x23;{{tag.name}}
         .like-comm
-          a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['comments']}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['comments']? "s": ''}}
+          a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes="f['likes']"></like>
-    <comments :comments="f['comments']" :commentType="f['type']" v-show="f['showComments']"></comments>
+    <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']"></comments>
     hr
 </template>
 <script>

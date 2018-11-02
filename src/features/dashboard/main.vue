@@ -43,7 +43,7 @@
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
           <feed v-if="!preloader" :feed="feed"></feed>
-          .nothing-to-show(v-show="!newsFeedEnabled && !adEnabled")
+          .nothing-to-show(v-show="feed.length && !newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
               p.lead
@@ -220,6 +220,9 @@ export default {
         .then((data) => {
           that.preloader = false
           that.feed = data.posts
+        })
+        .catch((feedError) => {
+          alert('Something went wrong file fetching the feed in under this tag.')
         })
     },
     prepareFeed (posts) {

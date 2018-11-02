@@ -28,8 +28,11 @@
 <script>
 import Like from './like'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
+import Service from './service'
+
 export default {
   name: 'Comments',
+  service: new Service(),
   components: {
     Like
   },
@@ -41,6 +44,10 @@ export default {
     commentType: {
       type: String,
       required: true
+    },
+    postId: {
+      type: Number,
+      required: true
     }
   },
   data () {
@@ -49,9 +56,16 @@ export default {
     }
   },
   methods: {
-    leaveComment (feedItem) {
+    leaveComment () {
       if (this.newCommentText) {
-        this.$set(this.comments, this.comments.length, {uid: 1, comment: this.newCommentText, date: '21 August, 2018'})
+        // this.$set(this.comments, this.comments.length, {uid: 1, comment: this.newCommentText, date: '21 August, 2018'})
+        this.$options.service.createComment(this.postId, {comment: this.newCommentText})
+          .then((data) => {
+            console.log(data.comment)
+          })
+          .catch((commentError) => {
+            alert('Something went wrong while posting your comment/answer')
+          })
         this.newCommentText = ''
       }
     },
