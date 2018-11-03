@@ -222,7 +222,7 @@ export default {
           that.feed = data.posts
         })
         .catch((feedError) => {
-          alert('Something went wrong file fetching the feed in under this tag.')
+          alert('Something went wrong file fetching the feed under this tag.')
         })
     },
     prepareFeed (posts) {

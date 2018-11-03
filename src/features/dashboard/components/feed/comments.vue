@@ -5,12 +5,12 @@
       span.round
         img(src='static/assets/images/users/1.jpg', alt='user', width='50')
     .comment-text.w-100
-      h5 James Anderson
+      h5 {{comment.User.first + ' ' + comment.User.last | capitalize}}
       p.m-b-5(v-if="!isQuestion()")
         | {{comment.comment}}
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
       .comment-footer
-        span.text-muted.pull-right {{comment.date}}
+        span.text-muted.pull-right {{comment.createdAt | date}}
         span.action-icons.visible
           a(href='javascript:void(0)')
             i.ti-pencil-alt
@@ -24,18 +24,24 @@
     .col-1.text-right
       button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3
+      .comment-preloader(v-show="preloader")
+        <preloader :option = 2></preloader>
 </template>
 <script>
 import Like from './like'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import Service from './service'
+import mixin from '../../../../globals/mixin.js'
+import Preloader from './../../../../components/preloader'
 
 export default {
   name: 'Comments',
   service: new Service(),
   components: {
-    Like
+    Like,
+    Preloader
   },
+  mixins: [mixin],
   props: {
     comments: {
       type: Array,
@@ -52,21 +58,25 @@ export default {
   },
   data () {
     return {
-      newCommentText: ''
+      newCommentText: '',
+      preloader: false
     }
   },
   methods: {
     leaveComment () {
       if (this.newCommentText) {
-        // this.$set(this.comments, this.comments.length, {uid: 1, comment: this.newCommentText, date: '21 August, 2018'})
+        this.preloader = true
+        let that = this
         this.$options.service.createComment(this.postId, {comment: this.newCommentText})
           .then((data) => {
-            console.log(data.comment)
+            that.preloader = false
+            that.$set(this.comments, this.comments.length, data.comment)
+            this.newCommentText = ''
           })
           .catch((commentError) => {
+            that.preloader = false
             alert('Something went wrong while posting your comment/answer')
           })
-        this.newCommentText = ''
       }
     },
     deleteComment (index_) {
