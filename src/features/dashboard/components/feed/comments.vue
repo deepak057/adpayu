@@ -1,6 +1,9 @@
 <template lang="pug">
 .comment-widgets
-  .d-flex.flex-row.comment-row(v-for="(comment, n) in comments")
+  .d-flex.flex-row.comment-row(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
+    a(href="javascript:void(0)" @click="showAllComments()")
+      | Load Previous comments
+  .d-flex.flex-row.comment-row(v-for="(comment, n) in commentsToShow")
     .p-2
       span.round
         img(src='static/assets/images/users/1.jpg', alt='user', width='50')
@@ -20,7 +23,7 @@
   .row.m-t-10
     .col-11
       <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
-      textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keyup.enter="leaveComment(f)")
+      textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
     .col-1.text-right
       button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3
@@ -59,8 +62,20 @@ export default {
   data () {
     return {
       newCommentText: '',
-      preloader: false
+      preloader: false,
+      defaultCommentsCount: 3,
+      commentsToShow: [],
+      hiddenComments: [],
+      enableLoadPreviousComments: true
     }
+  },
+  watch: {
+    comments () {
+      this.prepareComments()
+    }
+  },
+  mounted () {
+    this.prepareComments()
   },
   methods: {
     leaveComment () {
@@ -79,8 +94,31 @@ export default {
           })
       }
     },
+    showAllComments () {
+      let temp = this.hiddenComments.reverse()
+      for (let i in temp) {
+        this.commentsToShow.unshift(temp[i])
+      }
+      this.enableLoadPreviousComments = false
+    },
+    prepareComments () {
+      if (this.comments.length > this.defaultCommentsCount && this.enableLoadPreviousComments) {
+        this.commentsToShow = this.comments.slice(-this.defaultCommentsCount)
+        this.hiddenComments = this.comments.slice(0, (this.comments.length - this.defaultCommentsCount))
+      } else {
+        this.commentsToShow = this.comments
+      }
+    },
     deleteComment (index_) {
-      this.comments.splice(index_, 1)
+      if (confirm('Delete comment?')) {
+        this.$options.service.deleteComment(this.postId, this.comments[index_])
+          .then((data) => {
+          })
+          .catch((commentError) => {
+            alert('Something went wrong while deleting the comment')
+          })
+        this.comments.splice(index_, 1)
+      }
     },
     placeholderText () {
       var text_ = this.isQuestion() ? 'answer' : 'comment'
