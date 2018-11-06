@@ -3,7 +3,7 @@
   .d-flex.flex-row.comment-row(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()")
       | Load Previous comments
-  .d-flex.flex-row.comment-row(v-for="(comment, n) in commentsToShow")
+  .d-flex.flex-row.comment-row(v-for="(comment, n) in comments" v-if="isCommentEnabled(n)")
     .p-2
       span.round
         img(src='static/assets/images/users/1.jpg', alt='user', width='50')
@@ -15,9 +15,9 @@
       .comment-footer
         span.text-muted.pull-right {{comment.createdAt | date}}
         span.action-icons.visible
-          a(href='javascript:void(0)')
-            i.ti-pencil-alt
-          a(href='javascript:void(0)' @click='deleteComment(n)')
+          //a(href='javascript:void(0)')
+            //i.ti-pencil-alt
+          a(href='javascript:void(0)' @click='deleteComment(n)' title="Delete this comment")
             i.ti-trash
           <like :likes="comment.likes"></like>
   .row.m-t-10
@@ -64,18 +64,8 @@ export default {
       newCommentText: '',
       preloader: false,
       defaultCommentsCount: 3,
-      commentsToShow: [],
-      hiddenComments: [],
       enableLoadPreviousComments: true
     }
-  },
-  watch: {
-    comments () {
-      this.prepareComments()
-    }
-  },
-  mounted () {
-    this.prepareComments()
   },
   methods: {
     leaveComment () {
@@ -94,20 +84,11 @@ export default {
           })
       }
     },
-    showAllComments () {
-      let temp = this.hiddenComments.reverse()
-      for (let i in temp) {
-        this.commentsToShow.unshift(temp[i])
-      }
-      this.enableLoadPreviousComments = false
+    isCommentEnabled (index_) {
+      return this.enableLoadPreviousComments ? index_ >= (this.comments.length - this.defaultCommentsCount) : true
     },
-    prepareComments () {
-      if (this.comments.length > this.defaultCommentsCount && this.enableLoadPreviousComments) {
-        this.commentsToShow = this.comments.slice(-this.defaultCommentsCount)
-        this.hiddenComments = this.comments.slice(0, (this.comments.length - this.defaultCommentsCount))
-      } else {
-        this.commentsToShow = this.comments
-      }
+    showAllComments () {
+      this.enableLoadPreviousComments = false
     },
     deleteComment (index_) {
       if (confirm('Delete comment?')) {
