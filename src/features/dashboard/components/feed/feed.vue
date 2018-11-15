@@ -41,7 +41,7 @@
             | &#x23;{{tag.name}}
         .like-comm
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
-          <like :likes="f['likes']"></like>
+          <like :likes= "f['Likes']" :postId="f['id']"></like>
     <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']"></comments>
     hr
 </template>

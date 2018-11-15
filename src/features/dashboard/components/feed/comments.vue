@@ -19,7 +19,7 @@
             //i.ti-pencil-alt
           a(href='javascript:void(0)' @click='deleteComment(n)' title="Delete this comment")
             i.ti-trash
-          <like :likes="comment.likes"></like>
+          <like :likes="comment.Likes" :commentId="comment.id"></like>
   .row.m-t-10
     .col-11
       <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />

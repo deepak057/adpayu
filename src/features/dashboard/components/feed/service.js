@@ -25,4 +25,44 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  postLike (postId, action) {
+    return auth.post('/like/post/' + postId, {})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  removePostLike (postId, action) {
+    return auth.delete('/like/post/' + postId, {})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  commentLike (commentId, action) {
+    return auth.post('/like/comment/' + commentId, {})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  removeCommentLike (commentId, action) {
+    return auth.delete('/like/comment/' + commentId, {})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }
