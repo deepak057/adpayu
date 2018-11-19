@@ -10,6 +10,7 @@ div
         .modal-body
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
+          <pictures v-if="options.type=='picture'"></pictures>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
@@ -23,6 +24,7 @@ div
 
 import TextStatus from './text-status'
 import Question from './question'
+import Pictures from './pictures'
 import Ad from './ad'
 import PostTags from './post-tags'
 import Service from './service'
@@ -36,7 +38,8 @@ export default {
     Question,
     Ad,
     PostTags,
-    Preloader
+    Preloader,
+    Pictures
   },
   props: {
     options: {

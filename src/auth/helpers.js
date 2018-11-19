@@ -132,9 +132,7 @@ export default {
       })
   },
 
-  post (url, data = {}) {
-    const config = {}
-
+  post (url, data = {}, config = {}) {
     return Vue.auth.post(constants.API_BASE_URL + url, data, config)
       .then((response) => {
         if (response.data.errors) {
