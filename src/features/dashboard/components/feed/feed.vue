@@ -29,9 +29,9 @@
           .col-lg-6.col-md-6
             span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(v-if="f['AdOption'] && f['AdOption'].cpc" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
               i.mdi.mdi-information.m-l-4.cursor-hand
-        .row(v-if="f['imgs']")
-          .col-lg-3.col-md-6.m-b-20(v-for="img in f['imgs']")
-            img.img-responsive.radius(:src="img")
+        .row(v-if="f['Images']")
+          .col-lg-3.col-md-6.m-b-20(v-for="img in f['Images']")
+            img.img-responsive.radius(:src="getImage(img.path)")
         p(v-if="f['AdOption'] && f['AdOption'].cpc")
           a.m-r-5(href="#") Get The Product Now
           span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
@@ -50,6 +50,7 @@ import mixin from '../../../../globals/mixin.js'
 import myVideo from 'vue-video'
 import Comments from './comments'
 import Like from './like'
+import * as constants from '@/constants'
 
 export default {
   name: 'Feed',
@@ -96,6 +97,9 @@ export default {
     },
     getTagTooltip (text) {
       return 'Tagged with ' + text
+    },
+    getImage (path) {
+      return constants.SERVER_STATIC_CONTENT_URL + '/' + path
     }
   }
 }

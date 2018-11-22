@@ -153,3 +153,15 @@ body {
 	text-align: center;
 	margin-top: 40px;
 }
+.post-upload-media-wrap span{
+	cursor: pointer;
+}
+.post-upload-media-wrap span i{
+	color: rgba(0,0,0,.15);
+	position: relative;
+	top: 3px;
+}
+
+.f-s-20 {
+	font-size: 20px;
+}

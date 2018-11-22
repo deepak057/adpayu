@@ -1,7 +1,7 @@
 <template lang="pug">
 form
   .form-group
-    textarea#message-text.form-control(placeholder="Share your mind" v-model.trim="status")
+    textarea#message-text.form-control(placeholder="Share your mind*" v-model.trim="status")
 </template>
 
 <script>

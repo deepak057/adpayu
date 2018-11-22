@@ -12,6 +12,7 @@ div
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
           <pictures v-if="options.type=='picture'"></pictures>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
+          <media-upload @imagesUpdated="getImages"></media-upload>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
@@ -27,6 +28,7 @@ import Question from './question'
 import Pictures from './pictures'
 import Ad from './ad'
 import PostTags from './post-tags'
+import MediaUpload from './media-upload'
 import Service from './service'
 import Preloader from './../../../../components/preloader'
 
@@ -39,7 +41,8 @@ export default {
     Ad,
     PostTags,
     Preloader,
-    Pictures
+    Pictures,
+    MediaUpload
   },
   props: {
     options: {
@@ -53,6 +56,7 @@ export default {
       adOptions: {},
       question: {},
       tags: [],
+      images: [],
       preloader: false
     }
   },
@@ -83,7 +87,7 @@ export default {
         type: this.options.type,
         content: this.postStatus,
         tags: this.tags,
-        imgs: [],
+        images: this.images,
         adOptions: this.adOptions,
         question: this.question,
         video: false,
@@ -114,12 +118,16 @@ export default {
       this.adOptions = {}
       this.question = {}
       this.tags = []
+      this.images = []
     },
     getAdData (adOptions) {
       this.adOptions = adOptions
     },
     getTags (tags) {
       this.tags = tags
+    },
+    getImages (images) {
+      this.images.push(images)
     }
   }
 }

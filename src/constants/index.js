@@ -4,7 +4,7 @@ export const DEBUG = false
 // Backend API endpoints
 export const API_BASE_URL = 'http://localhost:3000/v1'
 export const REFRESH_TOKEN_URL = '/auth'
-
+export const SERVER_STATIC_CONTENT_URL = 'http://localhost:3000/uploads'
 /**
  * Key for local storage.
  *
