@@ -154,7 +154,6 @@ body {
 	margin-top: 40px;
 }
 .post-upload-media-wrap span{
-	cursor: pointer;
 }
 .post-upload-media-wrap span i{
 	color: rgba(0,0,0,.15);
@@ -164,4 +163,21 @@ body {
 
 .f-s-20 {
 	font-size: 20px;
+}
+.f-s-17 {
+	font-size: 17px;
+}
+
+.post-media-file-upload-progress {
+	font-size: 12px;
+}
+
+.post-media-file-upload-progress span.post-img-preloader img {
+	width: 14px;
+}
+.pointer{
+	cursor: pointer;
+}
+.w-100{
+	width: 100%
 }

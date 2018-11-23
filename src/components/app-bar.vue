@@ -340,24 +340,4 @@ export default {
 </script>
 
 <style lang="stylus">
-#app
-  .my-appbar
-
-    .toolbar__title
-      margin-left: 0
-
-    &__icons
-      margin-right: 8px
-
-    &__small-icons
-      white-space: nowrap
-      margin-right: 5px
-      margin-left: 8px
-
-      .btn
-        margin: 0 0 0 0
-
-      .btn--flat
-        // @TODO: Scoped styles on named slots not working?
-        min-width: 40px
 </style>

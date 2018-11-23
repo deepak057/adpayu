@@ -168,7 +168,7 @@ export default {
           showPopup: false
 
         },
-        {
+        /* {
           type: 'picture',
           label: 'Pictures',
           icon: 'fa-image',
@@ -176,7 +176,7 @@ export default {
           buttonLabel: 'Post',
           showPopup: false
 
-        },
+        }, */
         {
           type: 'video',
           label: 'Video',

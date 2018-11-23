@@ -10,13 +10,13 @@ div
           .form-group
             label.control-label CPV
             i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" data-content='This is the amount that viewers will get for watching this in their feed. Min suggested CPV is $.2')
-            input.form-control(v-model="adOptions.cpv")
+            input.form-control.w-100(type="number" v-model="adOptions.cpv")
             small.form-control-feedback Set Cost Per View
         .col-md-6
           .form-group
             label.control-label CPC
             i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per Click" data-toggle="popover" data-placement="right" data-content='This is the amount that viewers will get for clicking the target link in your ad. Min suggested CPV is $.8')
-            input.form-control(v-model="adOptions.cpc")
+            input.form-control.w-100(type="number" v-model="adOptions.cpc")
             small.form-control-feedback Set Cost Per Click
         .col-md-12(v-show="adOptions.cpc")
           .form-group

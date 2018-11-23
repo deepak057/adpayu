@@ -16,10 +16,4 @@ export default {
 </script>
 
 <style lang="stylus">
-.my-appfooter
-  justify-content: center
-
-  &--sidebar-open
-    padding-left: 300px
-
 </style>

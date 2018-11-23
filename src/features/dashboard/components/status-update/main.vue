@@ -12,7 +12,7 @@ div
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
           <pictures v-if="options.type=='picture'"></pictures>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
-          <media-upload @imagesUpdated="getImages"></media-upload>
+          <media-upload ref="imagesupload" @imagesUpdated="getImages"></media-upload>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
@@ -57,6 +57,7 @@ export default {
       question: {},
       tags: [],
       images: [],
+      resetImages: false,
       preloader: false
     }
   },
@@ -119,6 +120,7 @@ export default {
       this.question = {}
       this.tags = []
       this.images = []
+      this.$refs.imagesupload.reset()
     },
     getAdData (adOptions) {
       this.adOptions = adOptions
