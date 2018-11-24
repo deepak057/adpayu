@@ -11,8 +11,10 @@ div
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
           <pictures v-if="options.type=='picture'"></pictures>
+          <video-upload v-if="options.type =='video'"></video-upload>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
-          <media-upload ref="imagesupload" @imagesUpdated="getImages"></media-upload>
+          <image-upload v-if="options.type!='video'" ref="imagesupload" @imagesUpdated="getImages"></image-upload>
+          <video-file-upload v-if="options.type=='video'" ></video-file-upload>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
@@ -22,13 +24,14 @@ div
 </template>
 
 <script>
-
 import TextStatus from './text-status'
 import Question from './question'
 import Pictures from './pictures'
+import VideoUpload from './video'
 import Ad from './ad'
 import PostTags from './post-tags'
-import MediaUpload from './media-upload'
+import ImageUpload from './image-upload'
+import VideoFileUpload from './video-file-upload'
 import Service from './service'
 import Preloader from './../../../../components/preloader'
 
@@ -42,7 +45,9 @@ export default {
     PostTags,
     Preloader,
     Pictures,
-    MediaUpload
+    ImageUpload,
+    VideoUpload,
+    VideoFileUpload
   },
   props: {
     options: {

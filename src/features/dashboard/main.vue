@@ -227,9 +227,10 @@ export default {
     },
     prepareFeed (posts) {
       for (let i in posts) {
-        posts[i].showComments = false
+        // add new proprties
+        this.$set(posts[i], 'show', true)
+        this.$set(posts[i], 'showComments', false)
       }
-
       return posts
     },
     showHideFeed () {

@@ -23,7 +23,7 @@
           h3.font-bold
             | {{f['Question'].question}}
           p.text-muted {{f['Question'].description}}
-        .row.m-0.feed-video-wrap(v-if="f['video']!=='0'")
+        .row.m-0.feed-video-wrap(v-if="f['Video'] && f['Video']!=='0'")
           .col-lg-6.col-md-6.video-container
             <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
           .col-lg-6.col-md-6
