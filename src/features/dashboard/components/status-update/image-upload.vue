@@ -51,7 +51,7 @@ export default {
         let that = this
         formData.append('image', files[i])
         this.files.push(files[i])
-        this.$options.service.uploadImages(formData)
+        this.$options.service.uploadImage(formData)
           .then((data) => {
             that.images.push(data)
             that.totalFilesUploaded++

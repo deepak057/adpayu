@@ -23,15 +23,15 @@
           h3.font-bold
             | {{f['Question'].question}}
           p.text-muted {{f['Question'].description}}
-        .row.m-0.feed-video-wrap(v-if="f['Video'] && f['Video']!=='0'")
+        .row.m-0.feed-video-wrap(v-if="f['Video']")
           .col-lg-6.col-md-6.video-container
-            <my-video :sources="f['video'].sources" :options="f['video'].options"></my-video>
+            <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
             span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(v-if="f['AdOption'] && f['AdOption'].cpc" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images']")
           .col-lg-3.col-md-6.m-b-20(v-for="img in f['Images']")
-            img.img-responsive.radius(:src="getImage(img.path)")
+            img.img-responsive.radius(:src="getMedia(img.path)")
         p(v-if="f['AdOption'] && f['AdOption'].cpc")
           a.m-r-5(href="#") Get The Product Now
           span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
@@ -98,8 +98,16 @@ export default {
     getTagTooltip (text) {
       return 'Tagged with ' + text
     },
-    getImage (path) {
+    getMedia (path) {
       return constants.SERVER_STATIC_CONTENT_URL + '/' + path
+    },
+    getVideoSurces (path) {
+      let that = this
+      return [
+        {
+          src: that.getMedia(path)
+        }
+      ]
     }
   }
 }

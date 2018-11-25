@@ -3,10 +3,10 @@
   span.m-r-10.pointer(@click="triggerVideoSelect")
     i.mdi.mdi.mdi-video.f-s-20
     |  Upload Video
-  .post-media-file-upload-progress.m-t-10(v-show="files.length > 0")
+  .post-media-file-upload-progress.m-t-10(v-show="uploadPercentage")
     span.post-img-preloader.m-r-5
-      <preloader v-if="totalFilesUploaded < totalFiles"></preloader>
-      i.mdi.mdi-check-all.f-s-17(v-show = "totalFilesUploaded == totalFiles")
+      <preloader v-if="uploadPercentage < 100"></preloader>
+      i.mdi.mdi-check-all.f-s-17(v-show = "uploadPercentage >= 100")
     span
       | {{getFileUploadProgressText()}}
   input.none(type="file" id="file-video" accept="video/*" data-type="video" @change="filesChange($event.target.name, $event.target.files)")
@@ -23,10 +23,7 @@ export default {
   data () {
     return {
       validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL'],
-      images: [],
-      files: [],
-      totalFilesUploaded: 0,
-      totalFiles: 0
+      uploadPercentage: 0
     }
   },
   methods: {
@@ -34,54 +31,46 @@ export default {
       document.getElementById('file-video').click()
     },
     filesChange (event, files) {
-      console.log(files)
       if (files.length && this.validateVideo(files)) {
-        // this.uploadImages(files)
+        this.uploadVideo(files)
       } else {
-        alert('Please choose valid video file')
+        alert('Please choose a valid video file')
       }
     },
-    uploadImages (files) {
-      for (let i = 0; i < files.length; i++) {
-        let formData = new FormData()
-        let that = this
-        formData.append('image', files[i])
-        this.files.push(files[i])
-        this.$options.service.uploadImages(formData)
-          .then((data) => {
-            that.images.push(data)
-            that.totalFilesUploaded++
-            that.$emit('imagesUpdated', data)
-          })
-          .catch((imgErr) => {
-            alert('Something went wrong while uploading the images')
-          })
+    uploadVideo (files) {
+      let formData = new FormData()
+      formData.append('video', files[0])
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: function (progressEvent) {
+          this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+        }.bind(this)
       }
+      this.$options.service.uploadVideo(formData, config)
+        .then((data) => {
+          this.$emit('videoUploaded', data.path)
+        })
+        .catch((errVideo) => {
+          alert('Something went wrong while uploading the video')
+        })
     },
     getFileUploadProgressText () {
-      let text = 'Uploading images...'
-      if (!this.totalFilesUploaded) {
-        return text
-      } else if (this.totalFilesUploaded < this.totalFiles) {
-        return text + Math.round(((this.totalFilesUploaded / this.totalFiles) * 100)) + '%'
+      if (this.uploadPercentage < 100) {
+        return 'Uploading video...' + this.uploadPercentage + '%'
       } else {
-        return this.totalFiles + ' image' + (this.totalFiles > 1 ? 's' : '') + ' added'
+        return 'Video uploaded'
       }
     },
     validateVideo (files) {
       let valid = true
-      for (let i = 0; i < files.length; i++) {
-        if (this.validVideoTypes.indexOf(files[i]['type']) === -1) {
-          valid = false
-        }
+      if (this.validVideoTypes.indexOf(files[0]['type']) === -1) {
+        valid = false
       }
       return valid
     },
     reset () {
-      this.images = []
-      this.files = []
-      this.totalFilesUploaded = 0
-      this.totalFiles = 0
     }
   }
 }

@@ -2,19 +2,38 @@
 form(onsubmit="return false")
   .form-group.has-success
     <label>Title*</label>
-    input.form-control(placeholder="Enter video title" v-model.trim="title")
+    input.form-control(placeholder="Enter video title" v-model.trim="video.title")
   .form-group
     label
       | Description
-    textarea.form-control(placeholder="Enter Description (optional)" rows="4" v-model.trim="description")
+    textarea.form-control(placeholder="Enter Description (optional)" rows="4" v-model.trim="video.description")
 </template>
 <script>
 export default {
   name: 'VideoUpload',
   data () {
     return {
-      title: '',
-      description: ''
+      video: {
+        title: '',
+        description: '',
+        path: ''
+      }
+    }
+  },
+  watch: {
+    video: {
+      handler (newObj, oldObj) {
+        this.$emit('videoDetailsUpdated', newObj)
+      },
+      deep: true
+    }
+  },
+  methods: {
+    setVideoPath (path) {
+      this.video.path = path
+    },
+    reset () {
+      this.video = {}
     }
   }
 }

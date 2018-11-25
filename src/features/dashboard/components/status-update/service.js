@@ -26,13 +26,23 @@ export default class Service {
       })
   }
 
-  uploadImages (images) {
+  uploadImage (image) {
     let config = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }
-    return auth.post('/upload/images', images, config)
+    return auth.post('/upload/image', image, config)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  uploadVideo (video, config) {
+    return auth.post('/upload/video', video, config)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
