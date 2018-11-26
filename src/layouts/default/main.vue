@@ -16,12 +16,10 @@ export default {
   name: 'DefaultLayout',
 
   components: { AppBar, AppSidebar, AppFooter },
-
-  created () {
-  },
-
-  methods: {
-
+  data () {
+    return {
+      cat: 'all'
+    }
   }
 }
 </script>

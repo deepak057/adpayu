@@ -51,6 +51,11 @@
               hr.my-4
               p
                 | Currently, you have disabled both.
+          div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+            <preloader v-show="loadMorePreloader"></preloader>
+            span(v-show="noMoreFeed")
+              i.mdi.mdi-emoticon-sad.m-r-5
+              | No more feed
   // ==============================================================
   // End PAge Content
   // ==============================================================
@@ -127,10 +132,11 @@ import mixin from '../../globals/mixin.js'
 import Preloader from './../../components/preloader'
 import StatusUpdate from './components/status-update/main'
 import Feed from './components/feed/feed'
-import auth from '@/auth/helpers'
+import Service from './service'
 
 export default {
   name: 'Dashboard',
+  service: new Service(),
   components: {
     StatusUpdate,
     Feed,
@@ -150,6 +156,10 @@ export default {
       newCommentText: '',
       postOptionsDefault: {},
       preloader: true,
+      disableLoadMore: true,
+      loadMorePreloader: false,
+      currentPage: 1,
+      noMoreFeed: false,
       postOptions: [
         {
           type: 'text',
@@ -201,6 +211,10 @@ export default {
       this.feed = this.prepareFeed(this.feed)
     },
     '$route.params.cat' (newCat) {
+      this.feed = []
+      this.noMoreFeed = false
+      this.currentPage = 1
+      this.setDocumentTitle(newCat)
       this.getFeed()
     }
   },
@@ -214,16 +228,28 @@ export default {
   },
   methods: {
     getFeed () {
-      this.preloader = true
+      if (this.currentPage === 1) {
+        this.preloader = true
+      }
       let that = this
-      auth.get('/posts/' + (this.$route.params.cat || 'all'))
+      this.$options.service.getFeed(that.getCat(), that.currentPage)
         .then((data) => {
-          that.preloader = false
-          that.feed = data.posts
+          that.afterFeedLoad(data)
         })
         .catch((feedError) => {
           alert('Something went wrong file fetching the feed under this tag.')
         })
+    },
+    afterFeedLoad (data) {
+      this.feed = this.feed.concat(data.posts)
+      this.currentPage++
+      this.preloader = false
+      this.loadMorePreloader = false
+      if (!data.posts.length) {
+        this.noMoreFeed = true
+      } else {
+        this.disableLoadMore = false
+      }
     },
     prepareFeed (posts) {
       for (let i in posts) {
@@ -245,8 +271,8 @@ export default {
     getTitle () {
       return this.$route.params.cat
     },
-    setDocumentTitle () {
-      var t_ = this.getTitle()
+    setDocumentTitle (title_) {
+      var t_ = title_ || this.getTitle()
       document.title = t_.charAt(0).toUpperCase() + t_.slice(1)
     },
     pageTitle () {
@@ -259,11 +285,19 @@ export default {
     setPostDefaultOptions () {
       this.postOptionsDefault = this.postOptions[0]
     },
+    getCat () {
+      return this.$route.params.cat || 'all'
+    },
     triggerPostPopup (postOptions) {
       var max = 1000000
       var min = 1
       postOptions.showPopup = Math.floor(Math.random() * (+max - +min)) + +min
       this.postOptionsDefault = postOptions
+    },
+    loadMoreFeed () {
+      this.loadMorePreloader = true
+      this.disableLoadMore = true
+      this.getFeed()
     }
   }
 }

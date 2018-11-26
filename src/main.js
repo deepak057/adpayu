@@ -12,6 +12,7 @@ import Appfooter from './components/app-footer'
 import ToggleButton from 'vue-js-toggle-button'
 import wysiwyg from 'vue-wysiwyg'
 import VueTimeago from 'vue-timeago'
+import infiniteScroll from 'vue-infinite-scroll'
 
 Vue.config.productionTip = false
 
@@ -36,6 +37,9 @@ Vue.use(VueTimeago, {
   name: 'Timeago', // Component name, `Timeago` by default
   locale: 'en' // Default locale
 })
+
+// Infinie Scroll
+Vue.use(infiniteScroll)
 
 // Vuetify
 Vue.use(Vuetify, {
