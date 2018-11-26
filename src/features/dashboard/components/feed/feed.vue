@@ -17,12 +17,17 @@
       div
         a.link(href='#') {{f.User.first | capitalize}} {{f.User.last | capitalize}}
         |  {{getPostDescriptionText(f)}}
-        span.sl-date  5 minutes ago
+        span.sl-date
+          <timeago :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
             | {{f['Question'].question}}
           p.text-muted {{f['Question'].description}}
+        div.m-t-10(v-if="f['Video']")
+          h3.font-bold
+            | {{f['Video'].title}}
+          p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="f['Video']")
           .col-lg-6.col-md-6.video-container
             <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
@@ -89,8 +94,8 @@ export default {
           return ''
         case 'question':
           return 'asked a question'
-        case 'pictures':
-          return ''
+        case 'video':
+          return 'uploaded a video'
         default:
           return ''
       }

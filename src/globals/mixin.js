@@ -8,7 +8,7 @@ export default {
     date: function (MySqlDate) {
       let date = new Date(MySqlDate)
       let strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      return date.getDay() + ' ' + strArray[date.getMonth()]
+      return date.getDay() + ' ' + strArray[date.getMonth()] + ' ' + date.getFullYear()
     }
   }
 }

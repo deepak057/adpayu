@@ -11,6 +11,7 @@ import Appbar from './components/app-bar'
 import Appfooter from './components/app-footer'
 import ToggleButton from 'vue-js-toggle-button'
 import wysiwyg from 'vue-wysiwyg'
+import VueTimeago from 'vue-timeago'
 
 Vue.config.productionTip = false
 
@@ -29,6 +30,12 @@ Vue.use(ToggleButton)
 
 // WYSIWYG editor
 Vue.use(wysiwyg, {})
+
+// Vue Time Ago
+Vue.use(VueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'en' // Default locale
+})
 
 // Vuetify
 Vue.use(Vuetify, {

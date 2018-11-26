@@ -13,7 +13,8 @@
         | {{comment.comment}}
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
       .comment-footer
-        span.text-muted.pull-right {{comment.createdAt | date}}
+        span.text-muted.pull-right
+          <timeago :datetime="comment.createdAt" :auto-update="60" class="m-l-5" :title="comment.createdAt | date"></timeago>
         span.action-icons.visible
           //a(href='javascript:void(0)')
             //i.ti-pencil-alt

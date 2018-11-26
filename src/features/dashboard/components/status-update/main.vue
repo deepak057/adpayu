@@ -11,10 +11,10 @@ div
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
           <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
           <pictures v-if="options.type=='picture'"></pictures>
-          <video-upload v-if="options.type =='video'" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
+          <video-upload v-if="options.type =='video'" :video="video" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
-          <image-upload v-if="options.type!='video'" ref="imagesupload" @imagesUpdated="getImages"></image-upload>
-          <video-file-upload v-if="options.type=='video'" @videoUploaded="setVideoPath"></video-file-upload>
+          <image-upload v-if="options.type!='video'" :images="images" @imagesUpdated="getImages"></image-upload>
+          <video-file-upload v-if="options.type=='video'" :path="videoPath" @videoUploaded="setVideoPath"></video-file-upload>
           <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
@@ -63,6 +63,7 @@ export default {
       tags: [],
       images: [],
       video: {},
+      videoPath: '',
       resetImages: false,
       preloader: false
     }
@@ -127,12 +128,7 @@ export default {
       this.tags = []
       this.images = []
       this.video = {}
-      if (this.$refs.imagesupload) {
-        this.$refs.imagesupload.reset()
-      }
-      if (this.$refs.videoUpload) {
-        this.$refs.videoUpload.reset()
-      }
+      this.videoPath = ''
     },
     getAdData (adOptions) {
       this.adOptions = adOptions

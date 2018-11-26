@@ -20,10 +20,25 @@ export default {
   components: {
     Preloader
   },
+  props: {
+    path: {
+      type: String,
+      default () {
+        return ''
+      }
+    }
+  },
   data () {
     return {
       validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL'],
       uploadPercentage: 0
+    }
+  },
+  watch: {
+    path (newV) {
+      if (!newV.length) {
+        this.uploadPercentage = 0
+      }
     }
   },
   methods: {
@@ -50,7 +65,8 @@ export default {
       }
       this.$options.service.uploadVideo(formData, config)
         .then((data) => {
-          this.$emit('videoUploaded', data.path)
+          this.path = data.path
+          this.$emit('videoUploaded', this.path)
         })
         .catch((errVideo) => {
           alert('Something went wrong while uploading the video')

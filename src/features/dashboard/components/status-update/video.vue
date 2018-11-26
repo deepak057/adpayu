@@ -11,12 +11,15 @@ form(onsubmit="return false")
 <script>
 export default {
   name: 'VideoUpload',
-  data () {
-    return {
-      video: {
-        title: '',
-        description: '',
-        path: ''
+  props: {
+    video: {
+      type: Object,
+      default () {
+        return {
+          title: '',
+          description: '',
+          path: ''
+        }
       }
     }
   },

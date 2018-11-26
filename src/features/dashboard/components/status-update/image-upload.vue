@@ -20,13 +20,29 @@ export default {
   components: {
     Preloader
   },
+  props: {
+    images: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
       validImageTypes: ['image/gif', 'image/jpeg', 'image/png'],
-      images: [],
       files: [],
       totalFilesUploaded: 0,
       totalFiles: 0
+    }
+  },
+  watch: {
+    images (newArr) {
+      if (!newArr.length) {
+        this.files = []
+        this.totalFilesUploaded = 0
+        this.totalFiles = 0
+      }
     }
   },
   methods: {
