@@ -184,3 +184,14 @@ body {
 .h-5{
 	height: 5px;
 }
+.post-image-grid-wrap .card {
+  margin: 0px 0px 20px 0px;
+  padding: 0px;
+}
+
+.post-image-grid-wrap .card .el-card-item{
+	padding: 0px;
+}
+.post-image-grid-wrap .card .el-card-item .el-card-avatar{
+	margin: 0px
+}

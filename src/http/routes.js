@@ -43,30 +43,6 @@ const routes = [
     title: 'Dashboard',
     layout: 'DefaultLayout',
     isPublic: false
-  },
-  {
-    name: 'account',
-    path: '/account',
-    component: () => import(/* webpackChunkName: "account" */ '@/features/account/main.vue'),
-    title: 'Account',
-    layout: 'DefaultLayout',
-    isPublic: false
-  },
-  {
-    name: 'tutorial',
-    path: '/examples/tutorial',
-    component: () => import(/* webpackChunkName: "tutorial" */ '@/features/tutorial/main.vue'),
-    title: 'Tutorial',
-    layout: 'DefaultLayout',
-    isPublic: false
-  },
-  {
-    name: 'wip',
-    path: '/examples/wip',
-    component: () => import(/* webpackChunkName: "wip" */ '@/features/wip/main.vue'),
-    title: 'Wip',
-    layout: 'DefaultLayout',
-    isPublic: false
   }
 ]
 

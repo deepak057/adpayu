@@ -120,6 +120,19 @@ $(function () {
     //Popover
     // ============================================================== 
     $(function () {
+
+            $(document).on("mouseover", ".image-popup-vertical-fit", function(){
+
+                $('.image-popup-vertical-fit').magnificPopup({
+                    type: 'image',
+                    closeOnContentClick: true,
+                    mainClass: 'mfp-img-mobile',
+                    image: {
+                        verticalFit: true
+                    }
+                    
+                });
+            })
             
              $(document).on("mouseover",'[data-toggle-tooltip="tooltip"]', function(){
                 $(this).tooltip('show')

@@ -82,28 +82,7 @@ export default {
         name: 'all',
         icon: 'mdi-gauge',
         default: true
-      },
-      menuItems: [
-        {
-          name: 'all',
-          icon: 'mdi-gauge',
-          default: true
-        },
-        {
-          name: 'science',
-          icon: 'mdi-laptop-windows',
-          default: false
-        },
-        {
-          name: 'technology',
-          icon: 'mdi-bullseye',
-          default: false
-        },
-        {
-          name: 'fashion',
-          icon: 'mdi-chart-bubble'
-        }
-      ]
+      }
     }
   },
   computed: {

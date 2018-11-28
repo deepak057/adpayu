@@ -1,3 +1,5 @@
+import * as constants from '@/constants'
+
 export default {
   filters: {
     capitalize: function (value) {
@@ -9,6 +11,11 @@ export default {
       let date = new Date(MySqlDate)
       let strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       return date.getDay() + ' ' + strArray[date.getMonth()] + ' ' + date.getFullYear()
+    }
+  },
+  methods: {
+    getMedia (path) {
+      return constants.SERVER_STATIC_CONTENT_URL + '/' + path
     }
   }
 }
