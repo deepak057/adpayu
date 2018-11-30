@@ -90,8 +90,11 @@ export default {
     auth.accessToken = response.data.token
     auth.refreshToken = response.data.refreshToken
     // @TODO: get user's name from response from Oauth server.
-    auth.user.name = response.data.first + ' ' + response.data.last
-    auth.user.id = response.data.id
+    auth.user.name = response.data.user.first + ' ' + response.data.user.last
+    auth.user.first = response.data.user.first
+    auth.user.last = response.data.user.last
+    auth.user.id = response.data.user.id
+    auth.user.email = response.data.user.email
 
     store.dispatch('auth/update', auth)
   },

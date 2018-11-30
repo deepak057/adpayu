@@ -35,7 +35,7 @@ module.exports = {
         // Demo OAuth2 server https://github.com/bshaffer/oauth2-demo-php.
         // Username: demouser  Password: demopass
         //target: 'http://brentertainment.com/oauth2/lockdin/token',
-        target: 'http://localhost:8081',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
@@ -46,7 +46,7 @@ module.exports = {
       },
       '/api': {
         // target: 'http://brentertainment.com/oauth2',  // <-- Api server.
-        target: 'http://localhost:8081/experience',
+        target: 'http://localhost:3000/experience',
         changeOrigin: true,                           // <-- For virtual hosted sites.
         ws: true,                                     // <-- Proxy websockets.
         pathRewrite: {

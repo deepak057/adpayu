@@ -28,10 +28,13 @@ const routes = [
     isPublic: false
   },
   {
-    name: 'home',
-    path: '/:cat',
+    name: 'tag',
+    path: '/tag',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
     title: 'Dashboard',
+    children: [{
+      path: ':cat'
+    }],
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
@@ -43,6 +46,18 @@ const routes = [
     title: 'Dashboard',
     layout: 'DefaultLayout',
     isPublic: false
+  },
+  {
+    name: 'profile',
+    path: '/profile',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/profile/main.vue'),
+    children: [{
+      path: ':uid'
+    }],
+    title: 'Profile',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

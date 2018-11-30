@@ -14,7 +14,6 @@ import AppFooter from '@/components/app-footer'
 
 export default {
   name: 'DefaultLayout',
-
   components: { AppBar, AppSidebar, AppFooter },
   data () {
     return {

@@ -195,3 +195,7 @@ body {
 .post-image-grid-wrap .card .el-card-item .el-card-avatar{
 	margin: 0px
 }
+.page-preloader{
+	height: 500px;
+	padding-top: 100px;
+}

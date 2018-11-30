@@ -31,11 +31,14 @@ const router = new Router({
   base: '/',
   mode: 'history',
   linkActiveClass: 'active',
+  linkExactActiveClass: 'active',
   routes: routes.map(route => ({
     name: route.name,
     path: route.path,
     component: route.component,
+    children: route.children,
     beforeEnter: (to, from, next) => {
+      console.log(to)
       // Setup some per-page stuff.
       document.title = route.title
       store.dispatch('common/updateTitle', route.title)

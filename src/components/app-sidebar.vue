@@ -9,7 +9,7 @@ aside.left-sidebar(style='overflow: visible;')
           img(src='static/assets/images/users/profile.png', alt='user')
         // User profile text
         .profile-text
-          a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') Markarn Doe
+          a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') {{userName | capitalize}}
           .dropdown-menu.animated.flipInY
             a.dropdown-item(href='#')
               i.ti-user
@@ -35,7 +35,7 @@ aside.left-sidebar(style='overflow: visible;')
       // Sidebar navigation
       nav.sidebar-nav(v-show="!preloader")
         ul#sidebarnav
-          <router-link tag="li" v-for="item in menuItems" :to="item.name">
+          <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)">
             a.waves-effect.waves-dark(aria-expanded='false')
               i.mdi(:class="item.icon")
               span.hide-menu {{item.name | capitalize}}
@@ -58,6 +58,7 @@ aside.left-sidebar(style='overflow: visible;')
 
 <script>
 import auth from '@/auth/helpers'
+import store from '@/store'
 import mixin from '../globals/mixin.js'
 import Service from './service'
 import Preloader from './preloader'
@@ -82,18 +83,19 @@ export default {
         name: 'all',
         icon: 'mdi-gauge',
         default: true
-      }
+      },
+      userName: store.state.auth.user.name
     }
   },
   computed: {
-    isActive: {
+    /* isActive: {
       get () {
         return this.$store.state.common.sidebar.visible
       },
       set (val) {
         this.$store.dispatch('common/updateSidebar', { visible: val })
       }
-    }
+    } */
   },
   mounted () {
     let that = this
@@ -111,6 +113,9 @@ export default {
   methods: {
     logout () {
       auth.logout()
+    },
+    getTagLink (tag) {
+      return '/tag/' + tag
     }
   }
 }

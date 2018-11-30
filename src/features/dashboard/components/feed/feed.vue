@@ -12,10 +12,14 @@
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
-      img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
+      <router-link :to="userProfileLink(f.User.id)">
+        img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
+      </router-link>
     .sl-right
       div
-        a.link(href='#') {{f.User.first | capitalize}} {{f.User.last | capitalize}}
+        <router-link :to="userProfileLink(f.User.id)">
+          | {{userName(f.User)}}
+        </router-link>
         |  {{getPostDescriptionText(f)}}
         span.sl-date
           <timeago :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>

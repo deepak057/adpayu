@@ -5,10 +5,15 @@
       | Load Previous comments
   .d-flex.flex-row.comment-row(v-for="(comment, n) in comments" v-if="isCommentEnabled(n)")
     .p-2
-      span.round
-        img(src='static/assets/images/users/1.jpg', alt='user', width='50')
+      <router-link :to="userProfileLink(comment.User.id)">
+        span.round
+          img(src='static/assets/images/users/1.jpg', alt='user', width='50')
+      </router-link>
     .comment-text.w-100
-      h5 {{comment.User.first + ' ' + comment.User.last | capitalize}}
+      h5
+        <router-link :to="userProfileLink(comment.User.id)">
+          | {{userName(comment.User)}}
+        </router-link>
       p.m-b-5(v-if="!isQuestion()")
         | {{comment.comment}}
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")

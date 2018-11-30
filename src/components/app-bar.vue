@@ -5,7 +5,7 @@ header.topbar
       // Logo
       // ==============================================================
       .navbar-header
-        a.navbar-brand(href='index.html')
+        <router-link to="/" class="navbar-brand">
           // Logo icon
           b
             // You can put here icon as well // <i class="wi wi-sunset"></i> //
@@ -20,6 +20,7 @@ header.topbar
             img.dark-logo(src='static/assets/images/logo-text.png', alt='homepage')
             // Light Logo text
             img.light-logo(src='static/assets/images/logo-light-text.png', alt='homepage')
+        </router-link>
       // ==============================================================
       // End Logo
       // ==============================================================
@@ -268,14 +269,17 @@ header.topbar
                     .u-img
                       img(src='static/assets/images/users/1.jpg', alt='user')
                     .u-text
-                      h4 Steave Jobs
-                      p.text-muted varun@gmail.com
-                      a.btn.btn-rounded.btn-danger.btn-sm(href='profile.html') View Profile
+                      h4 {{userName(user)}}
+                      p.text-muted {{user.email}}
+                      <router-link :to="userProfileLink()" class="btn btn-rounded btn-danger btn-sm">
+                        | View Profile
+                      </router-link>
                 li.divider(role='separator')
                 li
-                  a(href='#')
+                  <router-link :to="userProfileLink()">
                     i.ti-user
                     |  My Profile
+                  </router-link>
                 li
                   a(href='#')
                     i.ti-wallet
@@ -317,17 +321,16 @@ header.topbar
 
 <script>
 import auth from '@/auth/helpers'
+import mixin from '../globals/mixin.js'
 
 export default {
   name: 'AppBar',
-
-  props: {
-    backButton: {
-      type: Boolean,
-      default: false
+  mixins: [mixin],
+  data () {
+    return {
+      user: this.$store.state.auth.user
     }
   },
-
   methods: {
     toggleSidebar () {
       this.$store.dispatch('common/updateSidebar', { visible: !this.$store.state.common.sidebar.visible })
