@@ -7,7 +7,7 @@
     .p-2
       <router-link :to="userProfileLink(comment.User.id)">
         span.round
-          img(src='static/assets/images/users/1.jpg', alt='user', width='50')
+          img(:src='getMedia(comment.User.pic)', alt='user', width='50')
       </router-link>
     .comment-text.w-100
       h5

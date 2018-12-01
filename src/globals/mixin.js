@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     getMedia (path) {
-      return constants.SERVER_STATIC_CONTENT_URL + '/' + path
+      return path ? constants.SERVER_STATIC_CONTENT_URL + '/' + path : 'static/img/no-profile-pic.png'
     },
     userProfileLink (uid) {
       return '/profile/' + (uid || '')
@@ -29,6 +29,10 @@ export default {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
       }
       return splitStr.join(' ')
+    },
+    validImageFile (file) {
+      let validImageTypes = ['image/gif', 'image/jpeg', 'image/png']
+      return validImageTypes.indexOf(file['type']) !== -1
     }
   }
 }

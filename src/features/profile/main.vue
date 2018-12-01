@@ -34,7 +34,8 @@
       .card
         .card-body
           center.m-t-30
-            img.img-circle(src='/static/assets/images/users/5.jpg', width='150')
+            // img.img-circle(src='/static/assets/images/users/5.jpg', width='150')
+            <profile-picture :user="user" :imageAdmin="isOwnProfile"></profile-picture>
             h4.card-title.m-t-10 {{userName(user)}}
             h6.card-subtitle A loyal AdpayU user
             .row.text-center.justify-content-md-center
@@ -245,17 +246,19 @@ import store from '@/store'
 import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
+import ProfilePicture from './profile-pic'
 
 export default {
   name: 'Profile',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    ProfilePicture
   },
   mixins: [mixin],
   data () {
     return {
-      pagePreloader: true,
+      pagePreloader: false,
       uid: 0,
       user: {},
       isOwnProfile: false
@@ -272,6 +275,7 @@ export default {
   },
   methods: {
     fetchProfile () {
+      this.pagePreloader = true
       this.$options.service.getUserProfile(this.uid)
         .then((data) => {
           this.pagePreloader = false

@@ -14,12 +14,15 @@
 <script>
 import Service from './service'
 import Preloader from './../../../../components/preloader'
+import mixin from '../../../../globals/mixin'
+
 export default {
   name: 'ImageUpload',
   service: new Service(),
   components: {
     Preloader
   },
+  mixins: [mixin],
   props: {
     images: {
       type: Array,
@@ -91,7 +94,7 @@ export default {
     validateImages (files) {
       let valid = true
       for (let i = 0; i < files.length; i++) {
-        if (this.validImageTypes.indexOf(files[i]['type']) === -1) {
+        if (!this.validImageFile(files[i])) {
           valid = false
         }
       }

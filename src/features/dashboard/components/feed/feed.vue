@@ -13,7 +13,7 @@
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
       <router-link :to="userProfileLink(f.User.id)">
-        img.img-circle(src='static/assets/images/users/1.jpg', alt='user')
+        img.img-circle(:src='getMedia(f.User.pic)', alt='user')
       </router-link>
     .sl-right
       div

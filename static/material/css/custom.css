@@ -199,3 +199,53 @@ body {
 	height: 500px;
 	padding-top: 100px;
 }
+
+/*
+* Profile picture on profile page
+*/
+
+.profile-pic-container {
+  position: relative;
+  width: 50%;
+}
+
+.profile-pic-container .profile-pic-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.profile-pic-container .profile-pic-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #000;
+}
+
+.profile-pic-container:hover .profile-pic-overlay {
+  opacity: .8;
+}
+
+.profile-pic-overlay-content {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.profile-pic-overlay-content a {
+	color: #fff;
+}
+.comment-widgets span.round{
+	background: none
+}
