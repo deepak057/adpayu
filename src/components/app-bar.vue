@@ -328,13 +328,15 @@ export default {
   mixins: [mixin],
   data () {
     return {
-      user: this.$store.state.auth.user
+      user: auth.getUser()
+    }
+  },
+  watch: {
+    '$store.state.auth.user' (user) {
+      this.user = user
     }
   },
   methods: {
-    toggleSidebar () {
-      this.$store.dispatch('common/updateSidebar', { visible: !this.$store.state.common.sidebar.visible })
-    },
     logout () {
       auth.logout()
     }

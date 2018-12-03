@@ -227,8 +227,8 @@ body {
   background-color: #000;
 }
 
-.profile-pic-container:hover .profile-pic-overlay {
-  opacity: .8;
+.profile-pic-container:hover .profile-pic-overlay, .opacity-8 {
+  opacity: .8 !important;
 }
 
 .profile-pic-overlay-content {
@@ -248,4 +248,7 @@ body {
 }
 .comment-widgets span.round{
 	background: none
+}
+.profile-pic-overlay-content .operation-in-progress img {
+	width: 15px;
 }

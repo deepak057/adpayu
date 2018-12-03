@@ -50,8 +50,10 @@
         div
           hr
         .card-body
-          small.text-muted(v-show="isOwnProfile") Email address
-          h6(v-show="isOwnProfile") {{user.email}}
+          <template v-if="isOwnProfile">
+          small.text-muted Email address
+          h6 {{user.email}}
+          </template>
           small.text-muted.p-t-30.db Phone
           h6 +91 654 784 547
           small.text-muted.p-t-30.db Address

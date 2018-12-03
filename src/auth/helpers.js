@@ -85,6 +85,40 @@ export default {
     router.push({ name: 'login' })
   },
 
+  getUser () {
+    return store.state.auth.user
+  },
+
+  updateUserState (user) {
+    store.state.auth.user = user
+    store.dispatch('auth/update', store.state.auth)
+  },
+
+  updateCurrentUser (user) {
+    return Vue.http({
+      method: 'put',
+      url: constants.API_BASE_URL + '/users',
+      // headers: {
+      //  'Authorization': 'Basic ' + CLIENT_SECRET,
+      //  'Content-Type': 'application/x-www-form-urlencoded'
+      // },
+      data: this.URLSearchParams(user)
+    })
+      .then((response) => {
+        this.updateUserState(response.data.user)
+        return response.data
+      })
+      .catch((error) => {
+        /* let errorMessage = null */
+        return error.response.data
+        /* if (error.response) errorMessage = error.response.status
+        else if (error.request) errorMessage = 'no response from server'
+        else errorMessage = error.message
+
+        return errorMessage */
+      })
+  },
+
   fakeLogin (creds, redirect) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -99,9 +133,6 @@ export default {
   get (url, params = {}) {
     const config = {
       params: {
-        username: store.state.auth.user.id,
-        orgId: store.state.auth.user.orgId,
-        token: store.state.auth.accessToken
       }
     }
 
@@ -163,9 +194,7 @@ export default {
         })
       })
   },
-  delete (url, data = {}) {
-    const config = {}
-
+  delete (url, data = {}, config = {}) {
     return Vue.auth.delete(constants.API_BASE_URL + url, data, config)
       .then((response) => {
         if (response.data.errors) {
@@ -196,19 +225,16 @@ export default {
         })
       })
   },
-  put (url, data = {}) {
-    const config = {}
+  put (url, data = {}, config = {}) {
+    /* const config = {}
 
     const defaultData = {
       username: store.state.auth.user.id,
       orgId: store.state.auth.user.orgId
     }
+    data = Object.assign(defaultData, data) */
 
-    data = Object.assign(defaultData, data)
-
-    // console.log(settings.data)
-
-    return Vue.auth.put(url, data, config)
+    return Vue.auth.put(constants.API_BASE_URL + url, data, config)
       .then((response) => {
         if (response.data.errors) {
           return new Promise((resolve, reject) => {
