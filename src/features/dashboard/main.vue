@@ -8,7 +8,9 @@
       h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
         li.breadcrumb-item
-          a(href='javascript:void(0)') Home
+          <router-link to="/">
+            | Home
+          </router-link>
         li.breadcrumb-item.active {{pageTitle() | capitalize}}
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap
       label.m-r-5(for='show-feed-option')

@@ -39,14 +39,7 @@
             h4.card-title.m-t-10 {{userName(user)}}
             h6.card-subtitle A loyal AdpayU user
             .row.text-center.justify-content-md-center
-              .col-4
-                a.link(href='javascript:void(0)')
-                  i.icon-people
-                  font.font-medium 254
-              .col-4
-                a.link(href='javascript:void(0)')
-                  i.icon-picture
-                  font.font-medium 54
+            <friends v-if="!isOwnProfile" :friendId="parseInt(uid)"></friends>
         div
           hr
         .card-body
@@ -249,13 +242,15 @@ import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
+import Friends from './friends'
 
 export default {
   name: 'Profile',
   service: new Service(),
   components: {
     Preloader,
-    ProfilePicture
+    ProfilePicture,
+    Friends
   },
   mixins: [mixin],
   data () {
