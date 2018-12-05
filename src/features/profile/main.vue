@@ -39,7 +39,7 @@
             h4.card-title.m-t-10 {{userName(user)}}
             h6.card-subtitle A loyal AdpayU user
             .row.text-center.justify-content-md-center
-            <friends v-if="!isOwnProfile" :friendId="parseInt(uid)"></friends>
+            <friends v-if="!isOwnProfile" :currentUser="currentUser" :profileUser="user" :friendship="friendship"></friends>
         div
           hr
         .card-body
@@ -237,7 +237,7 @@
                     button.btn.btn-success Update Profile
 </template>
 <script>
-import store from '@/store'
+import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
@@ -258,7 +258,9 @@ export default {
       pagePreloader: false,
       uid: 0,
       user: {},
-      isOwnProfile: false
+      friendship: {},
+      isOwnProfile: false,
+      currentUser: auth.getUser()
     }
   },
   watch: {
@@ -277,20 +279,21 @@ export default {
         .then((data) => {
           this.pagePreloader = false
           this.user = data.user
+          this.friendship = data.friendship
         })
         .catch((profileErr) => {
           alert('Something went wrong while fetching the user profile')
         })
     },
     uidCheck () {
-      this.uid = this.$route.params.uid || store.state.auth.user.id
-      this.isOwnProfile = parseInt(this.uid) === store.state.auth.user.id
+      this.uid = this.$route.params.uid || this.currentUser.id
+      this.isOwnProfile = parseInt(this.uid) === this.currentUser.id
     },
     loadProfile () {
       this.uidCheck()
       if (this.isOwnProfile) {
         this.pagePreloader = false
-        this.user = store.state.auth.user
+        this.user = this.currentUser
       } else {
         this.fetchProfile()
       }
