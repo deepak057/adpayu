@@ -252,3 +252,6 @@ body {
 .profile-pic-overlay-content .operation-in-progress img {
 	width: 15px;
 }
+.comment-footer .action-icons a {
+	padding: 0px
+}

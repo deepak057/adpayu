@@ -23,7 +23,7 @@
         span.action-icons.visible
           //a(href='javascript:void(0)')
             //i.ti-pencil-alt
-          a(href='javascript:void(0)' @click='deleteComment(n)' title="Delete this comment")
+          a.m-r-10(href='javascript:void(0)' @click='deleteComment(n)' title="Delete this comment" v-if="isOwner(comment.User.id)")
             i.ti-trash
           <like :likes="comment.Likes" :commentId="comment.id"></like>
   .row.m-t-10
@@ -42,6 +42,7 @@ import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import Service from './service'
 import mixin from '../../../../globals/mixin.js'
 import Preloader from './../../../../components/preloader'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Comments',
@@ -70,7 +71,8 @@ export default {
       newCommentText: '',
       preloader: false,
       defaultCommentsCount: 3,
-      enableLoadPreviousComments: true
+      enableLoadPreviousComments: true,
+      currentUser: auth.getUser()
     }
   },
   methods: {
@@ -113,6 +115,9 @@ export default {
     },
     isQuestion () {
       return this.commentType === 'question' || false
+    },
+    isOwner (commentUserId) {
+      return this.currentUser.id === commentUserId
     }
   }
 }

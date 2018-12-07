@@ -213,11 +213,7 @@ export default {
       this.feed = this.prepareFeed(this.feed)
     },
     '$route.params.cat' (newCat) {
-      this.feed = []
-      this.noMoreFeed = false
-      this.currentPage = 1
-      this.setDocumentTitle(newCat)
-      this.getFeed()
+      this.categoryChanged(newCat)
     }
   },
   created () {
@@ -241,6 +237,13 @@ export default {
         .catch((feedError) => {
           alert('Something went wrong file fetching the feed under this tag.')
         })
+    },
+    categoryChanged (newCat) {
+      this.feed = []
+      this.noMoreFeed = false
+      this.currentPage = 1
+      this.setDocumentTitle(newCat)
+      this.getFeed()
     },
     afterFeedLoad (data) {
       this.feed = this.feed.concat(data.posts)
