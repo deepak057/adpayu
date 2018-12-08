@@ -37,10 +37,10 @@
     </template>
 </template>
 <script>
-import Service from './service'
+import auth from '@/auth/helpers'
+
 export default {
   name: 'Friends',
-  service: new Service(),
   props: {
     friendship: {
       type: Object,
@@ -78,7 +78,7 @@ export default {
       this.serverUpdate('remove')
     },
     serverUpdate (action) {
-      this.$options.service.friendshipUpdate(action, this.profileUser.id)
+      auth.friendshipUpdate(action, this.profileUser.id)
         .then((data) => {})
         .catch((friendErr) => {
           alert('Something went wrong, please try again later')

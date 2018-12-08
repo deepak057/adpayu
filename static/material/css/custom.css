@@ -255,3 +255,9 @@ body {
 .comment-footer .action-icons a {
 	padding: 0px
 }
+.notification-block img {
+	width: 45px
+}
+.notification-block {
+	cursor: auto;
+}

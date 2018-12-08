@@ -40,48 +40,4 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-
-  friendshipUpdate (action, friendId) {
-    switch (action) {
-      case 'request':
-        this.sendRequest(friendId)
-        break
-      case 'add':
-        this.acceptFriendship(friendId)
-        break
-      default:
-        this.removeFriendship(friendId)
-        break
-    }
-  }
-
-  sendRequest (friendId) {
-    return auth.post('/friends/request/' + friendId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
-  removeFriendship (friendId) {
-    return auth.delete('/friends/remove/' + friendId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
-  acceptFriendship (friendId) {
-    return auth.put('/friends/add/' + friendId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
 }

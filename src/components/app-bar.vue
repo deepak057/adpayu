@@ -147,57 +147,7 @@ header.topbar
           // ==============================================================
           // Comment
           // ==============================================================
-          li.nav-item.dropdown
-            a.nav-link.dropdown-toggle.text-muted.text-muted.waves-effect.waves-dark(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-              i.mdi.mdi-message
-              .notify
-                span.heartbit
-                span.point
-            .dropdown-menu.dropdown-menu-right.mailbox.scale-up
-              ul
-                li
-                  .drop-title Notifications
-                li
-                  .message-center
-                    // Message
-                    a(href='#')
-                      .btn.btn-danger.btn-circle
-                        i.fa.fa-link
-                      .mail-contnet
-                        h5 Luanch Admin
-                        span.mail-desc Just see the my new admin!
-                        span.time 9:30 AM
-                    // Message
-                    a(href='#')
-                      .btn.btn-success.btn-circle
-                        i.ti-calendar
-                      .mail-contnet
-                        h5 Event today
-                        span.mail-desc Just a reminder that you have event
-                        span.time 9:10 AM
-                    // Message
-                    a(href='#')
-                      .btn.btn-info.btn-circle
-                        i.ti-settings
-                      .mail-contnet
-                        h5 Settings
-                        span.mail-desc You can customize this template as you want
-                        span.time 9:08 AM
-                    // Message
-                    a(href='#')
-                      .btn.btn-primary.btn-circle
-                        i.ti-user
-                      .mail-contnet
-                        h5 Pavan kumar
-                        span.mail-desc Just see the my admin!
-                        span.time 9:02 AM
-                li
-                  a.nav-link.text-center(href='javascript:void(0);')
-                    strong Check all notifications
-                    i.fa.fa-angle-right
-          // ==============================================================
-          // End Comment
-          // ==============================================================
+          <notifications></notifications>
           // ==============================================================
           // Messages
           // ==============================================================
@@ -322,9 +272,13 @@ header.topbar
 <script>
 import auth from '@/auth/helpers'
 import mixin from '../globals/mixin.js'
+import Notifications from './notifications'
 
 export default {
   name: 'AppBar',
+  components: {
+    Notifications
+  },
   mixins: [mixin],
   data () {
     return {

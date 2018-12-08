@@ -94,6 +94,59 @@ export default {
     store.dispatch('auth/update', store.state.auth)
   },
 
+  friendshipUpdate (action, friendId) {
+    switch (action) {
+      case 'request':
+        this.sendRequest(friendId)
+        break
+      case 'add':
+        this.acceptFriendship(friendId)
+        break
+      default:
+        this.removeFriendship(friendId)
+        break
+    }
+  },
+
+  sendRequest (friendId) {
+    return Vue.http({
+      method: 'post',
+      url: constants.API_BASE_URL + '/friends/request/' + friendId
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
+  removeFriendship (friendId) {
+    return Vue.http({
+      method: 'delete',
+      url: constants.API_BASE_URL + '/friends/remove/' + friendId
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
+  acceptFriendship (friendId) {
+    return Vue.http({
+      method: 'put',
+      url: constants.API_BASE_URL + '/friends/add/' + friendId
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   updateCurrentUser (user) {
     return Vue.http({
       method: 'put',
