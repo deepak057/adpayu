@@ -1,11 +1,11 @@
 <template lang="pug">
-li.nav-item.dropdown
-  a.nav-link.dropdown-toggle.text-muted.text-muted.waves-effect.waves-dark(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+li.nav-item.dropdown(:class="{'show': showNotifications}")
+  a.nav-link.text-muted.text-muted.waves-effect.waves-dark(href='javascript:void(0)' @click="toggleNotificationsDropdown()")
     i.mdi.mdi-message
     .notify(v-show="unseen")
       span.heartbit
       span.point
-  .dropdown-menu.dropdown-menu-right.mailbox.scale-up
+  .dropdown-menu.dropdown-menu-right.mailbox.scale-up(:class="{'show': showNotifications}")
     ul
       li
         .drop-title Notifications
@@ -65,7 +65,8 @@ export default {
       loading: true,
       notifications: [],
       frienshipSettled: false,
-      unseen: 0
+      unseen: 0,
+      showNotifications: false
     }
   },
   watch: {
@@ -92,6 +93,15 @@ export default {
           case 'SENT_FRIEND_REQUEST':
             this.notifications[i].text = 'Sent you a friend request'
             break
+          case 'COMMENT_ON_POST':
+            this.notifications[i].text = 'commented on your post'
+            break
+          case 'LIKE_ON_POST':
+            this.notifications[i].text = 'loved your post'
+            break
+          case 'LIKE_ON_COMMENT':
+            this.notifications[i].text = 'loved your comment'
+            break
           default:
             this.notifications[i].text = 'Accepted your friend request'
             break
@@ -114,6 +124,10 @@ export default {
         .catch((friendErr) => {
           alert('Something went wrong, please try again later')
         })
+    },
+    toggleNotificationsDropdown () {
+      this.unseen = 0
+      this.showNotifications = !this.showNotifications
     }
   }
 }
