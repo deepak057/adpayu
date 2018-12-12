@@ -7,7 +7,7 @@
           img(:src='getMedia(image.path)')
 </template>
 <script>
-import mixin from '../../../../globals/mixin.js'
+import mixin from '../../globals/mixin.js'
 export default {
   name: 'ImageGrid',
   mixins: [mixin],

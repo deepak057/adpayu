@@ -58,6 +58,18 @@ const routes = [
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
+  },
+  {
+    name: 'p',
+    path: '/p',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/main.vue'),
+    children: [{
+      path: ':id'
+    }],
+    title: 'Post',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

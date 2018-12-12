@@ -54,7 +54,7 @@
     hr
 </template>
 <script>
-import mixin from '../../../../globals/mixin.js'
+import mixin from '../../globals/mixin.js'
 import myVideo from 'vue-video'
 import Comments from './comments'
 import ImageGrid from './image-grid'

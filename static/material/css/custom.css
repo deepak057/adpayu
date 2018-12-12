@@ -85,6 +85,9 @@
 .none{
 	display: none;
 }
+.single-post-popup .profiletimeline hr {
+	display: none;
+}
 .profiletimeline .ribbon-wrapper{
 	padding-bottom: 0px;
 }
@@ -107,7 +110,7 @@ body {
 	padding-right: 0 !important 
 }
 
-.modal {
+.modal-absolute {
    position: absolute !important;
    overflow: auto;
    overflow-y: auto;
@@ -260,4 +263,7 @@ body {
 }
 .notification-block {
 	cursor: auto;
+}
+.min-h-400 {
+	min-height: 400px;
 }

@@ -40,8 +40,8 @@
 import Like from './like'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import Service from './service'
-import mixin from '../../../../globals/mixin.js'
-import Preloader from './../../../../components/preloader'
+import mixin from '../../globals/mixin.js'
+import Preloader from '../preloader'
 import auth from '@/auth/helpers'
 
 export default {

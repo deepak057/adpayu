@@ -121,6 +121,10 @@ $(function () {
     // ============================================================== 
     $(function () {
 
+             $('.modal-append-to-body').on('show.bs.modal', function() {
+                $(this).appendTo("body");
+             });
+
             $(document).on("mouseover", ".image-popup-vertical-fit", function(){
 
                 $('.image-popup-vertical-fit').magnificPopup({

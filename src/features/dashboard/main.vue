@@ -133,7 +133,7 @@
 import mixin from '../../globals/mixin.js'
 import Preloader from './../../components/preloader'
 import StatusUpdate from './components/status-update/main'
-import Feed from './components/feed/feed'
+import Feed from './../../components/feed/feed'
 import Service from './service'
 
 export default {
@@ -257,11 +257,11 @@ export default {
       }
     },
     prepareFeed (posts) {
-      for (let i in posts) {
+      /* for (let i in posts) {
         // add new proprties
         this.$set(posts[i], 'show', true)
         this.$set(posts[i], 'showComments', false)
-      }
+      } */
       return posts
     },
     showHideFeed () {

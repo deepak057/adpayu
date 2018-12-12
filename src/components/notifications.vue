@@ -21,7 +21,10 @@ li.nav-item.dropdown(:class="{'show': showNotifications}")
                 <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
                   | {{userName(noti.sender)}}
                 </router-link>
-              span.mail-desc {{noti.text}}
+              span.mail-desc
+                | {{noti.text}}
+                span.m-l-5.pointer(v-show="getPostId(noti)" @click="triggerPostPopup(noti)")
+                  | <u>{{getPostType(noti)}}</u>
               span.time.text-muted
                 <timeago :datetime="noti['createdAt']" :auto-update="60" :title="noti['createdAt'] | date"></timeago>
               <template v-if="isFriendRequest(noti)">
@@ -43,12 +46,14 @@ li.nav-item.dropdown(:class="{'show': showNotifications}")
         a.nav-link.text-center(href='javascript:void(0);')
           strong Check all notifications
           i.fa.fa-angle-right
+  <post-popup ref="postPopup"></post-popup>
 // ==============================================================
 // End Comment
 // ==============================================================
 </template>
 <script>
 import Preloader from './preloader'
+import PostPopup from './post-popup'
 import Service from './service'
 import mixin from '../globals/mixin.js'
 import auth from '@/auth/helpers'
@@ -57,7 +62,8 @@ export default {
   name: 'Notifications',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    PostPopup
   },
   mixins: [mixin],
   data () {
@@ -94,13 +100,13 @@ export default {
             this.notifications[i].text = 'Sent you a friend request'
             break
           case 'COMMENT_ON_POST':
-            this.notifications[i].text = 'commented on your post'
+            this.notifications[i].text = this.getPostType(this.notifications[i]) === 'question' ? 'wrote answer to your' : 'commented on your'
             break
           case 'LIKE_ON_POST':
-            this.notifications[i].text = 'loved your post'
+            this.notifications[i].text = 'loved your'
             break
           case 'LIKE_ON_COMMENT':
-            this.notifications[i].text = 'loved your comment'
+            this.notifications[i].text = 'loved your ' + (this.getPostType(this.notifications[i]) === 'question' ? 'answer' : 'comment') + ' on'
             break
           default:
             this.notifications[i].text = 'Accepted your friend request'
@@ -128,6 +134,37 @@ export default {
     toggleNotificationsDropdown () {
       this.unseen = 0
       this.showNotifications = !this.showNotifications
+    },
+    triggerPostPopup (noti) {
+      this.showNotifications = false
+      this.$refs.postPopup.triggerPostpopup(this.getPostId(noti))
+    },
+    getNotiMeta (noti) {
+      if (!noti.meta) {
+        return false
+      }
+      let meta
+      try {
+        meta = JSON.parse(noti.meta)
+      } catch (e) {
+        return false
+      }
+      return meta
+    },
+    getPostType (noti) {
+      let meta = this.getNotiMeta(noti)
+      if ('postType' in meta) {
+        return meta.postType === 'text' ? 'status' : meta.postType
+      }
+      return false
+    },
+    getPostId (noti) {
+      let meta = this.getNotiMeta(noti)
+      if (meta && 'postId' in meta) {
+        return meta.postId
+      } else {
+        return false
+      }
     }
   }
 }
