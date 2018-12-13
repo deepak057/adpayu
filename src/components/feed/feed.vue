@@ -26,11 +26,15 @@
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
-            | {{f['Question'].question}}
+            <router-link :to="getPostLink(f.id)" class="font-dark">
+              | {{f['Question'].question}}
+            </router-link>
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
-            | {{f['Video'].title}}
+            <router-link :to="getPostLink(f.id)" class="font-dark">
+              | {{f['Video'].title}}
+            </router-link>
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="f['Video']")
           .col-lg-6.col-md-6.video-container

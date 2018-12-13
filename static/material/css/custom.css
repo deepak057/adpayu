@@ -267,3 +267,9 @@ body {
 .min-h-400 {
 	min-height: 400px;
 }
+.font-dark{
+	color: #455a64
+}
+.notifications-page-main-wrap .message-center {
+	height: auto !important
+}

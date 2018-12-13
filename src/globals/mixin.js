@@ -33,6 +33,9 @@ export default {
     validImageFile (file) {
       let validImageTypes = ['image/gif', 'image/jpeg', 'image/png']
       return validImageTypes.indexOf(file['type']) !== -1
+    },
+    getPostLink (postId) {
+      return '/p/' + postId
     }
   }
 }

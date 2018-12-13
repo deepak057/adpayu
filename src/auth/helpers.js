@@ -89,6 +89,19 @@ export default {
     return store.state.auth.user
   },
 
+  getNotifications (page = 1) {
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/notifications' + '?page=' + page
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   updateUserState (user) {
     store.state.auth.user = user
     store.dispatch('auth/update', store.state.auth)

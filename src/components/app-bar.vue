@@ -147,7 +147,7 @@ header.topbar
           // ==============================================================
           // Comment
           // ==============================================================
-          <notifications></notifications>
+          <notification-dropdown></notification-dropdown>
           // ==============================================================
           // Messages
           // ==============================================================
@@ -272,12 +272,12 @@ header.topbar
 <script>
 import auth from '@/auth/helpers'
 import mixin from '../globals/mixin.js'
-import Notifications from './notifications'
+import NotificationDropdown from './notifications/main'
 
 export default {
   name: 'AppBar',
   components: {
-    Notifications
+    NotificationDropdown
   },
   mixins: [mixin],
   data () {

@@ -120,10 +120,10 @@ $(function () {
     //Popover
     // ============================================================== 
     $(function () {
-
-             $('.modal-append-to-body').on('show.bs.modal', function() {
+             
+             $(document).on('show.bs.modal', '.modal-append-to-body', function(){
                 $(this).appendTo("body");
-             });
+             })
 
             $(document).on("mouseover", ".image-popup-vertical-fit", function(){
 

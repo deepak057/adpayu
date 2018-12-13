@@ -70,6 +70,15 @@ const routes = [
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
+  },
+  {
+    name: 'notifications',
+    path: '/notifications',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/notifications/main.vue'),
+    title: 'Notifications',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

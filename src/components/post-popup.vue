@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .modal.fade.bs-example-modal-lg.show.modal-append-to-body.single-post-popup(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+  .modal.fade.bs-example-modal-lg.show.modal-append-to-body.single-post-popup(:id="getModalId()" tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
     .modal-dialog.modal-lg
       .modal-content
         .modal-header
@@ -14,7 +14,7 @@ div
           button.btn.btn-danger.waves-effect.text-left(type='button', data-dismiss='modal') Close
       // /.modal-content
       // /.modal-dialog
-  span(id= "triggerPostpopup" data-toggle='modal', data-target='.bs-example-modal-lg')
+  span(:id= "getButtonId()" data-toggle='modal', :data-target='getdataTarget()')
 </template>
 <script>
 import Service from './service'
@@ -31,13 +31,14 @@ export default {
   data () {
     return {
       loader: true,
-      feed: []
+      feed: [],
+      id: (new Date()).getTime()
     }
   },
   methods: {
     triggerPostpopup (postId) {
       this.loader = true
-      document.getElementById('triggerPostpopup').click()
+      document.getElementById(this.getButtonId()).click()
       this.$options.service.getPost(postId)
         .then((data) => {
           this.loader = false
@@ -48,6 +49,15 @@ export default {
           this.pageLoading = false
           alert('Something went wrong while getting the data, please try again later.')
         })
+    },
+    getModalId () {
+      return 'modal-' + this.id
+    },
+    getButtonId () {
+      return 'button-' + this.id
+    },
+    getdataTarget () {
+      return '#' + this.getModalId()
     }
   }
 }
