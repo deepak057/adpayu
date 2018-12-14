@@ -36,11 +36,11 @@
       .card
         .card-body.mailbox.notifications-page-main-wrap
           <notifications :notificationData = "notificationData"></notifications>
-          div.load-more-posts.text-center(v-infinite-scroll="loadMoreNotifications" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
-            <preloader v-show="false"></preloader>
-            span(v-show="false")
+          div.m-t-20.load-more-posts.text-center(v-infinite-scroll="loadMoreNotifications" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+            <preloader v-show="loadMoreLoader"></preloader>
+            span(v-show="noMoreNotifications")
               i.mdi.mdi-emoticon-sad.m-r-5
-              | No more feed
+              | No more Notifications
 </template>
 <script>
 import Notifications from './../../components/notifications/notifications'
@@ -58,23 +58,36 @@ export default {
       pagePreloader: true,
       notificationData: [],
       disableLoadMore: true,
-      page: 1
+      loadMoreLoader: false,
+      page: 1,
+      noMoreNotifications: false
     }
   },
   mounted () {
-    this.disableLoadMore = true
-    auth.getNotifications()
-      .then((data) => {
-        this.pagePreloader = false
-        this.notificationData = this.notificationData.concat(data.notifications)
-        this.disableLoadMore = false
-      })
-      .catch((nErr) => {
-        alert('Something went wrong while fetching your notifications')
-      })
+    this.fetchNotifications()
   },
   methods: {
+    fetchNotifications () {
+      this.disableLoadMore = true
+      auth.getNotifications(this.page, true)
+        .then((data) => {
+          this.pagePreloader = false
+          this.loadMoreLoader = false
+          if (data.notifications.length) {
+            this.notificationData = this.notificationData.concat(data.notifications)
+            this.disableLoadMore = false
+            this.page++
+          } else {
+            this.noMoreNotifications = true
+          }
+        })
+        .catch((nErr) => {
+          alert('Something went wrong while fetching your notifications')
+        })
+    },
     loadMoreNotifications () {
+      this.loadMoreLoader = true
+      this.fetchNotifications()
     }
   }
 }

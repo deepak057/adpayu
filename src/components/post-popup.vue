@@ -5,11 +5,11 @@ div
       .modal-content
         .modal-header
           h4#myLargeModalLabel.modal-title Post
-          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          button.close(:id="closeButtonId()" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           p.text-center.m-t-20(v-show="loader")
             <preloader></preloader>
-          <feed :feed="feed" v-show="!loader"></feed>
+          <feed :feed="feed" v-show="!loader" @closeModal="hideModal"></feed>
         .modal-footer
           button.btn.btn-danger.waves-effect.text-left(type='button', data-dismiss='modal') Close
       // /.modal-content
@@ -17,13 +17,12 @@ div
   span(:id= "getButtonId()" data-toggle='modal', :data-target='getdataTarget()')
 </template>
 <script>
-import Service from './service'
 import Preloader from './preloader'
 import Feed from './feed/feed'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'PostPopup',
-  service: new Service(),
   components: {
     Preloader,
     Feed
@@ -39,7 +38,7 @@ export default {
     triggerPostpopup (postId) {
       this.loader = true
       document.getElementById(this.getButtonId()).click()
-      this.$options.service.getPost(postId)
+      auth.getPost(postId)
         .then((data) => {
           this.loader = false
           // data.showComments = true
@@ -58,6 +57,12 @@ export default {
     },
     getdataTarget () {
       return '#' + this.getModalId()
+    },
+    closeButtonId () {
+      return 'close-modal-' + this.id
+    },
+    hideModal () {
+      document.getElementById(this.closeButtonId()).click()
     }
   }
 }

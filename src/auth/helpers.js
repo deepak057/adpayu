@@ -89,10 +89,27 @@ export default {
     return store.state.auth.user
   },
 
-  getNotifications (page = 1) {
+  getNotifications (page = 1, autoMarkSeen = false) {
     return Vue.http({
       method: 'get',
-      url: constants.API_BASE_URL + '/notifications' + '?page=' + page
+      url: constants.API_BASE_URL + '/notifications',
+      params: {
+        page: page,
+        autoMarkSeen: autoMarkSeen
+      }
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
+  getPost (postId) {
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/post/' + postId
     })
       .then((response) => {
         return new Promise((resolve) => { resolve(response.data) })

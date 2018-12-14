@@ -36,6 +36,9 @@ export default {
     },
     getPostLink (postId) {
       return '/p/' + postId
+    },
+    leavePage () {
+      this.$emit('closeModal')
     }
   }
 }

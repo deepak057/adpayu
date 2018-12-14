@@ -6,8 +6,8 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  getPost (postId) {
-    return auth.get('/post/' + postId)
+  markSeen (notiIds) {
+    return auth.put('/notifications/markSeen', {notiIds: notiIds})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

@@ -1,6 +1,6 @@
 <template lang="pug">
 .message-center
-  a.notification-block(href='javascript:void(0)' v-for="(noti, i) in notificationData")
+  a.notification-block(href='javascript:void(0)' v-for="(noti, i) in notificationData" :class="{'grey-back': !noti.seen}")
     <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
       img.img-circle(:src="getMedia(noti.sender.pic)")
     </router-link>

@@ -12,12 +12,12 @@
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
-      <router-link :to="userProfileLink(f.User.id)">
+      <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
         img.img-circle(:src='getMedia(f.User.pic)', alt='user')
       </router-link>
     .sl-right
       div
-        <router-link :to="userProfileLink(f.User.id)">
+        <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
           | {{userName(f.User)}}
         </router-link>
         |  {{getPostDescriptionText(f)}}
@@ -26,13 +26,13 @@
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
-            <router-link :to="getPostLink(f.id)" class="font-dark">
+            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark">
               | {{f['Question'].question}}
             </router-link>
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
-            <router-link :to="getPostLink(f.id)" class="font-dark">
+            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark">
               | {{f['Video'].title}}
             </router-link>
           p.text-muted {{f['Video'].description}}
@@ -54,7 +54,7 @@
         .like-comm
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
-    <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']"></comments>
+    <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
     hr
 </template>
 <script>

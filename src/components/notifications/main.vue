@@ -1,8 +1,8 @@
 <template lang="pug">
-li.nav-item.dropdown(:class="{'show': showNotifications}")
+li.nav-item.dropdown(:class="{'show': showNotifications}" v-on-clickaway="hideMenu")
   a.nav-link.text-muted.text-muted.waves-effect.waves-dark(href='javascript:void(0)' @click="toggleNotificationsDropdown()")
     i.mdi.mdi-message
-    .notify(v-show="unseen")
+    .notify(v-show="unseenIds.length")
       span.heartbit
       span.point
   .dropdown-menu.dropdown-menu-right.mailbox.scale-up(:class="{'show': showNotifications}")
@@ -28,25 +28,33 @@ li.nav-item.dropdown(:class="{'show': showNotifications}")
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
 import Notifications from './notifications'
+import Service from './service'
+import { directive as onClickaway } from 'vue-clickaway'
 
 export default {
   name: 'NotificationDropdown',
+  service: new Service(),
   components: {
     Preloader,
     Notifications
+  },
+  directives: {
+    onClickaway: onClickaway
   },
   data () {
     return {
       loading: true,
       notificationData: [],
-      unseen: 0,
+      unseenIds: [],
       showNotifications: false
     }
   },
   watch: {
     notificationData () {
       for (let i in this.notificationData) {
-        this.unseen = !this.notificationData[i].seen ? (this.unseen + 1) : this.unseen
+        if (!this.notificationData[i].seen) {
+          this.unseenIds.push(this.notificationData[i].id)
+        }
       }
     }
   },
@@ -60,13 +68,34 @@ export default {
         alert('Something went wrong while getting your notifications')
       })
   },
+  events: {
+    clickedOutside (e) {
+      this.hideMenu()
+    }
+  },
   methods: {
     toggleNotificationsDropdown () {
-      this.unseen = 0
       this.showNotifications = !this.showNotifications
+      this.markSeen()
+    },
+    markSeen () {
+      if (this.unseenIds.length) {
+        this.$options.service.markSeen(this.unseenIds)
+          .then((data) => {
+            this.unseenIds = []
+          })
+          .catch((nErr) => {
+            alert('Something went wrong while marking your notifications as seen')
+          })
+      }
     },
     hideMenu () {
       this.showNotifications = false
+    },
+    checkMenu () {
+      if (this.showNotifications) {
+        this.hideMenu()
+      }
     }
   }
 }

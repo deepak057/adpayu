@@ -31,13 +31,12 @@
           <feed :feed="feed" v-show="!pageLoading"></feed>
 </template>
 <script>
-import Service from './service'
+import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 
 export default {
   name: 'Pages',
-  service: new Service(),
   components: {
     Preloader,
     Feed
@@ -50,7 +49,7 @@ export default {
     }
   },
   mounted () {
-    this.$options.service.getPost(this.id)
+    auth.getPost(this.id)
       .then((data) => {
         this.pageLoading = false
         data.showComments = true
