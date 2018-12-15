@@ -276,10 +276,6 @@ export default {
     getTitle () {
       return this.$route.params.cat
     },
-    setDocumentTitle (title_) {
-      var t_ = title_ || this.getTitle()
-      document.title = t_.charAt(0).toUpperCase() + t_.slice(1)
-    },
     pageTitle () {
       var t = this.getTitle()
       return !t || t === 'all' ? 'Dashboard' : t

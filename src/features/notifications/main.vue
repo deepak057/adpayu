@@ -34,11 +34,11 @@
     // Column
     .col-12.p-l-0.p-r-0
       .card
-        .card-body.mailbox.notifications-page-main-wrap
+        .card-body.mailbox.notifications-page-main-wrap.min-h-400
           <notifications :notificationData = "notificationData"></notifications>
           div.m-t-20.load-more-posts.text-center(v-infinite-scroll="loadMoreNotifications" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
             <preloader v-show="loadMoreLoader"></preloader>
-            span(v-show="noMoreNotifications")
+            span(v-show="noMoreNotifications && notificationData.length")
               i.mdi.mdi-emoticon-sad.m-r-5
               | No more Notifications
 </template>

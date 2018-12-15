@@ -280,6 +280,7 @@ export default {
           this.pagePreloader = false
           this.user = data.user
           this.friendship = data.friendship
+          this.setDocumentTitle(this.userName(this.user))
         })
         .catch((profileErr) => {
           alert('Something went wrong while fetching the user profile')
@@ -294,6 +295,7 @@ export default {
       if (this.isOwnProfile) {
         this.pagePreloader = false
         this.user = this.currentUser
+        this.setDocumentTitle('My Profile')
       } else {
         this.fetchProfile()
       }

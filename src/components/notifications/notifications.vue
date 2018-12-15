@@ -122,7 +122,7 @@ export default {
         return false
       }
       if ('postType' in meta) {
-        return meta.postType === 'text' ? 'status' : meta.postType
+        return this.getPostTypeLabel(meta.postType)
       }
       return false
     },
