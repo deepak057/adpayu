@@ -15,7 +15,11 @@ div
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
           <image-upload v-if="options.type!='video'" :images="images" @imagesUpdated="getImages"></image-upload>
           <video-file-upload v-if="options.type=='video'" :path="videoPath" @videoUploaded="setVideoPath"></video-file-upload>
-          <ad @adOptionsUpdated="getAdData" :adOptions= "adOptions"></ad>
+          div(v-show="!enableMoreOptions")
+            a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
+              | More Options
+              i.fa.fa-angle-right.m-l-5
+          <ad v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated" :public="public"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
@@ -65,12 +69,15 @@ export default {
       video: {},
       videoPath: '',
       resetImages: false,
-      preloader: false
+      preloader: false,
+      enableMoreOptions: false,
+      public: false
     }
   },
   watch: {
     options: {
       handler (val) {
+        this.public = val.type === 'question' || val.type === 'video' | false
         if (val.showPopup) {
           this.resetData()
           document.getElementById('trigger-post-modal').click()
@@ -100,6 +107,7 @@ export default {
         question: this.question,
         video: this.video,
         show: true,
+        public: this.public,
         love: {
           total: 0,
           loved: false
@@ -129,6 +137,8 @@ export default {
       this.images = []
       this.video = {}
       this.videoPath = ''
+      this.enableMoreOptions = false
+      this.public = false
     },
     getAdData (adOptions) {
       this.adOptions = adOptions
@@ -147,6 +157,12 @@ export default {
     },
     getVideo (videoObj) {
       this.video = videoObj
+    },
+    showMoreOptions () {
+      this.enableMoreOptions = !this.enableMoreOptions
+    },
+    PrivacyUpdated (newV) {
+      this.public = newV
     }
   }
 }

@@ -1,5 +1,6 @@
 <template lang="pug">
 div
+  <post-privacy @PrivacyUpdated="privacyUpdated" :public = "public"></post-privacy>
   span
     | Is this an Ad?
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
@@ -27,8 +28,13 @@ div
 </template>
 
 <script>
+import PostPrivacy from './post-privacy'
+
 export default {
   name: 'Ad',
+  components: {
+    PostPrivacy
+  },
   props: {
     adOptions: {
       type: Object,
@@ -39,6 +45,12 @@ export default {
           cpc: ''
         }
       }
+    },
+    public: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   watch: {
@@ -47,6 +59,11 @@ export default {
         this.$emit('adOptionsUpdated', after)
       },
       deep: true
+    }
+  },
+  methods: {
+    privacyUpdated (newV) {
+      this.$emit('PrivacyUpdated', newV)
     }
   }
 }
