@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  <post-privacy @PrivacyUpdated="privacyUpdated" :public = "public"></post-privacy>
+  <post-privacy v-if = "showPrivacyOption" @PrivacyUpdated="privacyUpdated" :postPublic = "postPublic" ref="postPrivacy"></post-privacy>
   span
     | Is this an Ad?
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
@@ -45,12 +45,12 @@ export default {
           cpc: ''
         }
       }
-    },
-    public: {
-      type: Boolean,
-      default () {
-        return false
-      }
+    }
+  },
+  data () {
+    return {
+      showPrivacyOption: false,
+      postPublic: false
     }
   },
   watch: {
@@ -64,6 +64,13 @@ export default {
   methods: {
     privacyUpdated (newV) {
       this.$emit('PrivacyUpdated', newV)
+    },
+    setDefaultPrivacy (privacy) {
+      this.postPublic = Boolean(privacy)
+      this.showPrivacyOption = true
+    },
+    reset () {
+      this.showPrivacyOption = false
     }
   }
 }

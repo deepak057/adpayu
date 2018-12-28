@@ -19,7 +19,7 @@ div
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
               | More Options
               i.fa.fa-angle-right.m-l-5
-          <ad v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated" :public="public"></ad>
+          <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
@@ -77,14 +77,16 @@ export default {
   watch: {
     options: {
       handler (val) {
-        this.public = val.type === 'question' || val.type === 'video' | false
         if (val.showPopup) {
           this.resetData()
+          this.public = this.getDefaultPrivacy()
           document.getElementById('trigger-post-modal').click()
         }
       },
       deep: true
     }
+  },
+  mounted () {
   },
   methods: {
     validatePost (feed) {
@@ -139,6 +141,7 @@ export default {
       this.videoPath = ''
       this.enableMoreOptions = false
       this.public = false
+      this.$refs.ad.reset()
     },
     getAdData (adOptions) {
       this.adOptions = adOptions
@@ -160,9 +163,18 @@ export default {
     },
     showMoreOptions () {
       this.enableMoreOptions = !this.enableMoreOptions
+      if (this.enableMoreOptions) {
+        // set Post Privacy to public if the post being created
+        // is a video or questions
+        this.$refs.ad.setDefaultPrivacy(this.getDefaultPrivacy())
+      }
     },
     PrivacyUpdated (newV) {
       this.public = newV
+    },
+    getDefaultPrivacy (options) {
+      // let opt = options | this.options
+      return Boolean(this.options.type === 'question' || this.options.type === 'video' | false)
     }
   }
 }

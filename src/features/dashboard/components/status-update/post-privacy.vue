@@ -1,13 +1,13 @@
 <template lang="pug">
 span.m-r-20
   | Is this public?
-  <toggle-button :value="true" v-model="public" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+  <toggle-button v-model="privacy" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
 </template>
 <script>
 export default {
   name: 'PostPrivacy',
   props: {
-    public: {
+    postPublic: {
       type: Boolean,
       default () {
         return false
@@ -16,11 +16,17 @@ export default {
   },
   data () {
     return {
+      privacy: this.postPublic
     }
   },
   watch: {
-    public (newV) {
+    privacy (newV) {
       this.$emit('PrivacyUpdated', newV)
+    }
+  },
+  methods: {
+    setDefaultPrivacy (privacy) {
+      this.postPublic = Boolean(privacy)
     }
   }
 }
