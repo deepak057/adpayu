@@ -36,15 +36,16 @@ aside.left-sidebar(style='overflow: visible;')
       nav.sidebar-nav(v-show="!preloader")
         ul#sidebarnav
           <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)">
-            a.waves-effect.waves-dark(aria-expanded='false')
+            a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
               i.mdi(:class="item.icon")
               span.hide-menu {{item.name | capitalize}}
           </router-link>
           li.add-topics-wrap
-            a.waves-effect.waves-dark(href="#" title="Browse and add more topics in your feed")
+            <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
               i.mdi.mdi-plus
               span.hide-menu
                 |  Add Topics
+            </router-link>
       // End Sidebar navigation
     // End Sidebar scroll
     // Bottom points

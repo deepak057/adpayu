@@ -283,12 +283,14 @@ body {
 	padding: 0px !important;
 	margin-right: 22px;
 }
-.active.add-topics-wrap a, .mini-sidebar .add-topics-wrap a {
+.add-topics-wrap.active a, .mini-sidebar .add-topics-wrap a {
 	text-align: left !important;
-	color: #fff;
 	padding: 8px 35px 8px 15px !important;
 	margin-right: 0px !important;
 	font-size: 15px !important;
+}
+.mini-sidebar .add-topics-wrap a:hover {
+	color: #fff !important
 }
 .active.add-topics-wrap a i, .mini-sidebar .add-topics-wrap a i {
 	font-size: 19px !important
@@ -299,4 +301,13 @@ body {
 	vertical-align: bottom !important;
 	font-size: 16px !important;
 	display: inline !important
+}
+.add-topics-wrap a.active, .no-ative-anchor.active:hover, .no-ative-anchor.active:hover i {
+	color: #26c6da !important
+}
+.no-ative-anchor.active, .no-ative-anchor.active i {
+	color: #607d8b !important;
+}
+.mini-sidebar .no-ative-anchor.active:hover, .mini-sidebar .no-ative-anchor.active:hover i, li.active .no-ative-anchor.active, li.active .no-ative-anchor.active i {
+	color: #fff !important;
 }

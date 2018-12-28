@@ -40,6 +40,15 @@ const routes = [
     props: true
   },
   {
+    name: 'tags',
+    path: '/tags',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/tags/main.vue'),
+    title: 'Tags',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
+  },
+  {
     name: 'dashboard',
     path: '/dashboard',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
