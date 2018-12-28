@@ -40,6 +40,11 @@ aside.left-sidebar(style='overflow: visible;')
               i.mdi(:class="item.icon")
               span.hide-menu {{item.name | capitalize}}
           </router-link>
+          li.add-topics-wrap
+            a.waves-effect.waves-dark(href="#" title="Browse and add more topics in your feed")
+              i.mdi.mdi-plus
+              span.hide-menu
+                |  Add Topics
       // End Sidebar navigation
     // End Sidebar scroll
     // Bottom points

@@ -276,3 +276,27 @@ body {
 .grey-back{
 	background: #f2f4f8
 }
+.add-topics-wrap a {
+	font-size: 13px !important;
+	text-align: center;
+	color: #99abb4;
+	padding: 0px !important;
+	margin-right: 22px;
+}
+.active.add-topics-wrap a, .mini-sidebar .add-topics-wrap a {
+	text-align: left !important;
+	color: #fff;
+	padding: 8px 35px 8px 15px !important;
+	margin-right: 0px !important;
+	font-size: 15px !important;
+}
+.active.add-topics-wrap a i, .mini-sidebar .add-topics-wrap a i {
+	font-size: 19px !important
+}
+.add-topics-wrap i{
+	height: auto !important;
+	width: auto !important;
+	vertical-align: bottom !important;
+	font-size: 16px !important;
+	display: inline !important
+}
