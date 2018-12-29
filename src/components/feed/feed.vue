@@ -49,8 +49,9 @@
           span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         p.feed-tags(v-if="f['Tags']")
-          a.m-r-5.label-default(v-for="tag in f['Tags']" href="#" :title="getTagTooltip(tag.name)")
+          <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
+          </router-link>
         .like-comm
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>

@@ -23,65 +23,72 @@
   // ==============================================================
   // Row
   .row
-    .col-12
+    .col-12.p-0
       .card
         .card-body.min-h-400
           div.m-t-20.text-center(v-show="pageLoader")
             <preloader></preloader>
           .row(v-show="!pageLoader")
             // Column
-            .col-lg-3.col-md-6(v-for="tag in tags")
-              .card
-                .card-body
-                  .row
-                    .col-4
-                      <router-link :to="getTagLink(tag.name)" tag="div" :class="['pointer round round-lg align-self-center', getRandomClass()]" @click.native="scrollToTop()">
-                          i.mdi(:class="tag.icon")
-                      </router-link>
-                    .col-8.p-0
-                      .m-l-10.align-self-center
-                        h4.m-b-0.font-light
-                          <router-link @click.native="scrollToTop()" :to="getTagLink(tag.name)" class="c-inherit">
-                            | {{tag.name}}
-                          </router-link>
-                        h5.m-t-5.text-muted.m-b-0 Follow
+            <tag v-for = "(tag, i) in tags" :tag= tag></tag>
             // Column
+          div.m-t-20.text-center(v-infinite-scroll="loadMoreTags" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+            <preloader v-show="loadMoreLoader"></preloader>
+            span(v-show="noMoreTags")
+              i.mdi.mdi-emoticon-sad.m-r-5
+              | No more tags
 </template>
 <script>
 // import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
-import mixin from '../../globals/mixin.js'
+import Tag from './tag'
 import Service from './service'
+import mixin from '../../globals/mixin.js'
 
 export default {
   name: 'Tags',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    Tag
   },
   mixins: [mixin],
   data () {
     return {
       pageLoader: true,
-      tags: []
+      tags: [],
+      loadMoreLoader: false,
+      disableLoadMore: true,
+      page: 1,
+      noMoreTags: false
     }
   },
   mounted () {
     this.scrollToTop()
-    this.$options.service.getTags()
-      .then((data) => {
-        this.pageLoader = false
-        this.tags = data.tags
-      })
-      .catch((tagsErr) => {
-        alert('Something went wrong file getting tags')
-      })
+    this.fetchTags()
   },
   methods: {
-    getRandomClass () {
-      let arr = ['info', 'primary', 'success', 'danger', 'warning']
-      return 'round-' + arr[Math.floor(Math.random() * arr.length)]
-      // return 'round-info'
+    loadMoreTags () {
+      this.loadMoreLoader = true
+      this.disableLoadMore = true
+      this.fetchTags()
+    },
+    fetchTags () {
+      this.$options.service.getTags(this.page)
+        .then((data) => {
+          this.pageLoader = false
+          this.loadMoreLoader = false
+          if (data.tags.length) {
+            this.tags = this.tags.concat(data.tags)
+            this.page++
+            this.disableLoadMore = false
+          } else {
+            this.noMoreTags = true
+          }
+        })
+        .catch((tagsErr) => {
+          alert('Something went wrong file getting tags')
+        })
     }
   }
 }

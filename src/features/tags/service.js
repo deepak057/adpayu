@@ -6,8 +6,8 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  getTags (uid) {
-    return auth.get('/browseTags')
+  getTags (page) {
+    return auth.get('/browseTags', {page: page})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
