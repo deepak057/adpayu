@@ -119,9 +119,6 @@ export default {
   methods: {
     logout () {
       auth.logout()
-    },
-    getTagLink (tag) {
-      return '/tag/' + tag
     }
   }
 }

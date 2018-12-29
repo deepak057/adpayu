@@ -270,6 +270,7 @@ export default {
     }
   },
   mounted () {
+    this.scrollToTop()
     this.loadProfile()
   },
   methods: {

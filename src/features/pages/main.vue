@@ -52,6 +52,7 @@ export default {
     }
   },
   mounted () {
+    this.scrollToTop()
     auth.getPost(this.id)
       .then((data) => {
         this.pageLoading = false

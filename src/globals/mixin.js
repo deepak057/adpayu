@@ -46,6 +46,12 @@ export default {
     setDocumentTitle (title_) {
       var t_ = title_ || this.getTitle()
       document.title = t_.charAt(0).toUpperCase() + t_.slice(1)
+    },
+    getTagLink (tag) {
+      return '/tag/' + tag
+    },
+    scrollToTop () {
+      window.scrollTo(0, 0)
     }
   }
 }

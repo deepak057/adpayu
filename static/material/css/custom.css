@@ -311,3 +311,6 @@ body {
 .mini-sidebar .no-ative-anchor.active:hover, .mini-sidebar .no-ative-anchor.active:hover i, li.active .no-ative-anchor.active, li.active .no-ative-anchor.active i {
 	color: #fff !important;
 }
+.c-inherit {
+	color: inherit;
+}

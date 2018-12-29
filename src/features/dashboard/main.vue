@@ -213,6 +213,7 @@ export default {
       this.feed = this.prepareFeed(this.feed)
     },
     '$route.params.cat' (newCat) {
+      this.scrollToTop()
       this.categoryChanged(newCat)
     }
   },

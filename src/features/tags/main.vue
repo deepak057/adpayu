@@ -23,13 +23,66 @@
   // ==============================================================
   // Row
   .row
-    .col-12.feed-container-col
+    .col-12
       .card
         .card-body.min-h-400
-          div.m-t-20.text-center
+          div.m-t-20.text-center(v-show="pageLoader")
+            <preloader></preloader>
+          .row(v-show="!pageLoader")
+            // Column
+            .col-lg-3.col-md-6(v-for="tag in tags")
+              .card
+                .card-body
+                  .row
+                    .col-4
+                      <router-link :to="getTagLink(tag.name)" tag="div" :class="['pointer round round-lg align-self-center', getRandomClass()]" @click.native="scrollToTop()">
+                          i.mdi(:class="tag.icon")
+                      </router-link>
+                    .col-8.p-0
+                      .m-l-10.align-self-center
+                        h4.m-b-0.font-light
+                          <router-link @click.native="scrollToTop()" :to="getTagLink(tag.name)" class="c-inherit">
+                            | {{tag.name}}
+                          </router-link>
+                        h5.m-t-5.text-muted.m-b-0 Follow
+            // Column
 </template>
 <script>
+// import auth from '@/auth/helpers'
+import Preloader from './../../components/preloader'
+import mixin from '../../globals/mixin.js'
+import Service from './service'
+
 export default {
-  name: 'Tags'
+  name: 'Tags',
+  service: new Service(),
+  components: {
+    Preloader
+  },
+  mixins: [mixin],
+  data () {
+    return {
+      pageLoader: true,
+      tags: []
+    }
+  },
+  mounted () {
+    this.scrollToTop()
+    this.$options.service.getTags()
+      .then((data) => {
+        this.pageLoader = false
+        this.tags = data.tags
+      })
+      .catch((tagsErr) => {
+        alert('Something went wrong file getting tags')
+      })
+  },
+  methods: {
+    getRandomClass () {
+      let arr = ['info', 'primary', 'success', 'danger', 'warning']
+      return 'round-' + arr[Math.floor(Math.random() * arr.length)]
+      // return 'round-info'
+    }
+  }
 }
 </script>
