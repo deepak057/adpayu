@@ -7,7 +7,27 @@ export default class Service {
   }
 
   getTags (page) {
-    return auth.get('/browseTags', {page: page})
+    return auth.get('/tags/browse', {page: page})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  follow (tagId) {
+    return auth.put('/tags/follow/' + tagId)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  unfollow (tagId) {
+    return auth.delete('/tags/unfollow/' + tagId)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
