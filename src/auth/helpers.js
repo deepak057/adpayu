@@ -124,6 +124,26 @@ export default {
     store.dispatch('auth/update', store.state.auth)
   },
 
+  updateUserTags (tags, action) {
+    let userTags = store.state.auth.userTags
+    if (action) {
+      if (action === 'add') {
+        userTags.push(tags)
+      } else {
+        for (let i in userTags) {
+          if (userTags[i].id === tags.id) {
+            userTags.splice(i, 1)
+            break
+          }
+        }
+      }
+    } else {
+      userTags = tags
+    }
+    store.state.auth.userTags = userTags
+    store.dispatch('auth/update', store.state.auth)
+  },
+
   friendshipUpdate (action, friendId) {
     switch (action) {
       case 'request':

@@ -14,6 +14,7 @@ span
 </template>
 <script>
 import Service from './service'
+import auth from '@/auth/helpers'
 export default {
   name: 'FollowButton',
   service: new Service(),
@@ -36,8 +37,10 @@ export default {
     updateServer () {
       if (this.following) {
         this.$options.service.follow(this.tag.id)
+        auth.updateUserTags(this.tag, 'add')
       } else {
         this.$options.service.unfollow(this.tag.id)
+        auth.updateUserTags(this.tag, 'remove')
       }
     }
   }

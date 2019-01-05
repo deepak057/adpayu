@@ -22,6 +22,7 @@ export default class Service {
         return new Promise((resolve) => { resolve(response) })
       })
       .catch((error) => {
+        alert('Something went wrong while following the tag')
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
@@ -32,6 +33,7 @@ export default class Service {
         return new Promise((resolve) => { resolve(response) })
       })
       .catch((error) => {
+        alert('Something went wrong while unfollowing the tag')
         return new Promise((resolve, reject) => { reject(error) })
       })
   }

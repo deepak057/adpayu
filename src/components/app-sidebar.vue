@@ -6,15 +6,16 @@ aside.left-sidebar(style='overflow: visible;')
       .user-profile(style='background: url(static/assets/images/background/user-info.jpg) no-repeat;')
         // User profile image
         .profile-img
-          img(src='static/assets/images/users/profile.png', alt='user')
+          img(:src='getMedia(user.pic)', alt='user')
         // User profile text
         .profile-text
-          a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') {{userName | capitalize}}
+          a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') {{userName(user)}}
           .dropdown-menu.animated.flipInY
-            a.dropdown-item(href='#')
+            <router-link class="dropdown-item" :to="userProfileLink()">
               i.ti-user
               |  My Profile
-            a.dropdown-item(href='#')
+            </router-link>
+            a.dropdown-item(href="#")
               i.ti-wallet
               |  My Balance
             a.dropdown-item(href='#')
@@ -25,7 +26,7 @@ aside.left-sidebar(style='overflow: visible;')
               i.ti-settings
               |  Account Setting
             .dropdown-divider
-            a.dropdown-item(href='login.html')
+            a.dropdown-item(href='javascript:void(0)' @click="logout()")
               i.fa.fa-power-off
               |  Logout
       // End User profile text
@@ -35,7 +36,7 @@ aside.left-sidebar(style='overflow: visible;')
       // Sidebar navigation
       nav.sidebar-nav(v-show="!preloader")
         ul#sidebarnav
-          <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)">
+          <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
             a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
               i.mdi(:class="item.icon")
               span.hide-menu {{item.name | capitalize}}
@@ -90,7 +91,8 @@ export default {
         icon: 'mdi-gauge',
         default: true
       },
-      userName: store.state.auth.user.name
+      user: store.state.auth.user,
+      menuItems: []
     }
   },
   computed: {
@@ -103,14 +105,22 @@ export default {
       }
     } */
   },
+  watch: {
+    '$store.state.auth.userTags' (tags) {
+      this.menuItems = tags
+    },
+    '$store.state.auth.user' (user) {
+      this.user = user
+    }
+  },
   mounted () {
-    let that = this
     this.$options.service.getTags()
       .then((data) => {
         // add the default menu item
-        data.tags.unshift(that.defaultItem)
-        that.menuItems = data.tags
-        that.preloader = false
+        data.tags.unshift(this.defaultItem)
+        this.menuItems = data.tags
+        auth.updateUserTags(data.tags)
+        this.preloader = false
       })
       .catch((Tagserror) => {
         alert('Soemthing went wrong while getting your tags')

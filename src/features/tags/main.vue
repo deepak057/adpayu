@@ -30,7 +30,7 @@
             <preloader></preloader>
           .row(v-show="!pageLoader")
             // Column
-            <tag v-for = "(tag, i) in tags" :tag= tag></tag>
+            <tag v-for = "(tag, i) in tags" :tag= tag :key="tag.name"></tag>
             // Column
           div.m-t-20.text-center(v-infinite-scroll="loadMoreTags" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
             <preloader v-show="loadMoreLoader"></preloader>
