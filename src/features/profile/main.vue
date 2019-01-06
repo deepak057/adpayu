@@ -76,77 +76,7 @@
         // Tab panes
         .tab-content
           #home.tab-pane.active(role='tabpanel')
-            .card-body
-              .profiletimeline
-                .sl-item
-                  .sl-left
-                    img.img-circle(src='/static/assets/images/users/1.jpg', alt='user')
-                  .sl-right
-                    div
-                      a.link(href='#') John Doe
-                      span.sl-date 5 minutes ago
-                      p
-                        | assign a new task
-                        a(href='#')  Design weblayout
-                      .row
-                        .col-lg-3.col-md-6.m-b-20
-                          img.img-responsive.radius(src='/static/assets/images/big/img1.jpg')
-                        .col-lg-3.col-md-6.m-b-20
-                          img.img-responsive.radius(src='/static/assets/images/big/img2.jpg')
-                        .col-lg-3.col-md-6.m-b-20
-                          img.img-responsive.radius(src='/static/assets/images/big/img3.jpg')
-                        .col-lg-3.col-md-6.m-b-20
-                          img.img-responsive.radius(src='/static/assets/images/big/img4.jpg')
-                      .like-comm
-                        a.link.m-r-10(href='javascript:void(0)') 2 comment
-                        a.link.m-r-10(href='javascript:void(0)')
-                          i.fa.fa-heart.text-danger
-                          |  5 Love
-                hr
-                .sl-item
-                  .sl-left
-                    img.img-circle(src='/static/assets/images/users/2.jpg', alt='user')
-                  .sl-right
-                    div
-                      a.link(href='#') John Doe
-                      span.sl-date 5 minutes ago
-                      .m-t-20.row
-                        .col-md-3.col-xs-12
-                          img.img-responsive.radius(src='/static/assets/images/big/img1.jpg', alt='user')
-                        .col-md-9.col-xs-12
-                          p
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
-                          a.btn.btn-success(href='#')  Design weblayout
-                      .like-comm.m-t-20
-                        a.link.m-r-10(href='javascript:void(0)') 2 comment
-                        a.link.m-r-10(href='javascript:void(0)')
-                          i.fa.fa-heart.text-danger
-                          |  5 Love
-                hr
-                .sl-item
-                  .sl-left
-                    img.img-circle(src='/static/assets/images/users/3.jpg', alt='user')
-                  .sl-right
-                    div
-                      a.link(href='#') John Doe
-                      span.sl-date 5 minutes ago
-                      p.m-t-10
-                        | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper
-                    .like-comm.m-t-20
-                      a.link.m-r-10(href='javascript:void(0)') 2 comment
-                      a.link.m-r-10(href='javascript:void(0)')
-                        i.fa.fa-heart.text-danger
-                        |  5 Love
-                hr
-                .sl-item
-                  .sl-left
-                    img.img-circle(src='/static/assets/images/users/4.jpg', alt='user')
-                  .sl-right
-                    div
-                      a.link(href='#') John Doe
-                      span.sl-date 5 minutes ago
-                      blockquote.m-t-10
-                        | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            <timeline :currentUser = "currentUser" :profileUser="user"></timeline>
           // second tab
           #profile.tab-pane(role='tabpanel')
             .card-body
@@ -243,6 +173,7 @@ import Service from './service'
 import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
 import Friends from './friends'
+import Timeline from './timeline'
 
 export default {
   name: 'Profile',
@@ -250,7 +181,8 @@ export default {
   components: {
     Preloader,
     ProfilePicture,
-    Friends
+    Friends,
+    Timeline
   },
   mixins: [mixin],
   data () {
