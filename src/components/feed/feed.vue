@@ -4,10 +4,14 @@
     .jumbotron.white-back.text-center
       h1.display-3 Nothing Here!
       p.lead
-        | There are no feed under this tag
+        | There are no feed here
       hr.my-4
       p
-        | You will see stuff here soon. For now, switch to a different Tag.
+        | You will see stuff here soon. You may browse more topics
+        <router-link to="/tags">
+          |  here
+        </router-link>
+        | .
   .sl-item.feed-block(v-for="f in feed" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
