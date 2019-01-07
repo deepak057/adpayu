@@ -76,7 +76,7 @@
         // Tab panes
         .tab-content
           #home.tab-pane.active(role='tabpanel')
-            <timeline :currentUser = "currentUser" :profileUser="user"></timeline>
+            <timeline :currentUser="currentUser" :profileUser="user"></timeline>
           // second tab
           #profile.tab-pane(role='tabpanel')
             .card-body

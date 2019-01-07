@@ -8,9 +8,11 @@
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 import auth from '@/auth/helpers'
+import Service from './service'
 
 export default {
   name: 'Timeline',
+  service: new Service(),
   components: {
     Preloader,
     Feed
@@ -30,19 +32,30 @@ export default {
   data () {
     return {
       pageLoader: true,
-      feed: []
+      feed: [],
+      page: 1
     }
   },
   watch: {
-    '$route.params.uid' (newUid) {
-      this.profile(newUid)
+    profileUser: {
+      handler () {
+        this.profile()
+      },
+      deep: true
     }
   },
   mounted () {
-    this.profile()
   },
   methods: {
     profile () {
+      this.$options.service.getTimelineFeed(this.profileUser.id, this.page)
+        .then((data) => {
+          this.pageLoader = false
+          this.feed = data.posts
+        })
+        .catch((feedErr) => {
+          alert('Somehting went wrong while getting the feed.')
+        })
     },
     seeingOnwTimeline (profileUserId) {
       return (profileUserId | this.profileUser.id) === this.currentUser.id

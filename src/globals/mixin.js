@@ -52,6 +52,9 @@ export default {
     },
     scrollToTop () {
       window.scrollTo(0, 0)
+    },
+    getUniqueId () {
+      return (new Date()).getTime()
     }
   }
 }

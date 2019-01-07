@@ -20,6 +20,7 @@ div
 import Preloader from './preloader'
 import Feed from './feed/feed'
 import auth from '@/auth/helpers'
+import mixin from '../globals/mixin'
 
 export default {
   name: 'PostPopup',
@@ -27,11 +28,12 @@ export default {
     Preloader,
     Feed
   },
+  mixins: [mixin],
   data () {
     return {
       loader: true,
       feed: [],
-      id: (new Date()).getTime()
+      id: this.getUniqueId()
     }
   },
   methods: {
