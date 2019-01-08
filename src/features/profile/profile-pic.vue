@@ -65,7 +65,7 @@ export default {
       this.$options.service.uploadProfilePic(formData)
         .then((data) => {
           this.fileOperationText = false
-          this.user = data.user
+          this.user.pic = data.user.pic
           auth.updateUserState(data.user)
         })
         .catch((imageErr) => {

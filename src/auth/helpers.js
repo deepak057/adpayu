@@ -147,14 +147,11 @@ export default {
   friendshipUpdate (action, friendId) {
     switch (action) {
       case 'request':
-        this.sendRequest(friendId)
-        break
+        return this.sendRequest(friendId)
       case 'add':
-        this.acceptFriendship(friendId)
-        break
+        return this.acceptFriendship(friendId)
       default:
-        this.removeFriendship(friendId)
-        break
+        return this.removeFriendship(friendId)
     }
   },
 

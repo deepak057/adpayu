@@ -1,18 +1,17 @@
 <template lang="pug">
-  .card-body.min-h-400
-    .text-center.m-t-20(v-show="pageLoader")
-      <preloader></preloader>
-    <feed :feed="feed" v-show="!pageLoader"></feed>
-    div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
-            <preloader v-show="loadMorePreloader"></preloader>
-            span(v-show="noMoreFeed")
-              i.mdi.mdi-emoticon-sad.m-r-5
-              | No more feed
+.card-body.min-h-400
+  .text-center.m-t-20(v-show="pageLoader")
+    <preloader></preloader>
+  <feed :feed="feed" v-show="!pageLoader"></feed>
+  div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+    <preloader v-show="loadMorePreloader"></preloader>
+    span(v-show="noMoreFeed")
+      i.mdi.mdi-emoticon-sad.m-r-5
+      | No more feed
 </template>
 <script>
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
-import auth from '@/auth/helpers'
 import Service from './service'
 
 // initial data values
@@ -37,12 +36,6 @@ export default {
     profileUser: {
       type: Object,
       required: true
-    },
-    currentUser: {
-      type: Object,
-      default () {
-        return auth.getUser()
-      }
     }
   },
   data () {
@@ -84,11 +77,7 @@ export default {
       this.disableLoadMore = true
       this.loadMorePreloader = true
       this.loadTimelineFeed()
-    },
-    seeingOnwTimeline (profileUserId) {
-      return (profileUserId | this.profileUser.id) === this.currentUser.id
     }
-
   }
 }
 </script>

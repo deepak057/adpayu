@@ -85,7 +85,7 @@ export default {
         })
     },
     checkFriendship () {
-      if (!this.areFriends()) {
+      if (this.friendship && !this.areFriends()) {
         if (this.friendship.UserId === this.currentUser.id) {
           this.requested = true
         } else {
