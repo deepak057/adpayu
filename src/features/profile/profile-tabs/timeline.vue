@@ -10,9 +10,9 @@
       | No more feed
 </template>
 <script>
-import Preloader from './../../components/preloader'
-import Feed from './../../components/feed/feed'
-import Service from './service'
+import Preloader from './../../../components/preloader'
+import Feed from './../../../components/feed/feed'
+import Service from '../service'
 
 // initial data values
 function getInitialData () {

@@ -32,7 +32,7 @@
     // Column
     // Column
     .col-lg-8.col-xlg-9.col-md-7.p-l-0.p-r-0
-      <profile-tabs></profile-tabs>
+      <profile-tabs :profileUser = "user" :isOwnProfile="isOwnProfile"></profile-tabs>
     // Column
     .col-lg-4.col-xlg-3.col-md-5.p-r-0.p-l-10
       .card
@@ -73,7 +73,6 @@ import Service from './service'
 import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
 import Friends from './friends'
-import Timeline from './timeline'
 import ProfileTabs from './profile-tabs/main'
 
 export default {
@@ -83,7 +82,6 @@ export default {
     Preloader,
     ProfilePicture,
     Friends,
-    Timeline,
     ProfileTabs
   },
   mixins: [mixin],
