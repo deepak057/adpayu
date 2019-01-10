@@ -1,45 +1,61 @@
 <template lang="pug">
 .card-body
-  .message-box.contact-box
+  .min-h-400.text-center.p-t-20(v-show="pageLoader")
+    <preloader></preloader>
+  .message-box.custom-msg-box.contact-box(v-show="!pageLoader")
     h2.add-ct-btn
       button.btn.btn-circle.btn-lg.btn-success.waves-effect.waves-dark(type='button') +
     .message-widget.contact-widget
       // Message
-      a(href='#')
+      .msg-box-wrap(v-for="friend in friends")
         .user-img
-          img.img-circle(src='/static/assets/images/users/1.jpg', alt='user')
-          span.profile-status.online.pull-right
+          <router-link class="pointer" tag="span" :to="userProfileLink(friend.id)">
+            img.img-circle(:src='getMedia(friend.pic)', alt='user')
+          </router-link>
+          // span.profile-status.online.pull-right
         .mail-contnet
-          h5 Pavan kumar
-          span.mail-desc info@wrappixel.com
-      // Message
-      a(href='#')
-        .user-img
-          img.img-circle(src='/static/assets/images/users/2.jpg', alt='user')
-          span.profile-status.busy.pull-right
-        .mail-contnet
-          h5 Sonu Nigam
-          span.mail-desc pamela1987@gmail.com
-      // Message
-      a(href='#')
-        .user-img
-          span.round A
-          span.profile-status.away.pull-right
-        .mail-contnet
-          h5 Arijit Sinh
-          span.mail-desc cruise1298.fiplip@gmail.com
-      // Message
-      a(href='#')
-        .user-img
-          img.img-circle(src='/static/assets/images/users/4.jpg', alt='user')
-          span.profile-status.offline.pull-right
-        .mail-contnet
-          h5 Pavan kumar
-          span.mail-desc kat@gmail.com
-
+          h5
+          <router-link tag="span" class="pointer" :to="userProfileLink(friend.id)">
+            | {{userName(friend)}}
+          </router-link>
+          <friends :currentUser="currentUser" :profileUser="friend" :friendship="friend.Friendship"></friends>
+          // span.mail-desc info@wrappixel.com
 </template>
 <script>
+import Preloader from './../../../components/preloader'
+import Service from './service'
+import mixin from '../../../globals/mixin.js'
+import Friends from '../friends'
+
 export default {
-  name: 'FriendList'
+  name: 'FriendList',
+  service: new Service(),
+  components: {
+    Preloader,
+    Friends
+  },
+  mixins: [mixin],
+  props: {
+    currentUser: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      friends: [],
+      pageLoader: true
+    }
+  },
+  mounted () {
+    this.$options.service.getFriends()
+      .then((data) => {
+        this.pageLoader = false
+        this.friends = data.friends
+      })
+      .catch((errFrnd) => {
+        alert('Something went wrong while fetching your friends')
+      })
+  }
 }
 </script>

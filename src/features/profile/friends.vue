@@ -68,6 +68,9 @@ export default {
       this.checkFriendship()
     }
   },
+  mounted () {
+    this.checkFriendship()
+  },
   methods: {
     sendRequest () {
       this.requested = true

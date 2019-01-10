@@ -314,3 +314,60 @@ body {
 .c-inherit {
 	color: inherit;
 }
+
+/*
+* custom message box
+*/
+.message-box.custom-msg-box .message-widget {
+  position: relative; }
+  .message-box.custom-msg-box .message-widget .msg-box-wrap {
+    border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+    display: block;
+    text-decoration: none;
+    padding: 9px 15px; }
+    .message-box.custom-msg-box .message-widget .msg-box-wrap:hover {
+      background: #f2f4f8; }
+    .message-box.custom-msg-box .message-widget .msg-box-wrap:last-child {
+      border-bottom: 0px; }
+    .message-box.custom-msg-box .message-widget .msg-box-wrap div {
+      white-space: normal; }
+    .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img {
+      width: 45px;
+      position: relative;
+      display: inline-block;
+      margin: 0 10px 15px 0; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img img {
+        width: 100%; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img .profile-status {
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        left: 33px;
+        position: absolute;
+        top: -1px;
+        width: 10px; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img .online {
+        background: #26c6da; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img .busy {
+        background: #fc4b6c; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img .away {
+        background: #ffb22b; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .user-img .offline {
+        background: #ffb22b; }
+    .message-box.custom-msg-box .message-widget .msg-box-wrap .mail-contnet {
+      display: inline-block;
+      width: 75%;
+      vertical-align: middle; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .mail-contnet h5 {
+        margin: 5px 0px 0; }
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .mail-contnet .mail-desc,
+      .message-box.custom-msg-box .message-widget .msg-box-wrap .mail-contnet .time {
+        font-size: 12px;   
+        display: block;
+        margin: 1px 0;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #67757c;
+        white-space: nowrap; }

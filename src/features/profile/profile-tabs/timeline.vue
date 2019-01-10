@@ -12,7 +12,7 @@
 <script>
 import Preloader from './../../../components/preloader'
 import Feed from './../../../components/feed/feed'
-import Service from '../service'
+import Service from './service'
 
 // initial data values
 function getInitialData () {

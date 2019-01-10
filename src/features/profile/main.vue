@@ -32,7 +32,7 @@
     // Column
     // Column
     .col-lg-8.col-xlg-9.col-md-7.p-l-0.p-r-0
-      <profile-tabs :profileUser = "user" :isOwnProfile="isOwnProfile"></profile-tabs>
+      <profile-tabs :profileUser = "user" :isOwnProfile="isOwnProfile" :currentUser="currentUser"></profile-tabs>
     // Column
     .col-lg-4.col-xlg-3.col-md-5.p-r-0.p-l-10
       .card
