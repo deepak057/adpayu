@@ -1,40 +1,39 @@
 <template lang="pug">
-.row.text-center.justify-content-md-center
-  .col-12
-    <template v-if="!areFriends()">
-    <template v-if="!requested && !requesting">
-    button.btn.btn-success(@click="sendRequest()")
-      i.mdi.mdi-account-plus.m-r-5
-      font.font-medium Add Friend
-    </template>
-    <template v-if="requested">
-    .btn-group
-      button.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-        i.fa.fa-check.m-r-5
-        span
-          | Friend Request Sent
-      .dropdown-menu
-       a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
-    </template>
-    <template v-if="requesting">
-    .btn-group
-      button.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-        i.fa.fa-check.m-r-5
-        span
-          | Sent you a freind request
-      .dropdown-menu
-       a.dropdown-item(href='javascript:void(0)' @click="acceptFriendship()") Accept
-       a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
-    </template>
-    </template>
-    <template v-if="areFriends()">
-    .btn-group
-      button.btn.btn-outline-success.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-        i.fa.fa-check.m-r-5
-        | Friends
-      .dropdown-menu
-       a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Cencel friendship
-    </template>
+.friend-request-btn
+  <template v-if="!areFriends()">
+  <template v-if="!requested && !requesting">
+  button.btn.btn-success(:class="{'btn-sm': smallButton}" @click="sendRequest()")
+    i.mdi.mdi-account-plus.m-r-5
+    font.font-medium Add Friend
+  </template>
+  <template v-if="requested">
+  .btn-group
+    button.btn.btn-secondary.dropdown-toggle(:class="{'btn-sm': smallButton}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+      i.fa.fa-check.m-r-5
+      span
+        | Friend Request Sent
+    .dropdown-menu
+      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
+  </template>
+  <template v-if="requesting">
+  .btn-group
+    button.btn.btn-secondary.dropdown-toggle(:class="{'btn-xs': smallButton}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+      i.fa.fa-check.m-r-5
+      span
+        | Sent you friend request
+    .dropdown-menu
+      a.dropdown-item(href='javascript:void(0)' @click="acceptFriendship()") Accept
+      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
+  </template>
+  </template>
+  <template v-if="areFriends()">
+  .btn-group
+    button.btn.btn-outline-success.dropdown-toggle( :class="{'btn-sm': smallButton}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+      i.fa.fa-check.m-r-5
+      | Friends
+    .dropdown-menu
+      a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Cencel friendship
+  </template>
 </template>
 <script>
 import auth from '@/auth/helpers'
@@ -55,6 +54,12 @@ export default {
     currentUser: {
       type: Object,
       required: true
+    },
+    smallButton: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -65,7 +70,7 @@ export default {
   },
   watch: {
     friendship () {
-      this.checkFriendship()
+      // this.checkFriendship()
     }
   },
   mounted () {

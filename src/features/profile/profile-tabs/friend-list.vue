@@ -1,25 +1,34 @@
 <template lang="pug">
-.card-body
-  .min-h-400.text-center.p-t-20(v-show="pageLoader")
+.card-body.min-h-400
+  .text-center.p-t-20(v-show="pageLoader")
     <preloader></preloader>
-  .message-box.custom-msg-box.contact-box(v-show="!pageLoader")
-    h2.add-ct-btn
-      button.btn.btn-circle.btn-lg.btn-success.waves-effect.waves-dark(type='button') +
-    .message-widget.contact-widget
-      // Message
-      .msg-box-wrap(v-for="friend in friends")
-        .user-img
-          <router-link class="pointer" tag="span" :to="userProfileLink(friend.id)">
-            img.img-circle(:src='getMedia(friend.pic)', alt='user')
-          </router-link>
-          // span.profile-status.online.pull-right
-        .mail-contnet
-          h5
-          <router-link tag="span" class="pointer" :to="userProfileLink(friend.id)">
-            | {{userName(friend)}}
-          </router-link>
-          <friends :currentUser="currentUser" :profileUser="friend" :friendship="friend.Friendship"></friends>
-          // span.mail-desc info@wrappixel.com
+  .text-center.p-t-20(v-show="!pageLoader && !friends.length")
+    h4
+      | You have no friends yet
+    p
+      | Search profiles and send people friend requests
+  .row.el-element-overlay(v-show="!pageLoader && friends.length")
+    .col-lg-3.col-md-6.p-7(v-for="friend in friends")
+      .card.friend-block-up
+        .el-card-item
+          .el-card-avatar.el-overlay-1
+            img(:src='getMedia(friend.pic)', alt='user')
+            .el-overlay
+              ul.el-info
+                li(v-show="friend.pic")
+                  a.btn.default.btn-outline.image-popup-vertical-fit(:href='getMedia(friend.pic)' :title="userName(friend)")
+                    i.icon-magnifier
+                li
+                  <router-link :to="userProfileLink(friend.id)" class="btn default btn-outline" title="Go to profile">
+                    i.icon-link
+                  </router-link>
+          .el-card-content
+            h3.box-title
+              <router-link :to="userProfileLink(friend.id)">
+                | {{userName(friend)}}
+              </router-link>
+            .m-t-10
+            <friends :currentUser="currentUser" :profileUser="friend" :friendship = "friend.Friendship" :smallButton="true"></friends>
 </template>
 <script>
 import Preloader from './../../../components/preloader'

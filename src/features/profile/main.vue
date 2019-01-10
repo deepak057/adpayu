@@ -43,7 +43,8 @@
             h4.card-title.m-t-10 {{userName(user)}}
             h6.card-subtitle A loyal AdpayU user
             .row.text-center.justify-content-md-center
-            <friends v-if="!isOwnProfile" :currentUser="currentUser" :profileUser="user" :friendship="friendship"></friends>
+              .col-12
+                <friends v-if="!isOwnProfile && !pagePreloader" :currentUser="currentUser" :profileUser="user" :friendship="friendship"></friends>
         div
           hr
         .card-body

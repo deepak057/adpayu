@@ -16,11 +16,11 @@
         span.time.text-muted
           <timeago :datetime="noti['createdAt']" :auto-update="60" :title="noti['createdAt'] | date"></timeago>
         <template v-if="isFriendRequest(noti)">
-        <template v-if="!frienshipSettled">
+        <template v-if="!noti.frienshipSettled">
         button.btn.btn-success.btn-sm(@click="handleFriendRequest('add', i)") Accept
         button.btn.btn-sm(@click="handleFriendRequest('remove', i)") Ignore
         </template>
-        <template v-if="frienshipSettled">
+        <template v-if="noti.frienshipSettled">
           span.text-muted.text-success.small
             i.mdi.mdi-check.m-r-5
             | You are friends now
@@ -50,7 +50,6 @@ export default {
   },
   data () {
     return {
-      frienshipSettled: false,
       unseen: 0
     }
   },
@@ -63,6 +62,12 @@ export default {
     prepareNotification () {
       this.unseen = 0
       for (let i in this.notificationData) {
+        /* add a property to keep track of freindship status
+        ** on friendship requests
+        */
+        if (!this.notificationData[i].hasOwnProperty('frienshipSettled')) {
+          this.$set(this.notificationData[i], 'frienshipSettled', false)
+        }
         this.unseen = !this.notificationData[i].seen ? this.unseen + 1 : this.unseen
         switch (this.notificationData[i].type) {
           case 'SENT_FRIEND_REQUEST':
@@ -92,7 +97,7 @@ export default {
       if (action === 'remove') {
         this.notificationData.splice(notiIndex, 1)
       } else {
-        this.frienshipSettled = true
+        this.notificationData[notiIndex].frienshipSettled = true
       }
       auth.friendshipUpdate(action, friendId)
         .then((data) => {})
