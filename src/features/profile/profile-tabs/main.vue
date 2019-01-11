@@ -15,51 +15,19 @@
     #up-friends-tab.tab-pane(role='tabpanel' v-if="isOwnProfile")
       <friend-list :currentUser="currentUser"></friend-list>
     #up-settings-tab.tab-pane(role='tabpanel' v-if="isOwnProfile")
-      .card-body
-        form.form-horizontal.form-material
-          .form-group
-            label.col-md-12 Full Name
-            .col-md-12
-              input.form-control.form-control-line(placeholder='Johnathan Doe', type='text')
-          .form-group
-            label.col-md-12(for='example-email') Email
-            .col-md-12
-              input#example-email.form-control.form-control-line(placeholder='johnathan@admin.com', name='example-email', type='email')
-          .form-group
-            label.col-md-12 Password
-            .col-md-12
-              input.form-control.form-control-line(value='password', type='password')
-          .form-group
-            label.col-md-12 Phone No
-            .col-md-12
-              input.form-control.form-control-line(placeholder='123 456 7890', type='text')
-          .form-group
-            label.col-md-12 Message
-            .col-md-12
-              textarea.form-control.form-control-line(rows='5')
-          .form-group
-            label.col-sm-12 Select Country
-            .col-sm-12
-              select.form-control.form-control-line
-                option London
-                option India
-                option Usa
-                option Canada
-                option Thailand
-          .form-group
-            .col-sm-12
-              button.btn.btn-success Update Profile
-
+      <settings :currentUser="currentUser"></settings>
 </template>
 <script>
 import Timeline from './timeline'
 import FriendList from './friend-list'
+import Settings from './settings'
 
 export default {
   name: 'ProfileTabs',
   components: {
     Timeline,
-    FriendList
+    FriendList,
+    Settings
   },
   props: {
     profileUser: {
