@@ -45,9 +45,12 @@
 
 <script>
 import auth from '@/auth/helpers'
+import mixin from '../../globals/mixin'
+import userRegistrationMixin from '../../globals/user-register'
 
 export default {
   name: 'SignupPage',
+  mixins: [mixin, userRegistrationMixin],
   data () {
     return {
       name: '',
@@ -99,7 +102,7 @@ export default {
       }
     },
     nameValidate () {
-      if (!this.first.length || !this.last.length) {
+      if (!this.validateName(this.first, this.last)) {
         this.nameError = 'Please enter your full name'
         return false
       } else {
@@ -108,7 +111,7 @@ export default {
       }
     },
     emailValidate () {
-      if (this.email.length && this.validEmail(this.email)) {
+      if (this.validateEmail(this.email)) {
         this.emailError = ''
         return true
       } else {
@@ -117,7 +120,7 @@ export default {
       }
     },
     passwordValidate () {
-      if (this.password.length) {
+      if (this.validatePassword(this.password)) {
         this.passwordError = ''
         return true
       } else {
@@ -133,11 +136,6 @@ export default {
         this.termsError = 'Please agree to our terms'
         return false
       }
-    },
-    validEmail (email) {
-      // eslint-disable-next-line no-useless-escape
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(email)
     }
   }
 }
