@@ -102,7 +102,7 @@ export default {
       }
     },
     nameValidate () {
-      if (!this.validateName(this.first, this.last)) {
+      if (!this.validateName(this.first + ' ' + this.last)) {
         this.nameError = 'Please enter your full name'
         return false
       } else {

@@ -1,7 +1,8 @@
 export default {
   methods: {
-    validateName (first, last) {
-      return first.length && last.length
+    validateName (name) {
+      let userName = name.split(' ')
+      return userName[0].length && userName[1].length
     },
     validateEmail (email) {
       return email.length && this.validEmail(email)
