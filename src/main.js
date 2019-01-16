@@ -13,6 +13,7 @@ import ToggleButton from 'vue-js-toggle-button'
 import wysiwyg from 'vue-wysiwyg'
 import VueTimeago from 'vue-timeago'
 import infiniteScroll from 'vue-infinite-scroll'
+import Notifications from 'vue-notification'
 
 Vue.config.productionTip = false
 
@@ -49,6 +50,9 @@ Vue.use(Vuetify, {
     accent: '#805441'
   }
 })
+
+// Vue Notifications
+Vue.use(Notifications)
 
 // Styles
 require('./styles/scss/main.scss')

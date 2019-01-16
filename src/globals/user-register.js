@@ -1,8 +1,11 @@
 export default {
   methods: {
     validateName (name) {
+      if (!name) {
+        return false
+      }
       let userName = name.split(' ')
-      return userName[0].length && userName[1].length
+      return userName[0] && userName[1]
     },
     validateEmail (email) {
       return email.length && this.validEmail(email)

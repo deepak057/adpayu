@@ -11,7 +11,7 @@ li.nav-item.dropdown(:class="{'show': showNotifications}" v-on-clickaway="hideMe
         .drop-title Notifications
       li
         <template v-show="!loading">
-        <notifications :notificationData = "notificationData"></notifications>
+        <user-notifications :notificationData = "notificationData"></user-notifications>
         </template>
         .text-center.m-t-20(v-if="loading")
           <preloader ></preloader>
@@ -27,7 +27,7 @@ li.nav-item.dropdown(:class="{'show': showNotifications}" v-on-clickaway="hideMe
 <script>
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
-import Notifications from './notifications'
+import UserNotifications from './notifications'
 import Service from './service'
 import { directive as onClickaway } from 'vue-clickaway'
 
@@ -36,7 +36,7 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    Notifications
+    UserNotifications
   },
   directives: {
     onClickaway: onClickaway

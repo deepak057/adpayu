@@ -28,7 +28,7 @@
       .card
         .card-body.page-preloader
           <preloader v-show="pagePreloader"></preloader>
-          <notifications v-show="!pagePreloader" :notificationData = "notificationData"></notifications>
+          <user-notifications v-show="!pagePreloader" :notificationData = "notificationData"></user-notifications>
 
   .row(v-show="!pagePreloader")
     // Column
@@ -43,14 +43,14 @@
               | No more Notifications
 </template>
 <script>
-import Notifications from './../../components/notifications/notifications'
+import UserNotifications from './../../components/notifications/notifications'
 import Preloader from './../../components/preloader'
 import auth from '@/auth/helpers'
 
 export default {
   name: 'NotificationsPage',
   components: {
-    Notifications,
+    UserNotifications,
     Preloader
   },
   data () {

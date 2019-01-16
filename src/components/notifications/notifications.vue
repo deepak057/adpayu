@@ -35,7 +35,7 @@ import mixin from '../../globals/mixin.js'
 import auth from '@/auth/helpers'
 
 export default {
-  name: 'Notifications',
+  name: 'UserNotifications',
   components: {
     PostPopup
   },

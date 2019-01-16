@@ -39,9 +39,8 @@
         .card-body
           center.m-t-30
             // img.img-circle(src='/static/assets/images/users/5.jpg', width='150')
-            <profile-picture :user="user" :imageAdmin="isOwnProfile"></profile-picture>
-            h4.card-title.m-t-10 {{userName(user)}}
-            h6.card-subtitle A loyal AdpayU user
+            <profile-picture :profileUser="user" :imageAdmin="isOwnProfile"></profile-picture>
+            <profile-user-name :profileUser="user"></profile-user-name>
             .row.text-center.justify-content-md-center
               .col-12
                 <friends v-if="!isOwnProfile && !pagePreloader" :currentUser="currentUser" :profileUser="user" :friendship="friendship"></friends>
@@ -75,6 +74,7 @@ import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
 import Friends from './friends'
 import ProfileTabs from './profile-tabs/main'
+import ProfileUserName from './profile-user-name'
 
 export default {
   name: 'Profile',
@@ -83,7 +83,8 @@ export default {
     Preloader,
     ProfilePicture,
     Friends,
-    ProfileTabs
+    ProfileTabs,
+    ProfileUserName
   },
   mixins: [mixin],
   data () {

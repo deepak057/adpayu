@@ -7,31 +7,40 @@
     .form-group.m-t-20(:class="{'has-danger': nameError}")
       label.col-md-12(for='up-user-name-field') Full Name
       .col-md-12
-        input#up-user-name-field.form-control.form-control-line(placeholder='Enter Name', type='text' v-model="userFullName" autocomplete="off")
+        input#up-user-name-field.form-control.form-control-line(placeholder='Enter Name' type='text' v-model.trim="name" autocomplete="off")
         small.form-control-feedback(v-show="nameError")
           | {{nameError}}
     .form-group
+      label.col-sm-12 Gender
+      .col-sm-12
+        select.form-control.form-control-line(v-model="user.gender")
+          option(value="" selected disabled hidden) Choose here
+          option(value="male") Male
+          option(value="female") Female
+          option(value="other") Other
+    .form-group
       label.col-sm-12 Select Country
       .col-sm-12
-        select.form-control.form-control-line
+        select.form-control.form-control-line(v-model="user.location")
+          option(value="" selected disabled hidden) Choose here
           option London
           option India
           option Usa
           option Canada
           option Thailand
     .form-group
-      label.col-md-12 About
+      label.col-md-12 Tagline
       .col-md-12
-        textarea.form-control.form-control-line(rows='2')
+        input.form-control.form-control-line(type="text" v-model.trim="user.tagline" placeholder="Enter your tagline")
     h4 Security
     .form-group.m-t-20
       label.col-md-12(for='up-user-email') Email
       .col-md-12
         input#up-user-email.form-control.form-control-line(placeholder='Enter email', type='email' v-model = "user.email" readonly autocomplete="off")
     .form-group
-      label.col-md-12 Password
+      label.col-md-12 New Password
       .col-md-12
-        input.form-control.form-control-line(value='password', type='password')
+        input.form-control.form-control-line(type='password' placeholder="Enter new password")
     .form-group
       .col-sm-12
         button.btn.btn-success(@click= "updateProfile()") Update Profile
@@ -39,6 +48,7 @@
 <script>
 import mixin from '../../../globals/mixin.js'
 import userRegistrationMixin from '../../../globals/user-register'
+import auth from '@/auth/helpers'
 
 // import Preloader from './../../../components/preloader'
 import Service from './service'
@@ -57,28 +67,46 @@ export default {
   data () {
     return {
       user: Object.assign({}, this.currentUser),
+      name: this.userName(this.currentUser),
       nameError: false
     }
   },
-  computed: {
-    userFullName: {
-      get () {
-        return this.user.first + ' ' + this.user.last
-      },
-      set (newV) {
-        let name = newV.split(' ')
-        this.user.first = name[0]
-        this.user.last = name[1]
-      }
+  watch: {
+    '$store.state.auth.user' (user) {
+      this.user = user
     }
   },
   methods: {
     updateProfile () {
-      if (!this.validateName(this.userFullName)) {
+      if (!this.validateName(this.name)) {
         this.nameError = 'Please enter a valid name'
       } else {
         this.nameError = false
+        let t = this.name.split(' ')
+        this.user.first = t[0]
+        this.user.last = t[1]
+        this.showNotification('Saving, please wait....', 'warn', -1)
+        auth.updateCurrentUser(this.user)
+          .then((data) => {
+            this.showNotification('Profile updated successfully', 'success')
+          })
+          .catch((errUser) => {
+            alert('Something went wrong while updating the profile')
+          })
       }
+    },
+    showNotification (content, classType, duration = 3000) {
+      this.$notify({
+        group: 'appNotifications',
+        clean: true
+      })
+      this.$notify({
+        group: 'appNotifications',
+        title: '',
+        text: content,
+        type: classType,
+        duration: duration
+      })
     }
   }
 }

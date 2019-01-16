@@ -2,6 +2,7 @@
   #app
     component(:is="component")
       slot
+    <notifications group="appNotifications" position="top center" type="warn"/>
 </template>
 
 <script>

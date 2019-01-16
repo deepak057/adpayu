@@ -37,14 +37,23 @@ export default {
         return false
       }
     },
-    user: {
+    profileUser: {
       type: Object,
       required: true
     }
   },
   data () {
     return {
-      fileOperationText: ''
+      fileOperationText: '',
+      user: this.profileUser
+    }
+  },
+  watch: {
+    profileUser (profileUser) {
+      this.user = profileUser
+    },
+    '$store.state.auth.user' (user) {
+      this.user = user
     }
   },
   methods: {

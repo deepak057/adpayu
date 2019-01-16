@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     getMedia (path) {
-      return path ? constants.SERVER_STATIC_CONTENT_URL + '/' + path : 'static/img/no-profile-pic.png'
+      return path && path !== 'null' ? constants.SERVER_STATIC_CONTENT_URL + '/' + path : 'static/img/no-profile-pic.png'
     },
     userProfileLink (uid) {
       return '/profile/' + (uid || '')
