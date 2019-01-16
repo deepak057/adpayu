@@ -209,13 +209,7 @@ export default {
         return response.data
       })
       .catch((error) => {
-        /* let errorMessage = null */
-        return error.response.data
-        /* if (error.response) errorMessage = error.response.status
-        else if (error.request) errorMessage = 'no response from server'
-        else errorMessage = error.message
-
-        return errorMessage */
+        return new Promise((resolve, reject) => { reject(error) })
       })
   },
 

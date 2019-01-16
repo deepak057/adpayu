@@ -321,3 +321,21 @@ body {
 .p-7{
 	padding: 7px !important
 }
+.notifications {
+	top: 20px !important;
+}
+.vue-notification.warn {
+	background: #ffb22b !important;
+	border-left-color: #de8d00 !important;
+}
+.vue-notification.success {
+	background: #26c6da !important;
+	border-left-color: #1e9faf !important;
+}
+.vue-notification.error {
+	background: #fc4b6c !important;
+	border-left-color: #f60431 !important;
+}
+.vue-notification .notification-content {
+	font-weight: 500;
+}

@@ -28,19 +28,23 @@
           option Usa
           option Canada
           option Thailand
-    .form-group
+    .form-group(:class="{'has-danger': taglineError}")
       label.col-md-12 Tagline
       .col-md-12
         input.form-control.form-control-line(type="text" v-model.trim="user.tagline" placeholder="Enter your tagline")
+        small.form-control-feedback(v-show="taglineError")
+          | {{taglineError}}
     h4 Security
     .form-group.m-t-20
       label.col-md-12(for='up-user-email') Email
       .col-md-12
         input#up-user-email.form-control.form-control-line(placeholder='Enter email', type='email' v-model = "user.email" readonly autocomplete="off")
-    .form-group
+    .form-group(:class="{'has-danger': passwordError}")
       label.col-md-12 New Password
       .col-md-12
-        input.form-control.form-control-line(type='password' placeholder="Enter new password")
+        input.form-control.form-control-line(type='password' placeholder="Enter new password" v-model="newPassword")
+        small.form-control-feedback(v-show="passwordError")
+          | {{passwordError}}
     .form-group
       .col-sm-12
         button.btn.btn-success(@click= "updateProfile()") Update Profile
@@ -68,7 +72,11 @@ export default {
     return {
       user: Object.assign({}, this.currentUser),
       name: this.userName(this.currentUser),
-      nameError: false
+      nameError: false,
+      taglineError: false,
+      maxTaglineChars: 100,
+      newPassword: '',
+      passwordError: false
     }
   },
   watch: {
@@ -78,21 +86,52 @@ export default {
   },
   methods: {
     updateProfile () {
-      if (!this.validateName(this.name)) {
-        this.nameError = 'Please enter a valid name'
-      } else {
-        this.nameError = false
-        let t = this.name.split(' ')
-        this.user.first = t[0]
-        this.user.last = t[1]
-        this.showNotification('Saving, please wait....', 'warn', -1)
-        auth.updateCurrentUser(this.user)
+      if (this.nameValidate() && this.validateTagLine() && this.passwordVaildate()) {
+        this.showNotification('Saving profile, please wait....', 'warn', -1)
+        auth.updateCurrentUser(this.getUserObject())
           .then((data) => {
             this.showNotification('Profile updated successfully', 'success')
+            this.reset()
           })
           .catch((errUser) => {
-            alert('Something went wrong while updating the profile')
+            this.showNotification('Something went wrong, please try again', 'error')
           })
+      }
+    },
+    // get updated properties of
+    // User object after successfull validation
+    getUserObject () {
+      let t = this.name.split(' ')
+      this.user.first = t[0]
+      this.user.last = t[1]
+      this.user.newPassword = this.newPassword
+      return this.user
+    },
+    nameValidate () {
+      if (!this.validateName(this.name)) {
+        this.nameError = 'Please enter your full name'
+        return false
+      } else {
+        this.nameError = false
+        return true
+      }
+    },
+    validateTagLine () {
+      if (!this.user.tagline || (this.user.tagline && this.user.tagline.length < this.maxTaglineChars)) {
+        this.taglineError = false
+        return true
+      } else {
+        this.taglineError = 'Max ' + this.maxTaglineChars + ' chars allowed. You have entered ' + this.user.tagline.length
+        return false
+      }
+    },
+    passwordVaildate () {
+      if (!this.newPassword || (this.newPassword && this.validatePassword(this.newPassword))) {
+        this.passwordError = false
+        return true
+      } else {
+        this.passwordError = 'Please enter a valid password'
+        return false
       }
     },
     showNotification (content, classType, duration = 3000) {
@@ -107,6 +146,9 @@ export default {
         type: classType,
         duration: duration
       })
+    },
+    reset () {
+      this.newPassword = ''
     }
   }
 }

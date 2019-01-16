@@ -28,14 +28,12 @@
       .card
         .card-body.page-preloader
           <preloader v-show="pagePreloader"></preloader>
-          <user-notifications v-show="!pagePreloader" :notificationData = "notificationData"></user-notifications>
-
   .row(v-show="!pagePreloader")
     // Column
     .col-12.p-l-0.p-r-0
       .card
         .card-body.mailbox.notifications-page-main-wrap.min-h-400
-          <notifications :notificationData = "notificationData"></notifications>
+          <user-notifications :notificationData = "notificationData"></user-notifications>
           div.m-t-20.load-more-posts.text-center(v-infinite-scroll="loadMoreNotifications" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
             <preloader v-show="loadMoreLoader"></preloader>
             span(v-show="noMoreNotifications && notificationData.length")
