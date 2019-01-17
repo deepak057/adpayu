@@ -39,13 +39,7 @@ header.topbar
           // ==============================================================
           // Search
           // ==============================================================
-          li.nav-item.hidden-sm-down.search-box
-            a.nav-link.hidden-sm-down.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
-              i.ti-search
-            form.app-search
-              input.form-control(placeholder='Search & enter', type='text')
-              a.srh-btn
-                i.ti-close
+          <search-bar></search-bar>
           // ==============================================================
           // Messages
           // ==============================================================
@@ -273,11 +267,13 @@ header.topbar
 import auth from '@/auth/helpers'
 import mixin from '../globals/mixin.js'
 import NotificationDropdown from './notifications/main'
+import SearchBar from './search-bar'
 
 export default {
   name: 'AppBar',
   components: {
-    NotificationDropdown
+    NotificationDropdown,
+    SearchBar
   },
   mixins: [mixin],
   data () {

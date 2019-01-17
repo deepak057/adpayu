@@ -1,6 +1,6 @@
 <template lang="pug">
 .card-body
-  form.form-horizontal.form-material(onSubmit="return false")
+  form.form-horizontal.form-material(@submit.prevent='updateProfile()')
     h4 Basic Details
       br
       small.text-muted More information you provide, more relevant ads you'll see
@@ -303,7 +303,7 @@
           | {{passwordError}}
     .form-group
       .col-sm-12
-        button.btn.btn-success(@click= "updateProfile()") Update Profile
+        button.btn.btn-success Update Profile
 </template>
 <script>
 import mixin from '../../../globals/mixin.js'

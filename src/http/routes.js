@@ -88,6 +88,15 @@ const routes = [
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
+  },
+  {
+    name: 'search',
+    path: '/search/:type',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/search/main.vue'),
+    title: 'Search',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

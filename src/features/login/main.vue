@@ -79,7 +79,7 @@ export default {
       }
 
       auth.login(credentials, 'dashboard', ({isSuccess, data, errorMessage}) => {
-        console.log('Look here ' + data)
+        // console.log('Look here ' + data)
       })
         .then((data) => {
           if (!data.success) {
