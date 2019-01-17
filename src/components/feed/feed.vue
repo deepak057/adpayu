@@ -27,6 +27,8 @@
         |  {{getPostDescriptionText(f)}}
         span.sl-date
           <timeago :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
+          i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-show="f['public']")
+          i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-show="!f['public']")
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold

@@ -30,7 +30,7 @@ export default {
           k: this.k
         }
       })
-      this.k = ''
+      // this.k = ''
     },
     closeSearchBar () {
       document.getElementById(this.closeButtonId).click()
