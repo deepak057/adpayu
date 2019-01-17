@@ -45,22 +45,7 @@ $(function () {
     // ============================================================== 
     // Theme options
     // ==============================================================     
-    $(".sidebartoggler").on('click', function () {
-        if ($("body").hasClass("mini-sidebar")) {
-            $("body").trigger("resize");
-            $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible");
-            $("body").removeClass("mini-sidebar");
-            $('.navbar-brand span').show();
-            //$(".sidebartoggler i").addClass("ti-menu");
-        }
-        else {
-            $("body").trigger("resize");
-            $(".scroll-sidebar, .slimScrollDiv").css("overflow-x", "visible").parent().css("overflow", "visible");
-            $("body").addClass("mini-sidebar");
-            $('.navbar-brand span').hide();
-            //$(".sidebartoggler i").removeClass("ti-menu");
-        }
-    });
+    
 
 
     // topbar stickey on scroll
@@ -77,10 +62,7 @@ $(function () {
     $(".sidebartoggler").on('click', function () {
         //$(".sidebartoggler i").toggleClass("ti-menu");
     }); 
-    $(".search-box a, .search-box .app-search .srh-btn").on('click', function () {
-        $(".app-search").toggle(200);
-        $(".app-search").find('input:first').focus()
-    });
+    
     // ============================================================== 
     // Right sidebar options
     // ============================================================== 
@@ -139,6 +121,28 @@ $(function () {
                 });
             })
             
+            $(document).on("click", ".search-box a, .search-box .app-search .srh-btn", function () {
+                $(".app-search").toggle(200);
+                $(".app-search").find('input:first').focus()
+            });
+
+            $(document).on("click", ".sidebartoggler", function () {
+                if ($("body").hasClass("mini-sidebar")) {
+                    $("body").trigger("resize");
+                    $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible");
+                    $("body").removeClass("mini-sidebar");
+                    $('.navbar-brand span').show();
+                    //$(".sidebartoggler i").addClass("ti-menu");
+                }
+                else {
+                    $("body").trigger("resize");
+                    $(".scroll-sidebar, .slimScrollDiv").css("overflow-x", "visible").parent().css("overflow", "visible");
+                    $("body").addClass("mini-sidebar");
+                    $('.navbar-brand span').hide();
+                    //$(".sidebartoggler i").removeClass("ti-menu");
+                }
+            });
+
              $(document).on("mouseover",'[data-toggle-tooltip="tooltip"]', function(){
                 $(this).tooltip('show')
              });

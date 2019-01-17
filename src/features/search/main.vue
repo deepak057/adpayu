@@ -26,9 +26,11 @@
     .col-12.p-0
       .card
         .card-body.min-h-400
-          h4.card-title Search Result For "Angular Js"
-          h6.card-subtitle About 14,700 result ( 0.10 seconds)
-          ul.search-listing
+          h4.card-title(v-show="!pageLoader") Search Result For "{{$route.query.k}}"
+          // h6.card-subtitle About 14,700 result ( 0.10 seconds)
+          .text-center.m-t-20(v-show="pageLoader")
+            <preloader></preloader>
+          ul.search-listing(v-if="!pageLoader")
             li
               h3
                 a(href='javacript:void(0)') AngularJs
@@ -43,7 +45,42 @@
                 | Lorem Ipsum viveremus probamus opus apeirian haec perveniri, memoriter.Praebeat pecunias viveremus probamus opus apeirian haec perveniri, memoriter.
 </template>
 <script>
+import Service from './service'
+import Preloader from './../../components/preloader'
+import mixin from '../../globals/mixin.js'
+
 export default {
-  name: 'Search'
+  name: 'Search',
+  service: new Service(),
+  components: {
+    Preloader
+  },
+  mixins: [mixin],
+  data () {
+    return {
+      searchType: this.$route.params.type,
+      k: this.$route.query.k,
+      pageLoader: true
+    }
+  },
+  watch: {
+    '$route.params.type' (newT) {
+      this.searchType = newT
+      this.init()
+    },
+    '$route.query.k' (newK) {
+      this.k = newK
+      this.init()
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+      this.setDocumentTitle('Search ' + this.k)
+      this.$options.service.search(this.searchType, this.k)
+    }
+  }
 }
 </script>
