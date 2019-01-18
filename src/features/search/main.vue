@@ -26,41 +26,56 @@
     .col-12.p-0
       .card
         .card-body.min-h-400
-          h4.card-title(v-show="!pageLoader") Search Result For "{{$route.query.k}}"
+          h4.card-title.m-b-20(v-show="!pageLoader") Search Results For "{{$route.query.k}}"
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
+          h6.text-muted(v-show="!pageloader && !results.length")
+            | Sorry, no results
           .text-center.m-t-20(v-show="pageLoader")
             <preloader></preloader>
-          ul.search-listing(v-if="!pageLoader")
-            li
-              h3
-                a(href='javacript:void(0)') AngularJs
-              a.search-links(href='javascript:void(0)') http://www.google.com/angularjs
-              p
-                | Lorem Ipsum viveremus probamus opus apeirian haec perveniri, memoriter.Praebeat pecunias viveremus probamus opus apeirian haec perveniri, memoriter.
-            li
-              h3
-                a(href='javacript:void(0)') AngularJS — Superheroic JavaScript MVW Framework
-              a.search-links(href='javascript:void(0)') http://www.google.com/angularjs
-              p
-                | Lorem Ipsum viveremus probamus opus apeirian haec perveniri, memoriter.Praebeat pecunias viveremus probamus opus apeirian haec perveniri, memoriter.
+          <feed v-if="!pageloader && results.length" :feed="results"></feed>
+          // ul.search-listing(v-if="!pageLoader")
+            // li(v-for="r in results")
+              // h3
+                // <router-link :to="getPostLink(r.id)">
+                  // <template v-if="r.Question">
+                  // |  {{r.Question.question}}
+                  // </template>
+                  // <template v-if="r.Video">
+                  // |  {{r.Video.title}}
+                  // </template>
+                // </router-link>
+              // <router-link class="search-links" :to="getPostLink(r.id)">
+                // | {{getDomainName()}}{{getPostLink(r.id)}}
+              // </router-link>
+              // p
+                // <template v-if="r.Question">
+                // |  {{r.Question.description}}
+                // </template>
+                // <template v-if="r.Video">
+                // |  {{r.Video.description}}
+                // </template>
 </template>
 <script>
 import Service from './service'
 import Preloader from './../../components/preloader'
 import mixin from '../../globals/mixin.js'
+import Feed from './../../components/feed/feed'
 
 export default {
   name: 'Search',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    Feed
   },
   mixins: [mixin],
   data () {
     return {
       searchType: this.$route.params.type,
       k: this.$route.query.k,
-      pageLoader: true
+      pageLoader: true,
+      results: [],
+      page: 1
     }
   },
   watch: {
@@ -78,8 +93,15 @@ export default {
   },
   methods: {
     init () {
-      this.setDocumentTitle('Search ' + this.k)
-      this.$options.service.search(this.searchType, this.k)
+      this.setDocumentTitle('Search for "' + this.k + '"')
+      this.$options.service.search(this.searchType, this.k, this.page)
+        .then((data) => {
+          this.pageLoader = false
+          this.results = data.posts
+        })
+        .catch((searchErr) => {
+          alert('Something went wrong while fetching the results, please try again later')
+        })
     }
   }
 }

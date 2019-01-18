@@ -6,8 +6,8 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  search (type, keyword) {
-    return auth.get('/search/' + type, {k: keyword})
+  search (type, keyword, page) {
+    return auth.get('/search/' + type, {k: keyword, page: page})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

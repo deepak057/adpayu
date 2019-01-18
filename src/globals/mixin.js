@@ -55,6 +55,9 @@ export default {
     },
     getUniqueId () {
       return (new Date()).getTime()
+    },
+    getDomainName () {
+      return window.location.hostname
     }
   }
 }
