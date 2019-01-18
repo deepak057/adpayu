@@ -35,7 +35,7 @@
           <feed v-if="!pageLoader && results.length" :feed="results"></feed>
           div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
             <preloader v-show="loadMorePreloader"></preloader>
-            span(v-show="noMoreResults")
+            span(v-show="noMoreResults && results.length")
               i.mdi.mdi-emoticon-sad.m-r-5
               | No more results
           // ul.search-listing(v-if="!pageLoader")
