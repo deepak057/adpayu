@@ -28,11 +28,16 @@
         .card-body.min-h-400
           h4.card-title.m-b-20(v-show="!pageLoader") Search Results For "{{$route.query.k}}"
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
-          h6.text-muted(v-show="!pageloader && !results.length")
+          h6.text-muted(v-show="!pageLoader && !results.length")
             | Sorry, no results
           .text-center.m-t-20(v-show="pageLoader")
             <preloader></preloader>
-          <feed v-if="!pageloader && results.length" :feed="results"></feed>
+          <feed v-if="!pageLoader && results.length" :feed="results"></feed>
+          div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+            <preloader v-show="loadMorePreloader"></preloader>
+            span(v-show="noMoreResults")
+              i.mdi.mdi-emoticon-sad.m-r-5
+              | No more results
           // ul.search-listing(v-if="!pageLoader")
             // li(v-for="r in results")
               // h3
@@ -61,6 +66,19 @@ import Preloader from './../../components/preloader'
 import mixin from '../../globals/mixin.js'
 import Feed from './../../components/feed/feed'
 
+function initialState () {
+  return {
+    searchType: '',
+    k: '',
+    pageLoader: true,
+    results: [],
+    page: 1,
+    disableLoadMore: true,
+    noMoreResults: false,
+    loadMorePreloader: false
+  }
+}
+
 export default {
   name: 'Search',
   service: new Service(),
@@ -70,21 +88,13 @@ export default {
   },
   mixins: [mixin],
   data () {
-    return {
-      searchType: this.$route.params.type,
-      k: this.$route.query.k,
-      pageLoader: true,
-      results: [],
-      page: 1
-    }
+    return initialState()
   },
   watch: {
     '$route.params.type' (newT) {
-      this.searchType = newT
       this.init()
     },
     '$route.query.k' (newK) {
-      this.k = newK
       this.init()
     }
   },
@@ -93,15 +103,33 @@ export default {
   },
   methods: {
     init () {
+      Object.assign(this.$data, initialState())
+      this.searchType = this.$route.params.type
+      this.k = this.$route.query.k
+      this.loadResults()
+    },
+    loadResults () {
       this.setDocumentTitle('Search for "' + this.k + '"')
       this.$options.service.search(this.searchType, this.k, this.page)
         .then((data) => {
           this.pageLoader = false
-          this.results = data.posts
+          this.loadMorePreloader = false
+          if (data.posts.length) {
+            this.results = this.results.concat(data.posts)
+            this.disableLoadMore = false
+            this.page++
+          } else {
+            this.noMoreResults = true
+          }
         })
         .catch((searchErr) => {
           alert('Something went wrong while fetching the results, please try again later')
         })
+    },
+    loadMoreResults () {
+      this.disableLoadMore = true
+      this.loadMorePreloader = true
+      this.loadResults()
     }
   }
 }
