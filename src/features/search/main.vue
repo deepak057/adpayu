@@ -26,39 +26,71 @@
     .col-12.p-0
       .card
         .card-body.min-h-400
-          h4.card-title.m-b-20(v-show="!pageLoader") Search Results For "{{$route.query.k}}"
+          h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
+          ul.nav.nav-tabs.customtab(role='tablist')
+            li.nav-item
+              a.nav-link.active(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false')
+                span.hidden-sm-up
+                  i.ti-search
+                span.hidden-xs-down Content
+            li.nav-item
+              a.nav-link(data-toggle='tab', href='#sp-video-tab', role='tab', aria-expanded='false')
+                span.hidden-sm-up
+                  i.ti-video-camera
+                span.hidden-xs-down Video
+            li.nav-item
+              a.nav-link(data-toggle='tab', href='#sp-questions-tab', role='tab', aria-expanded='false')
+                span.hidden-sm-up
+                  i.ti-help
+                span.hidden-xs-down Questions
+            li.nav-item
+              a.nav-link(data-toggle='tab', href='#sp-users-tab', role='tab', aria-expanded='false')
+                span.hidden-sm-up
+                  i.ti-user
+                span.hidden-xs-down Users
+            li.nav-item
+              a.nav-link(data-toggle='tab', href='#sp-tags-tab', role='tab', aria-expanded='false')
+                span.hidden-sm-up
+                  i.ti-tag
+                span.hidden-xs-down Tags
+          .tab-content
+            #sp-content-tab.tab-pane.active.p-t-20(role='tabpanel', aria-expanded='false')
+              h6.text-muted(v-show="!pageLoader && !results.length")
+                | Sorry, no results
+              .text-center.m-t-20(v-show="pageLoader")
+                <preloader></preloader>
+              <feed v-if="!pageLoader && results.length" :feed="results"></feed>
+              div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
+                <preloader v-show="loadMorePreloader"></preloader>
+                span(v-show="noMoreResults && results.length")
+                  i.mdi.mdi-emoticon-sad.m-r-5
+                  | No more results
+              // ul.search-listing(v-if="!pageLoader")
+                // li(v-for="r in results")
+                  // h3
+                    // <router-link :to="getPostLink(r.id)">
+                      // <template v-if="r.Question">
+                      // |  {{r.Question.question}}
+                      // </template>
+                      // <template v-if="r.Video">
+                      // |  {{r.Video.title}}
+                      // </template>
+                    // </router-link>
+                  // <router-link class="search-links" :to="getPostLink(r.id)">
+                    // | {{getDomainName()}}{{getPostLink(r.id)}}
+                  // </router-link>
+                  // p
+                    // <template v-if="r.Question">
+                    // |  {{r.Question.description}}
+                    // </template>
+                    // <template v-if="r.Video">
+                    // |  {{r.Video.description}}
+                    // </template>
+            #sp-video-tab.tab-pane.p-20(role='tabpanel', aria-expanded='false') 2
+            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
+            #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
+            #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
-          h6.text-muted(v-show="!pageLoader && !results.length")
-            | Sorry, no results
-          .text-center.m-t-20(v-show="pageLoader")
-            <preloader></preloader>
-          <feed v-if="!pageLoader && results.length" :feed="results"></feed>
-          div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
-            <preloader v-show="loadMorePreloader"></preloader>
-            span(v-show="noMoreResults && results.length")
-              i.mdi.mdi-emoticon-sad.m-r-5
-              | No more results
-          // ul.search-listing(v-if="!pageLoader")
-            // li(v-for="r in results")
-              // h3
-                // <router-link :to="getPostLink(r.id)">
-                  // <template v-if="r.Question">
-                  // |  {{r.Question.question}}
-                  // </template>
-                  // <template v-if="r.Video">
-                  // |  {{r.Video.title}}
-                  // </template>
-                // </router-link>
-              // <router-link class="search-links" :to="getPostLink(r.id)">
-                // | {{getDomainName()}}{{getPostLink(r.id)}}
-              // </router-link>
-              // p
-                // <template v-if="r.Question">
-                // |  {{r.Question.description}}
-                // </template>
-                // <template v-if="r.Video">
-                // |  {{r.Video.description}}
-                // </template>
 </template>
 <script>
 import Service from './service'
