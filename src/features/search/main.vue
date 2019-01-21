@@ -34,7 +34,7 @@
                   i.ti-search
                 span.hidden-xs-down Content
             li.nav-item
-              a.nav-link(data-toggle='tab', href='#sp-video-tab', role='tab', aria-expanded='false' @click="changeTab('videos')" :class="{'active': checkSearchType('videos')}")
+              a.nav-link(data-toggle='tab', href='#sp-video-tab', role='tab', aria-expanded='false' @click="changeTab('video')" :class="{'active': checkSearchType('video')}")
                 span.hidden-sm-up
                   i.ti-video-camera
                 span.hidden-xs-down Video
@@ -56,8 +56,10 @@
           .tab-content
             #sp-content-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('content')}")
               <content-search :keyword = "k" v-if="checkSearchType('content')"></content-search>
-            #sp-video-tab.tab-pane.p-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}") 2
-            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}") 3
+            #sp-video-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}")
+              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('video')"></content-search>
+            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}")
+              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('questions')"></content-search>
             #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}") 3
             #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}") 3
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
@@ -65,12 +67,14 @@
 <script>
 import ContentSearch from './content-search'
 import { router } from '@/http'
+import mixin from '../../globals/mixin.js'
 
 export default {
   name: 'Search',
   components: {
     ContentSearch
   },
+  mixins: [mixin],
   data () {
     return {
       searchType: '',
@@ -92,6 +96,7 @@ export default {
     init () {
       this.searchType = this.$route.params.type || 'content'
       this.k = this.$route.query.k || ''
+      this.setDocumentTitle('Search for "' + this.k + '"')
     },
     checkSearchType (sType) {
       return sType === this.searchType

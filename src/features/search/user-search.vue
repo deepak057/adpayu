@@ -14,7 +14,6 @@ div
 <script>
 import Service from './service'
 import Preloader from './../../components/preloader'
-import Feed from './../../components/feed/feed'
 
 function initialState () {
   return {
@@ -28,7 +27,7 @@ function initialState () {
   }
 }
 export default {
-  name: 'ContentSearch',
+  name: 'UserSearch',
   service: new Service(),
   components: {
     Preloader,
@@ -39,12 +38,6 @@ export default {
       type: String,
       default () {
         return ''
-      }
-    },
-    searchType: {
-      type: String,
-      default () {
-        return 'content'
       }
     }
   },
