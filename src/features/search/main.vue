@@ -29,98 +29,53 @@
           h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
           ul.nav.nav-tabs.customtab(role='tablist')
             li.nav-item
-              a.nav-link.active(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false')
+              a.nav-link(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false' :class="{'active': checkSearchType('content')}" @click="changeTab('content')")
                 span.hidden-sm-up
                   i.ti-search
                 span.hidden-xs-down Content
             li.nav-item
-              a.nav-link(data-toggle='tab', href='#sp-video-tab', role='tab', aria-expanded='false')
+              a.nav-link(data-toggle='tab', href='#sp-video-tab', role='tab', aria-expanded='false' @click="changeTab('videos')" :class="{'active': checkSearchType('videos')}")
                 span.hidden-sm-up
                   i.ti-video-camera
                 span.hidden-xs-down Video
             li.nav-item
-              a.nav-link(data-toggle='tab', href='#sp-questions-tab', role='tab', aria-expanded='false')
+              a.nav-link(data-toggle='tab', href='#sp-questions-tab', role='tab', aria-expanded='false' @click="changeTab('questions')" :class="{'active': checkSearchType('questions')}")
                 span.hidden-sm-up
                   i.ti-help
                 span.hidden-xs-down Questions
             li.nav-item
-              a.nav-link(data-toggle='tab', href='#sp-users-tab', role='tab', aria-expanded='false')
+              a.nav-link(data-toggle='tab', href='#sp-users-tab', role='tab', aria-expanded='false' @click="changeTab('users')" :class="{'active': checkSearchType('users')}")
                 span.hidden-sm-up
                   i.ti-user
                 span.hidden-xs-down Users
             li.nav-item
-              a.nav-link(data-toggle='tab', href='#sp-tags-tab', role='tab', aria-expanded='false')
+              a.nav-link(data-toggle='tab', href='#sp-tags-tab', role='tab', aria-expanded='false' @click="changeTab('tags')" :class="{'active': checkSearchType('tags')}")
                 span.hidden-sm-up
                   i.ti-tag
                 span.hidden-xs-down Tags
           .tab-content
-            #sp-content-tab.tab-pane.active.p-t-20(role='tabpanel', aria-expanded='false')
-              h6.text-muted(v-show="!pageLoader && !results.length")
-                | Sorry, no results
-              .text-center.m-t-20(v-show="pageLoader")
-                <preloader></preloader>
-              <feed v-if="!pageLoader && results.length" :feed="results"></feed>
-              div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
-                <preloader v-show="loadMorePreloader"></preloader>
-                span(v-show="noMoreResults && results.length")
-                  i.mdi.mdi-emoticon-sad.m-r-5
-                  | No more results
-              // ul.search-listing(v-if="!pageLoader")
-                // li(v-for="r in results")
-                  // h3
-                    // <router-link :to="getPostLink(r.id)">
-                      // <template v-if="r.Question">
-                      // |  {{r.Question.question}}
-                      // </template>
-                      // <template v-if="r.Video">
-                      // |  {{r.Video.title}}
-                      // </template>
-                    // </router-link>
-                  // <router-link class="search-links" :to="getPostLink(r.id)">
-                    // | {{getDomainName()}}{{getPostLink(r.id)}}
-                  // </router-link>
-                  // p
-                    // <template v-if="r.Question">
-                    // |  {{r.Question.description}}
-                    // </template>
-                    // <template v-if="r.Video">
-                    // |  {{r.Video.description}}
-                    // </template>
-            #sp-video-tab.tab-pane.p-20(role='tabpanel', aria-expanded='false') 2
-            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
-            #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
-            #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true') 3
+            #sp-content-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('content')}")
+              <content-search :keyword = "k" v-if="checkSearchType('content')"></content-search>
+            #sp-video-tab.tab-pane.p-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}") 2
+            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}") 3
+            #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}") 3
+            #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}") 3
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
 </template>
 <script>
-import Service from './service'
-import Preloader from './../../components/preloader'
-import mixin from '../../globals/mixin.js'
-import Feed from './../../components/feed/feed'
-
-function initialState () {
-  return {
-    searchType: '',
-    k: '',
-    pageLoader: true,
-    results: [],
-    page: 1,
-    disableLoadMore: true,
-    noMoreResults: false,
-    loadMorePreloader: false
-  }
-}
+import ContentSearch from './content-search'
+import { router } from '@/http'
 
 export default {
   name: 'Search',
-  service: new Service(),
   components: {
-    Preloader,
-    Feed
+    ContentSearch
   },
-  mixins: [mixin],
   data () {
-    return initialState()
+    return {
+      searchType: '',
+      k: ''
+    }
   },
   watch: {
     '$route.params.type' (newT) {
@@ -135,33 +90,22 @@ export default {
   },
   methods: {
     init () {
-      Object.assign(this.$data, initialState())
-      this.searchType = this.$route.params.type
-      this.k = this.$route.query.k
-      this.loadResults()
+      this.searchType = this.$route.params.type || 'content'
+      this.k = this.$route.query.k || ''
     },
-    loadResults () {
-      this.setDocumentTitle('Search for "' + this.k + '"')
-      this.$options.service.search(this.searchType, this.k, this.page)
-        .then((data) => {
-          this.pageLoader = false
-          this.loadMorePreloader = false
-          if (data.posts.length) {
-            this.results = this.results.concat(data.posts)
-            this.disableLoadMore = false
-            this.page++
-          } else {
-            this.noMoreResults = true
-          }
-        })
-        .catch((searchErr) => {
-          alert('Something went wrong while fetching the results, please try again later')
-        })
+    checkSearchType (sType) {
+      return sType === this.searchType
     },
-    loadMoreResults () {
-      this.disableLoadMore = true
-      this.loadMorePreloader = true
-      this.loadResults()
+    changeTab (searchType) {
+      router.push({
+        name: 'search',
+        params: {
+          type: searchType
+        },
+        query: {
+          k: this.k
+        }
+      })
     }
   }
 }
