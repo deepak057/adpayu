@@ -72,7 +72,7 @@ import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
-import Friends from './friends'
+import Friends from '../../components/users/friends'
 import ProfileTabs from './profile-tabs/main'
 import ProfileUserName from './profile-user-name'
 

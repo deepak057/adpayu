@@ -4,7 +4,7 @@ div
     | Sorry, no results
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
-  <feed v-if="!pageLoader && results.length" :feed="results"></feed>
+  <user-grid v-if="!pageLoader && results.length" :users="results" :currentUser="currentUser"></user-grid>
   div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
     <preloader v-show="loadMorePreloader"></preloader>
     span(v-show="noMoreResults && results.length")
@@ -14,6 +14,8 @@ div
 <script>
 import Service from './service'
 import Preloader from './../../components/preloader'
+import UserGrid from './../../components/users/user-grid'
+import auth from '@/auth/helpers'
 
 function initialState () {
   return {
@@ -23,7 +25,8 @@ function initialState () {
     page: 1,
     disableLoadMore: true,
     noMoreResults: false,
-    loadMorePreloader: false
+    loadMorePreloader: false,
+    currentUser: auth.getUser()
   }
 }
 export default {
@@ -31,7 +34,7 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    Feed
+    UserGrid
   },
   props: {
     keyword: {
@@ -60,12 +63,12 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search(this.searchType, this.k, this.page)
+      this.$options.service.search('users', this.k, this.page)
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false
           if (data.posts.length) {
-            this.results = this.results.concat(data.posts)
+            this.results = this.results.concat(data.users)
             this.disableLoadMore = false
             this.page++
           } else {
