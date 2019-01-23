@@ -4,7 +4,10 @@ div
     | Sorry, no results
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
-  <user-grid v-if="!pageLoader && results.length" :users="results" :currentUser="currentUser" :colClass="'col-lg-2 col-md-6'"></user-grid>
+  <feed v-if="!pageLoader && results.length && searchType==='content'" :feed="results"></feed>
+  <user-grid v-if="!pageLoader && searchType==='users' && results.length" :users="results" :currentUser="currentUser" :colClass="'col-lg-2 col-md-6'"></user-grid>
+  .row(v-if="!pageLoader && searchType === 'tags")
+    <tag v-for = "(tag, i) in results" :tag= tag :key="tag.name"></tag>
   div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
     <preloader v-show="loadMorePreloader"></preloader>
     span(v-show="noMoreResults && results.length")
@@ -14,8 +17,8 @@ div
 <script>
 import Service from './service'
 import Preloader from './../../components/preloader'
+import Tag from '../../components/tags/tag'
 import UserGrid from './../../components/users/user-grid'
-import auth from '@/auth/helpers'
 
 function initialState () {
   return {
@@ -25,8 +28,7 @@ function initialState () {
     page: 1,
     disableLoadMore: true,
     noMoreResults: false,
-    loadMorePreloader: false,
-    currentUser: auth.getUser()
+    loadMorePreloader: false
   }
 }
 export default {
@@ -34,6 +36,7 @@ export default {
   service: new Service(),
   components: {
     Preloader,
+    Tag,
     UserGrid
   },
   props: {
@@ -41,6 +44,12 @@ export default {
       type: String,
       default () {
         return ''
+      }
+    },
+    searchType: {
+      type: String,
+      default () {
+        return 'content'
       }
     }
   },
@@ -63,12 +72,12 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search('users', this.k, this.page)
+      this.$options.service.search('tags', this.k, this.page)
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false
-          if (data.users.length) {
-            this.results = this.results.concat(data.users)
+          if (data.tags.length) {
+            this.results = this.results.concat(data.tags)
             this.disableLoadMore = false
             this.page++
           } else {

@@ -1,6 +1,6 @@
 <template lang="pug">
 .row.el-element-overlay(v-show="users.length")
-    .col-lg-3.col-md-6.p-7(v-for="user in users")
+    .p-7(:class="colClass" v-for="user in users")
       .card.friend-block-up
         .el-card-item
           .el-card-avatar.el-overlay-1
@@ -20,7 +20,7 @@
                 | {{userName(user)}}
               </router-link>
             .m-t-10
-            <friends :currentUser="currentUser" :profileUser="user" :friendship = "user.Friendship" :smallButton="true"></friends>
+            <friends :currentUser="currentUser" :profileUser="user" :friendship = "user.Friendship || null" :smallButton="true"></friends>
 </template>
 <script>
 import Preloader from '../preloader'
@@ -45,6 +45,12 @@ export default {
       type: Array,
       default () {
         return []
+      }
+    },
+    colClass: {
+      type: String,
+      default () {
+        return 'col-lg-3 col-md-6'
       }
     }
   }

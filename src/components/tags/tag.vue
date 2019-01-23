@@ -11,7 +11,7 @@
           .m-l-10.align-self-center
             h4.m-b-0.font-light
               <router-link @click.native="scrollToTop()" :to="getTagLink(tag.name)" class="c-inherit">
-                | {{tag.name}}
+                | {{tag.name | capitalize}}
               </router-link>
             h5.m-t-5.text-muted.m-b-0
               <follow-button :tag="tag"></follow-button>

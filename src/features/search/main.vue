@@ -62,12 +62,14 @@
               <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('questions')"></content-search>
             #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}")
               <user-search :keyword = "k" v-if="checkSearchType('users')"></user-search>
-            #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}") 3
+            #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}")
+              <tag-search :keyword = "k" v-if="checkSearchType('tags')"></tag-search>
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
 </template>
 <script>
 import ContentSearch from './content-search'
 import UserSearch from './user-search'
+import TagSearch from './tag-search'
 import { router } from '@/http'
 import mixin from '../../globals/mixin.js'
 
@@ -75,7 +77,8 @@ export default {
   name: 'Search',
   components: {
     ContentSearch,
-    UserSearch
+    UserSearch,
+    TagSearch
   },
   mixins: [mixin],
   data () {

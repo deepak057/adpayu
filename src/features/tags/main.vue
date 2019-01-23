@@ -41,7 +41,7 @@
 <script>
 // import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
-import Tag from './tag'
+import Tag from '../../components/tags/tag'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 

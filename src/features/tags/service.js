@@ -15,26 +15,4 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-
-  follow (tagId) {
-    return auth.put('/tags/follow/' + tagId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        alert('Something went wrong while following the tag')
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
-  unfollow (tagId) {
-    return auth.delete('/tags/unfollow/' + tagId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        alert('Something went wrong while unfollowing the tag')
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
 }
