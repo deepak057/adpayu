@@ -7,10 +7,17 @@
       | You have no friends yet
     p
       | Search profiles and send people friend requests
-  <user-grid v-show="!pageLoader && friends.length" :currentUser = "currentUser" :users = "friends"></user-grid>
+    .row.content-center
+      <search-field :searchType="'users'" class="m-t-10"></search-field>
+  <template v-if="!pageLoader && friends.length">
+  .row
+     <search-field :searchType="'users'" class="m-b-10 m-l-5"></search-field>
+  <user-grid :currentUser = "currentUser" :users = "friends"></user-grid>
+  </template>
 </template>
 <script>
 import Preloader from './../../../components/preloader'
+import SearchField from './../../../components/search-field'
 import Service from './service'
 import UserGrid from './../../../components/users/user-grid'
 
@@ -19,7 +26,8 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    UserGrid
+    UserGrid,
+    SearchField
   },
   props: {
     currentUser: {

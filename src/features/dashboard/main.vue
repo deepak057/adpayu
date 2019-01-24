@@ -55,7 +55,7 @@
                 | Currently, you have disabled both.
           div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
             <preloader v-show="loadMorePreloader"></preloader>
-            span(v-show="noMoreFeed")
+            span(v-show="noMoreFeed && feed.length")
               i.mdi.mdi-emoticon-sad.m-r-5
               | No more feed
   // ==============================================================

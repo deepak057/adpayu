@@ -4,7 +4,7 @@
   // Bread crumb and right sidebar toggle
   // ==============================================================
   .row.page-titles
-    .col-md-4.col-12.align-self-center
+    .col-md-8.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0 Tags
       ol.breadcrumb
         li.breadcrumb-item
@@ -12,9 +12,8 @@
             | Home
           </router-link>
         li.breadcrumb-item.active Tags
-    .col-md-8.col-12.align-self-center.text-right
-      h3.m-b-0.font-light $3249
-      h5.text-muted.m-b-0 Total Revenue
+    .col-md-4.col-12.align-self-center.text-right
+      <search-field :searchType="'tags'"></search-field>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -39,8 +38,8 @@
               | No more tags
 </template>
 <script>
-// import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
+import SearchField from './../../components/search-field'
 import Tag from '../../components/tags/tag'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
@@ -50,7 +49,8 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    Tag
+    Tag,
+    SearchField
   },
   mixins: [mixin],
   data () {
@@ -60,7 +60,8 @@ export default {
       loadMoreLoader: false,
       disableLoadMore: true,
       page: 1,
-      noMoreTags: false
+      noMoreTags: false,
+      searchKeyword: ''
     }
   },
   mounted () {

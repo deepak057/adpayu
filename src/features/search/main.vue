@@ -26,7 +26,11 @@
     .col-12.p-0
       .card
         .card-body.min-h-400
-          h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
+          .row
+            .col-md-8
+              h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
+            .col-md-4.text-right
+              <search-field :searchType="searchType" :searchKeyword="k"></search-field>
           ul.nav.nav-tabs.customtab(role='tablist')
             li.nav-item
               a.nav-link(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false' :class="{'active': checkSearchType('content')}" @click="changeTab('content')")
@@ -67,6 +71,7 @@
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
 </template>
 <script>
+import SearchField from './../../components/search-field'
 import ContentSearch from './content-search'
 import UserSearch from './user-search'
 import TagSearch from './tag-search'
@@ -78,7 +83,8 @@ export default {
   components: {
     ContentSearch,
     UserSearch,
-    TagSearch
+    TagSearch,
+    SearchField
   },
   mixins: [mixin],
   data () {

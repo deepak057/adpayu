@@ -339,3 +339,6 @@ body {
 .vue-notification .notification-content {
 	font-weight: 500;
 }
+.content-center{
+	justify-content: center !important;
+}

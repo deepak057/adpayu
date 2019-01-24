@@ -7,11 +7,13 @@
         | There are no feed here
       hr.my-4
       p
-        | You will see stuff here soon. You may browse more topics
+        | You will see stuff here soon. You may browse more tags or topics
         <router-link to="/tags">
           |  here
         </router-link>
         | .
+      .row.content-center
+        <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
   .sl-item.feed-block(v-for="f in feed" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
@@ -70,6 +72,7 @@ import myVideo from 'vue-video'
 import Comments from './comments'
 import ImageGrid from './image-grid'
 import Like from './like'
+import SearchField from '../search-field'
 
 export default {
   name: 'Feed',
@@ -77,7 +80,8 @@ export default {
     myVideo,
     Comments,
     Like,
-    ImageGrid
+    ImageGrid,
+    SearchField
   },
   mixins: [mixin],
   props: {
