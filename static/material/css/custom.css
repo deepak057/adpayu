@@ -342,3 +342,21 @@ body {
 .content-center{
 	justify-content: center !important;
 }
+.nav-search-field, .nav-search-field:focus {
+	background-color: rgba(255, 255, 255, 0.26);
+	border: none;
+	color: #fff;
+	font-size: 15px;
+	background-image: url(images/search.png);
+	background-position: 10px center;
+	background-repeat: no-repeat;
+	border-radius: 2px;
+	padding-left: 40px;
+	margin-top: 13px;
+}
+
+.nav-search-field::placeholder{
+  color: #fff;
+  opacity: 1;
+  font-weight: 400;
+}
