@@ -5,26 +5,60 @@ div
     | Is this an Ad?
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
   .postAdOptions(v-show="adOptions.postIsAd")
-    form.m-t-10
-      .row
-        .col-md-6
-          .form-group
-            label.control-label CPV
-            i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" data-content='This is the amount that viewers will get for watching this in their feed. Min suggested CPV is $.2')
-            input.form-control.w-100(type="number" v-model="adOptions.cpv")
-            small.form-control-feedback Set Cost Per View
-        .col-md-6
-          .form-group
-            label.control-label CPC
-            i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per Click" data-toggle="popover" data-placement="right" data-content='This is the amount that viewers will get for clicking the target link in your ad. Min suggested CPV is $.8')
-            input.form-control.w-100(type="number" v-model="adOptions.cpc")
-            small.form-control-feedback Set Cost Per Click
-        .col-md-12(v-show="adOptions.cpc")
-          .form-group
-            label.control-label Target URL
-            i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="The Target URL" data-toggle="popover" data-placement="right" data-content='This is the URL where users will be taken when they click your ad.')
-            input.form-control
-            small.form-control-feedback Enter the Target URL
+    .row.m-t-10.ad-crteation-wrap
+      .form
+        table.table
+          thead
+            tr
+              th Ad Type
+              th Cost per action
+              th Cost
+          tbody
+            tr
+              td
+                | Impressions*
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Impressions" data-toggle="popover" data-placement="right" data-content='Specify how many impressions you want for this ad.')
+                br
+                input.form-control.form-control-sm(placeholder="How many impressions?")
+              td
+                | Cost per impression
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per impression" data-toggle="popover" data-placement="right" data-content="Specify how much you'd like to pay for every single ad impression. Minimum price for per impression is $ 0.0071")
+                .input-group
+                  span.input-group-addon.h-27 $
+                  input.form-control.form-control-sm(type='text' value="0.0071")
+              td.align-middle $40
+            tr
+              td
+                | Clicks (optional)
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Clicks" data-toggle="popover" data-placement="right" data-content='Specify how many clicks you want for this ad.')
+                br
+                input.form-control.form-control-sm(v-model="adOptions.cpc" placeholder="How many clicks?")
+              td
+                | Cost per click
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" data-content="Specify how much you'd like to pay for every single ad click. Minimum price for per click is $ 0.028")
+                .input-group
+                  span.input-group-addon.h-27 $
+                  input.form-control.form-control-sm(type='text' value="0.028")
+              td.align-middle $40
+            tr(v-if="adOptions.cpc")
+              td
+                | Enter the link
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad link" data-toggle="popover" data-placement="right" data-content='Enter the link/URL where clicking your ad will take users to.')
+                br
+                input.form-control.form-control-sm
+              td
+                | Link label
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Link label" data-toggle="popover" data-placement="right" data-content="Specify the label for your ad link")
+                .input-group
+                  span.input-group-addon.h-27 $
+                  input.form-control.form-control-sm(type='text' value="0.028")
+              td.align-middle $40
+            tr
+              td
+                b Total
+              td
+              td
+                b $80
 </template>
 
 <script>

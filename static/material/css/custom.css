@@ -360,3 +360,12 @@ body {
   opacity: 1;
   font-weight: 400;
 }
+.ad-crteation-wrap .h-27 {
+	height: 27px;
+}
+.ad-crteation-wrap .w-150px {
+	width: 150px;
+}
+.ad-crteation-wrap .w-100px {
+	width: 100px;
+}

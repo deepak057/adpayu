@@ -50,16 +50,16 @@ aside.left-sidebar(style='overflow: visible;')
       // End Sidebar navigation
     // End Sidebar scroll
     // Bottom points
-    .sidebar-footer
+    // .sidebar-footer
       // item
-      a.link(href='', data-toggle='tooltip', title='Settings')
-        i.ti-settings
+      // a.link(href='', data-toggle='tooltip', title='Settings')
+        // i.ti-settings
       // item
-      a.link(href='', data-toggle='tooltip', title='Email')
-        i.mdi.mdi-gmail
+      // a.link(href='', data-toggle='tooltip', title='Email')
+        // i.mdi.mdi-gmail
       // item
-      a.link(href='', data-toggle='tooltip', title='Logout')
-        i.mdi.mdi-power
+      // a.link(href='', data-toggle='tooltip', title='Logout')
+        // i.mdi.mdi-power
     // End Bottom points
 </template>
 
