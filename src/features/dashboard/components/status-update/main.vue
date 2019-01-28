@@ -19,7 +19,7 @@ div
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
               | More Options
               i.fa.fa-angle-right.m-l-5
-          <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated"></ad>
+          <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adType="options.type" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}

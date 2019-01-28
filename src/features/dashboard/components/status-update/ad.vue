@@ -45,7 +45,7 @@ div
                 .input-group
                   span.input-group-addon.h-27 $
                   input.form-control.form-control-sm(type='text' v-model="adOptions.cpc")
-              td.w-100px(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") {{CPCTotalCost}}
+              td.w-100px(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") $ {{CPCTotalCost}}
             tr(v-if="adOptions.clickTarget")
               td.no-border
                 | Enter the link
@@ -58,6 +58,19 @@ div
                 .input-group
                   input.form-control.form-control-sm(type='text' value="")
               td.align-middle.no-border
+            tr(v-if="adType==='video'")
+              td
+                | Views (Optional)
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per video view" data-toggle="popover" data-placement="right" data-content='Specify how many video viewes you want for this video ad.')
+                br
+                input.form-control.form-control-sm
+              td
+                | Cost per view
+                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" data-content="Specify how much you'd like to pay for every single video view.")
+                .input-group
+                  input.form-control.form-control-sm(type='text' value="")
+              td.align-middle
+                | $ 0
             tr
               td
                 b Total
@@ -97,6 +110,12 @@ export default {
       type: Object,
       default () {
         return defaultAdValues()
+      }
+    },
+    adType: {
+      type: String,
+      default () {
+        return 'text'
       }
     }
   },

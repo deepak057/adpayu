@@ -375,3 +375,11 @@ body {
 .no-border{
 	border: none !important;
 }
+
+/* On screens that are 500px or less */
+@media screen and (max-width: 500px) {
+  .ad-crteation-wrap table {
+  	font-size: 9px;
+  	font-weight: 400;
+  }
+}
