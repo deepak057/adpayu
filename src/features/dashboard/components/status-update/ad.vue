@@ -24,7 +24,7 @@ div
                   small.form-control-feedback(v-if="impressionTargetError")
                     | {{impressionTargetError}}
               td
-                .form-group(:class="{'has-danger': perImpressionCostError}")
+                .form-group.m-0(:class="{'has-danger': perImpressionCostError}")
                   | Cost per impression
                   i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per impression" data-toggle="popover" data-placement="right" :data-content="helpContent('cpi')")
                   .input-group
