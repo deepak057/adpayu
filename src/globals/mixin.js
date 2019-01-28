@@ -58,6 +58,9 @@ export default {
     },
     getDomainName () {
       return window.location.hostname
+    },
+    isEmptyObject (obj) {
+      return Object.keys(obj).length === 0 && obj.constructor === Object
     }
   }
 }

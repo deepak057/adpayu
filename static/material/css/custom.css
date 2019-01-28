@@ -369,3 +369,9 @@ body {
 .ad-crteation-wrap .w-100px {
 	width: 100px;
 }
+.ad-crteation-wrap .max-w-180px{
+	max-width: 180px
+}
+.no-border{
+	border: none !important;
+}

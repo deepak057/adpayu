@@ -90,6 +90,12 @@ export default {
   },
   methods: {
     validatePost (feed) {
+      return this.validateRequiredFields(feed) && this.validateAd(feed)
+    },
+    validateAd (feed) {
+      return !feed.adOptions.postIsAd || (feed.adOptions.postIsAd && feed.adOptions.isValidated)
+    },
+    validateRequiredFields (feed) {
       switch (feed.type) {
         case 'text':
           return feed.content || false
