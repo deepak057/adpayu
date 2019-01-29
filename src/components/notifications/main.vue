@@ -1,7 +1,7 @@
 <template lang="pug">
 li.nav-item.dropdown(:class="{'show': showNotifications}" v-on-clickaway="hideMenu")
   a.nav-link.text-muted.text-muted.waves-effect.waves-dark(href='javascript:void(0)' @click="toggleNotificationsDropdown()")
-    i.mdi.mdi-message
+    i.mdi.mdi-bell
     .notify(v-show="unseenIds.length")
       span.heartbit
       span.point
