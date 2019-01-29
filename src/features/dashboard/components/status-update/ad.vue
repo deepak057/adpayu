@@ -12,7 +12,7 @@ div
             tr
               th Ad Type
               th Cost per action
-              th Cost
+              th.text-center Cost
           tbody
             tr
               td.max-w-180px
@@ -20,7 +20,7 @@ div
                   | Impressions*
                   i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Impressions" data-toggle="popover" data-placement="right" :data-content="helpContent('cpiTarget')")
                   br
-                  input.form-control.form-control-sm(placeholder="How many impressions?" v-model="adOptions.impressionTarget")
+                  input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" placeholder="How many impressions?" v-model="adOptions.impressionTarget")
                   small.form-control-feedback(v-if="impressionTargetError")
                     | {{impressionTargetError}}
               td
@@ -29,26 +29,26 @@ div
                   i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per impression" data-toggle="popover" data-placement="right" :data-content="helpContent('cpi')")
                   .input-group
                     span.input-group-addon.h-27 $
-                    input.form-control.form-control-sm(type='text' v-model="adOptions.cpi")
+                    input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpi")
                   small.form-control-feedback(v-if="perImpressionCostError")
                     | {{perImpressionCostError}}
-              td.align-middle.w-100px $ {{CPITotalCost}}
+              td.align-middle.w-100px.text-center $ {{CPITotalCost}}
             tr
               td
                 | Clicks (optional)
                 i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Clicks" data-toggle="popover" data-placement="right" data-content='Specify how many clicks you want for this ad.')
                 br
-                input.form-control.form-control-sm(placeholder="How many clicks?" v-model="adOptions.clickTarget")
+                input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" placeholder="How many clicks?" v-model="adOptions.clickTarget")
               td
                 .form-group.m-0(:class="{'has-danger': perClickCostError}")
                   | Cost per click
                   i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" :data-content="helpContent('cpc')")
                   .input-group
                     span.input-group-addon.h-27 $
-                    input.form-control.form-control-sm(type='text' v-model="adOptions.cpc")
+                    input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpc")
                   small.form-control-feedback(v-if="perClickCostError")
                     | {{perClickCostError}}
-              td.w-100px(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") $ {{CPCTotalCost}}
+              td.w-100px.text-center(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") $ {{CPCTotalCost}}
             tr(v-if="adOptions.clickTarget")
               td.no-border
                 .form-group.m-0(:class="{'has-danger': adLinkError}")
@@ -72,23 +72,23 @@ div
                 | Views (Optional)
                 i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per video view" data-toggle="popover" data-placement="right" data-content='Specify how many video viewes you want for this video ad.')
                 br
-                input.form-control.form-control-sm(type="text" v-model="adOptions.viewTarget")
+                input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" v-model="adOptions.viewTarget")
               td
                 .form-group.m-0(:class="{'has-danger': perVideoViewCostError}")
                   | Cost per view
                   i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" :data-content="helpContent('cpv')")
                   .input-group
                     span.input-group-addon.h-27 $
-                    input.form-control.form-control-sm(type='text' v-model="adOptions.cpv")
+                    input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpv")
                   small.form-control-feedback(v-if="perVideoViewCostError")
                     | {{perVideoViewCostError}}
-              td.align-middle
+              td.align-middle.text-center
                 | $ {{CPVTotalCost}}
             tr
               td
                 b Total
               td
-              td.w-100px
+              td.align-middle.w-100px.text-center
                 b ${{totalCost}}
 </template>
 
@@ -272,7 +272,7 @@ export default {
     },
     validateClickAdLink () {
       if (this.adOptions.adLink && !this.ValidURL(this.adOptions.adLink)) {
-        this.adLinkError = 'Please enter a valid URL'
+        this.adLinkError = 'Enter a valid URL'
         return false
       } else {
         this.adLinkError = false

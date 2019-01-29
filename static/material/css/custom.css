@@ -375,6 +375,9 @@ body {
 .no-border{
 	border: none !important;
 }
+.ad-crteation-wrap input[type='number'] {
+	width: 100% !important;
+}
 
 /* On screens that are 500px or less */
 @media screen and (max-width: 500px) {
