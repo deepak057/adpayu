@@ -30,7 +30,7 @@
   // ==============================================================
   // Start Page Content
   // ==============================================================
-  .row
+  .row.dashboard-feed-view
     .col-12.feed-container-col
       .card
         .card-body

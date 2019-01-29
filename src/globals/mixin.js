@@ -61,6 +61,12 @@ export default {
     },
     isEmptyObject (obj) {
       return Object.keys(obj).length === 0 && obj.constructor === Object
+    },
+    ValidURL (str) {
+      /* eslint-disable */
+      let pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+      return pattern.test(str)
+      /* eslint-enable */
     }
   }
 }

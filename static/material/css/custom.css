@@ -382,4 +382,8 @@ body {
   	font-size: 9px;
   	font-weight: 400;
   }
+
+  .dashboard-feed-view .profiletimeline {
+  	margin-top: 40px;
+  }
 }

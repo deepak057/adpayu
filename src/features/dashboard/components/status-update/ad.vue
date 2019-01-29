@@ -40,37 +40,50 @@ div
                 br
                 input.form-control.form-control-sm(placeholder="How many clicks?" v-model="adOptions.clickTarget")
               td
-                | Cost per click
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" :data-content="helpContent('cpc')")
-                .input-group
-                  span.input-group-addon.h-27 $
-                  input.form-control.form-control-sm(type='text' v-model="adOptions.cpc")
+                .form-group.m-0(:class="{'has-danger': perClickCostError}")
+                  | Cost per click
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" :data-content="helpContent('cpc')")
+                  .input-group
+                    span.input-group-addon.h-27 $
+                    input.form-control.form-control-sm(type='text' v-model="adOptions.cpc")
+                  small.form-control-feedback(v-if="perClickCostError")
+                    | {{perClickCostError}}
               td.w-100px(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") $ {{CPCTotalCost}}
             tr(v-if="adOptions.clickTarget")
               td.no-border
-                | Enter the link
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad link" data-toggle="popover" data-placement="right" data-content='Enter the link/URL where clicking your ad will take users to.')
-                br
-                input.form-control.form-control-sm
+                .form-group.m-0(:class="{'has-danger': adLinkError}")
+                  | Enter the link *
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad link" data-toggle="popover" data-placement="right" data-content='Enter the link/URL where clicking your ad will take users to. For example- https://www.yourdomain.com/anypage')
+                  br
+                  input.form-control.form-control-sm(type='text' v-model.trim="adOptions.adLink")
+                  small.form-control-feedback(v-if="adLinkError")
+                    | {{adLinkError}}
               td.no-border
-                | Link label
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Link label" data-toggle="popover" data-placement="right" data-content="Specify the label for your ad link")
-                .input-group
-                  input.form-control.form-control-sm(type='text' value="")
+                .form-group.m-0(:class="{'has-danger': adLinkLabelError}")
+                  | Link label *
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Link label" data-toggle="popover" data-placement="right" data-content="Specify the label for your ad link. Such as 'Get the product now' or 'Visit the store now' etc.")
+                  .input-group
+                    input.form-control.form-control-sm(type='text' v-model.trim="adOptions.adLinkLabel")
+                  small.form-control-feedback(v-if="adLinkLabelError")
+                    | {{adLinkLabelError}}
               td.align-middle.no-border
             tr(v-if="adType==='video'")
               td
                 | Views (Optional)
                 i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per video view" data-toggle="popover" data-placement="right" data-content='Specify how many video viewes you want for this video ad.')
                 br
-                input.form-control.form-control-sm
+                input.form-control.form-control-sm(type="text" v-model="adOptions.viewTarget")
               td
-                | Cost per view
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" data-content="Specify how much you'd like to pay for every single video view.")
-                .input-group
-                  input.form-control.form-control-sm(type='text' value="")
+                .form-group.m-0(:class="{'has-danger': perVideoViewCostError}")
+                  | Cost per view
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" :data-content="helpContent('cpv')")
+                  .input-group
+                    span.input-group-addon.h-27 $
+                    input.form-control.form-control-sm(type='text' v-model="adOptions.cpv")
+                  small.form-control-feedback(v-if="perVideoViewCostError")
+                    | {{perVideoViewCostError}}
               td.align-middle
-                | $ 0
+                | $ {{CPVTotalCost}}
             tr
               td
                 b Total
@@ -85,6 +98,7 @@ import mixin from '../../../../globals/mixin'
 
 let defaultCPI = 0.0071
 let defaultCPC = 0.028
+let defaultCPV = 0.21
 let defaultImpressionTarget = 500
 
 function defaultAdValues () {
@@ -92,10 +106,14 @@ function defaultAdValues () {
     postIsAd: false,
     cpi: defaultCPI,
     cpc: defaultCPC,
+    cpv: defaultCPV,
     impressionTarget: defaultImpressionTarget,
     clickTarget: 0,
+    viewTarget: 0,
     CPITotalCost: 0,
-    isValidated: false
+    isValidated: false,
+    adLink: '',
+    adLinkLabel: ''
   }
 }
 
@@ -125,9 +143,14 @@ export default {
       postPublic: false,
       defaultCPI: defaultCPI,
       defaultCPC: defaultCPC,
+      defaultCPV: defaultCPV,
       defaultImpressionTarget: defaultImpressionTarget,
       impressionTargetError: false,
-      perImpressionCostError: false
+      perImpressionCostError: false,
+      perClickCostError: false,
+      perVideoViewCostError: false,
+      adLinkError: false,
+      adLinkLabelError: false
     }
   },
   computed: {
@@ -141,9 +164,14 @@ export default {
         return this.formatFigure(this.adOptions.clickTarget * this.adOptions.cpc)
       }
     },
+    CPVTotalCost: {
+      get () {
+        return this.formatFigure(this.adOptions.viewTarget * this.adOptions.cpv)
+      }
+    },
     totalCost: {
       get () {
-        return this.formatFigure(this.CPITotalCost + this.CPCTotalCost)
+        return this.formatFigure(this.CPITotalCost + this.CPCTotalCost + this.CPVTotalCost)
       }
     }
   },
@@ -189,16 +217,77 @@ export default {
           return "Specify how much you'd like to pay for every single click on your ad. Minimum price for per click is $ " + this.defaultCPC
         case 'cpiTarget':
           return 'Specify how many impressions you want for this ad. Minimum accepted value is ' + this.defaultImpressionTarget
+        case 'cpv':
+          return "Specify how much you'd like to pay for every single video view. Minimum accepted value is $ " + this.defaultCPV
       }
     },
     validateAd () {
       if (this.adOptions.postIsAd) {
-        if (this.validateAdImpressionConfig()) {
+        if (this.validateAdImpressionConfig() && this.validateAdClickConfig() && this.validateAdVideoViewsConfig()) {
           return true
         } else {
           return false
         }
       } else {
+        return true
+      }
+    },
+    validateAdVideoViewsConfig () {
+      return this.validatePerVideoViewCost()
+    },
+    validatePerVideoViewCost () {
+      if (this.adOptions.viewTarget && this.adOptions.cpv < this.defaultCPV) {
+        this.perVideoViewCostError = 'Min allowed value is ' + this.defaultCPV
+        return false
+      } else {
+        this.perVideoViewCostError = false
+        return true
+      }
+    },
+    validateAdClickConfig () {
+      return this.validateClickTarget() && this.validatePerClickCost() && this.validateClickAdLinkAndLabel()
+    },
+    validateClickAdLinkAndLabel () {
+      /*
+      * Check the label only after
+      * a valid link has been entered
+      * to avoid the Label error
+      * right from the beginning
+      */
+      if (this.adOptions.adLink && this.validateClickAdLink()) {
+        return this.validateClickAdLinkLabel()
+      } else {
+        return false
+      }
+      // return this.validateClickAdLink() && this.validateClickAdLinkLabel()
+    },
+    validateClickAdLinkLabel () {
+      if (!this.adOptions.adLinkLabel) {
+        this.adLinkLabelError = 'Enter a link label'
+        return false
+      } else {
+        this.adLinkLabelError = false
+        return true
+      }
+    },
+    validateClickAdLink () {
+      if (this.adOptions.adLink && !this.ValidURL(this.adOptions.adLink)) {
+        this.adLinkError = 'Please enter a valid URL'
+        return false
+      } else {
+        this.adLinkError = false
+        return true
+      }
+    },
+    validateClickTarget () {
+      return this.adOptions.clickTarget
+    },
+    validatePerClickCost () {
+      if (this.adOptions.cpc < this.defaultCPC) {
+        this.perClickCostError = 'Min allowed value is ' + this.defaultCPC
+        return false
+      } else {
+        this.perClickCostError = false
         return true
       }
     },
