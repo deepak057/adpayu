@@ -34,13 +34,13 @@ export default {
       uploadPercentage: 0
     }
   },
-  watch: {
+  /* watch: {
     path (newV) {
       if (!newV.length) {
         this.uploadPercentage = 0
       }
     }
-  },
+  }, */
   methods: {
     triggerVideoSelect () {
       document.getElementById('file-video').click()
@@ -87,6 +87,7 @@ export default {
       return valid
     },
     reset () {
+      this.uploadPercentage = 0
     }
   }
 }

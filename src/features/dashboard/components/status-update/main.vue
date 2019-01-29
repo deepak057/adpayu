@@ -9,12 +9,12 @@ div
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <text-status :status="postStatus" @textStatusEntered="getTextStatus" v-if="options.type=='text'"></text-status>
-          <question v-if="options.type=='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
-          <pictures v-if="options.type=='picture'"></pictures>
-          <video-upload v-if="options.type =='video'" :video="video" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
+          <question v-if="options.type==='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
+          <pictures v-if="options.type==='picture'"></pictures>
+          <video-upload v-if="options.type ==='video'" :video="video" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
           <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
-          <image-upload v-if="options.type!='video'" :images="images" @imagesUpdated="getImages"></image-upload>
-          <video-file-upload v-if="options.type=='video'" :path="videoPath" @videoUploaded="setVideoPath"></video-file-upload>
+          <image-upload v-if="options.type!=='video'" :images="images" @imagesUpdated="getImages"></image-upload>
+          <video-file-upload v-if="options.type==='video'" ref="videoFileUploadComp" @videoUploaded="setVideoPath"></video-file-upload>
           div(v-show="!enableMoreOptions")
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
               | More Options
@@ -67,7 +67,6 @@ export default {
       tags: [],
       images: [],
       video: {},
-      videoPath: '',
       resetImages: false,
       preloader: false,
       enableMoreOptions: false,
@@ -144,10 +143,12 @@ export default {
       this.tags = []
       this.images = []
       this.video = {}
-      this.videoPath = ''
       this.enableMoreOptions = false
       this.public = false
       this.$refs.ad.reset()
+      if (this.$refs.videoFileUploadComp) {
+        this.$refs.videoFileUploadComp.reset()
+      }
     },
     getAdData (adOptions) {
       this.adOptions = adOptions
@@ -180,7 +181,7 @@ export default {
     },
     getDefaultPrivacy (options) {
       // let opt = options | this.options
-      return Boolean(this.options.type === 'question' || this.options.type === 'video' | false)
+      return Boolean(this.options.type === 'question' || this.options.type === 'video')
     }
   }
 }
