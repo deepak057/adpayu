@@ -79,20 +79,20 @@ header.topbar
                     i.ti-user
                     |  My Profile
                   </router-link>
-                li
-                  a(href='#')
-                    i.ti-wallet
-                    |  My Balance
-                li
-                  a(href='#')
-                    i.ti-email
-                    |  Inbox
+                // li
+                  // a(href='#')
+                    // i.ti-wallet
+                    // |  My Balance
+                // li
+                  // a(href='#')
+                    // i.ti-email
+                    // |  Inbox
                 li.divider(role='separator')
-                li
-                  a(href='#')
-                    i.ti-settings
-                    |  Account Setting
-                li.divider(role='separator')
+                // li
+                  // a(href='#')
+                    // i.ti-settings
+                    // |  Account Setting
+                // li.divider(role='separator')
                 li
                   a(href='javascript:void(0)' @click="logout")
                     i.fa.fa-power-off

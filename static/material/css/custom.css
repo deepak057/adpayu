@@ -381,7 +381,7 @@ body {
 
 /* On screens that are 500px or less */
 @media screen and (max-width: 500px) {
-  .ad-crteation-wrap label, .ad-crteation-wrap table th {
+  .ad-crteation-wrap label, .ad-crteation-wrap table th, .ad-crteation-wrap small.form-control-feedback {
   	font-size: 9px;
   	font-weight: 400;
   }
@@ -389,4 +389,20 @@ body {
   .dashboard-feed-view .profiletimeline {
   	margin-top: 40px;
   }
+}
+
+/*
+* nullifying all the rules for ti-focus class
+** to avoid conflictc with Themify Iconss CSS rules
+*/
+.vue-tags-input.ti-focus {
+    font-family: inherit;
+}
+
+/**
+** prevent video player's control bar from 
+** overlapping Bootstrap's popups
+**/
+.__cov-video-container .__cov-contrl-content {
+    z-index: 1 !important;
 }

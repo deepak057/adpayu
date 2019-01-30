@@ -3,6 +3,7 @@ div
   <post-privacy v-if = "showPrivacyOption" @PrivacyUpdated="privacyUpdated" :postPublic = "postPublic" ref="postPrivacy"></post-privacy>
   span
     | Is this an Ad?
+    i.mdi.mdi-information-outline.cursor-hand.m-l-2.text-muted(data-container="body" title="Make an ad" data-toggle="popover" data-placement="right" data-content='You can turn this post into an Ad post by using this option.')
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
   .postAdOptions(v-show="adOptions.postIsAd")
     .row.m-t-10.ad-crteation-wrap
@@ -11,7 +12,7 @@ div
           label
             | Add target countries (Optional)
             i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Target Countries" data-toggle="popover" data-placement="right" data-content="Choose which countries this ad should be served in. By default, your ad will appear globally.")
-          <vue-tags-input placeholder="Type country name" @tags-changed="newTags => tags = newTags" v-model="country" :tags="adCountries" :autocomplete-items="filteredItems()"/>
+          <vue-tags-input placeholder="Type country name" @tags-changed="newTags => tags = newTags" v-model="country" :tags="adOptions.adCountries" :autocomplete-items="filteredItems()"/>
         table.table
           thead
             tr
@@ -56,7 +57,7 @@ div
                   small.form-control-feedback(v-if="perClickCostError")
                     | {{perClickCostError}}
               td.w-100px.text-center(:class="{'align-middle': !adOptions.cpc, 'align-bottom': adOptions.cpc}") $ {{CPCTotalCost}}
-            tr(v-if="adOptions.clickTarget")
+            tr(v-if="adOptions.clickTarget > 0")
               td.no-border
                 .form-group.m-0(:class="{'has-danger': adLinkError}")
                   label
@@ -104,6 +105,7 @@ div
 <script>
 import PostPrivacy from './post-privacy'
 import mixin from '../../../../globals/mixin'
+import countryList from '../../../../globals/countries'
 import VueTagsInput from '@johmun/vue-tags-input'
 
 let defaultCPI = 0.0071
@@ -123,7 +125,8 @@ function defaultAdValues () {
     CPITotalCost: 0,
     isValidated: false,
     adLink: '',
-    adLinkLabel: ''
+    adLinkLabel: '',
+    adCountries: []
   }
 }
 
@@ -133,7 +136,7 @@ export default {
     PostPrivacy,
     VueTagsInput
   },
-  mixins: [mixin],
+  mixins: [mixin, countryList],
   props: {
     adOptions: {
       type: Object,
@@ -162,22 +165,7 @@ export default {
       perVideoViewCostError: false,
       adLinkError: false,
       adLinkLabelError: false,
-      country: '',
-      adCountries: [],
-      countryList: [
-        {
-          text: 'India',
-          id: 'IN'
-        },
-        {
-          text: 'England',
-          id: 'EN'
-        },
-        {
-          text: 'China',
-          id: 'CH'
-        }
-      ]
+      country: ''
     }
   },
   computed: {
@@ -272,7 +260,11 @@ export default {
       }
     },
     validateAdClickConfig () {
-      return this.validateClickTarget() && this.validatePerClickCost() && this.validateClickAdLinkAndLabel()
+      if (this.validateClickTarget()) {
+        return this.validatePerClickCost() && this.validateClickAdLinkAndLabel()
+      } else {
+        return false
+      }
     },
     validateClickAdLinkAndLabel () {
       /*
@@ -307,7 +299,7 @@ export default {
       }
     },
     validateClickTarget () {
-      return this.adOptions.clickTarget
+      return this.adOptions.clickTarget > 0
     },
     validatePerClickCost () {
       if (this.adOptions.cpc < this.defaultCPC) {

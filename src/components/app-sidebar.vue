@@ -15,17 +15,17 @@ aside.left-sidebar(style='overflow: visible;')
               i.ti-user
               |  My Profile
             </router-link>
-            a.dropdown-item(href="#")
-              i.ti-wallet
-              |  My Balance
-            a.dropdown-item(href='#')
-              i.ti-email
-              |  Inbox
-            .dropdown-divider
-            a.dropdown-item(href='#')
-              i.ti-settings
-              |  Account Setting
-            .dropdown-divider
+            // a.dropdown-item(href="#")
+              // i.ti-wallet
+              // |  My Balance
+            // a.dropdown-item(href='#')
+              // i.ti-email
+              // |  Inbox
+            // .dropdown-divider
+            // a.dropdown-item(href='#')
+              // i.ti-settings
+              // |  Account Setting
+            // .dropdown-divider
             a.dropdown-item(href='javascript:void(0)' @click="logout()")
               i.fa.fa-power-off
               |  Logout

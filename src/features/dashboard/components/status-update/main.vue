@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  span(id="trigger-post-modal" data-toggle="modal" data-target="#post-modal")
+  span(id="trigger-post-modal" data-toggle="modal" data-target="#post-modal" data-backdrop="static" data-keyboard="false")
   #post-modal.modal.fade.modal-absolute(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-dialog
       .modal-content
