@@ -43,7 +43,7 @@ const routes = [
     name: 'tags',
     path: '/tags',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/tags/main.vue'),
-    title: 'Tags',
+    title: 'Browse Tags',
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
