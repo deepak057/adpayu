@@ -381,7 +381,7 @@ body {
 
 /* On screens that are 500px or less */
 @media screen and (max-width: 500px) {
-  .ad-crteation-wrap table {
+  .ad-crteation-wrap label, .ad-crteation-wrap table th {
   	font-size: 9px;
   	font-weight: 400;
   }

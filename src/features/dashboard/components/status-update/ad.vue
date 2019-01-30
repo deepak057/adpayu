@@ -7,6 +7,11 @@ div
   .postAdOptions(v-show="adOptions.postIsAd")
     .row.m-t-10.ad-crteation-wrap
       .form
+        .form-group.p-l-10.p-r-10.m-b-15
+          label
+            | Add target countries (Optional)
+            i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Target Countries" data-toggle="popover" data-placement="right" data-content="Choose which countries this ad should be served in. By default, your ad will appear globally.")
+          <vue-tags-input placeholder="Type country name" @tags-changed="newTags => tags = newTags" v-model="country" :tags="adCountries" :autocomplete-items="filteredItems()"/>
         table.table
           thead
             tr
@@ -17,16 +22,17 @@ div
             tr
               td.max-w-180px
                 .form-group.m-0(:class="{'has-danger': impressionTargetError}")
-                  | Impressions*
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Impressions" data-toggle="popover" data-placement="right" :data-content="helpContent('cpiTarget')")
-                  br
+                  label
+                    | Impressions*
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Impressions" data-toggle="popover" data-placement="right" :data-content="helpContent('cpiTarget')")
                   input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" placeholder="How many impressions?" v-model="adOptions.impressionTarget")
                   small.form-control-feedback(v-if="impressionTargetError")
                     | {{impressionTargetError}}
               td
                 .form-group.m-0(:class="{'has-danger': perImpressionCostError}")
-                  | Cost per impression
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per impression" data-toggle="popover" data-placement="right" :data-content="helpContent('cpi')")
+                  label
+                    | Per impression
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per impression" data-toggle="popover" data-placement="right" :data-content="helpContent('cpi')")
                   .input-group
                     span.input-group-addon.h-27 $
                     input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpi")
@@ -35,14 +41,15 @@ div
               td.align-middle.w-100px.text-center $ {{CPITotalCost}}
             tr
               td
-                | Clicks (optional)
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Clicks" data-toggle="popover" data-placement="right" data-content='Specify how many clicks you want for this ad.')
-                br
+                label
+                  | Clicks (optional)
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Clicks" data-toggle="popover" data-placement="right" data-content='Specify how many clicks you want for this ad.')
                 input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" placeholder="How many clicks?" v-model="adOptions.clickTarget")
               td
                 .form-group.m-0(:class="{'has-danger': perClickCostError}")
-                  | Cost per click
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" :data-content="helpContent('cpc')")
+                  label
+                    | Cost per click
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost per click" data-toggle="popover" data-placement="right" :data-content="helpContent('cpc')")
                   .input-group
                     span.input-group-addon.h-27 $
                     input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpc")
@@ -52,16 +59,17 @@ div
             tr(v-if="adOptions.clickTarget")
               td.no-border
                 .form-group.m-0(:class="{'has-danger': adLinkError}")
-                  | Enter the link *
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad link" data-toggle="popover" data-placement="right" data-content='Enter the link/URL where clicking your ad will take users to. For example- https://www.yourdomain.com/anypage')
-                  br
+                  label
+                    | Enter the link *
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad link" data-toggle="popover" data-placement="right" data-content='Enter the link/URL where clicking your ad will take users to. For example- https://www.yourdomain.com/anypage')
                   input.form-control.form-control-sm(type='text' v-model.trim="adOptions.adLink")
                   small.form-control-feedback(v-if="adLinkError")
                     | {{adLinkError}}
               td.no-border
                 .form-group.m-0(:class="{'has-danger': adLinkLabelError}")
-                  | Link label *
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Link label" data-toggle="popover" data-placement="right" data-content="Specify the label for your ad link. Such as 'Get the product now' or 'Visit the store now' etc.")
+                  label
+                    | Link label *
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Link label" data-toggle="popover" data-placement="right" data-content="Specify the label for your ad link. Such as 'Get the product now' or 'Visit the store now' etc.")
                   .input-group
                     input.form-control.form-control-sm(type='text' v-model.trim="adOptions.adLinkLabel")
                   small.form-control-feedback(v-if="adLinkLabelError")
@@ -69,14 +77,15 @@ div
               td.align-middle.no-border
             tr(v-if="adType==='video'")
               td
-                | Views (Optional)
-                i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per video view" data-toggle="popover" data-placement="right" data-content='Specify how many video viewes you want for this video ad.')
-                br
+                label
+                  | Views (Optional)
+                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per video view" data-toggle="popover" data-placement="right" data-content='Specify how many video viewes you want for this video ad.')
                 input.form-control.form-control-sm(type="number" @keypress="isNumber(event)" v-model="adOptions.viewTarget")
               td
                 .form-group.m-0(:class="{'has-danger': perVideoViewCostError}")
-                  | Cost per view
-                  i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" :data-content="helpContent('cpv')")
+                  label
+                    | Cost per view
+                    i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Cost Per View" data-toggle="popover" data-placement="right" :data-content="helpContent('cpv')")
                   .input-group
                     span.input-group-addon.h-27 $
                     input.form-control.form-control-sm(type='number' @keypress="isNumber(event)" v-model="adOptions.cpv")
@@ -86,8 +95,8 @@ div
                 | $ {{CPVTotalCost}}
             tr
               td
+              td.text-right
                 b Total
-              td
               td.align-middle.w-100px.text-center
                 b ${{totalCost}}
 </template>
@@ -95,6 +104,7 @@ div
 <script>
 import PostPrivacy from './post-privacy'
 import mixin from '../../../../globals/mixin'
+import VueTagsInput from '@johmun/vue-tags-input'
 
 let defaultCPI = 0.0071
 let defaultCPC = 0.028
@@ -120,7 +130,8 @@ function defaultAdValues () {
 export default {
   name: 'Ad',
   components: {
-    PostPrivacy
+    PostPrivacy,
+    VueTagsInput
   },
   mixins: [mixin],
   props: {
@@ -150,7 +161,23 @@ export default {
       perClickCostError: false,
       perVideoViewCostError: false,
       adLinkError: false,
-      adLinkLabelError: false
+      adLinkLabelError: false,
+      country: '',
+      adCountries: [],
+      countryList: [
+        {
+          text: 'India',
+          id: 'IN'
+        },
+        {
+          text: 'England',
+          id: 'EN'
+        },
+        {
+          text: 'China',
+          id: 'CH'
+        }
+      ]
     }
   },
   computed: {
@@ -311,6 +338,11 @@ export default {
         this.perImpressionCostError = false
         return true
       }
+    },
+    filteredItems () {
+      return this.countryList.filter(i => {
+        return i.text.toLowerCase().indexOf(this.country.toLowerCase()) !== -1
+      })
     }
   }
 }
