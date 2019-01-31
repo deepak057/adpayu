@@ -19,12 +19,13 @@ div
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
               | More Options
               i.fa.fa-angle-right.m-l-5
-          <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adType="options.type" :adOptions= "adOptions" @PrivacyUpdated="PrivacyUpdated"></ad>
+          <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adType="options.type" @PrivacyUpdated="PrivacyUpdated"></ad>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
           div(v-show="preloader")
             <preloader></preloader>
+  <ad-payment ref="adPaymentComponent"></ad-payment>
 </template>
 
 <script>
@@ -38,6 +39,8 @@ import ImageUpload from './image-upload'
 import VideoFileUpload from './video-file-upload'
 import Service from './service'
 import Preloader from './../../../../components/preloader'
+import AdPayment from './ad-payment'
+import mixin from '../../../../globals/mixin'
 
 export default {
   name: 'StatusUpdate',
@@ -51,8 +54,10 @@ export default {
     Pictures,
     ImageUpload,
     VideoUpload,
-    VideoFileUpload
+    VideoFileUpload,
+    AdPayment
   },
+  mixins: [mixin],
   props: {
     options: {
       type: Object,
@@ -123,6 +128,13 @@ export default {
         comments: []
       }
       if (this.validatePost(feed)) {
+        /* check if this post is an
+        ** ad and if so, prompt the
+        ** user for payment
+        */
+        if (this.checkforPayment(feed)) {
+          return
+        }
         this.preloader = true
         this.$options.service.createPost(feed)
           .then((data) => {
@@ -131,6 +143,13 @@ export default {
           })
         this.resetData()
         document.getElementById('post-status-buton-close').click()
+      }
+    },
+    checkforPayment (feed) {
+      if (feed.adOptions.postIsAd && feed.adOptions.totalAmount) {
+        this.scrollToTop()
+        this.$refs.adPaymentComponent.paymentInit(feed.adOptions.totalAmount)
+        return true
       }
     },
     getTextStatus (text_) {

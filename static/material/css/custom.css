@@ -389,6 +389,10 @@ body {
   .dashboard-feed-view .profiletimeline {
   	margin-top: 40px;
   }
+
+  .mobile-fs-13px {
+	font-size: 13px;
+  }
 }
 
 /*
@@ -405,4 +409,8 @@ body {
 **/
 .__cov-video-container .__cov-contrl-content {
     z-index: 1 !important;
+}
+
+.post-payment-modal {
+	z-index: 1099;
 }

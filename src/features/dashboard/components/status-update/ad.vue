@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   <post-privacy v-if = "showPrivacyOption" @PrivacyUpdated="privacyUpdated" :postPublic = "postPublic" ref="postPrivacy"></post-privacy>
-  span
+  span.mobile-fs-13px
     | Is this an Ad?
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.text-muted(data-container="body" title="Make an ad" data-toggle="popover" data-placement="right" data-content='You can turn this post into an Ad post by using this option.')
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
@@ -12,7 +12,7 @@ div
           label
             | Add target countries (Optional)
             i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Target Countries" data-toggle="popover" data-placement="right" data-content="Choose which countries this ad should be served in. By default, your ad will appear globally.")
-          <vue-tags-input placeholder="Type country name" @tags-changed="newTags => tags = newTags" v-model="country" :tags="adOptions.adCountries" :autocomplete-items="filteredItems()"/>
+          <vue-tags-input placeholder="Type country name" v-model="country" :tags="adOptions.adCountries" :autocomplete-items="filteredItems()" @tags-changed="countriesUpdated"/>
         table.table
           thead
             tr
@@ -126,7 +126,27 @@ function defaultAdValues () {
     isValidated: false,
     adLink: '',
     adLinkLabel: '',
-    adCountries: []
+    adCountries: [],
+    totalAmount: 0
+  }
+}
+
+function initialState () {
+  return {
+    showPrivacyOption: false,
+    postPublic: false,
+    defaultCPI: defaultCPI,
+    defaultCPC: defaultCPC,
+    defaultCPV: defaultCPV,
+    defaultImpressionTarget: defaultImpressionTarget,
+    impressionTargetError: false,
+    perImpressionCostError: false,
+    perClickCostError: false,
+    perVideoViewCostError: false,
+    adLinkError: false,
+    adLinkLabelError: false,
+    country: '',
+    adOptions: defaultAdValues()
   }
 }
 
@@ -138,12 +158,12 @@ export default {
   },
   mixins: [mixin, countryList],
   props: {
-    adOptions: {
+    /* adOptions: {
       type: Object,
       default () {
         return defaultAdValues()
       }
-    },
+    }, */
     adType: {
       type: String,
       default () {
@@ -152,21 +172,7 @@ export default {
     }
   },
   data () {
-    return {
-      showPrivacyOption: false,
-      postPublic: false,
-      defaultCPI: defaultCPI,
-      defaultCPC: defaultCPC,
-      defaultCPV: defaultCPV,
-      defaultImpressionTarget: defaultImpressionTarget,
-      impressionTargetError: false,
-      perImpressionCostError: false,
-      perClickCostError: false,
-      perVideoViewCostError: false,
-      adLinkError: false,
-      adLinkLabelError: false,
-      country: ''
-    }
+    return initialState()
   },
   computed: {
     CPITotalCost: {
@@ -198,6 +204,8 @@ export default {
         } else {
           if (this.validateAd()) {
             after.isValidated = true
+            // also, update the totalAmount property in AdOptions
+            after.totalAmount = this.totalCost
           } else {
             after.isValidated = false
           }
@@ -219,6 +227,8 @@ export default {
       this.showPrivacyOption = true
     },
     reset () {
+      // this.adOptions = defaultAdValues()
+      Object.assign(this.$data, initialState())
       this.showPrivacyOption = false
     },
     formatFigure (num) {
@@ -260,10 +270,14 @@ export default {
       }
     },
     validateAdClickConfig () {
-      if (this.validateClickTarget()) {
-        return this.validatePerClickCost() && this.validateClickAdLinkAndLabel()
+      if (this.adOptions.clickTarget) {
+        if (this.validatePerClickCost()) {
+          return this.validateClickAdLinkAndLabel()
+        } else {
+          return false
+        }
       } else {
-        return false
+        return true
       }
     },
     validateClickAdLinkAndLabel () {
@@ -335,6 +349,9 @@ export default {
       return this.countryList.filter(i => {
         return i.text.toLowerCase().indexOf(this.country.toLowerCase()) !== -1
       })
+    },
+    countriesUpdated (newCountries) {
+      this.adOptions.adCountries = newCountries
     }
   }
 }

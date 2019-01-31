@@ -108,6 +108,17 @@ $(function () {
                 $(this).appendTo("body");
              })
 
+             $(document).on('shown.bs.modal', '.topmost-modal', function(){
+               
+               /*
+               ** Set last .backdrop's z-index 50 points higher than second last .backdrop
+               */
+                let l = $(".modal-backdrop").length;
+                if (l > 1) {
+                    $(".modal-backdrop").eq(l-1).css("z-index", (parseInt($(".modal-backdrop").eq(l-2).css("z-index")) + 40) )
+                }
+             })
+
             $(document).on("mouseover", ".image-popup-vertical-fit", function(){
 
                 $('.image-popup-vertical-fit').magnificPopup({
@@ -117,7 +128,6 @@ $(function () {
                     image: {
                         verticalFit: true
                     }
-                    
                 });
             })
             
