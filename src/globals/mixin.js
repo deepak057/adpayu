@@ -76,6 +76,9 @@ export default {
       } else {
         return true
       }
+    },
+    getRandomNumber (min = 1000, max = 999999) {
+      return Math.round(Math.random() * (+max - +min) + +min)
     }
   }
 }
