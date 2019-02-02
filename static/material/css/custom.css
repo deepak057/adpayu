@@ -414,3 +414,7 @@ body {
 .post-payment-modal {
 	z-index: 1099;
 }
+
+#cf-widget-wrap .cf-inner-div, #cf-widget-wrap .cf-inner-div iframe {
+	width: 100% !important
+}

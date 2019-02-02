@@ -10,6 +10,7 @@ div
         .modal-body
           .text-center.m-t-20(v-show="pageLoader")
             <preloader></preloader>
+          #cf-widget-wrap(v-show="!pageLoader")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-payment-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button') Pay Now
@@ -35,8 +36,9 @@ export default {
         ScriptURL: 'https://www.gocashfree.com/assets/cashfree.sdk.v1.js',
         config: {
           layout: {
-            view: 'popup',
-            width: '650'
+            view: 'inline',
+            container: 'cf-widget-wrap',
+            width: 400
           },
           mode: 'TEST'// use PROD when we go live
         },
@@ -81,8 +83,13 @@ export default {
     initCashFreePayment (amount) {
       this.$options.service.getPaymentToken(this.getParameters(amount))
         .then((data) => {
+          this.pageLoader = false
+          data.params.customerName = this.userName(this.currentUser)
+          data.params.customerPhone = 93949573653
+          data.params.customerEmail = this.currentUser.email
+          data.params.secretKey = this.cashFree.secrets.secretKey
           /* eslint-disable */
-          // CashFree.makePayment(data.params, this.cashFreeCallback)
+          CashFree.makePayment(data.params, this.cashFreeCallback)
           /* eslint-enable */
         })
         .catch((pErr) => {
@@ -108,16 +115,16 @@ export default {
     },
     getParameters (amount) {
       return {
+        appId: this.cashFree.secrets.appId,
         orderId: this.currentUser.id + this.getRandomNumber(),
         orderAmount: amount,
-        customerName: this.userName(this.currentUser),
-        customerPhone: 93949573653,
-        customerEmail: this.currentUser.email,
-        paymentModes: '',
-        returnUrl: 'http://localhost:8080',
-        notifyUrl: '',
-        appId: this.cashFree.secrets.appId,
-        secretKey: this.cashFree.secrets.secretKey
+        // customerName: this.userName(this.currentUser),
+        // customerPhone: 93949573653,
+        // customerEmail: this.currentUser.email,
+        returnUrl: '',
+        paymentModes: ''
+        // notifyUrl: '',
+        // secretKey: this.cashFree.secrets.secretKey
       }
     }
   }
