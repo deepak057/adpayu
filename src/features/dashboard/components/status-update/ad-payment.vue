@@ -10,7 +10,7 @@ div
         .modal-body
           .text-center.m-t-20(v-show="pageLoader")
             <preloader></preloader>
-          #cf-widget-wrap(v-show="!pageLoader")
+          div(:id="wrapperId" v-show="!pageLoader")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-payment-buton-close") Close
           button.btn.btn-danger.waves-effect.waves-light(type='button') Pay Now
@@ -20,6 +20,8 @@ import auth from '@/auth/helpers'
 import mixin from '../../../../globals/mixin'
 import Preloader from './../../../../components/preloader'
 import Service from './service'
+
+let CashFreeWrapperId = 'cf-widget-wrap'
 
 export default {
   name: 'AdPayment',
@@ -31,20 +33,17 @@ export default {
   data () {
     return {
       pageLoader: true,
+      wrapperId: CashFreeWrapperId,
       triggerButtonId: 'trigger-post-payment-modal',
       cashFree: {
         ScriptURL: 'https://www.gocashfree.com/assets/cashfree.sdk.v1.js',
         config: {
           layout: {
             view: 'inline',
-            container: 'cf-widget-wrap',
-            width: 400
+            container: CashFreeWrapperId,
+            width: 500
           },
           mode: 'TEST'// use PROD when we go live
-        },
-        secrets: {
-          appId: '33965d499ca8ab7d0550db8d6933',
-          secretKey: '27a853b42e9b20e1992d8d2d2bf433c9ec89bfb5'
         }
       },
       currentUser: auth.getUser()
@@ -55,6 +54,7 @@ export default {
   },
   methods: {
     paymentInit (amount) {
+      this.pageLoader = true
       /* eslint-disable */
       var response = CashFree.init(this.cashFree.config)
       if (response.status === "OK") {
@@ -84,10 +84,6 @@ export default {
       this.$options.service.getPaymentToken(this.getParameters(amount))
         .then((data) => {
           this.pageLoader = false
-          data.params.customerName = this.userName(this.currentUser)
-          data.params.customerPhone = 93949573653
-          data.params.customerEmail = this.currentUser.email
-          data.params.secretKey = this.cashFree.secrets.secretKey
           /* eslint-disable */
           CashFree.makePayment(data.params, this.cashFreeCallback)
           /* eslint-enable */
@@ -115,16 +111,10 @@ export default {
     },
     getParameters (amount) {
       return {
-        appId: this.cashFree.secrets.appId,
-        orderId: this.currentUser.id + this.getRandomNumber(),
         orderAmount: amount,
-        // customerName: this.userName(this.currentUser),
-        // customerPhone: 93949573653,
-        // customerEmail: this.currentUser.email,
         returnUrl: '',
         paymentModes: ''
         // notifyUrl: '',
-        // secretKey: this.cashFree.secrets.secretKey
       }
     }
   }
