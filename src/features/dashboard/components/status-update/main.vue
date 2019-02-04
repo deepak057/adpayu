@@ -25,7 +25,7 @@ div
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
           div(v-show="preloader")
             <preloader></preloader>
-  <ad-payment ref="adPaymentComponent"></ad-payment>
+  <post-preview ref="postPreviewComponent"/>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ import ImageUpload from './image-upload'
 import VideoFileUpload from './video-file-upload'
 import Service from './service'
 import Preloader from './../../../../components/preloader'
-import AdPayment from './ad-payment'
+import PostPreview from './post-preview'
 import mixin from '../../../../globals/mixin'
 
 export default {
@@ -55,7 +55,7 @@ export default {
     ImageUpload,
     VideoUpload,
     VideoFileUpload,
-    AdPayment
+    PostPreview
   },
   mixins: [mixin],
   props: {
@@ -148,7 +148,7 @@ export default {
     checkforPayment (feed) {
       if (feed.adOptions.postIsAd && feed.adOptions.totalAmount) {
         this.scrollToTop()
-        this.$refs.adPaymentComponent.paymentInit(feed.adOptions.totalAmount)
+        this.$refs.postPreviewComponent.previewInit(feed)
         return true
       }
     },

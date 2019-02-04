@@ -411,7 +411,7 @@ body {
     z-index: 1 !important;
 }
 
-.post-payment-modal {
+.topmost-modal {
 	z-index: 1099;
 }
 
