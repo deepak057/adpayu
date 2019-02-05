@@ -60,6 +60,9 @@ export default {
       return window.location.hostname
     },
     isEmptyObject (obj) {
+      if (obj === null || typeof obj !== 'object') {
+        return true
+      }
       return Object.keys(obj).length === 0 && obj.constructor === Object
     },
     ValidURL (str) {

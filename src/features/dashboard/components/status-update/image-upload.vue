@@ -9,7 +9,7 @@
       i.mdi.mdi-check-all.f-s-17(v-show = "totalFilesUploaded == totalFiles")
     span
       | {{getFileUploadProgressText()}}
-  input.none(type="file" multiple id="file-image" accept="image/*" data-type="image" @change="filesChange($event.target.name, $event.target.files)")
+  input.none(type="file" multiple id="post-file-image" accept="image/*" data-type="image" @change="filesChange($event.target.name, $event.target.files)")
 </template>
 <script>
 import Service from './service'
@@ -50,13 +50,12 @@ export default {
   },
   methods: {
     triggerImageSelect () {
-      document.getElementById('file-image').click()
+      document.getElementById('post-file-image').click()
     },
     triggerVideoSelect () {
       document.getElementById('file-video').click()
     },
     filesChange (event, files) {
-      console.log(files)
       if (files.length && this.validateImages(files)) {
         this.uploadImages(files)
       } else {

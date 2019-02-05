@@ -176,7 +176,7 @@ export default {
       this.tags = tags
     },
     getImages (images) {
-      this.images.push(images)
+      // this.images.push(images)
     },
     setVideoPath (path) {
       this.$refs.videoUpload.setVideoPath(path)

@@ -2,14 +2,14 @@
 div
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-backdrop="static" data-keyboard="false")
   .modal.modal-absolute.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='postPreviewtModalLabel', aria-hidden='true')
-    .modal-dialog
+    .modal-dialog.modal-lg
       .modal-content
         .modal-header
           h4.modal-title Ad Preview
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           .feed-preview-wrap
-            <feed :feed="feedArray"/>
+            <feed :feed="feedArray" :preview="preview"/>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-payment-buton-close") Edit
           button.btn.btn-danger.waves-effect.waves-light(type='button') Proceed to Pay
@@ -33,7 +33,8 @@ export default {
       triggerButtonId: 'trigger-post-preview-modal',
       modalId: 'post-preview-modal',
       feedArray: [],
-      currentUser: auth.getUser()
+      currentUser: auth.getUser(),
+      preview: true
     }
   },
   computed: {
@@ -60,16 +61,29 @@ export default {
     * component in order to show the preview
     */
     feedPreviewData (feed) {
+      console.log(JSON.stringify(feed))
       this.$set(feed, 'id', this.getRandomNumber())
       this.$set(feed, 'User', this.currentUser)
       this.$set(feed, 'AdOption', feed.adOptions)
       this.$set(feed, 'Images', feed.images)
       this.$set(feed, 'Question', feed.question)
       this.$set(feed, 'Video', feed.video)
-      this.$set(feed, 'Tags', feed.tags)
+      this.$set(feed, 'Tags', this.getTags(feed.tags))
       this.$set(feed, 'Comments', [])
       this.$set(feed, 'createdAt', (new Date().toString()))
       return feed
+    },
+    getTags (tags) {
+      let tagsArr = []
+      if (tags.length) {
+        for (let i in tags) {
+          tagsArr.push({
+            name: tags[i].text,
+            id: tags[i].id
+          })
+        }
+      }
+      return tagsArr
     }
   }
 }

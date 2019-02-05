@@ -418,3 +418,11 @@ body {
 #cf-widget-wrap .cf-inner-div, #cf-widget-wrap .cf-inner-div iframe {
 	width: 100% !important
 }
+
+.feed-preview-wrap hr {
+	display: none;
+}
+
+.popover {
+	z-index: 1200;
+}

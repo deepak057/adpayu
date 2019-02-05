@@ -29,22 +29,27 @@
         |  {{getPostDescriptionText(f)}}
         span.sl-date
           <timeago :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
-          i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-show="f['public']")
-          i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-show="!f['public']")
+          i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
+          i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
+          i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
-            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark">
+            a.font-dark(href="javascript:void(0)" v-if="preview")
+              | {{f['Question'].question}}
+            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question}}
             </router-link>
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
-            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark">
+            a.font-dark(href="javascript:void(0)" v-if="preview")
+              | {{f['Video'].title}}
+            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Video'].title}}
             </router-link>
           p.text-muted {{f['Video'].description}}
-        .row.m-0.feed-video-wrap(v-if="f['Video']")
+        .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-6.video-container
             <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
@@ -60,7 +65,7 @@
           <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm
+        .like-comm(v-show="!preview")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
     <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
@@ -88,6 +93,12 @@ export default {
     feed: {
       type: Array,
       required: true
+    },
+    preview: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
