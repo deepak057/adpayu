@@ -147,7 +147,6 @@ export default {
     },
     checkforPayment (feed) {
       if (feed.adOptions.postIsAd && feed.adOptions.totalAmount) {
-        this.scrollToTop()
         this.$refs.postPreviewComponent.previewInit(feed)
         return true
       }

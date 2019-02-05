@@ -55,6 +55,7 @@ export default {
   methods: {
     paymentInit (amount) {
       this.pageLoader = true
+      this.scrollToTop()
       /* eslint-disable */
       var response = CashFree.init(this.cashFree.config)
       if (response.status === "OK") {

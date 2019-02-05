@@ -8,23 +8,27 @@ div
           h4.modal-title Ad Preview
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
+          .text-center.m-t-20(v-if="!feedArray.length")
           .feed-preview-wrap
-            <feed :feed="feedArray" :preview="preview"/>
+            <feed :feed="feedArray" :preview="preview" v-if="feedArray.length"/>
         .modal-footer
-          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' id="post-status-payment-buton-close") Edit
-          button.btn.btn-danger.waves-effect.waves-light(type='button') Proceed to Pay
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Edit
+          button.btn.btn-danger.waves-effect.waves-light(type='button' @click="paymentInit()") Proceed to Pay
+  <ad-payment ref="adPaymentComponent"/>
 </template>
 <script>
 import mixin from '../../../../globals/mixin'
 import Feed from './../../../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
+import AdPayment from './ad-payment'
 
 export default {
   name: 'PostPreview',
   service: new Service(),
   components: {
-    Feed
+    Feed,
+    AdPayment
   },
   mixins: [mixin],
   data () {
@@ -34,7 +38,9 @@ export default {
       modalId: 'post-preview-modal',
       feedArray: [],
       currentUser: auth.getUser(),
-      preview: true
+      preview: true,
+      amount: '',
+      closeButtonId: 'post-preview-payment-buton-close'
     }
   },
   computed: {
@@ -49,11 +55,16 @@ export default {
   methods: {
     previewInit (feed) {
       this.feedArray = []
+      this.amount = feed.adOptions.totalAmount
+      this.scrollToTop()
       this.triggerPopup()
       this.feedArray.push(this.feedPreviewData(feed))
     },
     triggerPopup () {
       document.getElementById(this.triggerButtonId).click()
+    },
+    closePopup () {
+      document.getElementById(this.closeButtonId).click()
     },
     /*
     * Method to return a fake Feed object simulating
@@ -61,7 +72,6 @@ export default {
     * component in order to show the preview
     */
     feedPreviewData (feed) {
-      console.log(JSON.stringify(feed))
       this.$set(feed, 'id', this.getRandomNumber())
       this.$set(feed, 'User', this.currentUser)
       this.$set(feed, 'AdOption', feed.adOptions)
@@ -84,6 +94,10 @@ export default {
         }
       }
       return tagsArr
+    },
+    paymentInit () {
+      this.closePopup()
+      this.$refs.adPaymentComponent.paymentInit(this.amount)
     }
   }
 }
