@@ -50,13 +50,4 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-  getPaymentToken (data) {
-    return auth.get('/payment/getToken', data)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
 }

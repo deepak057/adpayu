@@ -21,7 +21,7 @@ import mixin from '../../../../globals/mixin'
 import Feed from './../../../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
-import { router } from '@/http'
+// import { router } from '@/http'
 
 export default {
   name: 'PostPreview',
@@ -102,7 +102,24 @@ export default {
     proceedToPay () {
       auth.saveLocalPost(this.postData)
       this.closePopup(true)
-      router.push({ name: 'order' })
+      /*
+      * due to Cashfree payment gateway limited use case
+      * we need actually reload the Order page
+      * so that it initiate a new payment order.
+      * So using window.location instead of router.push
+      * Also, generating a delay of a few miliseconds
+      * so that redirection takes place after popups have
+      * closed out
+      */
+      setTimeout(function () {
+        window.location = '/order'
+      }, 500)
+      /* router.push({
+        name: 'order',
+        params: {
+          orderId: this.getRandomNumber()
+        }
+      }) */
     }
   }
 }

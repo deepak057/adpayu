@@ -6,8 +6,8 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  getUserProfile (uid) {
-    return auth.get('/users/' + uid)
+  getPaymentToken (data) {
+    return auth.get('/payment/getToken', data)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
