@@ -97,6 +97,15 @@ const routes = [
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
+  },
+  {
+    name: 'order',
+    path: '/order',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/order/main.vue'),
+    title: 'Order',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

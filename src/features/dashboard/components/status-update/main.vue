@@ -25,7 +25,7 @@ div
           button.btn.btn-danger.waves-effect.waves-light(type='button' @click="postShareStatus") {{options.buttonLabel}}
           div(v-show="preloader")
             <preloader></preloader>
-  <post-preview ref="postPreviewComponent"/>
+  <post-preview ref="postPreviewComponent" @closePostPopup="closePopup()"/>
 </template>
 
 <script>
@@ -141,9 +141,12 @@ export default {
             this.preloader = false
             this.$emit('statusPosted', data)
           })
-        this.resetData()
-        document.getElementById('post-status-buton-close').click()
+        this.closePopup()
       }
+    },
+    closePopup () {
+      this.resetData()
+      document.getElementById('post-status-buton-close').click()
     },
     checkforPayment (feed) {
       if (feed.adOptions.postIsAd && feed.adOptions.totalAmount) {

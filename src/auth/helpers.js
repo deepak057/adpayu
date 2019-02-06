@@ -123,7 +123,13 @@ export default {
     store.state.auth.user = user
     store.dispatch('auth/update', store.state.auth)
   },
-
+  saveLocalPost (post) {
+    store.state.auth.post = post
+    store.dispatch('auth/update', store.state.auth)
+  },
+  getLocalPost () {
+    return store.state.auth.post
+  },
   updateUserTags (tags, action) {
     let userTags = store.state.auth.userTags
     if (action) {

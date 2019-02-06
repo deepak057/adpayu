@@ -13,22 +13,21 @@ div
             <feed :feed="feedArray" :preview="preview" v-if="feedArray.length"/>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Edit
-          button.btn.btn-danger.waves-effect.waves-light(type='button' @click="paymentInit()") Proceed to Pay
-  <ad-payment ref="adPaymentComponent"/>
+          button.btn.btn-danger.waves-effect.waves-light(@click="proceedToPay()")
+            | Proceed to Pay
 </template>
 <script>
 import mixin from '../../../../globals/mixin'
 import Feed from './../../../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
-import AdPayment from './ad-payment'
+import { router } from '@/http'
 
 export default {
   name: 'PostPreview',
   service: new Service(),
   components: {
-    Feed,
-    AdPayment
+    Feed
   },
   mixins: [mixin],
   data () {
@@ -40,7 +39,8 @@ export default {
       currentUser: auth.getUser(),
       preview: true,
       amount: '',
-      closeButtonId: 'post-preview-payment-buton-close'
+      closeButtonId: 'post-preview-payment-buton-close',
+      postData: {}
     }
   },
   computed: {
@@ -55,6 +55,7 @@ export default {
   methods: {
     previewInit (feed) {
       this.feedArray = []
+      this.postData = feed
       this.amount = feed.adOptions.totalAmount
       this.scrollToTop()
       this.triggerPopup()
@@ -63,8 +64,11 @@ export default {
     triggerPopup () {
       document.getElementById(this.triggerButtonId).click()
     },
-    closePopup () {
+    closePopup (closePostPopup = false) {
       document.getElementById(this.closeButtonId).click()
+      if (closePostPopup) {
+        this.$emit('closePostPopup')
+      }
     },
     /*
     * Method to return a fake Feed object simulating
@@ -95,9 +99,10 @@ export default {
       }
       return tagsArr
     },
-    paymentInit () {
-      this.closePopup()
-      this.$refs.adPaymentComponent.paymentInit(this.amount)
+    proceedToPay () {
+      auth.saveLocalPost(this.postData)
+      this.closePopup(true)
+      router.push({ name: 'order' })
     }
   }
 }

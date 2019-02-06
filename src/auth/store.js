@@ -6,7 +6,8 @@ const defaults = {
     name: '',
     id: ''
   },
-  userTags: []
+  userTags: [],
+  post: {}
 }
 
 const auth = {

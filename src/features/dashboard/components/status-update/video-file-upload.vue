@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL'],
+      validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL', 'video/flv', 'video/3gp', 'video/3gpp'],
       uploadPercentage: 0
     }
   },
