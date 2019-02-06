@@ -426,3 +426,9 @@ body {
 .popover {
 	z-index: 1200;
 }
+.w-300px {
+	width: 300px;
+}
+.w-265px {
+	width: 265px;
+}

@@ -24,11 +24,32 @@
   // Row
   .row
     // Column
-    .col-12.text-center.p-l-0.p-r-0
+    .col-12.p-l-0.p-r-0
       .card
-        .card-body.page-preloader
-          <preloader v-show="pagePreloader"></preloader>
-  .row(v-show="!pagePreloader")
+        .card-body.text-center.min-h-400
+          .page-preloader(v-if="!pagePreloader")
+            <preloader></preloader>
+          <template v-if="pagePreloader">
+          h2.card-title
+            i.mdi.mdi-currency-usd
+            | Payment Detail
+          .m-t-30
+            p
+              | Amount: $13,848
+              i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Amount" data-toggle="popover" data-placement="right"  data-content="The amount calculated based on your ad configuration.")
+            p
+              | Processing Fee (10%): $138
+              i.mdi.mdi-information-outline.m-l-5.cursor-hand
+            hr
+            h3
+              b Total :
+              |  $13,986
+          form
+            .form-group
+              input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*")
+              i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Phone Number Required" data-toggle="popover" data-placement="right"  data-content="Our payment partner requires customer's phone number in order to identify you and provide you better services. Please enter your phone number in order to continue.")
+          a.btn.btn-primary.m-t-20(href='#') Pay Now
+          </template>
 </template>
 <script>
 import auth from '@/auth/helpers'
