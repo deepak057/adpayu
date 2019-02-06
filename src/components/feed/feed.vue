@@ -1,6 +1,6 @@
 <template lang="pug">
 .profiletimeline
-  .nothing-to-show(v-if="!feed.length")
+  .nothing-to-show(v-if="initialized && !feedArr.length")
     .jumbotron.white-back.text-center
       h1.display-3 Nothing Here!
       p.lead
@@ -14,7 +14,7 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="f in feed" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
+  .sl-item.feed-block(v-for="f in feedArr" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
@@ -103,9 +103,44 @@ export default {
   },
   data () {
     return {
+      feedArr: [],
+      initialized: false
+    }
+  },
+  watch: {
+    feed (feed) {
+      this.feedArr = this.filterDuplicatePosts(feed)
+    }
+  },
+  mounted () {
+    if (this.feed.length) {
+      this.feedArr = this.filterDuplicatePosts(this.feed)
     }
   },
   methods: {
+    /*
+    * Due to an unresolved issue
+    * on the server side sequalize pagination query,
+    * sometimes server sends duplicate rows in
+    * subsequent pagination pages.
+    * For the time being, we are just filtering the
+    * duplicate posts and keeping the duplicate posts
+    * from being displayed by removing the duplicate
+    * post object from Feed array
+    */
+    filterDuplicatePosts (feed) {
+      let obj = {}
+      this.initialized = true
+
+      for (let i = 0, len = feed.length; i < len; i++) {
+        obj[feed[i]['id']] = feed[i]
+      }
+      feed = []
+      for (let key in obj) {
+        feed.push(obj[key])
+      }
+      return feed.reverse()
+    },
     getCPCText (cost) {
       return 'You wil get $' + cost + ' for clicking this link'
     },
