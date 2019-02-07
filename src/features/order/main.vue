@@ -188,9 +188,8 @@ export default {
     getParameters (amount) {
       return {
         orderAmount: amount,
-        returnUrl: '',
+        returnUrl: this.getBaseURL() + '/order/create',
         paymentModes: ''
-        // notifyUrl: '',
       }
     },
     getProcessingFeeHelpText () {
