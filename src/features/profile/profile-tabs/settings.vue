@@ -20,6 +20,14 @@
         input.form-control.form-control-line(type="text" v-model.trim="user.tagline" placeholder="Enter your tagline")
         small.form-control-feedback(v-show="taglineError")
           | {{taglineError}}
+    .form-group(:class="{'has-danger': phoneNumberError}")
+      label.col-md-12
+        | Phone Number
+        i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your phone number")
+      .col-md-12
+        input.form-control.form-control-line(type="text" @keypress="isNumber(event)" v-model="user.phone" placeholder="Enter Phone number")
+        small.form-control-feedback(v-show="phoneNumberError")
+          | {{phoneNumberError}}
     .form-group
       label.col-sm-12
         | Gender
@@ -85,7 +93,8 @@ export default {
       taglineError: false,
       maxTaglineChars: 100,
       newPassword: '',
-      passwordError: false
+      passwordError: false,
+      phoneNumberError: false
     }
   },
   watch: {
@@ -95,7 +104,7 @@ export default {
   },
   methods: {
     updateProfile () {
-      if (this.nameValidate() && this.validateTagLine() && this.passwordVaildate()) {
+      if (this.nameValidate() && this.validateTagLine() && this.PhoneValidate() && this.passwordVaildate()) {
         this.showNotification('Saving profile, please wait....', 'warn', -1)
         auth.updateCurrentUser(this.getUserObject())
           .then((data) => {
@@ -131,6 +140,15 @@ export default {
         return true
       } else {
         this.taglineError = 'Max ' + this.maxTaglineChars + ' chars allowed. You have entered ' + this.user.tagline.length
+        return false
+      }
+    },
+    PhoneValidate () {
+      if (!this.user.phone || this.validatePhoneNumber(this.user.phone)) {
+        this.phoneNumberError = false
+        return true
+      } else {
+        this.phoneNumberError = 'Please enter a valid 10 digit phone number'
         return false
       }
     },

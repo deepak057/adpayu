@@ -46,11 +46,14 @@
             h3
               b Total :
               |  ${{paymentParameters.orderAmountUSD}} ({{paymentParameters.orderAmount}} INR)
-          form
-            .form-group
-              input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*")
+          form(@submit.prevent="paymentInit()")
+            .form-group(:class="{'has-danger': phoneNumberError}")
+              input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*" v-model="currentUser.phone" @keypress="isNumber(event)")
               i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Phone Number Required" data-toggle="popover" data-placement="right"  data-content="Our payment partner requires customer's phone number in order to identify you and provide you better services. Please enter your phone number in order to continue.")
-          a.btn.btn-primary.m-t-20(href="javascript:void(0)" @click.prevent="paymentInit()") Pay Now
+              br
+              small.form-control-feedback(v-show="phoneNumberError")
+                | {{phoneNumberError}}
+            button.btn.btn-primary.m-t-20(type="submit") Pay Now
           </template>
           </template>
 </template>
@@ -59,6 +62,7 @@ import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
+import userRegistrationMixin from '../../globals/user-register'
 
 let CashFreeWrapperId = 'cf-widget-wrap'
 
@@ -68,7 +72,7 @@ export default {
   components: {
     Preloader
   },
-  mixins: [mixin],
+  mixins: [mixin, userRegistrationMixin],
   data () {
     return {
       pagePreloader: true,
@@ -87,7 +91,13 @@ export default {
       localPostFound: true,
       paymentParameters: {},
       CashFreeWrapperId: CashFreeWrapperId,
-      paymentGatewayInitialized: false
+      paymentGatewayInitialized: false,
+      phoneNumberError: false
+    }
+  },
+  watch: {
+    'currentUser.phone' () {
+      this.checkPhoneNumber()
     }
   },
   mounted () {
@@ -103,9 +113,6 @@ export default {
           .then((data) => {
             this.pagePreloader = false
             this.paymentParameters = data.params
-            /* eslint-disable */
-            // CashFree.makePayment(data.params, this.cashFreeCallback)
-            /* eslint-enable */
           })
           .catch((pErr) => {
             alert('Something went wrong while initializing the payment, please try again later')
@@ -131,18 +138,34 @@ export default {
           console.log(event.message)
       }
     },
-    paymentInit () {
-      this.paymentGatewayInitialized = true
-      /* eslint-disable */
-      var response = CashFree.init(this.cashFree.config)
-      if (response.status === "OK") {
-        console.log('Payment Gateway Initialized');
+    checkPhoneNumber () {
+      if (this.validatePhoneNumber(this.currentUser.phone)) {
+        this.phoneNumberError = false
+        return true
       } else {
-      //handle error
-        console.log(response.message);
+        this.phoneNumberError = 'Please enter a valid 10 digit phone number'
+        return false
       }
-      CashFree.makePayment(this.paymentParameters, this.cashFreeCallback)
-      /* eslint-enable */
+    },
+    paymentInit () {
+      if (this.checkPhoneNumber()) {
+        this.paymentGatewayInitialized = true
+        /* eslint-disable */
+        var response = CashFree.init(this.cashFree.config)
+        if (response.status === "OK") {
+          console.log('Payment Gateway Initialized');
+        } else {
+        //handle error
+          console.log(response.message);
+        }
+        // add customer's details number to parameters
+        this.paymentParameters.customerPhone = this.currentUser.phone
+        this.paymentParameters.customerName = this.userName(this.currentUser)
+        this.paymentParameters.customerEmail = this.currentUser.email
+
+        CashFree.makePayment(this.paymentParameters, this.cashFreeCallback)
+        /* eslint-enable */
+      }
     },
     checkIfScriptExists () {
       let scripts = document.getElementsByTagName('script')
