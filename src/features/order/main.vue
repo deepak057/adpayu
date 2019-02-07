@@ -37,20 +37,20 @@
             | Payment Detail
           .m-t-30
             p
-              | Amount: $13,848 ({{paymentParameters.orderAmount}} INR)
+              | Amount: ${{paymentParameters.amountUSD}} ({{paymentParameters.amountINR}} INR)
               i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Amount" data-toggle="popover" data-placement="right"  data-content="The base amount calculated based on your ad configuration.")
             p
-              | Processing Fee (3%): $138
-              i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Processing Fee" data-toggle="popover" data-placement="right"  data-content="The processing fee and taxes based on the base amount above. It's 3% of the base amount.")
+              | Processing Fee ({{paymentParameters.processingFeePercentage}}%): ${{paymentParameters.processingFeeUSD}} ({{paymentParameters.processingFeeINR}} INR)
+              i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Processing Fee" data-toggle="popover" data-placement="right"  :data-content="getProcessingFeeHelpText()")
             hr
             h3
               b Total :
-              |  $13,986
+              |  ${{paymentParameters.orderAmountUSD}} ({{paymentParameters.orderAmount}} INR)
           form
             .form-group
               input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*")
               i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Phone Number Required" data-toggle="popover" data-placement="right"  data-content="Our payment partner requires customer's phone number in order to identify you and provide you better services. Please enter your phone number in order to continue.")
-          a.btn.btn-primary.m-t-20(@click.prevent="paymentInit()") Pay Now
+          a.btn.btn-primary.m-t-20(href="javascript:void(0)" @click.prevent="paymentInit()") Pay Now
           </template>
           </template>
 </template>
@@ -168,6 +168,9 @@ export default {
         paymentModes: ''
         // notifyUrl: '',
       }
+    },
+    getProcessingFeeHelpText () {
+      return 'The processing fee and taxes based on the base amount above. It is ' + this.paymentParameters.processingFeePercentage + '% of the base amount.'
     }
   }
 }
