@@ -115,6 +115,8 @@ export default {
   mounted () {
     if (this.feed.length) {
       this.feedArr = this.filterDuplicatePosts(this.feed)
+    } else {
+      this.initialized = true
     }
   },
   methods: {

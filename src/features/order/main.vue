@@ -158,6 +158,7 @@ export default {
         //handle error
           console.log(response.message);
         }
+        
         // add customer's details number to parameters
         this.paymentParameters.customerPhone = this.currentUser.phone
         this.paymentParameters.customerName = this.userName(this.currentUser)
