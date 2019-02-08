@@ -100,7 +100,7 @@ const routes = [
   },
   {
     name: 'order',
-    path: '/order',
+    path: '/order/:action',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/order/main.vue'),
     title: 'Order',
     layout: 'DefaultLayout',

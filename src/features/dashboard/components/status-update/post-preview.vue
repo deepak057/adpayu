@@ -112,7 +112,7 @@ export default {
       * closed out
       */
       setTimeout(function () {
-        window.location = '/order'
+        window.location = '/order/create'
       }, 500)
       /* router.push({
         name: 'order',

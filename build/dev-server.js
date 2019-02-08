@@ -73,6 +73,23 @@ const readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
+/*
+* A custom Return URL that will be called 
+* by the payment gateway after a transaction
+* and will post the details about the transaction
+* This POST URL had to be created at NODE level
+* as VueJS was unable to capture post response 
+* So this method will simply accept response from
+* payment gateway and will redirect to the same
+* GET URL which will be controlled by VueJS
+*/
+app.post('/order/check', function(req, res) {
+    console.log('Receiving response from the payment Gateway...');
+    res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+'&response='+ JSON.stringify(req.query));
+});
+
+/*ends*/
+
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
