@@ -70,11 +70,8 @@ const routes = [
   },
   {
     name: 'p',
-    path: '/p',
+    path: '/p/:id',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/main.vue'),
-    children: [{
-      path: ':id'
-    }],
     title: 'Post',
     layout: 'DefaultLayout',
     isPublic: false,

@@ -41,6 +41,7 @@ import Service from './service'
 import Preloader from './../../../../components/preloader'
 import PostPreview from './post-preview'
 import mixin from '../../../../globals/mixin'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'StatusUpdate',
@@ -136,10 +137,13 @@ export default {
           return
         }
         this.preloader = true
-        this.$options.service.createPost(feed)
+        auth.createPost(feed)
           .then((data) => {
             this.preloader = false
             this.$emit('statusPosted', data)
+          })
+          .catch((pErr) => {
+            this.showNotification('Something went wrong while creating your post.', 'error')
           })
         this.closePopup()
       }

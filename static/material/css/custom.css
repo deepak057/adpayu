@@ -436,3 +436,6 @@ body {
 .w-265px {
 	width: 265px;
 }
+.all-caps {
+	text-transform: uppercase;
+}

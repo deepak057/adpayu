@@ -85,6 +85,19 @@ export default {
     },
     getBaseURL () {
       return window.location.origin
+    },
+    showNotification (content, classType, duration = 3000) {
+      this.$notify({
+        group: 'appNotifications',
+        clean: true
+      })
+      this.$notify({
+        group: 'appNotifications',
+        title: '',
+        text: content,
+        type: classType,
+        duration: duration
+      })
     }
   }
 }

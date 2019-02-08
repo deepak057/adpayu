@@ -6,16 +6,6 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  createPost (feed) {
-    return auth.post('/posts', feed)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
   tagsAutoSuggestions (tag) {
     return auth.get('/tags', {tag: tag})
       .then((response) => {

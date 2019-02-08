@@ -106,6 +106,20 @@ export default {
       })
   },
 
+  createPost (feed) {
+    return Vue.http({
+      method: 'post',
+      url: constants.API_BASE_URL + '/posts',
+      data: feed
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   getPost (postId) {
     return Vue.http({
       method: 'get',

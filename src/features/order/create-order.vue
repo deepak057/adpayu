@@ -2,6 +2,9 @@
 div
   div(:id="CashFreeWrapperId" v-show="paymentGatewayInitialized")
   <template v-if="!paymentGatewayInitialized">
+  .page-preloader.text-danger.f-w-500(v-if="!pagePreloader && error")
+    i.mdi.mdi-alert.m-r-5
+    | {{error}}
   .page-preloader(v-if="pagePreloader")
     <preloader></preloader>
   <template v-if="!pagePreloader">
@@ -65,7 +68,8 @@ export default {
       paymentParameters: {},
       CashFreeWrapperId: CashFreeWrapperId,
       paymentGatewayInitialized: false,
-      phoneNumberError: false
+      phoneNumberError: false,
+      error: ''
     }
   },
   watch: {
@@ -88,8 +92,12 @@ export default {
             this.paymentParameters = data.params
           })
           .catch((pErr) => {
-            alert('Something went wrong while initializing the payment, please try again later')
+            this.showNotification('Something went wrong while initializing the payment, please try again later', 'error')
           })
+      } else {
+        this.pagePreloader = false
+        this.error = 'No orders found, please try again later'
+        this.showNotification(this.error, 'error')
       }
     },
     getLocalPost () {
