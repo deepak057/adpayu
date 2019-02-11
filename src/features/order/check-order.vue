@@ -61,7 +61,7 @@ export default {
               this.order = data.order
               this.checkOrder()
             } else {
-              // keep checking the Order status
+              // keep checking the Order status (every 2 seconds)
               // until the payment gateway has
               // sent a response to the server
               // for the given Order Id

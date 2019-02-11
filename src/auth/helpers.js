@@ -144,6 +144,9 @@ export default {
   getLocalPost () {
     return store.state.auth.post
   },
+  getLocalOptions () {
+    return store.state.auth.options
+  },
   updateUserTags (tags, action) {
     let userTags = store.state.auth.userTags
     if (action) {

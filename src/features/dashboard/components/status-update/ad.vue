@@ -107,19 +107,18 @@ import PostPrivacy from './post-privacy'
 import mixin from '../../../../globals/mixin'
 import countryList from '../../../../globals/countries'
 import VueTagsInput from '@johmun/vue-tags-input'
+import auth from '@/auth/helpers'
 
-let defaultCPI = 0.0071
-let defaultCPC = 0.028
-let defaultCPV = 0.21
-let defaultImpressionTarget = 500
+// default site's global options
+let options = auth.getLocalOptions()
 
 function defaultAdValues () {
   return {
     postIsAd: false,
-    cpi: defaultCPI,
-    cpc: defaultCPC,
-    cpv: defaultCPV,
-    impressionTarget: defaultImpressionTarget,
+    cpi: options.adDefaultPricing.defaultCPI,
+    cpc: options.adDefaultPricing.defaultCPC,
+    cpv: options.adDefaultPricing.defaultCPV,
+    impressionTarget: options.adDefaultPricing.defaultImpressionTarget,
     clickTarget: 0,
     viewTarget: 0,
     CPITotalCost: 0,
@@ -135,10 +134,10 @@ function initialState () {
   return {
     showPrivacyOption: false,
     postPublic: false,
-    defaultCPI: defaultCPI,
-    defaultCPC: defaultCPC,
-    defaultCPV: defaultCPV,
-    defaultImpressionTarget: defaultImpressionTarget,
+    defaultCPI: options.adDefaultPricing.defaultCPI,
+    defaultCPC: options.adDefaultPricing.defaultCPC,
+    defaultCPV: options.adDefaultPricing.defaultCPV,
+    defaultImpressionTarget: options.adDefaultPricing.defaultImpressionTarget,
     impressionTargetError: false,
     perImpressionCostError: false,
     perClickCostError: false,
