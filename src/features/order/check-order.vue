@@ -89,18 +89,22 @@ export default {
     postAd () {
       // remove the random ID given to local post object
       delete this.localPost.id
+      // add the order Id to the local post object
+      this.localPost.orderId = this.getOrderId()
       auth.createPost(this.localPost)
         .then((data) => {
           this.pageLoader = false
           this.statusText = 'Ad posted successfully '
           this.showNotification('Ad posted successfully.', 'success')
           // reset the local post object
+          // by passing an empty object to
+          // below method
           auth.saveLocalPost({})
           // redirect to the post page
           router.push({name: 'p', params: { id: data.id }})
         })
         .catch((pErr) => {
-          this.showNotification('Something went wrong while creating your post.', 'error')
+          this.showNotification('Something went wrong while posting your ad.', 'error')
         })
     },
     getOrderId () {

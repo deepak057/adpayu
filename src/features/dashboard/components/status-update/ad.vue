@@ -5,7 +5,9 @@ div
     | Is this an Ad?
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.text-muted(data-container="body" title="Make an ad" data-toggle="popover" data-placement="right" data-content='You can turn this post into an Ad post by using this option.')
   <toggle-button v-model="adOptions.postIsAd" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
-  .postAdOptions(v-show="adOptions.postIsAd")
+  .m-t-20.text-center(v-if="adOptions.postIsAd && !defaultOptionsLoaded")
+    <preloader/>
+  .postAdOptions(v-if="adOptions.postIsAd && defaultOptionsLoaded")
     .row.m-t-10.ad-crteation-wrap
       .form
         .form-group.p-l-10.p-r-10.m-b-15
@@ -107,21 +109,18 @@ import PostPrivacy from './post-privacy'
 import mixin from '../../../../globals/mixin'
 import countryList from '../../../../globals/countries'
 import VueTagsInput from '@johmun/vue-tags-input'
-import auth from '@/auth/helpers'
-
-// default site's global options
-let options = auth.getLocalOptions()
+import Preloader from './../../../../components/preloader'
+import Service from './service'
 
 function defaultAdValues () {
   return {
     postIsAd: false,
-    cpi: options.adDefaultPricing.defaultCPI,
-    cpc: options.adDefaultPricing.defaultCPC,
-    cpv: options.adDefaultPricing.defaultCPV,
-    impressionTarget: options.adDefaultPricing.defaultImpressionTarget,
+    cpi: '',
+    cpc: '',
+    cpv: '',
+    impressionTarget: '',
     clickTarget: 0,
     viewTarget: 0,
-    CPITotalCost: 0,
     isValidated: false,
     adLink: '',
     adLinkLabel: '',
@@ -134,10 +133,10 @@ function initialState () {
   return {
     showPrivacyOption: false,
     postPublic: false,
-    defaultCPI: options.adDefaultPricing.defaultCPI,
-    defaultCPC: options.adDefaultPricing.defaultCPC,
-    defaultCPV: options.adDefaultPricing.defaultCPV,
-    defaultImpressionTarget: options.adDefaultPricing.defaultImpressionTarget,
+    defaultCPI: '',
+    defaultCPC: '',
+    defaultCPV: '',
+    defaultImpressionTarget: '',
     impressionTargetError: false,
     perImpressionCostError: false,
     perClickCostError: false,
@@ -145,15 +144,18 @@ function initialState () {
     adLinkError: false,
     adLinkLabelError: false,
     country: '',
-    adOptions: defaultAdValues()
+    adOptions: defaultAdValues(),
+    defaultOptionsLoaded: false
   }
 }
 
 export default {
   name: 'Ad',
+  service: new Service(),
   components: {
     PostPrivacy,
-    VueTagsInput
+    VueTagsInput,
+    Preloader
   },
   mixins: [mixin, countryList],
   props: {
@@ -198,7 +200,11 @@ export default {
   watch: {
     adOptions: {
       handler: function (after, before) {
-        if (this.isEmptyObject(after)) {
+        if (after.postIsAd && !this.defaultOptionsLoaded) {
+          // fetch ad's default pricing options
+          // from server
+          this.fetchDefaultOptions()
+        } else if (this.isEmptyObject(after)) {
           this.adOptions = defaultAdValues()
         } else {
           if (this.validateAd()) {
@@ -215,9 +221,26 @@ export default {
     }
   },
   mounted () {
-    this.$set(this.adOptions, 'cpi', this.defaultCPI)
   },
   methods: {
+    fetchDefaultOptions () {
+      this.$options.service.fetchAdOptions()
+        .then((data) => {
+          let options = data.options
+          this.defaultCPI = options.defaultCPI
+          this.defaultCPC = options.defaultCPC
+          this.defaultCPV = options.defaultCPV
+          this.defaultImpressionTarget = options.defaultImpressionTarget
+          this.adOptions.cpi = options.defaultCPI
+          this.adOptions.cpc = options.defaultCPC
+          this.adOptions.cpv = options.defaultCPV
+          this.adOptions.impressionTarget = options.defaultImpressionTarget
+          this.defaultOptionsLoaded = true
+        })
+        .catch((pErr) => {
+          this.showNotification('Something went wrong while fetching the ad pricing options.', 'error')
+        })
+    },
     privacyUpdated (newV) {
       this.$emit('PrivacyUpdated', newV)
     },
