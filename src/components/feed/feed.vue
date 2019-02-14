@@ -15,7 +15,7 @@
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
   .sl-item.feed-block(v-for="f in feedArr" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
-    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpv)") Sponsored + $ {{f['AdOption'].cpv}}
+    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpi)") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
       <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
@@ -53,12 +53,12 @@
           .col-lg-6.col-md-6.video-container
             <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
-            span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(v-if="f['AdOption'] && f['AdOption'].cpc" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
+            span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(v-if="f['AdOption'] && f['AdOption'].viewTarget" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVVText(f['AdOption'].cpv)") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
-        p(v-if="f['AdOption'] && f['AdOption'].cpc")
-          a.m-r-5(href="#") Get The Product Now
+        p(v-if="f['AdOption'] && f['AdOption'].clickTarget")
+          a.m-r-5(target="_blank" :href="f['AdOption'].adLink") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-info.ml-auto.f-w-400.pr-t--2.f-s-12.bg-999.cursor-hand(data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPCText(f['AdOption'].cpc)") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         p.feed-tags(v-if="f['Tags']")
@@ -123,7 +123,7 @@ export default {
     /*
     * Due to an unresolved issue
     * on the server side sequalize pagination query,
-    * sometimes server sends duplicate rows in
+    * sometimes server sends duplicate records in
     * subsequent pagination pages.
     * For the time being, we are just filtering the
     * duplicate posts and keeping the duplicate posts
