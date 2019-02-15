@@ -65,4 +65,14 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  adMarkseen (postId, action = 'impression') {
+    return auth.post('/ad/adConsumed/' + action + '/' + postId)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }

@@ -14,7 +14,7 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="f in feedArr" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']")
+  .sl-item.feed-block(v-for="f in feedArr" :class="f['AdOption']? 'ribbon-wrapper': '' " v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getCPVText(f['AdOption'].cpi)") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
@@ -78,9 +78,12 @@ import Comments from './comments'
 import ImageGrid from './image-grid'
 import Like from './like'
 import SearchField from '../search-field'
+import auth from '@/auth/helpers'
+import Service from './service'
 
 export default {
   name: 'Feed',
+  service: new Service(),
   components: {
     myVideo,
     Comments,
@@ -104,7 +107,14 @@ export default {
   data () {
     return {
       feedArr: [],
-      initialized: false
+      initialized: false,
+      currentUser: auth.getUser()
+      /* postVisibilityConfig: {
+        throttle: 1000,
+        intersection: {
+          threshold: 0.5
+        }
+      } */
     }
   },
   watch: {
@@ -177,7 +187,22 @@ export default {
           src: that.getMedia(path)
         }
       ]
+    },
+    postVisibilityChanged (isVisible, entry, postObj) {
+      if (isVisible && this.currentUser.id !== parseInt(postObj.UserId) && postObj.AdOption) {
+        this.$options.service.adMarkseen(postObj.id)
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((aErr) => {
+          })
+      }
     }
+    /* getPostVisibilityConfig (postObj) {
+      let config = this.postVisibilityConfig
+      config.callback = (isVisible, entry) => this.postVisibilityChanged(isVisible, entry, postObj)
+      return config
+    } */
   }
 }
 </script>

@@ -14,6 +14,7 @@ import wysiwyg from 'vue-wysiwyg'
 import VueTimeago from 'vue-timeago'
 import infiniteScroll from 'vue-infinite-scroll'
 import Notifications from 'vue-notification'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 Vue.config.productionTip = false
 
@@ -53,6 +54,10 @@ Vue.use(Vuetify, {
 
 // Vue Notifications
 Vue.use(Notifications)
+
+// Plugin that detects when an element is visible
+// in client's browser
+Vue.use(VueObserveVisibility)
 
 // Styles
 require('./styles/scss/main.scss')
