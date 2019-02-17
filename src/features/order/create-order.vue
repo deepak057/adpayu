@@ -24,7 +24,7 @@ div
       |  ${{paymentParameters.orderAmountUSD}} ({{paymentParameters.orderAmount}} INR)
   form(@submit.prevent="paymentInit()")
     .form-group(:class="{'has-danger': phoneNumberError}")
-      input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*" v-model="currentUser.phone" @keypress="isNumber(event)")
+      input.form-control.w-265px.m-t-20(type='text' placeholder="Phone Number*" v-model.trim="currentUser.phone" @keypress="isNumber(event)")
       i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Phone Number Required" data-toggle="popover" data-placement="right"  data-content="Our payment partner requires customer's phone number in order to identify you and provide you better services. Please enter your phone number in order to continue.")
       br
       small.form-control-feedback(v-show="phoneNumberError")

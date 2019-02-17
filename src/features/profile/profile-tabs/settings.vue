@@ -25,7 +25,7 @@
         | Phone Number
         i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your phone number")
       .col-md-12
-        input.form-control.form-control-line(type="text" @keypress="isNumber(event)" v-model="user.phone" placeholder="Enter Phone number")
+        input.form-control.form-control-line(type="text" @keypress="isNumber(event)" v-model.trim="user.phone" placeholder="Enter Phone number")
         small.form-control-feedback(v-show="phoneNumberError")
           | {{phoneNumberError}}
     .form-group
