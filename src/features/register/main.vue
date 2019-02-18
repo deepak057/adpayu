@@ -97,6 +97,7 @@ export default {
               this.error = data.error
             } else {
               this.error = ''
+              this.showNotification('Registration successful. Welcome! ', 'success')
             }
           })
       }

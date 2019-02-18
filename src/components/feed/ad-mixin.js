@@ -45,6 +45,18 @@ export default {
       if (postObj.UserId && postObj.UserId !== this.currentUser.id) {
         this.consumeAd(postObj, 'click')
       }
+    },
+    showAdConsumptionOption (postObj, action) {
+      let adConfig = this.getAdConfig(postObj)
+      let adStats = adConfig.AdStat
+      switch (action) {
+        case 'impression':
+          return adStats.impressions < adConfig.impressionTarget
+        case 'click':
+          return adStats.clicks < adConfig.clickTarget
+        case 'view':
+          return adStats.views < adConfig.viewTarget
+      }
     }
   }
 }
