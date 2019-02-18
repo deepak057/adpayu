@@ -75,6 +75,10 @@
 	background: #999;
 }
 
+.bg-999.ribbon-bookmark.ribbon-warning:before {
+	border-color: #999;
+	border-right-color: transparent;
+}
 .white-back{
 	background-color: #fff;
 }

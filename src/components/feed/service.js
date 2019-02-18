@@ -66,7 +66,7 @@ export default class Service {
       })
   }
 
-  adMarkseen (postId, action = 'impression') {
+  consumeAd (postId, action = 'impression') {
     return auth.post('/ad/adConsumed/' + action + '/' + postId)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
