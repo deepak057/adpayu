@@ -42,20 +42,31 @@ export default {
         })
     },
     adLinkclicked (postObj) {
-      if (postObj.UserId && postObj.UserId !== this.currentUser.id) {
+      if (!this.adConsumed(postObj, 'click') && postObj.UserId && postObj.UserId !== this.currentUser.id && this.enableAdConsumptionOption(postObj, 'click')) {
         this.consumeAd(postObj, 'click')
       }
     },
-    showAdConsumptionOption (postObj, action) {
+    enableAdConsumptionOption (postObj, action) {
+      if (this.adTargetsAcheived(postObj, action)) {
+        if (!this.adConsumed(postObj, action)) {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return true
+      }
+    },
+    adTargetsAcheived (postObj, action) {
       let adConfig = this.getAdConfig(postObj)
       let adStats = adConfig.AdStat
       switch (action) {
         case 'impression':
-          return adStats.impressions < adConfig.impressionTarget
+          return adStats.impressions >= adConfig.impressionTarget
         case 'click':
-          return adStats.clicks < adConfig.clickTarget
+          return adStats.clicks >= adConfig.clickTarget
         case 'view':
-          return adStats.views < adConfig.viewTarget
+          return adStats.views >= adConfig.viewTarget
       }
     }
   }

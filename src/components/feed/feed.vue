@@ -53,13 +53,13 @@
           .col-lg-6.col-md-6.video-container
             <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
-            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': adConsumed(f, 'view')}" v-if="f['AdOption'] && f['AdOption'].viewTarget" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
+            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': adConsumed(f, 'view')}" v-if="f['AdOption'] && f['AdOption'].viewTarget && enableAdConsumptionOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
-        p(v-if="f['AdOption'] && f['AdOption'].clickTarget && showAdConsumptionOption(f, 'click')")
+        p(v-if="f['AdOption'] && f['AdOption'].clickTarget")
           a.m-r-5(:href="f['AdOption'].adLink" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
-          span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
+          span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdConsumptionOption(f, 'click')" :class="{'bg-999': adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         p.feed-tags(v-if="f['Tags']")
           <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
