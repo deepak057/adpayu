@@ -93,6 +93,12 @@ export default {
           case 'AD_TARGET_COMPLETED':
             this.notificationData[i].heading = 'Ad completed running'
             this.notificationData[i].text = 'Budget is exhausted on your'
+            break
+          case 'AD_TARGET_MANIPULATED':
+            this.notificationData[i].heading = 'Ad targets manipulated'
+            this.notificationData[i].meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = this.notificationData[i].meta.targetsManipulation.impressionsAdded + ' impressions added and ' + this.notificationData[i].meta.targetsManipulation.ViewOrClickRemoved + ' ' + this.notificationData[i].meta.targetsManipulation.removedAction + ' removed from your'
+            break
         }
       }
       return this.notificationData
