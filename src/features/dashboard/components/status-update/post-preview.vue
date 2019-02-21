@@ -79,6 +79,7 @@ export default {
       this.$set(feed, 'id', this.getRandomNumber())
       this.$set(feed, 'User', this.currentUser)
       this.$set(feed, 'AdOption', feed.adOptions)
+      this.$set(feed.AdOption, 'AdStats', '')
       this.$set(feed, 'Images', feed.images)
       this.$set(feed, 'Question', feed.question)
       this.$set(feed, 'Video', feed.video)

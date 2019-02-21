@@ -15,7 +15,7 @@
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
   .sl-item.feed-block(v-for="f in feedArr" :class="{'ribbon-wrapper': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
-    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
+    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
       <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
@@ -51,15 +51,16 @@
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-6.video-container
-            <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
+            <video-player class="vjs-3-4" :options="getVideoPlayerOptions(f)" :playsinline="true" @ended="onPlayerEnded($event, f) " data-setup="{fluid: true}"/>
+            // <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
-            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': adConsumed(f, 'view')}" v-if="f['AdOption'] && f['AdOption'].viewTarget && enableAdConsumptionOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
+            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" v-if="enableAdOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
         p(v-if="f['AdOption'] && f['AdOption'].clickTarget")
           a.m-r-5(:href="f['AdOption'].adLink" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
-          span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdConsumptionOption(f, 'click')" :class="{'bg-999': adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
+          span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         p.feed-tags(v-if="f['Tags']")
           <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
@@ -81,6 +82,9 @@ import Like from './like'
 import SearchField from '../search-field'
 import auth from '@/auth/helpers'
 import Service from './service'
+// require styles
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
 
 export default {
   name: 'Feed',
@@ -90,7 +94,8 @@ export default {
     Comments,
     Like,
     ImageGrid,
-    SearchField
+    SearchField,
+    videoPlayer
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -180,9 +185,51 @@ export default {
         }
       ]
     },
+    getVideoPlayerOptions (postObj) {
+      return {
+        sources: this.getVideoSurces(postObj.Video.path),
+        responsive: true,
+        dataSetup: {'fluid': true},
+        aspectRatio: '16:9'
+
+      }
+    },
+    enableAdOption (postObj, action) {
+      if (postObj.AdOption && this.hasTarget(postObj, action)) {
+        if (this.preview) {
+          return true
+        } else {
+          return this.enableAdConsumptionOption(postObj, action)
+        }
+      } else {
+        return false
+      }
+    },
+    hasTarget (postObj, action) {
+      if (action === 'click') {
+        return postObj.AdOption.clickTarget
+      } else if (action === 'view') {
+        return postObj.AdOption.viewTarget
+      } else {
+        return postObj.AdOption.impressionTarget
+      }
+    },
+    triggerAdActions () {
+      return !this.preview
+    },
     postVisibilityChanged (isVisible, entry, postObj) {
-      if (!this.preview && isVisible && this.currentUser.id !== parseInt(postObj.UserId) && postObj.AdOption) {
-        this.consumeAd(postObj, 'impression')
+      if (isVisible && this.triggerAdActions()) {
+        this.triggerAdConsumption(postObj, 'impression')
+      }
+    },
+    onPlayerEnded (e, postObj) {
+      if (this.triggerAdActions()) {
+        this.triggerAdConsumption(postObj, 'view')
+      }
+    },
+    adLinkclicked (postObj) {
+      if (this.triggerAdActions()) {
+        this.triggerAdConsumption(postObj, 'click')
       }
     }
     /* getPostVisibilityConfig (postObj) {

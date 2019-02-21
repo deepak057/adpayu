@@ -23,8 +23,12 @@ export default {
     },
     getDynamicText (post, action, price, actionText) {
       let dynamic = 'You will get'
-      if (this.adConsumed(post, action)) {
-        dynamic = 'You have got'
+      if (this.isPostOwner(post)) {
+        dynamic = 'You are giving'
+      } else {
+        if (this.adConsumed(post, action)) {
+          dynamic = 'You have got'
+        }
       }
       return dynamic + ' $ ' + price + ' for ' + actionText + ' this ad'
     },
@@ -41,10 +45,19 @@ export default {
         .catch((aErr) => {
         })
     },
-    adLinkclicked (postObj) {
-      if (!this.adConsumed(postObj, 'click') && postObj.UserId && postObj.UserId !== this.currentUser.id && this.enableAdConsumptionOption(postObj, 'click')) {
-        this.consumeAd(postObj, 'click')
+    triggerAdConsumption (postObj, action) {
+      if (this.canProceedToAdConsumption(postObj, action)) {
+        this.consumeAd(postObj, action)
       }
+    },
+    canProceedToAdConsumption (postObj, action) {
+      return this.isAd(postObj) && !this.isPostOwner(postObj) && !this.adConsumed(postObj, action) && this.enableAdConsumptionOption(postObj, action)
+    },
+    isAd (postObj) {
+      return postObj.AdOption
+    },
+    isPostOwner (postObj) {
+      return postObj.User && postObj.User.id === this.currentUser.id
     },
     enableAdConsumptionOption (postObj, action) {
       if (this.adTargetsAcheived(postObj, action)) {
@@ -60,6 +73,9 @@ export default {
     adTargetsAcheived (postObj, action) {
       let adConfig = this.getAdConfig(postObj)
       let adStats = adConfig.AdStat
+      if (!adStats) {
+        return false
+      }
       switch (action) {
         case 'impression':
           return adStats.impressions >= adConfig.impressionTarget

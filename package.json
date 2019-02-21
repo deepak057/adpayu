@@ -39,6 +39,7 @@
     "vue-trumbowyg": "^3.4.0",
     "vue-upload-component": "^2.8.15",
     "vue-video": "^0.1.7",
+    "vue-video-player": "^5.0.2",
     "vue-wysiwyg": "^1.7.2",
     "vuex-router-sync": "^5.0.0"
   },
