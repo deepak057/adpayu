@@ -1,14 +1,19 @@
 <template lang="pug">
-.message-center
+.noti-dropdown-wrap.message-center
   a.notification-block(href='javascript:void(0)' v-for="(noti, i) in notificationData" :class="{'grey-back': !noti.seen}")
     <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
       img.img-circle(:src="getMedia(noti.sender.pic)")
     </router-link>
-    .mail-contnet.m-l-10
+    .mail-contnet.m-l-10.w-auto
       h5
+        <template v-if="!noti.heading">
         <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
           | {{userName(noti.sender)}}
         </router-link>
+        </template>
+        <template v-if="noti.heading">
+          | {{noti.heading}}
+        </template>
         span.mail-desc
           | {{noti.text}}
           span.m-l-5.pointer(v-show="getPostId(noti)" @click="triggerPostPopup(noti)")
@@ -82,9 +87,12 @@ export default {
           case 'LIKE_ON_COMMENT':
             this.notificationData[i].text = 'loved your ' + (this.getPostType(this.notificationData[i]) === 'question' ? 'answer' : 'comment') + ' on'
             break
-          default:
+          case 'FRIENDSHIP_ACCEPTED':
             this.notificationData[i].text = 'Accepted your friend request'
             break
+          case 'AD_TARGET_COMPLETED':
+            this.notificationData[i].heading = 'Ad completed running'
+            this.notificationData[i].text = 'Budget is exhausted on your'
         }
       }
       return this.notificationData

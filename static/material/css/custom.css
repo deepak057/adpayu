@@ -455,3 +455,7 @@ body {
     content: '\f101';
     font-size: 48px;
 }*/
+
+.w-auto{
+	width: auto !important;
+}
