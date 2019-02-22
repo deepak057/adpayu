@@ -466,4 +466,8 @@ body {
 .w-77 {
 	width: 77% !important;
 }
-white-space
+
+/*
+* hide video progress bar in the ad posts
+* so user can not forward 
+*/

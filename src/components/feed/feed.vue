@@ -14,7 +14,7 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="f in feedArr" :class="{'ribbon-wrapper': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
+  .sl-item.feed-block(v-for="f in feedArr" :class="{'ribbon-wrapper ad-post': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
@@ -51,7 +51,7 @@
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-6.video-container
-            <video-player class="vjs-3-4" :options="getVideoPlayerOptions(f)" :playsinline="true" @ended="onPlayerEnded($event, f) " data-setup="{fluid: true}"/>
+            <video-player class="vjs-3-4" :options="getVideoPlayerOptions(f)" :playsinline="true" @ready="onPlayerReady($event, f) " @ended="onPlayerEnded($event, f) " data-setup="{fluid: true}"/>
             // <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
           .col-lg-6.col-md-6
             span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" v-if="enableAdOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
@@ -230,6 +230,40 @@ export default {
     adLinkclicked (postObj) {
       if (this.triggerAdActions()) {
         this.triggerAdConsumption(postObj, 'click')
+      }
+    },
+    /*
+    * this method ensures that Ad video
+    * can not be forwarded manually by user
+    */
+    onPlayerReady (player, postObj) {
+      let that = this
+      if (this.isAd(postObj) && this.enableAdOption(postObj, 'view') && !this.adConsumed(postObj, 'view')) {
+        // Set initial time to 0
+        let currentTime = 0
+
+        player.on('seeking', function (e) {
+          if (currentTime < player.currentTime()) {
+            player.currentTime(currentTime)
+          }
+        })
+
+        player.on('seeked', function (e) {
+          if (currentTime < player.currentTime()) {
+            player.currentTime(currentTime)
+            that.showNotification('Ad video can not be forwarded manually.', 'error')
+          }
+        })
+
+        let int = setInterval(function () {
+          try {
+            if (!player.paused()) {
+              currentTime = player.currentTime()
+            }
+          } catch (e) {
+            clearInterval(int)
+          }
+        }, 1000)
       }
     }
     /* getPostVisibilityConfig (postObj) {
