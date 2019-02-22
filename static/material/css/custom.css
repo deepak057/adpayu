@@ -456,6 +456,14 @@ body {
     font-size: 48px;
 }*/
 
+.noti-dropdown-wrap.message-center .mail-contnet .mail-desc{
+	white-space: initial !important;
+	text-overflow: initial !important;
+}
 .w-auto{
 	width: auto !important;
 }
+.w-77 {
+	width: 77% !important;
+}
+white-space

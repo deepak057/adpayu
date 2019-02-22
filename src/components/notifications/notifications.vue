@@ -4,7 +4,7 @@
     <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
       img.img-circle(:src="getMedia(noti.sender.pic)")
     </router-link>
-    .mail-contnet.m-l-10.w-auto
+    .mail-contnet.m-l-10.w-77
       h5
         <template v-if="!noti.heading">
         <router-link tag="span" class="pointer" :to="userProfileLink(noti.sender.id)">
@@ -96,8 +96,8 @@ export default {
             break
           case 'AD_TARGET_MANIPULATED':
             this.notificationData[i].heading = 'Ad targets manipulated'
-            this.notificationData[i].meta = this.getNotiMeta(this.notificationData[i])
-            this.notificationData[i].text = this.notificationData[i].meta.targetsManipulation.impressionsAdded + ' impressions added and ' + this.notificationData[i].meta.targetsManipulation.ViewOrClickRemoved + ' ' + this.notificationData[i].meta.targetsManipulation.removedAction + ' removed from your'
+            let meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = meta.targetsManipulation.impressionsAdded + ' impressions added and ' + meta.targetsManipulation.ViewOrClickRemoved + ' ' + meta.targetsManipulation.removedAction + ' removed in the targets of your'
             break
         }
       }
