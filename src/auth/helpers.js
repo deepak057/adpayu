@@ -228,8 +228,10 @@ export default {
       data: this.URLSearchParams(user)
     })
       .then((response) => {
-        this.updateUserState(response.data.user)
-        return response.data
+        return new Promise((resolve) => {
+          this.updateUserState(response.data.user)
+          resolve(response.data)
+        })
       })
       .catch((error) => {
         return new Promise((resolve, reject) => { reject(error) })

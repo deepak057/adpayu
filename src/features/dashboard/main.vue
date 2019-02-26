@@ -16,11 +16,11 @@
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
         |  News Feed
-      <toggle-button v-model="newsFeedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
+      <toggle-button v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
       label.m-l-10(for='show-ads-option')
         i.mdi.mdi-currency-usd
         | Show ads
-      <toggle-button v-model="adEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+      <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
     .col-md-2.col-12.align-self-center
       h3.m-b-0.font-light $3249
       h5.text-muted.m-b-0 Total Revenue
@@ -135,6 +135,7 @@ import Preloader from './../../components/preloader'
 import StatusUpdate from './components/status-update/main'
 import Feed from './../../components/feed/feed'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Dashboard',
@@ -162,6 +163,7 @@ export default {
       loadMorePreloader: false,
       currentPage: 1,
       noMoreFeed: false,
+      currentUser: auth.getUser(),
       postOptions: [
         {
           type: 'text',
@@ -203,11 +205,11 @@ export default {
     }
   },
   watch: {
-    newsFeedEnabled () {
-      this.showHideFeed()
+    'currentUser.adsEnabled' () {
+      this.updateFeedPreference()
     },
-    adEnabled () {
-      this.showHideFeed()
+    'currentUser.feedEnabled' () {
+      this.updateFeedPreference()
     },
     feed () {
       this.feed = this.prepareFeed(this.feed)
@@ -226,6 +228,20 @@ export default {
     this.getFeed()
   },
   methods: {
+    updateFeedPreference () {
+      // this.showHideFeed()
+      this.showNotification('Updating, please wait...', 'warn')
+      auth.updateCurrentUser(this.currentUser)
+        .then((data) => {
+          this.feed = []
+          this.showNotification('Preferences updated successfully.', 'success')
+          this.currentPage = 1
+          this.getFeed()
+        })
+        .catch((pErr) => {
+          this.showNotification('Soemthing went wrong while updating your preferences', 'error')
+        })
+    },
     getFeed () {
       if (this.currentPage === 1) {
         this.preloader = true
@@ -268,9 +284,9 @@ export default {
     showHideFeed () {
       for (var i in this.feed) {
         if (this.feed[i]['AdOption']) {
-          this.feed[i]['show'] = this.adEnabled
+          this.feed[i]['show'] = this.currentUser.adsEnabled
         } else {
-          this.feed[i]['show'] = this.newsFeedEnabled
+          this.feed[i]['show'] = this.currentUser.feedEnabled
         }
       }
     },
