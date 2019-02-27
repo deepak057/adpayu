@@ -14,7 +14,7 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="f in feedArr" :class="{'ribbon-wrapper ad-post': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
+  .sl-item.feed-block(v-for="(f, k) in feedArr" :class="{'ribbon-wrapper ad-post': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
@@ -69,6 +69,11 @@
         .like-comm(v-show="!preview")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
+          .btn-group(v-if="f.UserId===currentUser.id" title="More Options")
+            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+             i.fa.fa-list
+            .dropdown-menu
+              a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)") Delete
     <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
     hr
 </template>
@@ -172,6 +177,18 @@ export default {
           return 'uploaded a video'
         default:
           return ''
+      }
+    },
+    deletePost (f, n) {
+      if (confirm('Are you sure you want to delete this post?')) {
+        this.feed.splice(n, 1)
+        this.$options.service.deletePost(f.id)
+          .then((data) => {})
+          .catch((pErr) => {
+            // restore the post
+            this.feed.splice(n, 0, f)
+            this.showNotification('Something went wrong while trying to delete your post', 'error')
+          })
       }
     },
     getTagTooltip (text) {

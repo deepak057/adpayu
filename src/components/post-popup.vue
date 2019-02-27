@@ -48,7 +48,11 @@ export default {
         })
         .catch((postErr) => {
           this.pageLoading = false
-          alert('Something went wrong while getting the data, please try again later.')
+          let that = this
+          setTimeout(function () {
+            that.hideModal()
+          }, 500)
+          this.showNotification('Something went wrong while getting the post, or this post might have been deleted.', 'error')
         })
     },
     getModalId () {

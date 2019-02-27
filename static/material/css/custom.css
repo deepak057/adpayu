@@ -467,6 +467,10 @@ body {
 	width: 77% !important;
 }
 
+.no-border-shadow {
+	border: none;
+	box-shadow: none;
+}
 /*
 * hide video progress bar in the ad posts
 * so user can not forward 
