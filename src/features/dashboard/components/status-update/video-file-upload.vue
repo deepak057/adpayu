@@ -9,7 +9,7 @@
       i.mdi.mdi-check-all.f-s-17(v-show = "uploadPercentage >= 100")
     span
       | {{getFileUploadProgressText()}}
-  input.none(type="file" id="file-video" accept="video/*" data-type="video" @change="filesChange($event.target.name, $event.target.files)")
+  input.none(type="file" id="file-video" :accept="videoAcceptString()" data-type="video" @change="filesChange($event.target.name, $event.target.files)")
 </template>
 <script>
 import Service from './service'
@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL', 'video/flv', 'video/3gp', 'video/3gpp'],
+      validVideoTypes: ['video/ogg', 'video/mp4', 'video/webm', 'video/webm', 'application/x-mpegURL', 'video/x-flv', 'video/3gp', 'video/3gpp', 'video/x-matroska'],
       uploadPercentage: 0
     }
   },
@@ -42,6 +42,11 @@ export default {
     }
   }, */
   methods: {
+    videoAcceptString () {
+      let v = this.validVideoTypes
+      // v.push('video/*')
+      return v.join(',') + ',video/*'
+    },
     triggerVideoSelect () {
       document.getElementById('file-video').click()
     },

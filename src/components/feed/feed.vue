@@ -59,7 +59,7 @@
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
         p(v-if="f['AdOption'] && f['AdOption'].clickTarget")
-          a.m-r-5(:href="f['AdOption'].adLink" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
+          a.m-r-5(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         p.feed-tags(v-if="f['Tags']")

@@ -67,9 +67,16 @@ export default {
     },
     ValidURL (str) {
       /* eslint-disable */
-      let pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+      let pattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+
       return pattern.test(str)
       /* eslint-enable */
+    },
+    getLink (url) {
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'http://' + url
+      }
+      return url
     },
     isNumber (evt) {
       evt = evt || window.event
