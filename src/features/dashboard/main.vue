@@ -43,7 +43,7 @@
                 | {{pOpt.label}}
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
-          <feed v-if="!preloader" :feed="feed" @adConsumed="updateUserTotal"></feed>
+          <feed v-if="!preloader" :feed="feed"></feed>
           .nothing-to-show(v-show="feed.length && !newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!

@@ -73,7 +73,7 @@
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
-              a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)")
+              a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats()")
                 i.mdi.mdi-chart-areaspline.m-r-5
                 | See Ad Stats
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
@@ -81,12 +81,14 @@
                 | Delete
     <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
     hr
+  <ad-stats ref="adStatsComponent"/>
 </template>
 <script>
 import mixin from '../../globals/mixin.js'
 import AdMixin from './ad-mixin.js'
 import myVideo from 'vue-video'
 import Comments from './comments'
+import AdStats from './ad-stats'
 import ImageGrid from './image-grid'
 import Like from './like'
 import SearchField from '../search-field'
@@ -105,7 +107,8 @@ export default {
     Like,
     ImageGrid,
     SearchField,
-    videoPlayer
+    videoPlayer,
+    AdStats
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -146,6 +149,9 @@ export default {
     }
   },
   methods: {
+    showAdStats () {
+      this.$refs.adStatsComponent.triggerPopup()
+    },
     /*
     * Due to an unresolved issue
     * on the server side sequalize pagination query,

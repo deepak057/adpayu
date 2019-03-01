@@ -33,7 +33,7 @@ export default {
     return {
       loader: true,
       feed: [],
-      id: this.getUniqueId()
+      id: this.getUniqueId() + '-post-popup-modal-'
     }
   },
   methods: {
