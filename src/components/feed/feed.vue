@@ -69,11 +69,16 @@
         .like-comm(v-show="!preview")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
-          .btn-group(v-if="f.UserId===currentUser.id" title="More Options")
-            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+          .btn-group(v-if="f.UserId===currentUser.id")
+            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
-              a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)") Delete
+              a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)")
+                i.mdi.mdi-chart-areaspline.m-r-5
+                | See Ad Stats
+              a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
+                i.mdi.mdi-delete.m-r-5
+                | Delete
     <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
     hr
 </template>
