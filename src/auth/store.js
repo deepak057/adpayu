@@ -8,7 +8,8 @@ const defaults = {
   },
   userTags: [],
   post: {},
-  options: {}
+  options: {},
+  totalRevenue: 0
 }
 
 const auth = {

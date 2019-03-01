@@ -13,8 +13,7 @@
           </router-link>
         li.breadcrumb-item.active {{postType | capitalize}}
     .col-md-8.col-12.align-self-center.text-right
-      h3.m-b-0.font-light $3249
-      h5.text-muted.m-b-0 Total Revenue
+      <total-revenue/>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -35,12 +34,14 @@ import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 import mixin from '../../globals/mixin.js'
+import TotalRevenue from './../../components/total-revenue'
 
 export default {
   name: 'Pages',
   components: {
     Preloader,
-    Feed
+    Feed,
+    TotalRevenue
   },
   mixins: [mixin],
   data () {

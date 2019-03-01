@@ -144,6 +144,13 @@ export default {
   getLocalPost () {
     return store.state.auth.post
   },
+  saveLocalRevenue (totalRevenue) {
+    store.state.auth.totalRevenue = totalRevenue
+    store.dispatch('auth/update', store.state.auth)
+  },
+  getLocalRevenue () {
+    return store.state.auth.totalRevenue
+  },
   getLocalOptions () {
     return store.state.auth.options
   },

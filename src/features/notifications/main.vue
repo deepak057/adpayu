@@ -13,8 +13,7 @@
           </router-link>
         li.breadcrumb-item.active Notifications
     .col-md-8.col-12.align-self-center.text-right
-      h3.m-b-0.font-light $3249
-      h5.text-muted.m-b-0 Total Revenue
+      <total-revenue/>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -43,13 +42,15 @@
 <script>
 import UserNotifications from './../../components/notifications/notifications'
 import Preloader from './../../components/preloader'
+import TotalRevenue from './../../components/total-revenue'
 import auth from '@/auth/helpers'
 
 export default {
   name: 'NotificationsPage',
   components: {
     UserNotifications,
-    Preloader
+    Preloader,
+    TotalRevenue
   },
   data () {
     return {

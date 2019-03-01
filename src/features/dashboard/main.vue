@@ -22,8 +22,7 @@
         | Show ads
       <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
     .col-md-2.col-12.align-self-center
-      h3.m-b-0.font-light $3249
-      h5.text-muted.m-b-0 Total Revenue
+      <total-revenue/>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -44,7 +43,7 @@
                 | {{pOpt.label}}
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
-          <feed v-if="!preloader" :feed="feed"></feed>
+          <feed v-if="!preloader" :feed="feed" @adConsumed="updateUserTotal"></feed>
           .nothing-to-show(v-show="feed.length && !newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
@@ -132,6 +131,7 @@
 <script>
 import mixin from '../../globals/mixin.js'
 import Preloader from './../../components/preloader'
+import TotalRevenue from './../../components/total-revenue'
 import StatusUpdate from './components/status-update/main'
 import Feed from './../../components/feed/feed'
 import Service from './service'
@@ -143,7 +143,8 @@ export default {
   components: {
     StatusUpdate,
     Feed,
-    Preloader
+    Preloader,
+    TotalRevenue
   },
   mixins: [mixin],
   props: {

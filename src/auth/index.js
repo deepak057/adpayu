@@ -90,6 +90,7 @@ export default {
     auth.accessToken = response.data.token
     auth.refreshToken = response.data.refreshToken
     auth.user = response.data.user
+    auth.totalRevenue = response.data.totalRevenue
     // auth.options = response.data.options
     /*
     // @TODO: get user's name from response from Oauth server.

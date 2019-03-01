@@ -40,6 +40,7 @@ export default {
         .then((data) => {
           if (data.ConsumedAds && data.ConsumedAds.length) {
             postObj.ConsumedAds = data.ConsumedAds
+            this.updateUserTotal(data.amountAdded)
           }
         })
         .catch((aErr) => {

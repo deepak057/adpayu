@@ -282,6 +282,12 @@ export default {
           }
         }, 1000)
       }
+    },
+    updateUserTotal (amountToAdd) {
+      let totalRevenue = auth.getLocalRevenue()
+      amountToAdd = parseFloat(amountToAdd)
+      totalRevenue = totalRevenue ? (parseFloat(totalRevenue) + amountToAdd) : amountToAdd
+      auth.saveLocalRevenue(totalRevenue)
     }
     /* getPostVisibilityConfig (postObj) {
       let config = this.postVisibilityConfig

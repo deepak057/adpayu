@@ -13,8 +13,7 @@
           </router-link>
         li.breadcrumb-item.active Search
     .col-md-8.col-12.align-self-center.text-right
-      h3.m-b-0.font-light $3249
-      h5.text-muted.m-b-0 Total Revenue
+      <total-revenue/>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -72,6 +71,7 @@
 </template>
 <script>
 import SearchField from './../../components/search-field'
+import TotalRevenue from './../../components/total-revenue'
 import ContentSearch from './content-search'
 import UserSearch from './user-search'
 import TagSearch from './tag-search'
@@ -84,7 +84,8 @@ export default {
     ContentSearch,
     UserSearch,
     TagSearch,
-    SearchField
+    SearchField,
+    TotalRevenue
   },
   mixins: [mixin],
   data () {

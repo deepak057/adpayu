@@ -65,7 +65,6 @@ aside.left-sidebar(style='overflow: visible;')
 
 <script>
 import auth from '@/auth/helpers'
-import store from '@/store'
 import mixin from '../globals/mixin.js'
 import Service from './service'
 import Preloader from './preloader'
@@ -91,7 +90,7 @@ export default {
         icon: 'mdi-gauge',
         default: true
       },
-      user: store.state.auth.user,
+      user: auth.getUser(),
       menuItems: []
     }
   },
