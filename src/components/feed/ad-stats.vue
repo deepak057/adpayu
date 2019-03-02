@@ -1,7 +1,7 @@
 <template lang="pug">
 div
-  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-backdrop="static" data-keyboard="false")
-  .modal.fade.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
+  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
+  .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
     .modal-dialog
       .modal-content
         .modal-header
@@ -13,7 +13,7 @@ div
               <preloader/>
             <template v-if="!pageLoader && adStats.length">
             p
-              <router-link :to="getPostLink(post.id)" @click.native="closePopup()">
+              <router-link :to="getPostLink(post.id)" @click.native="closeAllModals()">
                 | This Ad
               </router-link>
               |  has been running since {{post.createdAt | date}}

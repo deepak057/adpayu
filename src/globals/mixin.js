@@ -108,6 +108,13 @@ export default {
     },
     roundToDecimalPlaces (number) {
       return Math.round(number * 100) / 100
+    },
+    closeAllModals () {
+      // A hackw way that uses jQuery directly to
+      // close all the Bootstrap modals
+      /* eslint-disable */
+      $('.modal').modal('hide')
+      /* eslint-enable */
     }
   }
 }
