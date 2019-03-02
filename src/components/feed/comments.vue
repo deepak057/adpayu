@@ -32,7 +32,7 @@
         span.cursor-hand
           i.mdi.mdi-upload.m-r-5
           | Upload a video {{getCommentType()}}
-        .m-t-10.m-l-5.m-b-5
+        .m-t-10.m-l-5(:class="{'m-b-5': getCommentType() === 'comment', 'm-b-15': getCommentType() === 'answer'}")
           | Or
     .col-11
       <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
