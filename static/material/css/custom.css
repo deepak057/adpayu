@@ -398,8 +398,11 @@ body {
   	margin-top: 40px;
   }
 
-  .mobile-fs-13px {
+  .mobile-fs-13px{
 	font-size: 13px;
+  }
+  .adstats-container table {
+  	font-size: 10px;
   }
 }
 

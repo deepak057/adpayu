@@ -73,7 +73,7 @@
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
-              a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats()")
+              a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats(f)")
                 i.mdi.mdi-chart-areaspline.m-r-5
                 | See Ad Stats
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
@@ -149,8 +149,8 @@ export default {
     }
   },
   methods: {
-    showAdStats () {
-      this.$refs.adStatsComponent.triggerPopup()
+    showAdStats (postObj) {
+      this.$refs.adStatsComponent.triggerPopup(postObj.id)
     },
     /*
     * Due to an unresolved issue

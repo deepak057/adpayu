@@ -10,7 +10,7 @@ export default {
     date: function (MySqlDate) {
       let date = new Date(MySqlDate)
       let strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      return date.getDate() + ' ' + strArray[date.getMonth()] + ' ' + date.getFullYear()
+      return date.getDate() + ' ' + strArray[date.getMonth()] + ', ' + date.getFullYear()
     }
   },
   methods: {
@@ -105,6 +105,9 @@ export default {
         type: classType,
         duration: duration
       })
+    },
+    roundToDecimalPlaces (number) {
+      return Math.round(number * 100) / 100
     }
   }
 }
