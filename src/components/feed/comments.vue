@@ -27,6 +27,13 @@
             i.ti-trash
           <like :likes="comment.Likes" :commentId="comment.id"></like>
   .row.m-t-10
+    col-2
+      .upload-video-comment-wrap.p-l-20.m-t-10
+        span.cursor-hand
+          i.mdi.mdi-upload.m-r-5
+          | Upload a video {{getCommentType()}}
+        .m-t-10.m-l-5.m-b-5
+          | Or
     .col-11
       <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
@@ -110,8 +117,10 @@ export default {
       }
     },
     placeholderText () {
-      var text_ = this.isQuestion() ? 'answer' : 'comment'
-      return 'Type your ' + text_ + ' here'
+      return 'Type your ' + this.getCommentType() + ' here'
+    },
+    getCommentType () {
+      return this.isQuestion() ? 'answer' : 'comment'
     },
     isQuestion () {
       return this.commentType === 'question' || false

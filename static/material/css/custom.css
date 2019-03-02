@@ -474,7 +474,7 @@ body {
 	border: none;
 	box-shadow: none;
 }
-/*
-* hide video progress bar in the ad posts
-* so user can not forward 
-*/
+.upload-video-comment-wrap {
+	color: #495057;
+	opacity: .7;
+}
