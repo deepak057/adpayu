@@ -415,6 +415,18 @@ body {
   	font-size: 11px;
   	margin: 0;
   }
+
+  .like-comm {
+  	font-size: 10px;
+  }
+
+  .ribbon-wrapper, .ribbon-wrapper-reverse, .ribbon-wrapper-bottom, .ribbon-wrapper-right-bottom {
+  	padding: 50px 8px 15px 15px
+  }
+
+  .feed-video-wrap .video-container{
+	padding: 0px;
+  }
 }
 
 /*

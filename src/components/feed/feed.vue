@@ -50,22 +50,22 @@
             </router-link>
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
-          .col-lg-6.col-md-6.video-container
+          .col-lg-6.col-md-6.video-container.p-b-0
             <feed-video-player :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
-          .col-lg-6.col-md-6
-            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" v-if="enableAdOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
+          .col-lg-6.col-md-6(v-if="enableAdOption(f, 'view')")
+            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
-        p(v-if="f['AdOption'] && f['AdOption'].clickTarget")
+        .m-t-15.m-b-20(v-if="f['AdOption'] && f['AdOption'].clickTarget")
           a.m-r-5(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
-        p.feed-tags(v-if="f['Tags']")
+        .m-b-15.feed-tags(v-if="f['Tags'] && f['Tags'].length")
           <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm(v-show="!preview")
+        .like-comm.m-t-15(v-show="!preview")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
