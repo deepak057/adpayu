@@ -404,6 +404,17 @@ body {
   .adstats-container table {
   	font-size: 10px;
   }
+  .comments.video-container .video-js .vjs-big-play-button {
+  	left: 21% !important;
+  	top: 12% !important;
+  	width: 2em;
+  }
+
+  .comment-footer .comment-datetimestamp {
+  	float: none;
+  	font-size: 11px;
+  	margin: 0;
+  }
 }
 
 /*

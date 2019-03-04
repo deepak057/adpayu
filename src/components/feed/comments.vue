@@ -14,12 +14,19 @@
         <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
           | {{userName(comment.User)}}
         </router-link>
-      p.m-b-5(v-if="!isQuestion()")
+      .m-b-5(v-if="!isQuestion()")
+        <template v-if="comment.comment">
         | {{comment.comment}}
+        </template>
+        <template v-if="comment.videoPath">
+        .row
+          .col-lg-5.col-md-5.comments.video-container
+            <video-player class="vjs-3-4" :options="videoPlayerOptions(comment.videoPath)" :playsinline="true"/>
+        </template>
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
       .comment-footer
-        span.text-muted.pull-right
-          <timeago :datetime="comment.createdAt" :auto-update="60" class="m-l-5" :title="comment.createdAt | date"></timeago>
+        span.text-muted.pull-right.comment-datetimestamp.m-l-5
+          <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
         span.action-icons.visible
           //a(href='javascript:void(0)')
             //i.ti-pencil-alt
@@ -27,13 +34,8 @@
             i.ti-trash
           <like :likes="comment.Likes" :commentId="comment.id"></like>
   .row.m-t-10
-    col-2
-      .upload-video-comment-wrap.p-l-20.m-t-10
-        span.cursor-hand
-          i.mdi.mdi-upload.m-r-5
-          | Upload a video {{getCommentType()}}
-        .m-t-10.m-l-5(:class="{'m-b-5': getCommentType() === 'comment', 'm-b-15': getCommentType() === 'answer'}")
-          | Or
+    div
+      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
     .col-11
       <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
@@ -50,13 +52,30 @@ import Service from './service'
 import mixin from '../../globals/mixin.js'
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
+import VideoComment from './video-comment'
+// require styles
+import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player'
+
+function postCommentInitialState () {
+  return {
+    newCommentText: '',
+    preloader: false,
+    defaultCommentsCount: 3,
+    enableLoadPreviousComments: true,
+    currentUser: auth.getUser(),
+    videoPath: ''
+  }
+}
 
 export default {
   name: 'Comments',
   service: new Service(),
   components: {
     Like,
-    Preloader
+    Preloader,
+    VideoComment,
+    videoPlayer
   },
   mixins: [mixin],
   props: {
@@ -74,24 +93,17 @@ export default {
     }
   },
   data () {
-    return {
-      newCommentText: '',
-      preloader: false,
-      defaultCommentsCount: 3,
-      enableLoadPreviousComments: true,
-      currentUser: auth.getUser()
-    }
+    return postCommentInitialState()
   },
   methods: {
     leaveComment () {
-      if (this.newCommentText) {
+      if (this.newCommentText || this.videoPath) {
         this.preloader = true
         let that = this
-        this.$options.service.createComment(this.postId, {comment: this.newCommentText})
+        this.$options.service.createComment(this.postId, {comment: this.newCommentText, videoPath: this.videoPath})
           .then((data) => {
-            that.preloader = false
             that.$set(this.comments, this.comments.length, data.comment)
-            this.newCommentText = ''
+            this.reset()
           })
           .catch((commentError) => {
             that.preloader = false
@@ -127,6 +139,14 @@ export default {
     },
     isOwner (commentUserId) {
       return this.currentUser.id === commentUserId
+    },
+    triggerVideoComment (path) {
+      this.videoPath = path
+      this.leaveComment()
+    },
+    reset () {
+      Object.assign(this.$data, postCommentInitialState())
+      this.$refs.videoCommentComponent.reset()
     }
   }
 }

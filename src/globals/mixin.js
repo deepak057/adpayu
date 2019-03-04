@@ -115,6 +115,23 @@ export default {
       /* eslint-disable */
       $('.modal').modal('hide')
       /* eslint-enable */
+    },
+    videoPlayerOptions (path) {
+      return {
+        sources: this.getVideoSources(path),
+        responsive: true,
+        dataSetup: {'fluid': true},
+        aspectRatio: '16:9'
+
+      }
+    },
+    getVideoSources (path) {
+      let that = this
+      return [
+        {
+          src: that.getMedia(path)
+        }
+      ]
     }
   }
 }

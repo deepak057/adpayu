@@ -205,22 +205,8 @@ export default {
     getTagTooltip (text) {
       return 'Tagged with ' + text
     },
-    getVideoSurces (path) {
-      let that = this
-      return [
-        {
-          src: that.getMedia(path)
-        }
-      ]
-    },
     getVideoPlayerOptions (postObj) {
-      return {
-        sources: this.getVideoSurces(postObj.Video.path),
-        responsive: true,
-        dataSetup: {'fluid': true},
-        aspectRatio: '16:9'
-
-      }
+      return this.videoPlayerOptions(postObj.Video.path)
     },
     enableAdOption (postObj, action) {
       if (postObj.AdOption && this.hasTarget(postObj, action)) {
