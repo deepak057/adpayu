@@ -18,13 +18,13 @@
         <template v-if="comment.comment">
         | {{comment.comment}}
         </template>
-        <template v-if="comment.videoPath">
+        <template v-if="getVideo(comment)">
         .row
           .col-lg-5.col-md-5.comments.video-container
-            <video-player class="vjs-3-4" :options="videoPlayerOptions(comment.videoPath)" :playsinline="true"/>
+            <comment-video-player :videoPath="comment.videoPath"/>
         </template>
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
-      .comment-footer
+      .comment-footer(:class="{'m-t-10': getVideo(comment)}")
         span.text-muted.pull-right.comment-datetimestamp.m-l-5
           <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
         span.action-icons.visible
@@ -53,9 +53,7 @@ import mixin from '../../globals/mixin.js'
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
 import VideoComment from './video-comment'
-// require styles
-import 'video.js/dist/video-js.css'
-import { videoPlayer } from 'vue-video-player'
+import CommentVideoPlayer from './comment-video-player'
 
 function postCommentInitialState () {
   return {
@@ -75,7 +73,7 @@ export default {
     Like,
     Preloader,
     VideoComment,
-    videoPlayer
+    CommentVideoPlayer
   },
   mixins: [mixin],
   props: {
@@ -147,6 +145,9 @@ export default {
     reset () {
       Object.assign(this.$data, postCommentInitialState())
       this.$refs.videoCommentComponent.reset()
+    },
+    getVideo (comment) {
+      return comment.videoPath
     }
   }
 }

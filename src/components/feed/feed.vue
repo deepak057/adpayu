@@ -51,8 +51,7 @@
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-6.video-container
-            <video-player class="vjs-3-4" :options="getVideoPlayerOptions(f)" :playsinline="true" @ready="onPlayerReady($event, f) " @ended="onPlayerEnded($event, f) " data-setup="{fluid: true}"/>
-            // <my-video :sources="getVideoSurces(f['Video'].path)"></my-video>
+            <feed-video-player :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
           .col-lg-6.col-md-6
             span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" v-if="enableAdOption(f, 'view')" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
@@ -79,7 +78,7 @@
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
                 i.mdi.mdi-delete.m-r-5
                 | Delete
-    <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-show="f['showComments']" @closeModal="leavePage"></comments>
+    <comments :comments="f['Comments']" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
 </template>
@@ -94,9 +93,7 @@ import Like from './like'
 import SearchField from '../search-field'
 import auth from '@/auth/helpers'
 import Service from './service'
-// require styles
-import 'video.js/dist/video-js.css'
-import { videoPlayer } from 'vue-video-player'
+import FeedVideoPlayer from './feed-video-player'
 
 export default {
   name: 'Feed',
@@ -107,7 +104,7 @@ export default {
     Like,
     ImageGrid,
     SearchField,
-    videoPlayer,
+    FeedVideoPlayer,
     AdStats
   },
   mixins: [mixin, AdMixin],
@@ -176,6 +173,7 @@ export default {
       return feed.reverse()
     },
     toggleComments (feedItem) {
+      // return !feedItem['showComments']
       feedItem['showComments'] = !feedItem['showComments']
     },
     getPostDescriptionText (f) {
@@ -205,40 +203,9 @@ export default {
     getTagTooltip (text) {
       return 'Tagged with ' + text
     },
-    getVideoPlayerOptions (postObj) {
-      return this.videoPlayerOptions(postObj.Video.path)
-    },
-    enableAdOption (postObj, action) {
-      if (postObj.AdOption && this.hasTarget(postObj, action)) {
-        if (this.preview) {
-          return true
-        } else {
-          return this.enableAdConsumptionOption(postObj, action)
-        }
-      } else {
-        return false
-      }
-    },
-    hasTarget (postObj, action) {
-      if (action === 'click') {
-        return postObj.AdOption.clickTarget
-      } else if (action === 'view') {
-        return postObj.AdOption.viewTarget
-      } else {
-        return postObj.AdOption.impressionTarget
-      }
-    },
-    triggerAdActions () {
-      return !this.preview
-    },
     postVisibilityChanged (isVisible, entry, postObj) {
       if (isVisible && this.triggerAdActions()) {
         this.triggerAdConsumption(postObj, 'impression')
-      }
-    },
-    onPlayerEnded (e, postObj) {
-      if (this.triggerAdActions()) {
-        this.triggerAdConsumption(postObj, 'view')
       }
     },
     adLinkclicked (postObj) {
@@ -246,13 +213,21 @@ export default {
         this.triggerAdConsumption(postObj, 'click')
       }
     },
+    updateUserTotal (amountToAdd) {
+      let totalRevenue = auth.getLocalRevenue()
+      amountToAdd = parseFloat(amountToAdd)
+      totalRevenue = totalRevenue ? (parseFloat(totalRevenue) + amountToAdd) : amountToAdd
+      auth.saveLocalRevenue(totalRevenue)
+    },
     /*
     * this method ensures that Ad video
     * can not be forwarded manually by user
     */
-    onPlayerReady (player, postObj) {
+    onPlayerReady (obj) {
+      let player = obj.event
+      let postObj = obj.postObj
       let that = this
-      if (this.isAd(postObj) && this.enableAdOption(postObj, 'view') && !this.adConsumed(postObj, 'view')) {
+      if (this.triggerAdActions && this.isAd(postObj) && this.enableAdOption(postObj, 'view') && !this.adConsumed(postObj, 'view')) {
         // Set initial time to 0
         let currentTime = 0
 
@@ -280,11 +255,11 @@ export default {
         }, 1000)
       }
     },
-    updateUserTotal (amountToAdd) {
-      let totalRevenue = auth.getLocalRevenue()
-      amountToAdd = parseFloat(amountToAdd)
-      totalRevenue = totalRevenue ? (parseFloat(totalRevenue) + amountToAdd) : amountToAdd
-      auth.saveLocalRevenue(totalRevenue)
+    onPlayerEnded (obj) {
+      let postObj = obj.postObj
+      if (this.triggerAdActions()) {
+        this.triggerAdConsumption(postObj, 'view')
+      }
     }
     /* getPostVisibilityConfig (postObj) {
       let config = this.postVisibilityConfig

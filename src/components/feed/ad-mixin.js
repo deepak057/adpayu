@@ -85,6 +85,29 @@ export default {
         case 'view':
           return adStats.views >= adConfig.viewTarget
       }
+    },
+    triggerAdActions () {
+      return !this.preview
+    },
+    enableAdOption (postObj, action) {
+      if (postObj.AdOption && this.hasTarget(postObj, action)) {
+        if (this.preview) {
+          return true
+        } else {
+          return this.enableAdConsumptionOption(postObj, action)
+        }
+      } else {
+        return false
+      }
+    },
+    hasTarget (postObj, action) {
+      if (action === 'click') {
+        return postObj.AdOption.clickTarget
+      } else if (action === 'view') {
+        return postObj.AdOption.viewTarget
+      } else {
+        return postObj.AdOption.impressionTarget
+      }
     }
   }
 }
