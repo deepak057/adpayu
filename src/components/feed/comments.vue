@@ -18,11 +18,11 @@
         <template v-if="comment.comment">
         | {{comment.comment}}
         </template>
-        <template v-if="getVideo(comment)">
-        .row
-          .col-lg-5.col-md-5.comments.video-container
-            <comment-video-player :videoPath="comment.videoPath"/>
-        </template>
+      <template v-if="getVideo(comment)">
+      .row
+        .col-lg-5.col-md-5.comments.video-container
+          <comment-video-player :videoPath="comment.videoPath"/>
+      </template>
       div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
       .comment-footer(:class="{'m-t-10': getVideo(comment)}")
         span.text-muted.pull-right.comment-datetimestamp.m-l-5
