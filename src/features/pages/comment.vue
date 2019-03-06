@@ -1,0 +1,92 @@
+<template lang="pug">
+.container-fluid
+  // ==============================================================
+  // Bread crumb and right sidebar toggle
+  // ==============================================================
+  .row.page-titles
+    .col-md-4.col-12.align-self-center
+      h3.text-themecolor.m-b-0.m-t-0 Comment
+      ol.breadcrumb
+        li.breadcrumb-item
+          <router-link to="/">
+            | Home
+          </router-link>
+        li.breadcrumb-item.active Comment
+    .col-md-8.col-12.align-self-center.text-right
+      <total-revenue/>
+  // ==============================================================
+  // End Bread crumb and right sidebar toggle
+  // ==============================================================
+  // ==============================================================
+  // Start Page Content
+  // ==============================================================
+  // Row
+  .row
+    .col-12.feed-container-col
+      .card
+        .card-body.min-h-400
+          div.m-t-20.text-center(v-show="pageLoading")
+            <preloader></preloader>
+          <template v-if="!pageLoading">
+          h3
+            i.mdi.mdi-reply.m-r-5
+            <router-link tag="span" :to="userProfileLink(commentUser.id)" class="cursor-hand">
+              | {{commentUser.first | capitalize}}
+            </router-link>
+            |  's response on
+            <router-link :to="getPostLink(post.id)">
+              |  {{getPostTitle(post)}}
+            </router-link>
+          <single-comment :comment="comment"/>
+          </template>
+</template>
+<script>
+// import auth from '@/auth/helpers'
+import Preloader from './../../components/preloader'
+import mixin from '../../globals/mixin.js'
+import TotalRevenue from './../../components/total-revenue'
+import Service from './service'
+import SingleComment from '../../components/feed/single-comment'
+
+export default {
+  name: 'Pages',
+  service: new Service(),
+  components: {
+    Preloader,
+    TotalRevenue,
+    SingleComment
+  },
+  mixins: [mixin],
+  data () {
+    return {
+      id: this.$route.params.id || false,
+      pageLoading: true,
+      comment: {},
+      post: {},
+      commentUser: {}
+    }
+  },
+  mounted () {
+    try {
+      this.scrollToTop()
+      this.$options.service.getComment(this.id)
+        .then((data) => {
+          this.pageLoading = false
+          this.comment = data.comment
+          this.post = data.post
+          this.commentUser = this.comment.User
+          this.setDocumentTitle('Response on ' + this.getPostTitle(this.post))
+        })
+        .catch((cErr) => {
+          throw new Error('Soemthing went wrong')
+        })
+    } catch (e) {
+      this.showNotification('Something went wrong while getting the comment.', 'error')
+    }
+  },
+  methods: {
+    getPageTitle (post) {
+    }
+  }
+}
+</script>

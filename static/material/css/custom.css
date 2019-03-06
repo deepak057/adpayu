@@ -263,8 +263,8 @@ body {
 .profile-pic-overlay-content .operation-in-progress img {
 	width: 15px;
 }
-.comment-footer .action-icons a {
-	padding: 0px
+.comment-footer .action-icons .comment-padding-0 {
+	 padding: 0px 
 }
 .notification-block img {
 	width: 45px
@@ -426,6 +426,10 @@ body {
 
   .feed-video-wrap .video-container{
 	padding: 0px;
+  }
+
+  .feed-tags {
+  	margin-top: 10px;
   }
 }
 

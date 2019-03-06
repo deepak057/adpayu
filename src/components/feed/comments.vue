@@ -3,36 +3,9 @@
   .d-flex.flex-row.comment-row(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()")
       | Load Previous comments
-  .d-flex.flex-row.comment-row(v-for="(comment, n) in comments" v-if="isCommentEnabled(n)")
-    .p-2
-      <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
-        span.round
-          img(:src='getMedia(comment.User.pic)', alt='user', width='50')
-      </router-link>
-    .comment-text.w-100
-      h5
-        <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
-          | {{userName(comment.User)}}
-        </router-link>
-      .m-b-5(v-if="!isQuestion()")
-        <template v-if="comment.comment">
-        | {{comment.comment}}
-        </template>
-      <template v-if="getVideo(comment)">
-      .row
-        .col-lg-5.col-md-5.comments.video-container
-          <comment-video-player :videoPath="comment.videoPath"/>
-      </template>
-      div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
-      .comment-footer(:class="{'m-t-10': getVideo(comment)}")
-        span.text-muted.pull-right.comment-datetimestamp.m-l-5
-          <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
-        span.action-icons.visible
-          //a(href='javascript:void(0)')
-            //i.ti-pencil-alt
-          a.m-r-10(href='javascript:void(0)' @click='deleteComment(n)' title="Delete this comment" v-if="isOwner(comment.User.id)")
-            i.ti-trash
-          <like :likes="comment.Likes" :commentId="comment.id"></like>
+  <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
+  <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment"/>
+  </template>
   .row.m-t-10
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
@@ -50,10 +23,12 @@ import Like from './like'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
+import commentMixin from './comment-mixin.js'
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
 import VideoComment from './video-comment'
 import CommentVideoPlayer from './comment-video-player'
+import SingleComment from './single-comment'
 
 function postCommentInitialState () {
   return {
@@ -73,9 +48,10 @@ export default {
     Like,
     Preloader,
     VideoComment,
-    CommentVideoPlayer
+    CommentVideoPlayer,
+    SingleComment
   },
-  mixins: [mixin],
+  mixins: [mixin, commentMixin],
   props: {
     comments: {
       type: Array,
@@ -117,7 +93,7 @@ export default {
     },
     deleteComment (index_) {
       if (confirm('Delete comment?')) {
-        this.$options.service.deleteComment(this.postId, this.comments[index_])
+        this.$options.service.deleteComment(this.comments[index_].id)
           .then((data) => {
           })
           .catch((commentError) => {
@@ -128,15 +104,6 @@ export default {
     },
     placeholderText () {
       return 'Type your ' + this.getCommentType() + ' here'
-    },
-    getCommentType () {
-      return this.isQuestion() ? 'answer' : 'comment'
-    },
-    isQuestion () {
-      return this.commentType === 'question' || false
-    },
-    isOwner (commentUserId) {
-      return this.currentUser.id === commentUserId
     },
     triggerVideoComment (path) {
       this.videoPath = path

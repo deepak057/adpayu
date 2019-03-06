@@ -5,7 +5,7 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Profile
+      h3.text-themecolor.m-b-0.m-t-0 Post
       ol.breadcrumb
         li.breadcrumb-item
           <router-link to="/">

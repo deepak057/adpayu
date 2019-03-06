@@ -132,6 +132,25 @@ export default {
           src: that.getMedia(path)
         }
       ]
+    },
+    getCommentLink (commentId) {
+      return '/c/' + commentId
+    },
+    getPostTitle (postObj) {
+      if ('Question' in postObj && postObj.Question) {
+        return postObj.Question.question
+      }
+      if ('Video' in postObj && postObj.Video) {
+        return postObj.Video.title
+      }
+      if ('content' in postObj && postObj.content) {
+        if (postObj.content.length > 100) {
+          return postObj.content.substring(0, 100) + '...'
+        } else {
+          return postObj.content
+        }
+      }
+      return ''
     }
   }
 }

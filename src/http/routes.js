@@ -71,8 +71,17 @@ const routes = [
   {
     name: 'p',
     path: '/p/:id',
-    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/main.vue'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/post.vue'),
     title: 'Post',
+    layout: 'DefaultLayout',
+    isPublic: false,
+    props: true
+  },
+  {
+    name: 'c',
+    path: '/c/:id',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/comment.vue'),
+    title: 'Comment',
     layout: 'DefaultLayout',
     isPublic: false,
     props: true

@@ -16,8 +16,8 @@ export default class Service {
       })
   }
 
-  deleteComment (postId, comment) {
-    return auth.delete('/comments/' + postId + '?commentId=' + comment.id, comment)
+  deleteComment (commentId) {
+    return auth.delete('/comments/' + commentId)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
