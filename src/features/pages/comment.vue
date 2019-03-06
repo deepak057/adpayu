@@ -5,13 +5,13 @@
   // ==============================================================
   .row.page-titles
     .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Comment
+      h3.text-themecolor.m-b-0.m-t-0 Response
       ol.breadcrumb
         li.breadcrumb-item
           <router-link to="/">
             | Home
           </router-link>
-        li.breadcrumb-item.active Comment
+        li.breadcrumb-item.active {{getCommentType() | capitalize}}
     .col-md-8.col-12.align-self-center.text-right
       <total-revenue/>
   // ==============================================================
@@ -47,6 +47,7 @@ import mixin from '../../globals/mixin.js'
 import TotalRevenue from './../../components/total-revenue'
 import Service from './service'
 import SingleComment from '../../components/feed/single-comment'
+import commentMixin from '../../components/feed/comment-mixin'
 import { router } from '@/http'
 
 export default {
@@ -57,7 +58,7 @@ export default {
     TotalRevenue,
     SingleComment
   },
-  mixins: [mixin],
+  mixins: [mixin, commentMixin],
   data () {
     return {
       id: this.$route.params.id || false,
