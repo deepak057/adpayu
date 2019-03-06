@@ -92,8 +92,8 @@ export default {
       this.enableLoadPreviousComments = false
     },
     deleteComment (index_) {
-      if (confirm('Delete comment?')) {
-        this.$options.service.deleteComment(this.comments[index_].id)
+      if (confirm('Are you sure you want to delete it?')) {
+        auth.deleteComment(this.comments[index_].id)
           .then((data) => {
           })
           .catch((commentError) => {

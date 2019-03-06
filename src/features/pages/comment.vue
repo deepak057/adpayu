@@ -22,10 +22,10 @@
   // ==============================================================
   // Row
   .row
-    .col-12.feed-container-col
+    .col-12
       .card
-        .card-body.min-h-400
-          div.m-t-20.text-center(v-show="pageLoading")
+        .card-body.min-h-400.comment-response-container
+          .m-t-20.text-center(v-show="pageLoading")
             <preloader></preloader>
           <template v-if="!pageLoading">
           h3
@@ -37,16 +37,17 @@
             <router-link :to="getPostLink(post.id)">
               |  {{getPostTitle(post)}}
             </router-link>
-          <single-comment :comment="comment"/>
+          <single-comment :comment="comment" :videoWrapCol="6" @deleteComment="deleteComment"/>
           </template>
 </template>
 <script>
-// import auth from '@/auth/helpers'
+import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import mixin from '../../globals/mixin.js'
 import TotalRevenue from './../../components/total-revenue'
 import Service from './service'
 import SingleComment from '../../components/feed/single-comment'
+import { router } from '@/http'
 
 export default {
   name: 'Pages',
@@ -78,6 +79,7 @@ export default {
           this.setDocumentTitle('Response on ' + this.getPostTitle(this.post))
         })
         .catch((cErr) => {
+          this.showNotification('Something went wrong while getting the comment.', 'error')
           throw new Error('Soemthing went wrong')
         })
     } catch (e) {
@@ -85,7 +87,18 @@ export default {
     }
   },
   methods: {
-    getPageTitle (post) {
+    deleteComment () {
+      if (confirm('Are you sure you want to delete it?')) {
+        this.showNotification('Deleting...', 'warn')
+        auth.deleteComment(this.comment.id)
+          .then((d) => {
+            this.showNotification('Deleted successfully.', 'success')
+            router.push(this.getPostLink(this.post.id))
+          })
+          .catch((cErr) => {
+            this.showNotification('Soemthing went wrong while trying to delete your comment.', 'error')
+          })
+      }
     }
   }
 }

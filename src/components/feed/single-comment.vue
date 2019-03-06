@@ -16,7 +16,7 @@
       </template>
     <template v-if="getVideo(comment)">
     .row
-      .col-lg-5.col-md-5.comments.video-container
+      .comments.video-container(:class="videoWrapColClass")
         <comment-video-player :videoPath="comment.videoPath"/>
     </template>
     div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
@@ -65,11 +65,24 @@ export default {
       default () {
         return 0
       }
+    },
+    videoWrapCol: {
+      type: Number,
+      default () {
+        return 5
+      }
     }
   },
   data () {
     return {
       currentUser: auth.getUser()
+    }
+  },
+  computed: {
+    videoWrapColClass: {
+      get () {
+        return 'col-lg-' + this.videoWrapCol + ' col-md-' + this.videoWrapCol
+      }
     }
   },
   methods: {

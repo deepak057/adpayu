@@ -505,3 +505,11 @@ body {
 	color: #495057;
 	opacity: .7;
 }
+
+.comment-response-container .round {
+	background: none;
+}
+
+.comment-response-container .dropdown-item.active {
+	color: #fff !important;
+}

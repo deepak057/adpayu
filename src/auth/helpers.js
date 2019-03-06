@@ -106,6 +106,19 @@ export default {
       })
   },
 
+  deleteComment (commentId) {
+    return Vue.http({
+      method: 'delete',
+      url: constants.API_BASE_URL + '/comments/' + commentId
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   createPost (feed) {
     return Vue.http({
       method: 'post',

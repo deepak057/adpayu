@@ -16,16 +16,6 @@ export default class Service {
       })
   }
 
-  deleteComment (commentId) {
-    return auth.delete('/comments/' + commentId)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
   postLike (postId, action) {
     return auth.post('/like/post/' + postId, {})
       .then((response) => {
