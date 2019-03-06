@@ -165,7 +165,9 @@ export default {
       this.postStatus = ''
       this.adOptions = {}
       this.question = {}
-      this.tags = []
+      this.tags = [{
+        text: 'General' // make sure to keep the default tag to General
+      }]
       this.images = []
       this.video = {}
       this.enableMoreOptions = false

@@ -431,6 +431,10 @@ body {
   .feed-tags {
   	margin-top: 10px;
   }
+
+  .feed-ads-options-wrap {
+  	font-size: 12px;
+  }
 }
 
 /*
