@@ -71,6 +71,10 @@ export default {
       default () {
         return 5
       }
+    },
+    commentType: {
+      type: String,
+      required: true
     }
   },
   data () {

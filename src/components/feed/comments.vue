@@ -4,7 +4,7 @@
     a(href="javascript:void(0)" @click="showAllComments()")
       | Load Previous comments
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
-  <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment"/>
+  <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.m-t-10
     div
@@ -103,7 +103,7 @@ export default {
       }
     },
     placeholderText () {
-      return 'Type your ' + this.getCommentType() + ' here'
+      return 'Type text ' + this.getCommentType() + ' here'
     },
     triggerVideoComment (path) {
       this.videoPath = path

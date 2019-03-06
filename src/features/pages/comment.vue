@@ -37,7 +37,7 @@
             <router-link :to="getPostLink(post.id)">
               |  {{getPostTitle(post)}}
             </router-link>
-          <single-comment :comment="comment" :videoWrapCol="6" @deleteComment="deleteComment"/>
+          <single-comment :comment="comment" :videoWrapCol="6" @deleteComment="deleteComment" :commentType="commentType"/>
           </template>
 </template>
 <script>
@@ -65,6 +65,17 @@ export default {
       comment: {},
       post: {},
       commentUser: {}
+    }
+  },
+  computed: {
+    commentType: {
+      get () {
+        if ('QuestionId' in this.post && this.post.QuestionId) {
+          return 'question'
+        } else {
+          return 'comment'
+        }
+      }
     }
   },
   mounted () {
