@@ -1,12 +1,12 @@
 <template lang="pug">
-.d-flex.flex-row.comment-row
-  .p-2
+.comment-row.row.custom-comment-row.m-t-10.m-l-0.m-r-0
+  .col-0.p-0.hidden-xs-down
     <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
       span.round
         img(:src='getMedia(comment.User.pic)', alt='user', width='50')
     </router-link>
-  .comment-text.w-100
-    h5
+  .col-11.col-md-10.col-xs-12.comment-text.p-0.m-l-25.m-t-10
+    h5.user-name-wrap
       <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
         | {{userName(comment.User)}}
       </router-link>
@@ -15,8 +15,8 @@
       | {{comment.comment}}
       </template>
     <template v-if="getVideo(comment)">
-    .row
-      .comments.video-container(:class="videoWrapColClass")
+    .row.m-0
+      .comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
         <comment-video-player :videoPath="comment.videoPath"/>
     </template>
     div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
@@ -85,7 +85,7 @@ export default {
   computed: {
     videoWrapColClass: {
       get () {
-        return 'col-lg-' + this.videoWrapCol + ' col-md-' + this.videoWrapCol
+        return 'cosl-lg-' + this.videoWrapCol
       }
     }
   },

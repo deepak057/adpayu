@@ -99,6 +99,9 @@
 .profiletimeline .ribbon-wrapper{
 	padding-bottom: 0px;
 }
+.profiletimeline .sl-right {
+	/*	word-break: break-all; */
+}
 .pr-t--3-l--3{
 	position: relative;
 	top: -3px;
@@ -421,7 +424,7 @@ body {
   }
 
   .ribbon-wrapper, .ribbon-wrapper-reverse, .ribbon-wrapper-bottom, .ribbon-wrapper-right-bottom {
-  	padding: 50px 8px 15px 15px
+  	padding: 50px 0px 15px 9px
   }
 
   .feed-video-wrap .video-container{
@@ -433,6 +436,19 @@ body {
   }
 
   .feed-ads-options-wrap {
+  	font-size: 12px;
+  }
+
+  .comment-widgets .comment-row {
+  	padding: 0px;
+  	border-left: 3px solid #1e88e5;
+  }
+
+  .comment-widgets, .comment-widgets textarea {
+  	font-size: 12px;
+  }
+
+  .comment-response-container .response-head-title {
   	font-size: 12px;
   }
 }
@@ -516,4 +532,21 @@ body {
 
 .comment-response-container .dropdown-item.active {
 	color: #fff !important;
+}
+
+.custom-comment-row .user-name-wrap {
+	position: relative;
+	/*left: -20px;*/
+}
+
+.m-l-25 {
+	margin-left: 25px;
+}
+
+.m-l-0 {
+	margin-left: 0px !important;
+}
+
+.m-r-0 {
+	margin-right: 0px !important;
 }

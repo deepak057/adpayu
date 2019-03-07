@@ -28,7 +28,7 @@
           .m-t-20.text-center(v-show="pageLoading")
             <preloader></preloader>
           <template v-if="!pageLoading">
-          h3
+          h3.response-head-title
             i.mdi.mdi-reply.m-r-5
             <router-link tag="span" :to="userProfileLink(commentUser.id)" class="cursor-hand">
               | {{commentUser.first | capitalize}}
