@@ -27,7 +27,8 @@ export default {
         email: creds.email,
         password: creds.password,
         first: creds.first,
-        last: creds.last
+        last: creds.last,
+        location: creds.location
       })
     })
       .then((response) => {

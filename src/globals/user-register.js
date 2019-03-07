@@ -21,6 +21,9 @@ export default {
     validatePhoneNumber (number) {
       let phoneno = /^\d{10}$/
       return number && !isNaN(number) && number.match(phoneno)
+    },
+    validateCountry (country) {
+      return country && country.length
     }
   }
 }
