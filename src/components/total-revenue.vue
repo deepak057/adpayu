@@ -1,6 +1,8 @@
 <template lang="pug">
 div
-  h3.m-b-0.font-light ${{totalRevenue || 0}}
+  h3.m-b-0.font-light
+    | ${{totalRevenue || 0}}
+    span.small.text-muted.cursor-hand.f-s-12 (Withdraw)
   h5.text-muted.m-b-0 Total Revenue
 </template>
 <script>

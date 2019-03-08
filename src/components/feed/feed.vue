@@ -163,8 +163,12 @@ export default {
     filterDuplicatePosts (feed) {
       let obj = {}
       this.initialized = true
-
-      for (let i = 0, len = feed.length; i < len; i++) {
+      /*
+      * Traverse the array from the bottom
+      * so that new duplicate record is
+      * not added to the feed array
+      */
+      for (let i = (feed.length - 1); i >= 0; i--) {
         obj[feed[i]['id']] = feed[i]
       }
       feed = []
