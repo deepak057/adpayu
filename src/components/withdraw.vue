@@ -5,74 +5,68 @@ div
     .modal-dialog
       .modal-content
         .modal-header
-          h4.modal-title Ad Stats
+          h4.modal-title Withdraw Money
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          div.adstats-container
-            .text-center.m-t-20(v-if="pageLoader")
-              <preloader/>
-            <template v-if="!pageLoader && adStats.length">
-            p
-              <router-link :to="getPostLink(post.id)" @click.native="closeAllModals()">
-                | This Ad
-              </router-link>
-              |  has been running since {{post.createdAt | date}}
+          .text-center.m-t-20(v-if="pageLoader")
+            <preloader/>
+          .text-center(v-if="!pageLoader")
             .table-responsive
               table.table.table-hover
                 thead
                   tr
-                    th.text-left
-                      | Action
-                      i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Ad Action" data-toggle="popover" data-placement="right" data-content="This field indicates the type of ad.")
-                    th.text-center
-                      | Cost per action
-                      i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Cost Per Action" data-toggle="popover" data-placement="right" data-content="This field indicates the cost for per ad action. Such as cost per click, cost per impression or cost per video view.")
-                    th.text-center
-                      | Target
-                      i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Ad Targets" data-toggle="popover" data-placement="right" data-content="This field indicates maximum number of ad actions that this ad can acheive. Indicates maximum number of impressions, clicks or views.")
-                    th.text-center
-                      | Acheived
-                      i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Ad Consumption" data-toggle="popover" data-placement="right" data-content="This field indicates number of ad actions that have been acheived so far. Indicates number of times this ad has been seen, clicked or viewed (video ad).")
-                tbody
-                  tr(v-for="stat in adStats")
-                    td.text-left {{stat.action}}
-                    td.text-center $ {{stat.costPerAction}}
-                    td.text-center {{stat.targetCount}}
-                    td.text-center {{stat.countAcheived}}
+                    th Remarks
+                    th Amount in USD
+                    th Amount in INR
                   tr
-                    td.text-left(colspan='2')
-                      h5.m-t-10 Total Cost
-                    td.text-center
-                      h5.m-t-10.text-success $ {{totalRow.totalTargetCost}}
-                    td.text-center
-                      h5.m-t-10.text-danger $ {{totalRow.totalAcheivedCost}}
-            </template>
+                    td
+                      | Money Accumulated
+                      i.mdi.mdi-information-outline.m-l-5.cursor-hand
+                    td ${{data.transactionDetails.amountAccumulatedUSD}}
+                    td {{data.transactionDetails.amountAccumulatedINR}} INR
+                  tr
+                    td
+                      | {{data.transactionDetails.siteFeePercentage}}% Site Fee
+                      i.mdi.mdi-information-outline.m-l-5.cursor-hand
+                    td.text-danger ${{data.transactionDetails.siteFeeUSD}}
+                    td.text-danger {{data.transactionDetails.siteFeeINR}} INR
+                  tr
+                    td
+                      h4
+                        | Total Payable
+                        i.mdi.mdi-information-outline.m-l-5.cursor-hand
+                    td
+                      h4.text-success ${{data.transactionDetails.totalUSD}}
+                    td
+                      h4.text-success {{data.transactionDetails.totalINR}} INR
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
+          button.btn.btn-danger.waves-effect(type='button', data-dismiss='modal') Proceed
 </template>
 <script>
-import mixin from '../../globals/mixin'
-import AdMixin from './ad-mixin.js'
-import Preloader from '../preloader'
+import mixin from '../globals/mixin'
+import Preloader from './preloader'
 import Service from './service'
-import auth from '@/auth/helpers'
-// import { router } from '@/http'
+// import auth from '@/auth/helpers'
+
+function getWithdrawInitialState () {
+  return {
+    transactionDetails: false
+  }
+}
 
 export default {
-  name: 'AdStats',
+  name: 'WithdrawMoney',
   service: new Service(),
   components: {
     Preloader
   },
-  mixins: [mixin, AdMixin],
+  mixins: [mixin],
   data () {
     return {
       pageLoader: true,
-      id: this.getUniqueId() + '-ad-stats-modal-',
-      currentUser: auth.getUser(),
-      adStats: [],
-      totalRow: false,
-      post: false
+      id: this.getUniqueId() + '-withdraw-money-modal-',
+      data: getWithdrawInitialState()
     }
   },
   computed: {
@@ -83,78 +77,35 @@ export default {
     },
     triggerButtonId: {
       get () {
-        return this.id + '-trigger-ad-stats-modal'
+        return this.id + '-trigger-withdraw-money-modal'
       }
     },
     modalId: {
       get () {
-        return this.id + '-ad-stats-modal'
+        return this.id + '-withdraw-money-modal'
       }
     },
     closeButtonId: {
       get () {
-        return this.id + '-ad-stat-modal-buton-close'
+        return this.id + '-withdraw-money-modal-buton-close'
       }
     }
   },
   mounted () {
   },
   methods: {
-    triggerPopup (postId) {
-      this.pageLoader = true
-      this.adStats = []
-      this.totalRow = false
+    triggerPopup () {
       document.getElementById(this.triggerButtonId).click()
-      auth.getPost(postId)
-        .then((postData) => {
+      this.pageLoader = true
+      this.data = getWithdrawInitialState()
+      this.$options.service.getWithdrawOverview()
+        .then((data) => {
           this.pageLoader = false
-          this.post = postData
-          this.populateStatsTable(postData)
+          this.data.transactionDetails = data.transaction
         })
-        .catch((pErr) => {
-          this.showNotification('Something went wrong while getting the stats.', 'error')
-          this.closePopup()
+        .catch((tErr) => {
+          this.showNotification('Something went wrong while getting transaction details, please try again later.', 'error')
         })
-    },
-    populateStatsTable (post) {
-      let adConfig = this.getAdConfig(post)
-      let adStats = adConfig.AdStat
-      if (adConfig.impressionTarget) {
-        this.adStats.push({
-          action: 'Impression',
-          costPerAction: adConfig.cpi,
-          targetCount: adConfig.impressionTarget,
-          countAcheived: adStats ? adStats.impressions : 0
-        })
-      }
-      if (adConfig.clickTarget) {
-        this.adStats.push({
-          action: 'Click',
-          costPerAction: adConfig.cpc,
-          targetCount: adConfig.clickTarget,
-          countAcheived: adStats ? adStats.clicks : 0
-        })
-      }
-      if (adConfig.viewTarget) {
-        this.adStats.push({
-          action: 'View',
-          costPerAction: adConfig.cpv,
-          targetCount: adConfig.viewTarget,
-          countAcheived: adStats ? adStats.views : 0
-        })
-      }
-      if (this.adStats.length) {
-        let totalTargetCost = 0
-        let totalAcheivedCost = 0
-        for (let i in this.adStats) {
-          totalTargetCost += this.adStats[i].targetCount * this.adStats[i].costPerAction
-          totalAcheivedCost += this.adStats[i].countAcheived * this.adStats[i].costPerAction
-        }
-        this.totalRow = {
-          totalTargetCost: this.roundToDecimalPlaces(totalTargetCost),
-          totalAcheivedCost: this.roundToDecimalPlaces(totalAcheivedCost)
-        }
-      }
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()

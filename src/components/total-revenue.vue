@@ -2,14 +2,19 @@
 div
   h3.m-b-0.font-light
     | ${{totalRevenue || 0}}
-    span.small.text-muted.cursor-hand.f-s-12 (Withdraw)
+    span.small.text-muted.cursor-hand.f-s-12(@click="withdrawTrigger()") (Withdraw)
   h5.text-muted.m-b-0 Total Revenue
+  <withdraw-money ref="withdrawMoneyComp"/>
 </template>
 <script>
 import auth from '@/auth/helpers'
+import WithdrawMoney from './withdraw'
 
 export default {
   name: 'TotalRevenue',
+  components: {
+    WithdrawMoney
+  },
   data () {
     return {
       totalRevenue: auth.getLocalRevenue()
@@ -20,9 +25,12 @@ export default {
       this.totalRevenue = newV
     }
   },
-  mrthods: {
+  methods: {
     updateTotal () {
       this.totalRevenue = auth.getUser().totalAmount
+    },
+    withdrawTrigger () {
+      this.$refs.withdrawMoneyComp.triggerPopup()
     }
   }
 }
