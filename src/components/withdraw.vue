@@ -8,7 +8,7 @@ div
           h4.modal-title Withdraw Money
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          .payment-withdrawl-options-wrap.m-b-20
+          .payment-withdrawl-options-wrap.m-b-20(v-if="!data.error")
             h4 Transfer money to your?
             .m-t-20
               input.m-r-5.with-gap(v-model="data.transfermodeDetails.mode" name="group4" value="bank" type="radio" id="pwo-rd-bank-account")
@@ -23,6 +23,13 @@ div
           .text-center.m-t-20(v-if="pageLoader")
             <preloader/>
           <template v-if="!pageLoader">
+          <template v-if="data.error">
+          .text-center.m-t-20
+            h4.text-danger
+              i.mdi.mdi-alert.m-r-5
+              | {{data.error}}
+          </template>
+          <template v-if="!data.error">
           #accordion-revenue-breakdown.nav-accordion(role='tablist', aria-multiselectable='true')
            .card
              #headingOne-revenue-breakdown.card-header(role='tab')
@@ -54,9 +61,15 @@ div
                          td.text-danger {{data.transactionDetails.siteFeeINR}} INR
                        tr
                          td.text-left
+                           | {{data.transfermodeDetails.mode | capitalize}} Transfer Fee
+                           i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Payment Transfer Charges" data-toggle="popover" data-placement="right" data-content="This amount of money is charged by our Payment Gateway partner in order to transfer money to your account instantly. You can choose manual transfer mode which will charge less but money will be transferred to your account within 24 hours.")
+                         td.text-danger $ {{data.transactionDetails.paymentGatewayChargeUSD}}
+                         td.text-danger {{data.transactionDetails.paymentGatewayChargeINR}} INR
+                       tr
+                         td.text-left
                            h6
                              | Total Payable
-                             i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Total Payable Money" data-toggle="popover" data-placement="right" data-content="This is the amount of money that is payable to you after deducting the Site Fee from the total accumulated amount.")
+                             i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Total Payable Money" data-toggle="popover" data-placement="right" data-content="This is the amount of money that is payable to you after deducting the Site Fee and money transfer charges from the total accumulated amount.")
                          td
                            h6.text-success ${{data.transactionDetails.totalUSD}}
                          td
@@ -88,9 +101,10 @@ div
                     input.form-control.form-control-sm(type="text" placeholder="Enter Your Address")
               </template>
           </template>
+          </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect(type='button') Proceed
+          button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error") Proceed
 </template>
 <script>
 import mixin from '../globals/mixin'
@@ -101,11 +115,9 @@ import Service from './service'
 function getWithdrawInitialState () {
   return {
     transactionDetails: false,
-    overviewGone: false,
+    error: false,
     transfermodeDetails: {
-      mode: 'bank',
-      accountNumber: 2121111,
-      IFSC: 'Ne3'
+      mode: 'bank'
     }
   }
 }
@@ -164,7 +176,11 @@ export default {
       this.$options.service.getWithdrawOverview(this.data.transfermodeDetails.mode)
         .then((data) => {
           this.pageLoader = false
-          this.data.transactionDetails = data.transaction
+          if (data.transaction.success) {
+            this.data.transactionDetails = data.transaction
+          } else {
+            this.data.error = data.transaction.message
+          }
         })
         .catch((tErr) => {
           this.showNotification('Something went wrong while getting transaction details, please try again later.', 'error')
