@@ -26,8 +26,8 @@ export default class Service {
       })
   }
 
-  getWithdrawOverview () {
-    return auth.get('/withdraw/overview', {})
+  getWithdrawOverview (mode = 'bank') {
+    return auth.get('/withdraw/overview', {mode: mode})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
