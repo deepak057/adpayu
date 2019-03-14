@@ -8,16 +8,16 @@ div
           h4.modal-title Withdraw Money
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          .payment-withdrawl-options-wrap.m-b-20(v-if="!data.error")
+          .payment-withdrawl-options-wrap.m-b-20(v-if="!data.error && !overviewGone")
             h4 Transfer money to your?
             .m-t-20
-              input.m-r-5.with-gap(v-model="data.transfermodeDetails.mode" name="group4" value="bank" type="radio" id="pwo-rd-bank-account")
+              input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" value="bank" type="radio" id="pwo-rd-bank-account")
               label.small.m-r-5(for="pwo-rd-bank-account")
                 | Bank Account
-              input.m-r-5.with-gap(v-model="data.transfermodeDetails.mode" name="group4" type="radio" value="paytm" id="pwo-rd-paytm")
+              input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" type="radio" value="paytm" id="pwo-rd-paytm")
               label.small.m-r-5(for="pwo-rd-paytm")
                 | Paytm
-              input.m-r-5.with-gap(v-model="data.transfermodeDetails.mode" name="group4" type="radio" value="manual" id="pwo-rd-manual")
+              input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" type="radio" value="manual" id="pwo-rd-manual")
               label.small(for="pwo-rd-manual")
                 | Manual
           .text-center.m-t-20(v-if="pageLoader")
@@ -76,39 +76,38 @@ div
                            h6.text-success {{data.transactionDetails.totalINR}} INR
           .payment-withdrawl-details-form-wrap
             .pwo-selected-option-wrap.m-t-20
-              <template v-if="data.transfermodeDetails.mode === 'bank'">
-                form
-                  .form-group
-                    label.small Account Number*
-                    input.form-control.form-control-sm(type="text" placeholder="Enter Bank Account Number")
-                  .form-group
-                    label.small IFSC*
-                    input.form-control.form-control-sm(type="text" placeholder="Enter IFSC code")
-                  .form-group
-                    label.small Phone Number*
-                    input.form-control.form-control-sm(type="text" placeholder="Enter Your Phone Number")
-                  .form-group
-                    label.small Address*
-                    input.form-control.form-control-sm(type="text" placeholder="Enter Your Address")
-              </template>
-              <template v-if="data.transfermodeDetails.mode === 'paytm'">
-                form
-                  .form-group
-                    label.small Paytm mobile number*
-                    input.form-control.form-control-sm(type="text" placeholder="Registered Paytm mobile number")
-                  .form-group
-                    label.small Address*
-                    input.form-control.form-control-sm(type="text" placeholder="Enter Your Address")
-              </template>
+              form
+                .form-group(:class="{'has-danger': data.accountNumberError}" v-if="!ifMode('paytm')")
+                  label.small Account Number*
+                  input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.accountNumber" type="text" placeholder="Enter Bank Account Number")
+                  small.form-control-feedback(v-if="data.accountNumberError")
+                    | {{data.accountNumberError}}
+                .form-group(:class="{'has-danger': data.IFSCError}" v-if="!ifMode('paytm')")
+                  label.small IFSC*
+                  input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.IFSC" type="text" placeholder="Enter IFSC code")
+                  small.form-control-feedback(v-if="data.IFSCError")
+                    | {{data.IFSCError}}
+                .form-group(:class="{'has-danger': data.phoneError}")
+                  label.small Phone Number*
+                  input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.phone" type="text" placeholder="Enter Your Phone Number" @keypress="isNumber(event)")
+                  small.form-control-feedback(v-if="data.phoneError")
+                    | {{data.phoneError}}
+                .form-group(:class="{'has-danger': data.addressError}")
+                  label.small Address*
+                  input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.address" type="text" placeholder="Enter Your Address")
+                  small.form-control-feedback(v-if="data.addressError")
+                    | {{data.addressError}}
           </template>
           </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error") Proceed
+          button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error" @click="triggerWithdrawl()") Proceed
 </template>
 <script>
-import mixin from '../globals/mixin'
-import Preloader from './preloader'
+import mixin from '../../globals/mixin'
+import UserRegister from '../../globals/user-register'
+import localMixin from './mixin'
+import Preloader from '../preloader'
 import Service from './service'
 // import auth from '@/auth/helpers'
 
@@ -117,8 +116,16 @@ function getWithdrawInitialState () {
     transactionDetails: false,
     error: false,
     transfermodeDetails: {
-      mode: 'bank'
-    }
+      mode: 'bank',
+      accountNumber: '',
+      IFSC: '',
+      address: '',
+      phone: ''
+    },
+    accountNumberError: false,
+    IFSCError: false,
+    phoneError: false,
+    addressError: false
   }
 }
 
@@ -128,12 +135,13 @@ export default {
   components: {
     Preloader
   },
-  mixins: [mixin],
+  mixins: [mixin, UserRegister, localMixin],
   data () {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-withdraw-money-modal-',
-      data: getWithdrawInitialState()
+      data: getWithdrawInitialState(),
+      overviewGone: false
     }
   },
   computed: {
@@ -163,6 +171,18 @@ export default {
       if (newV !== oldV) {
         this.fetchOverview()
       }
+    },
+    'data.transfermodeDetails.accountNumber' () {
+      this.validateAccountNumber()
+    },
+    'data.transfermodeDetails.IFSC' () {
+      this.validateIFSC()
+    },
+    'data.transfermodeDetails.phone' () {
+      this.validatePhone()
+    },
+    'data.transfermodeDetails.address' () {
+      this.validateAddress()
     }
   },
   methods: {
@@ -191,6 +211,19 @@ export default {
     },
     getSiteFeeText () {
       return 'We will keep ' + this.data.transactionDetails.siteFeePercentage + '% of the money you have made as part of our service fee. This money will help us continue to run and suport this platform.'
+    },
+    triggerWithdrawl () {
+      if (this.validateDetails()) {
+        this.overviewGone = true
+        this.pageLoader = true
+        this.$options.service.triggerWithdrawl(this.data.transfermodeDetails)
+          .then((data) => {})
+          .catch((tErr) => {
+            this.showNotification('Something went wrong while attempting to withdraw. Please try again later.', 'error')
+            this.overviewGone = false
+            this.pageLoader = false
+          })
+      }
     }
   }
 }

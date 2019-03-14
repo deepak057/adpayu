@@ -550,3 +550,7 @@ body {
 .m-r-0 {
 	margin-right: 0px !important;
 }
+
+.pwo-selected-option-wrap form .form-group {
+	margin-bottom: 1rem;
+}

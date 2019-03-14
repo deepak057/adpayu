@@ -8,7 +8,7 @@ div
 </template>
 <script>
 import auth from '@/auth/helpers'
-import WithdrawMoney from './withdraw'
+import WithdrawMoney from './withdraw/main'
 
 export default {
   name: 'TotalRevenue',
