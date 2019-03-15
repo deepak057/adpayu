@@ -77,6 +77,8 @@ div
           .payment-withdrawl-details-form-wrap
             .pwo-selected-option-wrap.m-t-20
               form
+                .alert.alert-danger.small(v-if="data.serverError")
+                  | {{data.serverError}}
                 .form-group(:class="{'has-danger': data.accountNumberError}" v-if="!ifMode('paytm')")
                   label.small Account Number*
                   input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.accountNumber" type="text" placeholder="Enter Bank Account Number")
@@ -125,7 +127,8 @@ function getWithdrawInitialState () {
     accountNumberError: false,
     IFSCError: false,
     phoneError: false,
-    addressError: false
+    addressError: false,
+    serverError: false
   }
 }
 
@@ -217,13 +220,21 @@ export default {
         this.overviewGone = true
         this.pageLoader = true
         this.$options.service.triggerWithdrawl(this.data.transfermodeDetails)
-          .then((data) => {})
+          .then((data) => {
+            if (data.ben.status === 'ERROR') {
+              this.resetOverview()
+              this.data.serverError = data.ben.message
+            }
+          })
           .catch((tErr) => {
             this.showNotification('Something went wrong while attempting to withdraw. Please try again later.', 'error')
-            this.overviewGone = false
-            this.pageLoader = false
+            this.resetOverview()
           })
       }
+    },
+    resetOverview () {
+      this.overviewGone = false
+      this.pageLoader = false
     }
   }
 }
