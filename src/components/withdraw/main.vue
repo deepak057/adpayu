@@ -23,13 +23,19 @@ div
           .text-center.m-t-20(v-if="pageLoader")
             <preloader/>
           <template v-if="!pageLoader">
+          <template v-if="data.success">
+          .text-center.m-t-20
+            .alert.alert-success
+              i.mdi.mdi-check
+              | {{data.success}}
+          </template>
           <template v-if="data.error">
           .text-center.m-t-20
             h4.text-danger
               i.mdi.mdi-alert.m-r-5
               | {{data.error}}
           </template>
-          <template v-if="!data.error">
+          <template v-if="!data.error && !data.success">
           #accordion-revenue-breakdown.nav-accordion(role='tablist', aria-multiselectable='true')
            .card
              #headingOne-revenue-breakdown.card-header(role='tab')
@@ -103,7 +109,7 @@ div
           </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error" @click="triggerWithdrawl()") Proceed
+          button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error && !data.success" @click="triggerWithdrawl()") Proceed
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -128,7 +134,8 @@ function getWithdrawInitialState () {
     IFSCError: false,
     phoneError: false,
     addressError: false,
-    serverError: false
+    serverError: false,
+    success: false
   }
 }
 
@@ -221,9 +228,16 @@ export default {
         this.pageLoader = true
         this.$options.service.triggerWithdrawl(this.data.transfermodeDetails)
           .then((data) => {
-            if (data.ben.status === 'ERROR') {
+            if ('ben' in data && data.ben.status === 'ERROR') {
               this.resetOverview()
               this.data.serverError = data.ben.message
+            } else if (data.data.status === 'SUCCESS') {
+              this.pageLoader = false
+              this.serverError = false
+              this.data.success = data.data.message
+            } else {
+              this.resetOverview()
+              this.data.serverError = 'data' in data ? data.data.message : 'Something went wrong, please try again later'
             }
           })
           .catch((tErr) => {
