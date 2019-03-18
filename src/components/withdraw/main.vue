@@ -151,7 +151,8 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-withdraw-money-modal-',
       data: getWithdrawInitialState(),
-      overviewGone: false
+      overviewGone: false,
+      currentUser: auth.getUser()
     }
   },
   computed: {
@@ -197,9 +198,13 @@ export default {
   },
   methods: {
     triggerPopup () {
-      this.data = getWithdrawInitialState()
+      this.reset()
       document.getElementById(this.triggerButtonId).click()
       this.fetchOverview()
+    },
+    reset () {
+      this.data = getWithdrawInitialState()
+      this.resetOverview()
     },
     fetchOverview () {
       this.pageLoader = true
@@ -208,6 +213,7 @@ export default {
           this.pageLoader = false
           if (data.transaction.success) {
             this.data.transactionDetails = data.transaction
+            this.data.transfermodeDetails = 'userBankDetails' in data && data.userBankDetails ? data.userBankDetails : this.data.transfermodeDetails
           } else {
             this.data.error = data.transaction.message
           }
@@ -234,6 +240,7 @@ export default {
             } else if (data.data.status === 'SUCCESS') {
               this.pageLoader = false
               this.serverError = false
+              this.data.error = false
               this.data.success = data.data.message
               auth.saveLocalRevenue(0)
             } else {
