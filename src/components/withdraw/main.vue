@@ -117,7 +117,7 @@ import UserRegister from '../../globals/user-register'
 import localMixin from './mixin'
 import Preloader from '../preloader'
 import Service from './service'
-// import auth from '@/auth/helpers'
+import auth from '@/auth/helpers'
 
 function getWithdrawInitialState () {
   return {
@@ -235,6 +235,7 @@ export default {
               this.pageLoader = false
               this.serverError = false
               this.data.success = data.data.message
+              auth.saveLocalRevenue(0)
             } else {
               this.resetOverview()
               this.data.serverError = 'data' in data ? data.data.message : 'Something went wrong, please try again later'
