@@ -81,30 +81,48 @@ div
                          td
                            h6.text-success {{data.transactionDetails.totalINR}} INR
           .payment-withdrawl-details-form-wrap
-            .pwo-selected-option-wrap.m-t-20
+            .pwo-selected-option-wrap
+              .text-left.m-b-10.alert.alert-info.m-t--10(v-if="!ifMode('paytm')")
+                span(v-if="ifMode('manual')")
+                  | Please write to us and let us know if you are having trouble getting paid with other options or if you'd like us to help you withdraw your money in some other ways, especially, if you don't have an Indian Bank or Paytm account.
+                span(v-if="ifMode('bank')")
+                  | Note- Please use this option only if you have an Indian bank account. If you're from outside of India, please
+                  a(href="javascript:void(0)" @click="data.transfermodeDetails.mode='manual'")
+                    |  click here
+                  |  to choose manual money transfer mode.
               form
                 .alert.alert-danger.small(v-if="data.serverError")
                   | {{data.serverError}}
-                .form-group(:class="{'has-danger': data.accountNumberError}" v-if="!ifMode('paytm')")
+                .form-group(:class="{'has-danger': data.accountNumberError}" v-if="ifMode('bank')")
                   label.small Account Number*
                   input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.accountNumber" type="text" placeholder="Enter Bank Account Number")
                   small.form-control-feedback(v-if="data.accountNumberError")
                     | {{data.accountNumberError}}
-                .form-group(:class="{'has-danger': data.IFSCError}" v-if="!ifMode('paytm')")
+                .form-group(:class="{'has-danger': data.IFSCError}" v-if="ifMode('bank')")
                   label.small IFSC*
                   input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.IFSC" type="text" placeholder="Enter IFSC code")
                   small.form-control-feedback(v-if="data.IFSCError")
                     | {{data.IFSCError}}
-                .form-group(:class="{'has-danger': data.phoneError}")
+                .form-group(:class="{'has-danger': data.phoneError}" v-if="!ifMode('manual')")
                   label.small Phone Number*
                   input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.phone" type="text" placeholder="Enter Your Phone Number" @keypress="isNumber(event)")
                   small.form-control-feedback(v-if="data.phoneError")
                     | {{data.phoneError}}
-                .form-group(:class="{'has-danger': data.addressError}")
+                .form-group(:class="{'has-danger': data.addressError}" v-if="!ifMode('manual')")
                   label.small Address*
                   input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.address" type="text" placeholder="Enter Your Address")
                   small.form-control-feedback(v-if="data.addressError")
                     | {{data.addressError}}
+                .form-group(:class="{'has-danger': data.emailError}" v-if="ifMode('manual')")
+                  label.small Email*
+                  input.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.email" type="text" placeholder="Enter Your Email")
+                  small.form-control-feedback(v-if="data.emailError")
+                    | {{data.emailError}}
+                .form-group(:class="{'has-danger': data.messageError}" v-if="ifMode('manual')")
+                  label.small Message*
+                  textarea.form-control.form-control-sm(v-model.trim="data.transfermodeDetails.message" type="text" placeholder="Enter Your Message")
+                  small.form-control-feedback(v-if="data.messageError")
+                    | {{data.messageError}}
           </template>
           </template>
         .modal-footer
@@ -119,6 +137,8 @@ import Preloader from '../preloader'
 import Service from './service'
 import auth from '@/auth/helpers'
 
+let currentUser = auth.getUser()
+
 function getWithdrawInitialState () {
   return {
     transactionDetails: false,
@@ -128,14 +148,18 @@ function getWithdrawInitialState () {
       accountNumber: '',
       IFSC: '',
       address: '',
-      phone: ''
+      phone: currentUser.phone,
+      email: currentUser.email,
+      message: ''
     },
     accountNumberError: false,
     IFSCError: false,
     phoneError: false,
     addressError: false,
     serverError: false,
-    success: false
+    success: false,
+    messageError: false,
+    emailError: false
   }
 }
 
@@ -151,8 +175,7 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-withdraw-money-modal-',
       data: getWithdrawInitialState(),
-      overviewGone: false,
-      currentUser: auth.getUser()
+      overviewGone: false
     }
   },
   computed: {
@@ -194,6 +217,12 @@ export default {
     },
     'data.transfermodeDetails.address' () {
       this.validateAddress()
+    },
+    'data.transfermodeDetails.email' () {
+      this.emailValidate()
+    },
+    'data.transfermodeDetails.message' () {
+      this.validateMessage()
     }
   },
   methods: {
@@ -208,12 +237,18 @@ export default {
     },
     fetchOverview () {
       this.pageLoader = true
+      this.data.serverError = false
       this.$options.service.getWithdrawOverview(this.data.transfermodeDetails.mode)
         .then((data) => {
           this.pageLoader = false
           if (data.transaction.success) {
             this.data.transactionDetails = data.transaction
-            this.data.transfermodeDetails = 'userBankDetails' in data && data.userBankDetails ? data.userBankDetails : this.data.transfermodeDetails
+            if ('userBankDetails' in data && data.userBankDetails) {
+              if (data.userBankDetails.mode !== this.data.transfermodeDetails.mode) {
+                data.userBankDetails.mode = this.data.transfermodeDetails.mode
+              }
+              this.data.transfermodeDetails = data.userBankDetails
+            }
           } else {
             this.data.error = data.transaction.message
           }
@@ -242,7 +277,9 @@ export default {
               this.serverError = false
               this.data.error = false
               this.data.success = data.data.message
-              auth.saveLocalRevenue(0)
+              if (!this.ifMode('manual')) {
+                auth.saveLocalRevenue(0)
+              }
             } else {
               this.resetOverview()
               this.data.serverError = 'data' in data ? data.data.message : 'Something went wrong, please try again later'
