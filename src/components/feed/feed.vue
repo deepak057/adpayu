@@ -175,11 +175,23 @@ export default {
       for (let key in obj) {
         feed.push(obj[key])
       }
-      return feed.reverse()
+      return this.sortByDate(feed.reverse())
     },
     toggleComments (feedItem) {
       // return !feedItem['showComments']
       feedItem['showComments'] = !feedItem['showComments']
+    },
+    sortByDate (feed) {
+      /*
+      * Sort posts by updatedAt timestamp if
+      * user has enabled RecentActivities filter
+      */
+      if (this.currentUser.recentActivitiesEnabled) {
+        feed.sort(function (a, b) {
+          return new Date(b.updatedAt) - new Date(a.updatedAt)
+        })
+      }
+      return feed
     },
     getPostDescriptionText (f) {
       switch (f.type) {

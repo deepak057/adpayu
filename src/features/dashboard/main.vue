@@ -21,6 +21,10 @@
         i.mdi.mdi-currency-usd
         | Show ads
       <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+      label.m-l-10.m-r-5(for='show-recent-activity-option')
+        i.mdi.mdi-clock
+        |  Recent Activity
+      <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
     .col-md-2.col-12.align-self-center
       <total-revenue/>
   // ==============================================================
@@ -210,6 +214,9 @@ export default {
       this.updateFeedPreference()
     },
     'currentUser.feedEnabled' () {
+      this.updateFeedPreference()
+    },
+    'currentUser.recentActivitiesEnabled' () {
       this.updateFeedPreference()
     },
     feed () {
