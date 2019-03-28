@@ -151,6 +151,23 @@ export default {
         }
       }
       return ''
+    },
+    checkIfScriptExists (scriptSrc) {
+      let scripts = document.getElementsByTagName('script')
+      for (var i = scripts.length; i--;) {
+        if (scripts[i].src === scriptSrc) {
+          return true
+        }
+      }
+      return false
+    },
+    loadScript (scriptSrc) {
+      if (!this.checkIfScriptExists(scriptSrc)) {
+        const plugin = document.createElement('script')
+        plugin.setAttribute('src', scriptSrc)
+        plugin.async = false
+        document.head.appendChild(plugin)
+      }
     }
   }
 }

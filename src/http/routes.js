@@ -16,7 +16,7 @@ const routes = [
     path: '/signup',
     component: () => import(/* webpackChunkName: "login" */ '@/features/register/main.vue'),
     title: 'Sign Up',
-    layout: 'PublicLayout',
+    layout: 'DefaultLayout',
     isPublic: true
   },
   {

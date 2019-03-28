@@ -1,5 +1,17 @@
 <template lang="pug">
 #main-wrapper
+  link(href='static/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+  link(rel='stylesheet', href='static/assets/plugins/dropify/dist/css/dropify.min.css')
+  link(rel='stylesheet', href='static/assets/plugins/html5-editor/bootstrap-wysihtml5.css')
+  // Popup CSS
+  link(href='static/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css', rel='stylesheet')
+  // Custom CSS
+  link(href='static/material/css/style.css', rel='stylesheet')
+  // Custom CSS  outside of theme
+  link(href='static/material/css/custom.css', rel='stylesheet')
+  // You can change the theme colors from here
+  link#theme(href='static/material/css/colors/blue.css', rel='stylesheet')
+  link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.8.0/dist/style.css')
   <app-bar/>
   <app-sidebar :cat="cat"/>
   .page-wrapper
@@ -11,13 +23,31 @@
 import AppBar from '@/components/app-bar'
 import AppSidebar from '@/components/app-sidebar'
 import AppFooter from '@/components/app-footer'
+import mixin from '@/globals/mixin'
 
 export default {
   name: 'DefaultLayout',
   components: { AppBar, AppSidebar, AppFooter },
+  mixins: [mixin],
   data () {
     return {
-      cat: 'all'
+      cat: 'all',
+      scripts: [
+        'static/assets/plugins/jquery/jquery.min.js',
+        'static/assets/plugins/bootstrap/js/popper.min.js',
+        'static/assets/plugins/bootstrap/js/bootstrap.min.js',
+        'static/material/js/waves.js',
+        'static/material/js/sidebarmenu.js',
+        'static/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js',
+        'static/assets/plugins/sparkline/jquery.sparkline.min.js',
+        'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js',
+        'static/material/js/custom.js'
+      ]
+    }
+  },
+  mounted () {
+    for (let i in this.scripts) {
+      this.loadScript(this.scripts[i])
     }
   }
 }

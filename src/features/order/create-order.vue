@@ -149,22 +149,8 @@ export default {
         /* eslint-enable */
       }
     },
-    checkIfScriptExists () {
-      let scripts = document.getElementsByTagName('script')
-      for (var i = scripts.length; i--;) {
-        if (scripts[i].src === this.cashFree.ScriptURL) {
-          return true
-        }
-      }
-      return false
-    },
     loadCashFreeScript () {
-      if (!this.checkIfScriptExists()) {
-        const plugin = document.createElement('script')
-        plugin.setAttribute('src', this.cashFree.ScriptURL)
-        plugin.async = true
-        document.head.appendChild(plugin)
-      }
+      this.loadScript(this.cashFree.ScriptURL)
     },
     getParameters (amount) {
       return {
