@@ -12,18 +12,21 @@
             | Home
           </router-link>
         li.breadcrumb-item.active {{pageTitle() | capitalize}}
-    .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap
+    .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap.p-0
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
-        |  News Feed
+        span
+          |  Feed
       <toggle-button v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
       label.m-l-10(for='show-ads-option')
         i.mdi.mdi-currency-usd
-        | Show ads
+        span
+          | Ads
       <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
       label.m-l-10.m-r-5(for='show-recent-activity-option')
         i.mdi.mdi-clock
-        |  Recent Activity
+        span
+          |  Recent
       <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
     .col-md-2.col-12.align-self-center
       <total-revenue/>
