@@ -2,3 +2,19 @@
 	padding-bottom: 0px;
 	padding-top: 0px;
 }
+.min-h-300 {
+	min-height: 300px;
+}
+.custom-form .form-control-feedback {
+	position: relative;
+	width: auto;
+	height: auto;
+	line-height: normal;
+	text-align: left;
+	margin-top: 5px;
+}
+.custom-form #checkbox-signup {
+	position: relative;
+	top: 2px;
+	margin-right: 5px;
+}

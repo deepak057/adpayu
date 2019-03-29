@@ -1,3 +1,11 @@
+import store from '@/store'
+import dashboard from '@/features/dashboard/main.vue'
+import landing from '@/features/landing/main.vue'
+
+function routerIsLoggedIn () {
+  return store.state.auth.isLoggedIn
+}
+
 /**
  * Every route becomes a chunk, loaded only when used.
  * Reduces size of initial App load.
@@ -16,16 +24,18 @@ const routes = [
     path: '/signup',
     component: () => import(/* webpackChunkName: "login" */ '@/features/register/main.vue'),
     title: 'Sign Up',
-    layout: 'DefaultLayout',
+    layout: 'PublicLayout',
     isPublic: true
   },
   {
     name: 'home',
     path: '/',
-    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/dashboard/main.vue'),
-    title: 'Dashboard',
-    layout: 'DefaultLayout',
-    isPublic: false
+    get component () {
+      return routerIsLoggedIn() ? dashboard : landing
+    },
+    title: routerIsLoggedIn() ? 'Dashboard' : 'AdPayu',
+    layout: routerIsLoggedIn() ? 'DefaultLayout' : 'PublicLayout',
+    isPublic: true
   },
   {
     name: 'tag',

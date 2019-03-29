@@ -4,22 +4,32 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
  * Preloader
  /* ---------------------------------------------- */
 (function(){
-    $(window).on('load', function() {
+    "use strict";
+    $(function () {
         $('.loader').fadeOut();
         $('.preloader').fadeOut()
         $('.page-loader').delay(350).fadeOut('slow');
-    });
 
-    $(document).ready(function() {
-
-        /* ---------------------------------------------- /*
-         * WOW Animation When You Scroll
-         /* ---------------------------------------------- */
-
-        wow = new WOW({
+        let wow = new WOW({
             mobile: false
         });
         wow.init();
+    });
+   
+   /* ---------------------------------------------- /*
+         * WOW Animation When You Scroll
+         /* ---------------------------------------------- */
+
+        
+   /* $(window).on('load', function() {
+        $('.loader').fadeOut();
+        $('.preloader').fadeOut()
+        $('.page-loader').delay(350).fadeOut('slow');
+    });*/
+
+    $(document).ready(function() {
+
+        
 
 
         /* ---------------------------------------------- /*
@@ -155,13 +165,15 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          /* ---------------------------------------------- */
 
         function navbarAnimation(navbar, homeSection, navHeight) {
-            var topScroll = $(window).scrollTop();
-            if (navbar.length > 0 && homeSection.length > 0) {
-                if(topScroll >= navHeight) {
-                    navbar.removeClass('navbar-transparent');
-                } else {
+            if (navbar.hasClass('make-transparent')) {
+               var topScroll = $(window).scrollTop();
+               if (navbar.length > 0 && homeSection.length > 0) {
+                  if(topScroll >= navHeight) {
+                        navbar.removeClass('navbar-transparent');
+                    } else {
                     navbar.addClass('navbar-transparent');
-                }
+                  }
+                } 
             }
         }
 

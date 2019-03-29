@@ -83,7 +83,7 @@ export default {
 
   logout () {
     store.dispatch('common/clear')
-    router.push({ name: 'login' })
+    router.push({ name: 'home' })
   },
 
   getUser () {
