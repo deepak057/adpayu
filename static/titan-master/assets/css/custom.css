@@ -1,9 +1,15 @@
-.container {
+.container, .navbar-transparent {
 	padding-bottom: 0px;
 	padding-top: 0px;
 }
+.navbar-transparent {
+	background: transparent !important;
+}
 .min-h-300 {
 	min-height: 300px;
+}
+.min-h-450 {
+	min-height: 450px;
 }
 .custom-form .form-control-feedback {
 	position: relative;
@@ -21,4 +27,18 @@
 
 .navbar-custom {
 	background-color: #1e88e5;
+}
+.custom-form .form-control {
+	text-transform: none;
+}
+.custom-form .form-control::placeholder {
+	text-transform: uppercase;
+}
+@media screen and (max-width: 500px) {
+	.module.login-register {
+		padding: 40px 0px;
+	}
+}
+.p-80 {
+	padding: 80px 0px;
 }

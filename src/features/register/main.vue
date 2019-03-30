@@ -1,8 +1,8 @@
 <template lang="pug">
 .main
-  section.module
+  section.module.p-80.login-register
     .container
-      .row.min-h-300
+      .row.min-h-450
         .col-sm-6.col-sm-offset-3.mb-sm-40
           h4.font-alt Sign Up
           hr.divider-w.mb-10

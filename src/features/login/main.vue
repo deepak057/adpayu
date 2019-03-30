@@ -1,6 +1,6 @@
 <template lang="pug">
 .main
-  section.module
+  section.module.login-register
     .container
       .row.min-h-300
         .col-sm-6.col-sm-offset-3.mb-sm-40
@@ -8,7 +8,7 @@
           hr.divider-w.mb-10
           .alert.alert-danger(v-show="error")
              | {{error}}
-          form.form(onSubmit="return false")
+          form.form.custom-form(onSubmit="return false")
             .form-group
               input.form-control(required='', placeholder='Email', type='text')(v-model="credentials.username")
             .form-group

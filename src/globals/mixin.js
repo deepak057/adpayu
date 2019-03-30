@@ -168,6 +168,9 @@ export default {
         plugin.async = false
         document.head.appendChild(plugin)
       }
+    },
+    getCurrentYear () {
+      return (new Date()).getFullYear()
     }
   }
 }

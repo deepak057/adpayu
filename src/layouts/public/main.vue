@@ -28,7 +28,7 @@ main
                     span.icon-bar
                     span.icon-bar
                 <router-link to="/" class="navbar-brand">
-                  | AdpayU
+                  | {{siteName}}
                 </router-link>
             #custom-collapse.collapse.navbar-collapse
                 ul.nav.navbar-nav.navbar-right
@@ -62,8 +62,10 @@ main
             .row
                 .col-sm-6
                     p.copyright.font-alt
-                        | © 2017
-                        a(href='index.html') TitaN
+                        | © {{getCurrentYear()}}
+                        <router-link to="/">
+                          |  {{siteName}}
+                        </router-link>
                         | , All Rights Reserved
                 .col-sm-6
                     .footer-social-links
@@ -101,7 +103,8 @@ export default {
         'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
         'static/titan-master/assets/js/plugins.js',
         'static/titan-master/assets/js/main.js'
-      ]
+      ],
+      siteName: 'AdPayU'
     }
   },
   mounted () {
