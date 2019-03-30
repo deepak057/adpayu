@@ -40,7 +40,7 @@
                small.form-control-feedback.block.m-t-10(v-show="termsError.length")
                  | {{termsError}}
             .form-group
-              button.btn.btn-round.btn-b(@click="signup") Sign Up
+              button.btn.btn-round.btn-info(@click="signup") Sign Up
             .form-group
               | Already have an account?
               <router-link to="login">
