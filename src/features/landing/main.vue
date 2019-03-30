@@ -4,7 +4,7 @@ div
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 Hello & welcome
-                .font-alt.mb-40.titan-title-size-4 We are Titan
+                .font-alt.mb-40.titan-title-size-4 We are AdPayU
                 a.section-scroll.btn.btn-border-w.btn-round(href='#') Learn More
     .main
         section#services.module
