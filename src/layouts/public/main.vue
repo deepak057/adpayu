@@ -1,5 +1,7 @@
 <template lang="pug">
 main
+    .page-loader
+        .loader Loading...
     link(href='static/titan-master/assets/lib/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Template specific stylesheets
     link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700', rel='stylesheet')
@@ -17,8 +19,6 @@ main
     link(href='static/titan-master/assets/css/style.css', rel='stylesheet')
     link(href='static/titan-master/assets/css/custom.css', rel='stylesheet')
     link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
-    .page-loader
-        .loader Loading...
     nav.navbar.navbar-custom.navbar-fixed-top.one-page(role='navigation' :class="{'navbar-transparent make-transparent': ifHomePage()}")
         .container
             .navbar-header
@@ -103,8 +103,7 @@ export default {
         'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
         'static/titan-master/assets/js/plugins.js',
         'static/titan-master/assets/js/main.js'
-      ],
-      siteName: 'AdPayU'
+      ]
     }
   },
   mounted () {
@@ -120,6 +119,41 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style>
+.page-loader {
+  position: fixed;
+  background: #000;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 9998;
+}
+.loader {
+  position: absolute;
+  border-left: 2px solid #ffffff;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  height: 46px;
+  width: 46px;
+  left: 50%;
+  top: 50%;
+  margin: -23px 0 0 -23px;
+  text-indent: -9999em;
+  font-size: 10px;
+  z-index: 9999;
+  -webkit-animation: load 0.8s infinite linear;
+  -moz-animation: load 0.8s infinite linear;
+  ms-animation: load 0.8s infinite linear;
+  o-animation: load 0.8s infinite linear;
+  animation: load 0.8s infinite linear;
+}
+
+.loader,.loader:after {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+}
 
 </style>

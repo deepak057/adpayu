@@ -1,6 +1,11 @@
 import * as constants from '@/constants'
 
 export default {
+  data () {
+    return {
+      siteName: 'AdPayU'
+    }
+  },
   filters: {
     capitalize: function (value) {
       if (!value) return ''

@@ -4,7 +4,7 @@ div
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 Hello & welcome
-                .font-alt.mb-40.titan-title-size-4 We are AdPayU
+                .font-alt.mb-40.titan-title-size-4 We are {{siteName}}
                 a.section-scroll.btn.btn-border-w.btn-round(href='#') Learn More
     .main
         section#services.module
@@ -553,7 +553,7 @@ div
                 .row
                     .col-sm-3
                         .widget
-                            h5.widget-title.font-alt About Titan
+                            h5.widget-title.font-alt About {{siteName}}
                             p
                                 | The languages only differ in their grammar, their pronunciation and their most common words.
                             p Phone: +1 234 567 89 10
@@ -617,7 +617,10 @@ div
         hr.divider-d
 </template>
 <script>
+import mixin from '../../globals/mixin'
+
 export default {
-  name: 'Landing'
+  name: 'Landing',
+  mixins: [mixin]
 }
 </script>
