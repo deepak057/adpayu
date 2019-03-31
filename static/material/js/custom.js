@@ -53,12 +53,7 @@ $(function () {
    // $(".fix-header .topbar").stick_in_parent({});
     
     
-    // this is for close icon when navigation open in mobile view
-    $(".nav-toggler").click(function () {
-        $("body").toggleClass("show-sidebar");
-        $(".nav-toggler i").toggleClass("ti-menu");
-        $(".nav-toggler i").addClass("ti-close");
-    });
+    
     $(".sidebartoggler").on('click', function () {
         //$(".sidebartoggler i").toggleClass("ti-menu");
     }); 
@@ -104,6 +99,14 @@ $(function () {
     // ============================================================== 
     $(function () {
              
+
+            // this is for close icon when navigation open in mobile view
+            $(document).on("click", ".nav-toggler", function () {
+                $("body").toggleClass("show-sidebar");
+                $(".nav-toggler i").toggleClass("ti-menu");
+                $(".nav-toggler i").addClass("ti-close");
+            });
+
              $(document).on('show.bs.modal', '.modal-append-to-body', function(){
                 $(this).appendTo("body");
              })
