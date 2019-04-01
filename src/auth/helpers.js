@@ -84,7 +84,7 @@ export default {
   logout () {
     store.dispatch('common/clear')
     router.push({ name: 'home' })
-    // window.location = '/'
+    window.location = '/'
   },
 
   getUser () {

@@ -3,75 +3,78 @@ div
     section#home.home-section.home-full-height.bg-dark.bg-gradient(data-background='static/titan-master/assets/images/section-10.jpg')
         .titan-caption
             .caption-content
-                .font-alt.mb-30.titan-title-size-1 Hello & welcome
-                .font-alt.mb-40.titan-title-size-4 We are {{siteName}}
-                a.section-scroll.btn.btn-border-w.btn-round(href='#') Learn More
+                .font-alt.mb-30.titan-title-size-1 A content network
+                .font-alt.mb-40.titan-title-size-4 Where ads will pay you
+                a.section-scroll.btn.btn-border-w.btn-round.section-scroll(href="#services") Learn More
     .main
         section#services.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
-                        h2.module-title.font-alt Our Services
+                        h2.module-title.font-alt What is it?
                         .module-subtitle.font-serif
-                            | A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                            | It's a content and social media platform where for the first time in history, you get paid for spending time on social media. As time is money.
+                            br
+                            br
+                            | In addition to having its own DNA, it cobines best of modern social media features, protects your privacy and at the same time doesn't sell or monitor your data.
                 .row.multi-columns-row
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-lightbulb
-                            h3.features-title.font-alt Ideas and concepts
+                                span.icon-video
+                            h3.features-title.font-alt Upload and Watch Video
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Upload short self made video answers or comments on various interesting questions and watch other's. It's lot of fun.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-bike
-                            h3.features-title.font-alt Optimised for speed
+                                span.icon-quote
+                            h3.features-title.font-alt Questions and Answers
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Spread knowledge. Ask questions and write answers.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-tools
-                            h3.features-title.font-alt Designs & interfaces
+                                span.icon-chat
+                            h3.features-title.font-alt Status update
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Let the world or your frinds know what you are up to. Optinally share pictures and let people comment and appriciate them.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-gears
-                            h3.features-title.font-alt Highly customizable
+                                span.icon-wallet
+                            h3.features-title.font-alt Make money
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Consume beautiful and entertaining ads in your feed and get paid. Withdraw money to your bank or Paytm account.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-tools-2
-                            h3.features-title.font-alt Coding & development
+                                span.icon-adjustments
+                            h3.features-title.font-alt Content tagging and filtering
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Tag your content to various categories. Filter content and follow desired categories to see the content of your interest in your feed.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-genius
-                            h3.features-title.font-alt Features & plugins
+                                span.icon-megaphone
+                            h3.features-title.font-alt Create ads
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | Create your content (video, question or status) and easily turn it into an ad. Review ad stats and track how your ad is doing.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-mobile
-                            h3.features-title.font-alt Responsive design
+                                span.icon-search
+                            h3.features-title.font-alt Content Search
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                                | In addition to searching content (questions, video etc), easily search users and categories. Search is highly optimized for speed.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
-                                span.icon-lifesaver
-                            h3.features-title.font-alt Dedicated support
+                                span.icon-profile-male
+                            h3.features-title.font-alt Profiles and Friends
                             p
-                                | Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
-        section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
+                                | Mantain your profile and request or accept friendship with others. You can choose to share content privatly only with your friends.
+        // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
             .container
                 .row
                     .col-sm-12
@@ -81,7 +84,7 @@ div
                                     span.icon-video
                             .video-title.font-alt Presentation
                             .video-subtitle.font-alt Watch the video about our new products
-        section#works.module.pb-0
+        // section#works.module.pb-0
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -144,7 +147,7 @@ div
                         .work-caption.font-alt
                             h3.work-title Business Cards in paper clip
                             .work-descr Marketing
-        section.module-small.bg-dark
+        // section.module-small.bg-dark
             .container
                 .row
                     .col-sm-6.col-md-8.col-lg-6.col-lg-offset-2
@@ -154,7 +157,7 @@ div
                     .col-sm-6.col-md-4.col-lg-2
                         .callout-btn-box
                             a.btn.btn-w.btn-round(href='portfolio_boxed_gutter_col_3.html') Lets view portfolio
-        section#alt-features.module
+        // section#alt-features.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -207,8 +210,8 @@ div
                                 span.icon-basket
                             h3.alt-features-title.font-alt Shop
                             | A wonderful serenity has taken possession of my entire soul like these sweet mornings.
-        hr.divider-w
-        section#team.module
+        // hr.divider-w
+        // section#team.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -292,7 +295,7 @@ div
                             .team-descr.font-alt
                                 .team-name Dylan Woods
                                 .team-role Developer
-        section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-3.jpg')
+        // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-3.jpg')
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -323,7 +326,7 @@ div
                                 span.icon-map-pin
                             h3.count-to.font-alt(data-countto='32')
                             h5.count-title.font-serif Locations covered
-        section#pricing.module
+        // section#pricing.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -398,7 +401,7 @@ div
                     .col-sm-6.col-sm-offset-3.align-center
                         p
                             | Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.
-        section.module.bg-dark-60.pt-0.pb-0.parallax-bg.testimonial(data-background='static/titan-master/assets/images/testimonial_bg.jpg')
+        // section.module.bg-dark-60.pt-0.pb-0.parallax-bg.testimonial(data-background='static/titan-master/assets/images/testimonial_bg.jpg')
             .testimonials-slider.pt-140.pb-140
                 ul.slides
                     li
@@ -449,7 +452,7 @@ div
                                         .testimonial-caption.font-alt
                                             .testimonial-title Adele Snow
                                             .testimonial-descr SomeCompany INC, CEO
-        section#news.module
+        // section#news.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -508,7 +511,7 @@ div
                                     | A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
                             .post-more
                                 a.more-link(href='#') Read more
-        .module-small.bg-dark
+        // .module-small.bg-dark
             .container
                 .row
                     .col-sm-6.col-md-6.col-lg-4.col-lg-offset-2
@@ -546,9 +549,9 @@ div
                             .text-center
                                 button#cfsubmit.btn.btn-block.btn-round.btn-d(type='submit') Submit
                         #contactFormResponse.ajax-response.font-alt
-        section#map-section
+        // section#map-section
             #map
-        .module-small.bg-dark
+        // .module-small.bg-dark
             .container
                 .row
                     .col-sm-3

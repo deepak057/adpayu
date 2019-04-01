@@ -34,12 +34,12 @@ main
                 ul.nav.navbar-nav.navbar-right
                     li
                         a(href='#totop') Home
-                    li
+                    // li
                         a.section-scroll(href='#services') Services
                     // li
                         a.section-scroll(href='#works') Works
                     li
-                        a.section-scroll(href='#alt-features') Features
+                        a.section-scroll(href='#services') About
                     // li
                         a.section-scroll(href='#team') Team
                     // li
