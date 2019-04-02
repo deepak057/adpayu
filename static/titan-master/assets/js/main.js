@@ -456,7 +456,7 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          Working Contact Form
          ================================================================*/
 
-        $("#contactForm").submit(function (e) {
+        /* $("#contactForm").submit(function (e) {
 
             e.preventDefault();
             var $ = jQuery;
@@ -489,7 +489,7 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
 
             return false;
 
-        });
+        });*/
 
 
         /*===============================================================

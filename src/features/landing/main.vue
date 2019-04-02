@@ -526,29 +526,7 @@ div
                                     span.input-group-btn
                                         button#subscription-form-submit.btn.btn-g.btn-round(type='submit') Submit
                             #subscription-response.text-center
-        section#contact.module
-            .container
-                .row
-                    .col-sm-6.col-sm-offset-3
-                        h2.module-title.font-alt Get in touch
-                        .module-subtitle.font-serif
-                .row
-                    .col-sm-6.col-sm-offset-3
-                        form#contactForm(role='form', method='post', action='php/contact.php')
-                            .form-group
-                                label.sr-only(for='name') Name
-                                input#name.form-control(type='text', name='name', placeholder='Your Name*', required='required', data-validation-required-message='Please enter your name.')
-                                p.help-block.text-danger
-                            .form-group
-                                label.sr-only(for='email') Email
-                                input#email.form-control(type='email', name='email', placeholder='Your Email*', required='required', data-validation-required-message='Please enter your email address.')
-                                p.help-block.text-danger
-                            .form-group
-                                textarea#message.form-control(rows='7', name='message', placeholder='Your Message*', required='required', data-validation-required-message='Please enter your message.')
-                                p.help-block.text-danger
-                            .text-center
-                                button#cfsubmit.btn.btn-block.btn-round.btn-d(type='submit') Submit
-                        #contactFormResponse.ajax-response.font-alt
+        <contact/>
         // section#map-section
             #map
         // .module-small.bg-dark
@@ -621,9 +599,13 @@ div
 </template>
 <script>
 import mixin from '../../globals/mixin'
+import Contact from './contact'
 
 export default {
   name: 'Landing',
+  components: {
+    Contact
+  },
   mixins: [mixin],
   mounted () {
     this.scrollToTop()
