@@ -34,6 +34,10 @@
 .custom-form .form-control::placeholder {
 	text-transform: uppercase;
 }
+.public-page-content-wrap p{
+	font-size: 14px;
+	padding: 0px 10px;
+}
 @media screen and (max-width: 500px) {
 	.module.login-register {
 		padding: 40px 0px;
@@ -41,4 +45,16 @@
 }
 .p-80 {
 	padding: 80px 0px;
+}
+.p-40 {
+	padding: 40px 0px;
+}
+.m-t-40 {
+	margin-top: 40px;
+}
+.m-l-5 {
+	margin-left: 5px;
+}
+.c-faded {
+	color: #aaa;
 }

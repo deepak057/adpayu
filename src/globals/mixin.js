@@ -176,6 +176,9 @@ export default {
     },
     getCurrentYear () {
       return (new Date()).getFullYear()
+    },
+    getPageURL (page) {
+      return '/pages/' + page
     }
   }
 }

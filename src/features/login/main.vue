@@ -41,7 +41,9 @@ export default {
       loading: false
     }
   },
-
+  mounted () {
+    this.scrollToTop()
+  },
   methods: {
     login () {
       this.loading = true

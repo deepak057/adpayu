@@ -49,25 +49,39 @@ main
                     li
                         a.section-scroll(href='#contact') Contact
                     li
-                        <router-link to="login">
+                        <router-link to="/login">
                             | Login
                         </router-link>
                     li
-                        <router-link to="signup">
+                        <router-link to="/signup">
                             | Register
                         </router-link>
     router-view
     footer.footer.bg-dark
         .container
             .row
-                .col-sm-6
+                .col-sm-3
                     p.copyright.font-alt
                         | © {{getCurrentYear()}}
                         <router-link to="/">
                           |  {{siteName}}
                         </router-link>
                         | , All Rights Reserved
-                .col-sm-6
+                .col-sm-6.text-center.font-alt
+                    <router-link :to="getPageURL('terms')">
+                      | Terms
+                    </router-link>
+                    |  |
+                    <router-link :to="getPageURL('privacy')">
+                      |  Privacy
+                    </router-link>
+                    |  |
+                    span.c-faded  Made with passion and
+                    i.icon-heart.m-l-5
+                    // <router-link :to="getPageURL('privacy')">
+                      |  FAQs
+                    </router-link>
+                //.col-sm-3
                     .footer-social-links
                         a(href='#')
                             i.fa.fa-facebook

@@ -88,6 +88,22 @@ const routes = [
     props: true
   },
   {
+    name: 'terms',
+    path: '/pages/terms',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/terms.vue'),
+    title: 'Terms and Conditions',
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
+    name: 'privacy',
+    path: '/pages/privacy',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/privacy.vue'),
+    title: 'Privacy Policy',
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
     name: 'c',
     path: '/c/:id',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/comment.vue'),

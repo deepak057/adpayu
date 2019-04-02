@@ -11,12 +11,12 @@ div
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
-                        h2.module-title.font-alt What is it?
+                        h2.module-title.font-alt About
                         .module-subtitle.font-serif
                             | It's a content and social media platform where for the first time in history, you get paid for spending time on social media. As time is money.
                             br
                             br
-                            | In addition to having its own DNA, it cobines best of modern social media features, protects your privacy and at the same time doesn't sell or monitor your data.
+                            | In addition to having its own DNA, it combines best of modern social media features, protects your privacy and at the same time doesn't sell or monitor your data.
                 .row.multi-columns-row
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
@@ -38,7 +38,7 @@ div
                                 span.icon-chat
                             h3.features-title.font-alt Status update
                             p
-                                | Let the world or your frinds know what you are up to. Optinally share pictures and let people comment and appriciate them.
+                                | Let the world or your friends know what you are up to. Optionally share pictures and let people comment and appreciate them.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
@@ -66,14 +66,14 @@ div
                                 span.icon-search
                             h3.features-title.font-alt Content Search
                             p
-                                | In addition to searching content (questions, video etc), easily search users and categories. Search is highly optimized for speed.
+                                | In addition to searching content (questions, video etc), easily search users and categories. Search is highly optimised for speed.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
                                 span.icon-profile-male
                             h3.features-title.font-alt Profiles and Friends
                             p
-                                | Mantain your profile and request or accept friendship with others. You can choose to share content privatly only with your friends.
+                                | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
         // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
             .container
                 .row
@@ -624,6 +624,9 @@ import mixin from '../../globals/mixin'
 
 export default {
   name: 'Landing',
-  mixins: [mixin]
+  mixins: [mixin],
+  mounted () {
+    this.scrollToTop()
+  }
 }
 </script>
