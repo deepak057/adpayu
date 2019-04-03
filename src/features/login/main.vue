@@ -26,10 +26,10 @@
 
 <script>
 import auth from '@/auth/helpers'
-
+import mixin from '../../globals/mixin'
 export default {
   name: 'LoginPage',
-
+  mixins: [mixin],
   data () {
     return {
       passwordHidden: true,

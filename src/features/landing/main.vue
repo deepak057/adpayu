@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-    section#home.home-section.home-full-height.bg-dark.bg-gradient(data-background='static/titan-master/assets/images/section-10.jpg')
+    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
@@ -612,3 +612,8 @@ export default {
   }
 }
 </script>
+<style>
+.home-section {
+  background-image: url('/static/titan-master/assets/images/section-10.jpg') !important
+}
+</style>

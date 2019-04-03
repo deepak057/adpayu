@@ -407,9 +407,9 @@ body {
   .adstats-container table {
   	font-size: 10px;
   }
-  .comments.video-container .video-js .vjs-big-play-button {
-  	left: 21% !important;
-  	top: 12% !important;
+   .video-js .vjs-big-play-button {
+  	left: /*21%*/ 34% !important;
+  	top: /*12%*/ 30% !important;
   	width: 2em;
   }
 
@@ -495,10 +495,10 @@ body {
 	text-transform: uppercase;
 }
 .video-js .vjs-big-play-button {
-    left: 40% !important;
-    top: 40% !important;
-    width: 20%;
-    height: 20%;
+    left: 40%;
+    top: 40%;
+    /*width: 20%;
+    height: 20%;*/
 }
 /*
 .video-js .vjs-play-control:before {

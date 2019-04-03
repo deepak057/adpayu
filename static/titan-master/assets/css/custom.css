@@ -58,3 +58,6 @@
 .c-faded {
 	color: #aaa;
 }
+.home-section.custom-home {
+	height: 100vh;
+}

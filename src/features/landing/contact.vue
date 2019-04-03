@@ -24,6 +24,7 @@ section#contact.module
 <script>
 import mixin from '../../globals/mixin'
 import userRegister from '../../globals/user-register'
+import Service from './service'
 
 function contactInitialState () {
   return {
@@ -37,24 +38,36 @@ function contactInitialState () {
 
 export default {
   name: 'Contact',
+  service: new Service(),
   mixins: [mixin, userRegister],
   data () {
     return contactInitialState()
   },
   watch: {
-    email () {
+    /* email () {
       this.emailValidate()
     },
     message () {
       this.messageValidate()
     }
+    */
   },
   methods: {
     sendMessage () {
       if (this.validate()) {
         this.btnText = 'Sending.....'
+        this.$options.service.sendContactMessage(this.email, this.message)
+          .then((data) => {
+            if (data.success) {
+              Object.assign(this.$data, contactInitialState())
+              this.showNotification(data.message, 'success')
+            }
+          })
+          .catch((mErr) => {
+            this.btnText = 'Submit'
+            this.showNotification('Something went wrong while sending the message.', 'error')
+          })
       }
-      // this.showNotification('Sending....', 'warn')
     },
     validate () {
       return this.emailValidate() && this.messageValidate()
