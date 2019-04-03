@@ -16,7 +16,9 @@
             .form-group
               button.btn.btn-round.btn-info(@click="login") Login
             .form-group
-              a(href='') Forgot Password?
+              <router-link to="/passwordReset">
+                | Forgot Password?
+              </router-link>
             .form-group
               | Don't have an account?
               <router-link to="signup">

@@ -28,6 +28,14 @@ const routes = [
     isPublic: true
   },
   {
+    name: 'passwordReset',
+    path: '/passwordReset',
+    component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/main.vue'),
+    title: 'Reset Account Password',
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
     name: 'home',
     path: '/',
     get component () {
