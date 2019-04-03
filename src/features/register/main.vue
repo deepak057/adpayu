@@ -5,6 +5,7 @@
       .row.min-h-450
         .col-sm-6.col-sm-offset-3.mb-sm-40
           h4.font-alt Sign Up
+            span.small  (It's totally free)
           hr.divider-w.mb-10
           form.form.custom-form(onSubmit="return false")
             .alert.alert-danger(v-show="error")

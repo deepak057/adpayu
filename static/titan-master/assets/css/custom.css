@@ -52,6 +52,9 @@
 .m-t-40 {
 	margin-top: 40px;
 }
+.m-t-80 {
+	margin-top: 80px;
+}
 .m-l-5 {
 	margin-left: 5px;
 }
@@ -60,4 +63,11 @@
 }
 .home-section.custom-home {
 	height: 100vh;
+}
+#contact {
+	padding-top: 10px;
+}
+.footer a.active, .nav.navbar-nav .active {
+	color: #fff;
+	font-weight: bold;
 }

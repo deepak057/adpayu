@@ -4,7 +4,7 @@ section#contact.module
         .row
             .col-sm-6.col-sm-offset-3
                 h2.module-title.font-alt Get in touch
-                .module-subtitle.font-serif
+                .module-subtitle.font-serif Let us know if you have any questions, comments or suggestions by filling the form below.
         .row
             .col-sm-6.col-sm-offset-3
                 form.custom-form#contactForm(role='form' @submit.prevent="sendMessage()")

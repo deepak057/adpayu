@@ -74,6 +74,10 @@ div
                             h3.features-title.font-alt Profiles and Friends
                             p
                                 | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
+                    .col-12.text-center
+                      <router-link class="btn btn-warning m-t-80" to="/signup">
+                        | Free Sign Up
+                      </router-link>
         // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
             .container
                 .row

@@ -33,7 +33,7 @@ main
             #custom-collapse.collapse.navbar-collapse
                 ul.nav.navbar-nav.navbar-right
                     li
-                        a.section-scroll(href='#home') Home
+                        a.section-scroll(href='#home' :class="{'active': ifHomePage()}") Home
                     // li
                         a.section-scroll(href='#services') Services
                     // li
