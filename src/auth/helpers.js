@@ -385,7 +385,7 @@ export default {
 
         return new Promise((resolve) => {
           // @TODO check for no response.data.data?
-          resolve(response.data.data)
+          resolve(response.data)
         })
       })
       .catch((error) => {

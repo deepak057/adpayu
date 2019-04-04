@@ -30,7 +30,15 @@ const routes = [
   {
     name: 'passwordReset',
     path: '/passwordReset',
-    component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/main.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/request.vue'),
+    title: 'Change Account Password',
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
+    name: 'changePassword',
+    path: '/changePassword',
+    component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/reset.vue'),
     title: 'Reset Account Password',
     layout: 'PublicLayout',
     isPublic: true
