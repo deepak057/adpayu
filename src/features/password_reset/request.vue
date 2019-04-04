@@ -5,7 +5,7 @@
       .row.min-h-300
         .col-sm-6.col-sm-offset-3.mb-sm-40
           h4.font-alt Reset Password
-          p Enter your registered email
+          p Enter your registered email and we will send you a Password Reset link
           hr.divider-w.mb-10
           .alert.alert-danger(v-show="error")
              | {{error}}
