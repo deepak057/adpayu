@@ -67,7 +67,7 @@
             | &#x23;{{tag.name}}
           </router-link>
         .like-comm.m-t-15(v-show="!preview")
-          a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['Comments'].length > 0? f['Comments'].length: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
+          a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['Comments'].length>1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
