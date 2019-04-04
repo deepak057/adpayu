@@ -9,13 +9,17 @@
           hr.divider-w.mb-10
           .alert.alert-danger(v-show="error")
              | {{error}}
+          .alert.alert-success(v-show="success")
+             | {{success}}
           form.form.custom-form(@submit.prevent="resetPassword()")
             .form-group(:class="{'has-error': emailError}")
               input.form-control(placeholder='Email*' type='text' v-model.trim="email")
               small.form-control-feedback(v-show="emailError")
                 | {{emailError}}
             .form-group
-              button.btn.btn-round.btn-info Submit
+              button.btn.btn-round.btn-info {{btnText}}
+              span.preloader-next-to-buttton(v-if="loader")
+                <preloader />
             .form-group
               | Already have an account?
               <router-link to="/login">
@@ -31,15 +35,29 @@
 <script>
 import mixin from '../../globals/mixin'
 import userRegistrationMixin from '../../globals/user-register'
+import Service from './service'
+import Preloader from '../../components/preloader'
 
 export default {
   name: 'PasswordReset',
+  service: new Service(),
+  components: {
+    Preloader
+  },
   mixins: [mixin, userRegistrationMixin],
   data () {
     return {
       email: '',
       error: false,
-      emailError: false
+      success: false,
+      emailError: false,
+      loader: false,
+      btnText: 'Submit'
+    }
+  },
+  watch: {
+    email () {
+      this.btnText = 'Submit'
     }
   },
   mounted () {
@@ -48,8 +66,27 @@ export default {
   methods: {
     resetPassword () {
       this.error = false
-      if (this.emailValidate()) {
+      this.success = false
+      if (this.emailValidate() && !this.loader) {
+        this.loader = true
+        this.$options.service.sendResetPasswordMail(this.email, this.getLinkVerificationURL())
+          .then((data) => {
+            this.loader = false
+            if (!data.success) {
+              this.error = data.error
+            } else {
+              this.success = data.message + ' Hit Resend button if you did not receive it.'
+              this.btnText = 'Resend'
+            }
+          })
+          .catch((mErr) => {
+            this.loader = false
+            this.showNotification('Soemthing went wrong while trying to send mail. ', 'error')
+          })
       }
+    },
+    getLinkVerificationURL () {
+      return this.getBaseURL() + '/changePassword'
     },
     emailValidate () {
       if (this.validateEmail(this.email)) {

@@ -71,3 +71,9 @@
 	color: #fff;
 	font-weight: bold;
 }
+.preloader-next-to-buttton {
+	margin-left: 10px;
+}
+.preloader-next-to-buttton img {
+	height: 20px;
+}
