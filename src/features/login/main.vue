@@ -10,9 +10,9 @@
              | {{error}}
           form.form.custom-form(onSubmit="return false")
             .form-group
-              input.form-control(required='', placeholder='Email', type='text')(v-model="credentials.username")
+              input.form-control(required='', placeholder='Email*', type='text')(v-model="credentials.username")
             .form-group
-              input.form-control(required='', placeholder='Password', type='password')(v-model="credentials.password")
+              input.form-control(required='', placeholder='Password*', type='password')(v-model="credentials.password")
             .form-group
               button.btn.btn-round.btn-info(@click="login") Login
             .form-group
@@ -25,7 +25,6 @@
                 |  Sign Up
               </router-link>
 </template>
-
 <script>
 import auth from '@/auth/helpers'
 import mixin from '../../globals/mixin'

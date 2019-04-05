@@ -5,7 +5,7 @@ header.topbar
       // Logo
       // ==============================================================
       .navbar-header
-        <router-link to="/" class="navbar-brand">
+        <router-link :to="getTagLink('all')" class="navbar-brand">
           // Logo icon
           b
             // You can put here icon as well // <i class="wi wi-sunset"></i> //

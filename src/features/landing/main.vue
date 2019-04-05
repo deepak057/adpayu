@@ -59,7 +59,7 @@ div
                                 span.icon-megaphone
                             h3.features-title.font-alt Create ads
                             p
-                                | Create your content (video, question or status) and easily turn it into an ad. Review ad stats and track how your ad is doing.
+                                | Create content (video, question or status) and easily turn it into an ad. Review ad stats and track how your ad is doing.
                     .col-md-3.col-sm-6.col-xs-12
                         .features-item
                             .features-icon
