@@ -562,3 +562,6 @@ body {
 .modal-backdrop {
 	opacity: .5;
 }
+img.preloader-h-20 {
+	height: 20px;
+}

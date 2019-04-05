@@ -1,5 +1,8 @@
 <template lang="pug">
 .comment-widgets
+  .text-center.m-t-10(v-if="pageLoader")
+    <preloader class="preloader-h-20"/>
+  <template v-if="!pageLoader">
   .row.comment-row.m-0.no-border(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Load Previous comments
@@ -17,6 +20,7 @@
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")
         <preloader :option = 2></preloader>
+  </template>
 </template>
 <script>
 import Like from './like'
@@ -37,7 +41,9 @@ function postCommentInitialState () {
     defaultCommentsCount: 3,
     enableLoadPreviousComments: true,
     currentUser: auth.getUser(),
-    videoPath: ''
+    videoPath: '',
+    comments: [],
+    pageLoader: true
   }
 }
 
@@ -53,10 +59,6 @@ export default {
   },
   mixins: [mixin, commentMixin],
   props: {
-    comments: {
-      type: Array,
-      required: true
-    },
     commentType: {
       type: String,
       required: true
@@ -69,7 +71,21 @@ export default {
   data () {
     return postCommentInitialState()
   },
+  mounted () {
+    this.loadComments()
+  },
   methods: {
+    loadComments () {
+      this.$options.service.loadComments(this.postId)
+        .then((d) => {
+          this.pageLoader = false
+          this.comments = d.comments
+          this.updateCommentCount()
+        })
+        .catch((cErr) => {
+          this.showNotification('Something went wrong while fetching the comments/answers', 'error')
+        })
+    },
     leaveComment () {
       if (this.newCommentText || this.videoPath) {
         this.preloader = true
@@ -77,6 +93,7 @@ export default {
         this.$options.service.createComment(this.postId, {comment: this.newCommentText, videoPath: this.videoPath})
           .then((data) => {
             that.$set(this.comments, this.comments.length, data.comment)
+            this.updateCommentCount('add')
             this.reset()
           })
           .catch((commentError) => {
@@ -100,6 +117,7 @@ export default {
             alert('Something went wrong while deleting the comment')
           })
         this.comments.splice(index_, 1)
+        this.updateCommentCount('delete')
       }
     },
     placeholderText () {
@@ -110,11 +128,26 @@ export default {
       this.leaveComment()
     },
     reset () {
-      Object.assign(this.$data, postCommentInitialState())
+      // Object.assign(this.$data, postCommentInitialState())
+      this.newCommentText = ''
+      this.videoPath = ''
+      this.preloader = false
       this.$refs.videoCommentComponent.reset()
     },
     getVideo (comment) {
       return comment.videoPath
+    },
+    updateCommentCount (action) {
+      let count = this.comments.length
+      /* if (action === 'add') {
+        count = this.comments.length + 1
+      } else if (action === 'delete') {
+        count = this.comments.length > 0 ? this.comments.length - 1 : 0
+      } else {
+        count = this.comments.length
+      } */
+      this.$emit('CommentsCountUpdated', {postId: this.postId, count: count})
+      return count
     }
   }
 }
