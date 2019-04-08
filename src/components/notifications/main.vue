@@ -46,7 +46,8 @@ export default {
       loading: true,
       notificationData: [],
       unseenIds: [],
-      showNotifications: false
+      showNotifications: false,
+      fetchInterval: 5000
     }
   },
   watch: {
@@ -59,14 +60,22 @@ export default {
     }
   },
   mounted () {
-    auth.getNotifications()
-      .then((data) => {
-        this.notificationData = this.notificationData.concat(data.notifications)
-        this.loading = false
-      })
-      .catch((errNoti) => {
-        alert('Something went wrong while getting your notifications')
-      })
+    this.fetchNotifications()
+    let that = this
+    /*
+    * do the long-polling every 5
+    * seconds to pull latest
+    * unseen notifications
+    * Note- Notifications should
+    * ideally be pushed by server
+    * whenever there is a new one
+    * with the help of Web Sockets
+    * I am planning to use it in later
+    * version of the app
+    */
+    setInterval(function () {
+      that.fetchNotifications()
+    }, this.fetchInterval)
   },
   events: {
     clickedOutside (e) {
@@ -74,6 +83,33 @@ export default {
     }
   },
   methods: {
+    filterUniqueNotis (notifications) {
+      let obj = {}
+      /*
+      * Traverse the array from the bottom
+      * so that new duplicate record is
+      * not added to the feed array
+      */
+      for (let i = (notifications.length - 1); i >= 0; i--) {
+        obj[notifications[i]['id']] = notifications[i]
+      }
+      notifications = []
+      for (let key in obj) {
+        notifications.push(obj[key])
+      }
+      return notifications.reverse()
+    },
+    fetchNotifications () {
+      auth.getNotifications()
+        .then((data) => {
+          // this.notificationData = this.filterUniqueNotis(this.notificationData.concat(data.notifications))
+          this.notificationData = data.notifications
+          this.loading = false
+        })
+        .catch((errNoti) => {
+          alert('Something went wrong while getting your notifications')
+        })
+    },
     toggleNotificationsDropdown () {
       this.showNotifications = !this.showNotifications
       this.markSeen()
