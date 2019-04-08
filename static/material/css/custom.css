@@ -70,7 +70,9 @@
 .f-s-12{
 	font-size: 12px;
 }
-
+.f-s-14{
+	font-size: 14px;
+}
 .bg-999{
 	background: #999;
 }
@@ -564,4 +566,13 @@ body {
 }
 img.preloader-h-20 {
 	height: 20px;
+}
+.m-l-2 {
+	margin-left: 2px;
+}
+.m-r-2 {
+	margin-right: 2px;
+}
+.m-l-6 {
+	margin-left: 6px;
 }

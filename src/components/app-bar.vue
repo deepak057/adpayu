@@ -69,8 +69,8 @@ header.topbar
                       img(:src='getMedia(user.pic)', alt='user')
                     .u-text
                       h4 {{userName(user)}}
-                      p.text-muted {{user.email}}
-                      <router-link :to="userProfileLink()" class="btn btn-rounded btn-danger btn-sm">
+                      // p.text-muted {{user.email}}
+                      <router-link :to="userProfileLink()" class="btn btn-rounded btn-danger btn-sm m-t-5">
                         | View Profile
                       </router-link>
                 li.divider(role='separator')
