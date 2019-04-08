@@ -76,12 +76,16 @@
               a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats(f)")
                 i.mdi.mdi-chart-areaspline.m-r-5
                 | See Ad Stats
+              a.dropdown-item(href='javascript:void(0)' @click="editPost(f)")
+                i.mdi.mdi-grease-pencil.m-r-5
+                | Edit
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
                 i.mdi.mdi-delete.m-r-5
                 | Delete
     <comments @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
+  <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>
 </template>
 <script>
 import mixin from '../../globals/mixin.js'
@@ -95,6 +99,7 @@ import SearchField from '../search-field'
 import auth from '@/auth/helpers'
 import Service from './service'
 import FeedVideoPlayer from './feed-video-player'
+import EditPost from './edit'
 
 export default {
   name: 'Feed',
@@ -106,7 +111,8 @@ export default {
     ImageGrid,
     SearchField,
     FeedVideoPlayer,
-    AdStats
+    AdStats,
+    EditPost
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -205,6 +211,9 @@ export default {
           return ''
       }
     },
+    editPost (f) {
+      this.$refs.editPostComponent.trigger(f)
+    },
     deletePost (f, n) {
       if (confirm('Are you sure you want to delete this post?')) {
         this.feed.splice(n, 1)
@@ -282,6 +291,15 @@ export default {
       for (let i in this.feed) {
         if (this.feed[i].id === data.postId) {
           this.feed[i].CommentsCount = data.count
+        }
+      }
+    },
+    updatePost (postObj) {
+      for (let i in this.feed) {
+        if (this.feed[i].id === postObj.id) {
+          this.feed[i] = postObj
+          // Object.assign({}, this.feed[i], postObj)
+          this.$set(this.feed, i, postObj)
         }
       }
     }

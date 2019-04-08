@@ -135,10 +135,11 @@ export default {
       })
   },
 
-  getPost (postId) {
+  getPost (postId, checkOwner = false) {
     return Vue.http({
       method: 'get',
-      url: constants.API_BASE_URL + '/post/' + postId
+      url: constants.API_BASE_URL + '/post/' + postId,
+      params: {checkOwner: checkOwner}
     })
       .then((response) => {
         return new Promise((resolve) => { resolve(response.data) })

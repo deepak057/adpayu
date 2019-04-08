@@ -85,4 +85,14 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  updatePost (postObj) {
+    return auth.put('/posts', postObj)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }
