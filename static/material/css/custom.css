@@ -576,3 +576,6 @@ img.preloader-h-20 {
 .m-l-6 {
 	margin-left: 6px;
 }
+.comment-text p {
+	max-height: none;
+}

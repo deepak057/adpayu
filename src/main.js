@@ -10,7 +10,7 @@ import Loading from './components/loading'
 import Appbar from './components/app-bar'
 import Appfooter from './components/app-footer'
 import ToggleButton from 'vue-js-toggle-button'
-import wysiwyg from 'vue-wysiwyg'
+// import wysiwyg from 'vue-wysiwyg'
 import VueTimeago from 'vue-timeago'
 import infiniteScroll from 'vue-infinite-scroll'
 import Notifications from 'vue-notification'
@@ -32,7 +32,7 @@ Vue.use(auth)
 Vue.use(ToggleButton)
 
 // WYSIWYG editor
-Vue.use(wysiwyg, {})
+// Vue.use(wysiwyg, {})
 
 // Vue Time Ago
 Vue.use(VueTimeago, {

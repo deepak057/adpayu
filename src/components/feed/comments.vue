@@ -13,7 +13,8 @@
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
     .col-11
-      <wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
+      //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
+      <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
       textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
     .col-1.text-right
       button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment()')
@@ -24,7 +25,7 @@
 </template>
 <script>
 import Like from './like'
-import 'vue-wysiwyg/dist/vueWysiwyg.css'
+// import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import commentMixin from './comment-mixin.js'
@@ -33,6 +34,7 @@ import auth from '@/auth/helpers'
 import VideoComment from './video-comment'
 import CommentVideoPlayer from './comment-video-player'
 import SingleComment from './single-comment'
+import { VueEditor } from 'vue2-editor'
 
 function postCommentInitialState () {
   return {
@@ -55,7 +57,8 @@ export default {
     Preloader,
     VideoComment,
     CommentVideoPlayer,
-    SingleComment
+    SingleComment,
+    VueEditor
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -148,6 +151,19 @@ export default {
       } */
       this.$emit('CommentsCountUpdated', {postId: this.postId, count: count})
       return count
+    },
+    handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      let formData = new FormData()
+      formData.append('image', file)
+      this.$options.service.uploadImage(formData)
+        .then((d) => {
+          let url = this.getMedia(d.path)
+          Editor.insertEmbed(cursorLocation, 'image', url)
+          resetUploader()
+        })
+        .catch((iErr) => {
+          this.showNotification('Something went wrong while trying to upload image. Please try again later')
+        })
     }
   }
 }
