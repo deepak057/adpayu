@@ -75,9 +75,17 @@ header.topbar
                       </router-link>
                 li.divider(role='separator')
                 li
-                  <router-link :to="userProfileLink()">
+                  <router-link :to="userProfileLink()+'?tab=timeline'">
                     i.ti-user
-                    |  My Profile
+                    |  My Content
+                  </router-link>
+                  <router-link :to="userProfileLink()+'?tab=friends'">
+                    i.mdi.mdi-account-multiple-outline
+                    |  My Friends
+                  </router-link>
+                  <router-link :to="userProfileLink()+'?tab=settings'">
+                    i.ti-settings
+                    |  Settings
                   </router-link>
                 // li
                   // a(href='#')
