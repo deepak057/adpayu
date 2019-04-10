@@ -579,3 +579,25 @@ img.preloader-h-20 {
 .comment-text p {
 	max-height: none;
 }
+.scroll-up {
+  position: fixed;
+  display: none;
+  bottom: 7px;
+  right: 7px;
+  z-index: 999;
+}
+.scroll-up a {
+    background: #ccc;
+    display: block;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+    color: #000;
+    opacity: 0.6;
+    border-radius: 2px;
+}
+.ql-editor {
+	min-height: 100px;
+}

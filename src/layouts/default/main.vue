@@ -17,6 +17,9 @@
   .page-wrapper
     router-view
     <app-footer/>
+  .scroll-up
+    a(href='#totop')
+      i.fa.fa-angle-double-up
 </template>
 
 <script>
@@ -53,5 +56,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style>
 </style>

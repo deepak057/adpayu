@@ -1,9 +1,19 @@
 import store from '@/store'
 import dashboard from '@/features/dashboard/main.vue'
 import landing from '@/features/landing/main.vue'
+import * as constants from '@/constants'
 
 function routerIsLoggedIn () {
   return store.state.auth.isLoggedIn
+}
+
+/*
+* function to return the Page title for
+* public pages. It just ads the Site name
+* as prefix to the given page title
+*/
+function getPageTitle (title) {
+  return constants.SITE_NAME + ' - ' + title
 }
 
 /**
@@ -15,7 +25,7 @@ const routes = [
     name: 'login',
     path: '/login',
     component: () => import(/* webpackChunkName: "login" */ '@/features/login/main.vue'),
-    title: 'Login',
+    title: getPageTitle('Login'),
     layout: 'PublicLayout',
     isPublic: true
   },
@@ -23,7 +33,7 @@ const routes = [
     name: 'signup',
     path: '/signup',
     component: () => import(/* webpackChunkName: "login" */ '@/features/register/main.vue'),
-    title: 'Sign Up',
+    title: getPageTitle('Sign Up'),
     layout: 'PublicLayout',
     isPublic: true
   },
@@ -31,7 +41,7 @@ const routes = [
     name: 'passwordReset',
     path: '/passwordReset',
     component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/request.vue'),
-    title: 'Change Account Password',
+    title: getPageTitle('Change Account Password'),
     layout: 'PublicLayout',
     isPublic: true
   },
@@ -39,7 +49,7 @@ const routes = [
     name: 'changePassword',
     path: '/changePassword',
     component: () => import(/* webpackChunkName: "login" */ '@/features/password_reset/reset.vue'),
-    title: 'Reset Account Password',
+    title: getPageTitle('Reset Account Password'),
     layout: 'PublicLayout',
     isPublic: true
   },
@@ -49,7 +59,7 @@ const routes = [
     get component () {
       return routerIsLoggedIn() ? dashboard : landing
     },
-    title: routerIsLoggedIn() ? 'Dashboard' : 'AdPayu',
+    title: routerIsLoggedIn() ? 'Dashboard' : constants.SITE_NAME + ' - ' + constants.SITE_SLOGAN,
     layout: routerIsLoggedIn() ? 'DefaultLayout' : 'PublicLayout',
     isPublic: true
   },
@@ -107,7 +117,7 @@ const routes = [
     name: 'terms',
     path: '/pages/terms',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/terms.vue'),
-    title: 'Terms and Conditions',
+    title: getPageTitle('Terms and Conditions'),
     layout: 'PublicLayout',
     isPublic: true
   },
@@ -115,7 +125,7 @@ const routes = [
     name: 'privacy',
     path: '/pages/privacy',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/privacy.vue'),
-    title: 'Privacy Policy',
+    title: getPageTitle('Privacy Policy'),
     layout: 'PublicLayout',
     isPublic: true
   },

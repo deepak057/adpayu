@@ -3,7 +3,7 @@ import * as constants from '@/constants'
 export default {
   data () {
     return {
-      siteName: 'AdPayU'
+      siteName: constants.SITE_NAME
     }
   },
   filters: {

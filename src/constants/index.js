@@ -1,5 +1,8 @@
 // Testing
 export const DEBUG = false
+let SiteName = process.env.SITE_NAME || 'Svanq'
+export const SITE_NAME = SiteName
+export const SITE_SLOGAN = process.env.SITE_SLOGAN
 
 // Backend API endpoints
 export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000/v1'
@@ -14,4 +17,4 @@ export const SERVER_STATIC_CONTENT_URL = process.env.SERVER_STATIC_CONTENT_URL |
  *
  * @type {string}
  */
-export const STORAGE_KEY = 'vue-pizza'
+export const STORAGE_KEY = SiteName

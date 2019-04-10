@@ -4,7 +4,7 @@ div
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
-                .font-alt.mb-40.titan-title-size-4 Where ads will pay you
+                .font-alt.mb-40.titan-title-size-4 {{slogan}}
                 a.section-scroll.btn.btn-border-w.btn-round.section-scroll(href="#services") Learn More
     .main
         section#services.module
@@ -604,6 +604,7 @@ div
 <script>
 import mixin from '../../globals/mixin'
 import Contact from './contact'
+import * as constants from '@/constants'
 
 export default {
   name: 'Landing',
@@ -611,6 +612,11 @@ export default {
     Contact
   },
   mixins: [mixin],
+  data () {
+    return {
+      slogan: constants.SITE_SLOGAN
+    }
+  },
   mounted () {
     this.scrollToTop()
   }

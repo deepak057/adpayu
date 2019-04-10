@@ -14,6 +14,28 @@ $(function () {
     jQuery(document).on('click', '.mega-dropdown', function (e) {
         e.stopPropagation()
     });
+
+
+    
+        /* ---------------------------------------------- /*
+         * Scroll top
+         /* ---------------------------------------------- */
+
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 100) {
+                $('.scroll-up').fadeIn();
+            } else {
+                $('.scroll-up').fadeOut();
+            }
+        });
+
+        $('a[href="#totop"]').click(function() {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            return false;
+        });
+
+
+    
     // ============================================================== 
     // This is for the top header part and sidebar part
     // ==============================================================  
@@ -98,6 +120,10 @@ $(function () {
     //Popover
     // ============================================================== 
     $(function () {
+
+            $(document).on("click", ".profile-tab .nav-item", function(e){
+                $(".profile-tab .nav-item").removeClass('active')
+            })
              
 
             // this is for close icon when navigation open in mobile view
