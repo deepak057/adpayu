@@ -47,7 +47,8 @@ export default {
       notificationData: [],
       unseenIds: [],
       showNotifications: false,
-      fetchInterval: 5000
+      fetchInterval: 5000,
+      loadingInProgress: false
     }
   },
   watch: {
@@ -74,7 +75,9 @@ export default {
     * version of the app
     */
     setInterval(function () {
-      that.fetchNotifications()
+      if (!this.loadingInProgress) {
+        that.fetchNotifications()
+      }
     }, this.fetchInterval)
   },
   events: {
@@ -100,11 +103,13 @@ export default {
       return notifications.reverse()
     },
     fetchNotifications () {
+      this.loadingInProgress = true
       auth.getNotifications()
         .then((data) => {
           // this.notificationData = this.filterUniqueNotis(this.notificationData.concat(data.notifications))
           this.notificationData = data.notifications
           this.loading = false
+          this.loadingInProgress = false
         })
         .catch((errNoti) => {
           // alert('Something went wrong while getting your notifications')

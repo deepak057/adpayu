@@ -240,6 +240,7 @@ export default {
   },
   methods: {
     updateFeedPreference () {
+      this.noMoreFeed = false
       // this.showHideFeed()
       this.showNotification('Updating, please wait...', 'warn')
       auth.updateCurrentUser(this.currentUser)
