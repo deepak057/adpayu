@@ -85,7 +85,7 @@ const readyPromise = new Promise(resolve => {
 */
 app.post('/order/check', function(req, res) {
     console.log('Receiving response from the payment Gateway...');
-    res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+'&response='+ JSON.stringify(req.query));
+    res.redirect(req.protocol + '://' + req.get('host') + '/' + req.originalUrl+'&response='+ JSON.stringify(req.query));
 });
 
 /*ends*/

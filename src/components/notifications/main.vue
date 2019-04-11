@@ -107,7 +107,7 @@ export default {
           this.loading = false
         })
         .catch((errNoti) => {
-          alert('Something went wrong while getting your notifications')
+          // alert('Something went wrong while getting your notifications')
         })
     },
     toggleNotificationsDropdown () {
