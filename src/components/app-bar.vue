@@ -15,7 +15,7 @@ header.topbar
             img.light-logo(src='static/assets/images/logo-light-icon.png', alt='homepage')
           // End Logo icon
           // Logo text
-          span(style='display: none;')
+          span.m-l-10(style='display: none;')
             // dark Logo text
             img.dark-logo(src='static/assets/images/logo-text.png', alt='homepage')
             // Light Logo text
