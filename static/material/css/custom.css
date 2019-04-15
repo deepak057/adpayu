@@ -601,3 +601,16 @@ img.preloader-h-20 {
 .ql-editor {
 	min-height: 100px;
 }
+.logo-side-margin {
+	margin-left: 32px;
+}
+.mini-sidebar .logo-side-margin {
+	margin-left: 12px;
+}
+.navbar-header {
+	height: 100%;
+}
+.p-r-t--12 {
+	position: relative;
+	top: -12px;
+}

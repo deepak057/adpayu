@@ -4,10 +4,10 @@ header.topbar
       // ==============================================================
       // Logo
       // ==============================================================
-      .navbar-header
-        <router-link :to="getTagLink('all')" class="navbar-brand">
+      .navbar-header.text-left
+        <router-link :to="getTagLink('all')" class="navbar-brand logo-side-margin">
           // Logo icon
-          b
+          b.p-r-t--12
             // You can put here icon as well // <i class="wi wi-sunset"></i> //
             // Dark Logo icon
             img.dark-logo(src='static/assets/images/logo-icon.png', alt='homepage')
@@ -15,7 +15,7 @@ header.topbar
             img.light-logo(src='static/assets/images/logo-light-icon.png', alt='homepage')
           // End Logo icon
           // Logo text
-          span.m-l-10(style='display: none;')
+          span.m-l-10.p-r-t--12(style='display: none;')
             // dark Logo text
             img.dark-logo(src='static/assets/images/logo-text.png', alt='homepage')
             // Light Logo text
