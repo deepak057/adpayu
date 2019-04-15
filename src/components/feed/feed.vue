@@ -181,7 +181,7 @@ export default {
       for (let key in obj) {
         feed.push(obj[key])
       }
-      return this.sortByDate(feed.reverse())
+      return this.sortTheTopPosts(this.sortByDate(feed.reverse()))
     },
     toggleComments (feedItem) {
       // return !feedItem['showComments']
@@ -198,6 +198,23 @@ export default {
         })
       }
       return feed
+    },
+    sortTheTopPosts (feed) {
+      let top = []
+      let final = []
+      for (let i in feed) {
+        if ('PushToTop' in feed[i]) {
+          top.push(feed[i])
+        } else {
+          final.push(feed[i])
+        }
+      }
+      if (top.length) {
+        for (let i in top) {
+          final.unshift(top[i])
+        }
+      }
+      return final
     },
     getPostDescriptionText (f) {
       switch (f.type) {
