@@ -40,7 +40,7 @@
             <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question}}
             </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" data-content='This icon indicates that there has been a new activity on this post. Either someone has recently uploaded a new video response or written an answer on this post. You can disable posts with recent activity using the filter on the top of the page.')
+            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
@@ -49,6 +49,7 @@
             <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Video'].title}}
             </router-link>
+            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-8.video-container.p-b-0
@@ -320,6 +321,9 @@ export default {
           this.$set(this.feed, i, postObj)
         }
       }
+    },
+    recentActivityText (pType) {
+      return 'This icon indicates that there has been a new activity on this ' + pType + '. Someone has recently uploaded a new video response ' + (pType === 'question' ? 'or written an answer' : '') + ' on this ' + pType + '. You can disable posts with recent activity using the filter on the top of your dashboard page.'
     }
     /* getPostVisibilityConfig (postObj) {
       let config = this.postVisibilityConfig
