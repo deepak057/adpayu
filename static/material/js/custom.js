@@ -160,6 +160,23 @@ $(function () {
                 });
             })
             
+            $(document).on("mouseover", ".answer-content-wrap img", function(){
+
+                let src = $(this).attr('src')
+
+                $(this).magnificPopup({
+                    type: 'image',
+                    items: {
+                        src: src
+                    },
+                    closeOnContentClick: true,
+                    mainClass: 'mfp-img-mobile',
+                    image: {
+                        verticalFit: true
+                    }
+                });
+            })
+
             $(document).on("click", ".search-box a, .search-box .app-search .srh-btn", function () {
                 $(".app-search").toggle(200);
                 $(".app-search").find('input:first').focus()

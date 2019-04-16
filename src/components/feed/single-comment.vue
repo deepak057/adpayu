@@ -19,7 +19,7 @@
       .comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
         <comment-video-player :videoPath="comment.videoPath"/>
     </template>
-    div.m-b-5(v-html="comment.comment" v-if="isQuestion()")
+    div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion()")
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")
       span.text-muted.pull-right.comment-datetimestamp.m-l-5
         <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>

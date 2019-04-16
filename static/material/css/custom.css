@@ -614,3 +614,7 @@ img.preloader-h-20 {
 	position: relative;
 	top: -12px;
 }
+.answer-content-wrap img{
+	max-width: 50%;
+	cursor: pointer;
+}
