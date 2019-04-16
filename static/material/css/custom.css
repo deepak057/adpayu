@@ -618,3 +618,7 @@ img.preloader-h-20 {
 	max-width: 50%;
 	cursor: pointer;
 }
+.post-recent-activity-icon {
+	position: relative;
+	top: -2px;
+}

@@ -40,6 +40,7 @@
             <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question}}
             </router-link>
+            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" data-content='This icon indicates that there has been a new activity on this post. Either someone has recently uploaded a new video response or written an answer on this post. You can disable posts with recent activity using the filter on the top of the page.')
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
