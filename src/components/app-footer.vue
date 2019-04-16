@@ -1,17 +1,14 @@
 <template lang="pug">
  footer.footer
-      | © 2018 AdpayU
+      | © {{getCurrentYear()}} {{siteName}}
 </template>
 
 <script>
+import mixin from '@/globals/mixin'
+
 export default {
   name: 'AppFooter',
-
-  computed: {
-    sidebarVisibility () {
-      return this.$store.state.common.sidebar.visible && this.$vuetify.breakpoint.mdAndUp
-    }
-  }
+  mixins: [mixin]
 }
 </script>
 
