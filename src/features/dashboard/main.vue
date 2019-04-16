@@ -129,7 +129,7 @@
               span
                 | Pwandeep rajan
                 small.text-success online
-  <status-update @statusPosted="postStatus" :options="postOptionsDefault"></status-update>
+  <status-update @statusPosted="postStatus" :options="postOptionsDefault" :currentTag="getCat()"></status-update>
   // ==============================================================
   // End Right sidebar
   // ==============================================================

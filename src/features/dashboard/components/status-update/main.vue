@@ -12,7 +12,7 @@ div
           <question v-if="options.type==='question'" :question="question" @questionsDetailesUpdated="getQuestion"></question>
           <pictures v-if="options.type==='picture'"></pictures>
           <video-upload v-if="options.type ==='video'" :video="video" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
-          <post-tags :tags="tags" @tagsUpdated="getTags"></post-tags>
+          <post-tags :tags="tags" :currentTag="currentTag" @tagsUpdated="getTags"></post-tags>
           <image-upload v-if="options.type!=='video'" :images="images" @imagesUpdated="getImages"></image-upload>
           <video-file-upload v-if="options.type==='video'" ref="videoFileUploadComp" @videoUploaded="setVideoPath"></video-file-upload>
           div(v-show="!enableMoreOptions")
@@ -63,6 +63,12 @@ export default {
     options: {
       type: Object,
       required: true
+    },
+    currentTag: {
+      type: String,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -76,7 +82,8 @@ export default {
       resetImages: false,
       preloader: false,
       enableMoreOptions: false,
-      public: false
+      public: false,
+      tagsToExclude: ['all', 'general']
     }
   },
   watch: {
@@ -165,9 +172,7 @@ export default {
       this.postStatus = ''
       this.adOptions = {}
       this.question = {}
-      this.tags = [{
-        text: 'General' // make sure to keep the default tag to General
-      }]
+      this.tags = this.getDefaultTags()
       this.images = []
       this.video = {}
       this.enableMoreOptions = false
@@ -176,6 +181,17 @@ export default {
       if (this.$refs.videoFileUploadComp) {
         this.$refs.videoFileUploadComp.reset()
       }
+    },
+    getDefaultTags () {
+      let tags = [{
+        text: 'general'
+      }]
+      if (this.currentTag && this.tagsToExclude.indexOf(this.currentTag) === -1) {
+        tags.push({
+          text: this.currentTag
+        })
+      }
+      return tags
     },
     getAdData (adOptions) {
       this.adOptions = adOptions

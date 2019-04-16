@@ -19,6 +19,11 @@ export default {
     }
   },
   methods: {
+    capitalizeString (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    },
     getMedia (path) {
       return path && path !== 'null' ? constants.SERVER_STATIC_CONTENT_URL + '/' + path : 'static/img/no-profile-pic.png'
     },
