@@ -9,35 +9,134 @@
           p.m-t-40 Our Terms & Consitions were last updated and posted on 2nd April, 2019
           p By signing up, you indicate that you agree to our terms and conditions.
           p
-            | You are not allowed to upload any picture anywhere on the site that might be perceived as sexually explicit or obscene in nature. We are highly against such actions and can’t tolerate them. You are requested to keep the website safe and clean for people of any age group or community.
+            | These terms of service (the “Agreement”) constitute a legally binding agreement between you (“You” or “User”) and {{siteName}}, Inc. (“{{siteName}}”, “us”, “we” or “our”), governing your use of our website {{siteName}}.com (the “Site”) and the {{siteName}} application (the “App”) and various related services (collectively the “Services” or “{{siteName}}”). You must read and agree to this Agreement before using the Services, and if you do not agree with these terms and conditions, you may not use the Services.
           p
-            | A person can report against others on following grounds-
-            br
-            | The person witnesses or receives content belonging to or produced by another that may contain :
+            | By visiting, accessing or using the Services or by clicking “I Agree” where indicated, you represent that you signify that you have read, understood and agree to be bound by this Agreement and to the collection and use of your information as set forth in the
+            <router-link :to="getPageURL('privacy')">
+              |  {{siteName}} Privacy Policy
+            </router-link>
+            | , which is part of this Agreement. IF YOU DO NOT AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT OR DO NOT CONSENT TO THE COLLECTION, USE OR DISCLOSURE, OR OTHER HANDLING OF INFORMATION AS DESCRIBED IN THE PRIVACY POLICY, YOU MAY NOT USE OR ACCESS THE SERVICES.
+          h4.m-l-10 DESCRIPTION OF SERVICES
           p
-            | Violence and Threats
-            br
-            | Self-Harm
-            br
-            | Bullying and Harassment
-            br
-            | Hate Speech
-            br
-            | Disturbing Graphic Content
-            br
-            | Phishing and Spam
-            br
-            | Security breach
+            | It's a content and social media platform where for the first time in history, you get paid for spending time on social media. As time is money. In addition to having its own DNA, it combines best of modern social media features, protects your privacy and at the same time doesn't sell or monitor your data.
           p
-            | Website administrators can access and delete or alter your account settings and other personal data if necessary for probing purposes in case someone reports against you.
-          p
-            | You agree that you will not provide false information during signing up and will maintain only one legitimate {{siteName}} account.
-          p
-            | You agree that you will never intentionally try to put efforts to damage website by means of uploading virus affected content or carrying out other hacking attacks. You understand that any damage caused by you could cause a lot of inconvenience to others and may take some time and efforts from our side to be recovered.
-          p We reserve all rights not expressly granted to you.
-          p
-            | We hold the right to permanently delete your account without any prior notification or communication if the terms are violated to a serious extent. The same action can be taken not only for these terms but also for unforeseen activities that might be deemed as unacceptable. We are highly in favor of Freedom of Expression. However We expect you to be able to judge whether your own activities lie within certain boundaries.
+            | We reserve the right to either modify or discontinue any or all of the Services, including any feature therein, at any time with or without notice to you. Modifications may include, but are not limited to, changes in the pricing structure, the addition of fees for services, the manner of providing or operating of the services we provide. We shall not be liable to you or any third party should we modify or discontinue Services and any new feature, addition or enhancement to the Services shall also be subject to this Agreement.
 
+          h4.m-l-10 ELIGIBILITY
+          p
+            | The Services may only be used by those persons who can form legally binding contracts under applicable law of India. The Services are not available to children under the age of 18 or to any users who have had their User account temporarily or permanently deactivated. By becoming a User, you represent and warrant that you are at least 18 years of age and the age of majority where you live, and you have the right, authority and capacity to enter into and abide by the terms and conditions of this Agreement. You may not allow other persons to use your User account, and you agree to be the sole authorized user of your account.
+          p
+            | Although some of the Services may be accessible worldwide, we make no representation that materials on the Services are appropriate or available for use in locations outside India. You are not allowed to receive products, including services or software, from India, if you are located in a country embargoed by India. Any offer related to the Services is void where prohibited.
+          h4.m-l-10 COMMUNICATIONS
+          p
+            | By becoming a User or contacting us, you agree to receive communications from us, including via email, text messages, phone calls and push notifications. You agree that texts, calls or prerecorded messages may be generated by automatic telephone dialing systems. Standard text messaging charges applied by your cell phone carrier will apply to text messages we send.
+          p
+            | IF YOU WISH TO OPT OUT OF EMAIL, YOU CAN UNSUBSCRIBE BY FOLLOWING THE UNSUBSCRIBE OPTIONS IN THE EMAIL ITSELF. IF YOU WISH TO OPT OUT OF PRERECORDED CALLS OR TEXTS, YOU MAY OPT OUT FROM THE DEVICE RECEIVING THE MESSAGES BY FOLLOWING THE INSTRUCTIONS TO OPT OUT. YOU ACKNOWEDLEGE THAT OPTING OUT OF RECEIVING TEXTS OR EMAILS MAY IMPACT YOUR USE OF THE APP OR THE SERVICES.
+          h4.m-l-10 YOUR INFORMATION
+          p
+            | Your information is any information you provide, publish or post to or through the Services (including any profile information you provide) or send to others through the App or Site or any email feature or through any {{siteName}} owned or controlled- related social media account (your “Information”). You consent to us using your Information to create a User account that will allow you to use the Services. To enable {{siteName}} to use your Information, you grant us a non-exclusive, worldwide, perpetual, irrevocable, royalty-free, transferable, sub-licensable, right and license to exercise the copyright, publicity and database rights you have in your Information, and to use, copy, perform, display and distribute such Information to prepare derivative works, incorporate into other works, in any media now known or not currently known. {{siteName}} does not assert any ownership over your Information and you retain ownership of your Information and any intellectual property rights or other proprietary rights associated with your Information.
+          h4.m-l-10 RESTRICTED ACTIVITIES
+          p
+            | Access to and use of the Services is subject to all applicable international, federal, state and local laws and regulations. User agrees not to use the Services in any way that violates such laws or regulations.
+          p
+            | You agree that with respect to your use of the Services you will not:
+          ol
+            li
+              | Secretly use the Services to track or collect any information regarding another person.
+            li Impersonate any person or entity.
+            li
+              | Post or interact in a manner that is unlawful, threatening, abusive, harassing, defamatory, libelous, deceptive, false, misleading (directly or by omission or failure to update information), fraudulent, invasive of another’s privacy, tortious, irresponsible, or otherwise violates our rules or policies.
+            li Stalk, threaten, victimize, intimidate or otherwise harass any person.
+            li
+              | Interfere with or disrupt the Services or the servers or networks connected to the Services.
+            li
+              | “Frame” or “mirror” any part of the Site or App or use meta tags or code or devices that contain any reference to us, without our prior written authorization.
+            li
+              | Modify, move, add to, delete or otherwise tamper with the information contained in {{siteName}}'s Services.
+            li
+              | Decompile, reverse engineer, disassemble or unlawfully use or reproduce any of the software, copyrighted or trademarked material, trade secrets, or other proprietary information contained in the Services.
+            li
+              | Infringe on any patent, trademark, trade secret, copyright, right of publicity, or other proprietary right of another.
+            li
+              | Cause or facilitate or aid any third party to engage in the restricted activities above or otherwise outlined herein.
+          h4.m-l-10 INTELLECTUAL PROPERTY
+          p
+            | All intellectual property rights in the Services shall be owned by {{siteName}} absolutely and in their entirety. These rights include and are not limited to database rights, copyright, design rights (whether registered or unregistered), trademarks (whether registered or unregistered) and other similar rights wherever existing in the world together with the right to apply for protection of the same. All intellectual property of {{siteName}}, or its licensors, is protected by copyright, trademark, and other intellectual property laws. All other trademarks, logos, service marks, company or product names set forth in the Services are the property of their respective owners. You acknowledge and agree that any questions, comments, suggestions, ideas, feedback or other information (“Submissions”) provided by you to us are non-confidential and shall become the sole property of {{siteName}}, and {{siteName}} shall be entitled to the unrestricted use and dissemination of the Submissions for any purpose, commercial or otherwise, without acknowledgement or compensation to you.
+          p
+            | Users may not modify, copy, distribute, transmit, display, publish, sell, license, create derivative works or otherwise use any information available on or through the Services for commercial or public purposes. Users may not use the trademarks, logos and service marks (Marks) for any purpose including, but not limited to use as hot links or meta tags in other pages or Services on the World Wide Web without the written permission of {{siteName}} or such third party that may own the Mark. Nothing contained on these Services shall be construed as conferring on you or any third party any license or right, by implication, estoppels or otherwise, under any law, rule or regulation.
+          p
+            | {{siteName}} respects the intellectual property of others. If you believe in good faith that any materials on the Services infringe upon your copyrights please send the following information to {{siteName}}’s Copyright Agent at svanq.corp@gmail.com, (1) a description of the copyrighted work that you claim has been infringed, including specific location on the Services where the material you claim is infringed is located; (2) a description of the location where the original or an authorized copy of the copyrighted work exists; (3) your address, telephone number, and e-mail address; (4) a statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law; (5) a statement by you, made under penalty of perjury, that the information in your notice is accurate, and that you are the copyright owner or authorized to act on the copyright owner's behalf; and (6) an electronic or physical signature of the owner of the copyright or the person authorized to act on behalf of the owner of the copyright interest.
+          h4.m-l-10 THIRD PARTY INFORMATION
+          p
+            | Some of the information on the Services is supplied by independent third parties. While {{siteName}} makes every effort to insure the accuracy of information on the Services, {{siteName}} makes no warranty as to the accuracy of any such information from third parties.
+          h4.m-l-10 LINKS TO THIRD PARTY SERVICES
+          p
+            | The Services may contain links that will let you access other websites or applications that are not under the control of {{siteName}}. The links are only provided as a convenience and {{siteName}} does not endorse any of these Services. {{siteName}} assumes no responsibility or liability for any material that may be accessed on other web services or applications reached through the services, nor does {{siteName}} make any representation regarding the quality of any product or service contained at any such services.
+          h4.m-l-10 LINKS FROM THIRD PARTY SERVICES
+          p
+            | {{siteName}} prohibits unauthorized links to the Services and the framing of any information contained on the Services or any portion of the Services. {{siteName}} reserves the right to disable any unauthorized links or frames. {{siteName}} has no responsibility or liability for any material on other websites or applications that may contain links to the Services.
+          h4.m-l-10 YOUR DEALINGS WITH OTHERS
+          p
+            | {{siteName}} does not provide any entertainment services or agency services. It provides an integrated platform to communicate with others. It is up to the User to decide all aspects of the interactions with other users and {{siteName}} has no control over the quality or performance of third parties who provide or claim to provide services through the Services. You are solely responsible for your interactions with others you may interact with through the Services. WE MAKE NO WARRANTY REGARDING ANY INTERACTION, AND YOU UNDERSTAND AND AGREE THAT ANY SUCH INTERACTIONS ARE CONDUCTED ENTIRELY AT YOUR OWN RISK. ANY REPRESENTATION OR WARRANTY THAT IS PROVIDED FROM A USER IS PROVIDED SOLELY BY THE USER AND NOT BY US.
+          p
+            | Content available through the Services is often the thoughts, representations, opinions and judgments of a User not connected to {{siteName}}. We do not endorse them, nor are we responsible for the accuracy or reliability of any statement made by anyone who is not authorized to speak on behalf of {{siteName}}.
+          p
+            | If you have a dispute with a user you have interacted with through our Services, you release {{siteName}}, its affiliates, subsidiaries, parents, successors and assigns, and each of our respective officers, directors, employees, agents, or shareholders from responsibility, claims, demands and/or damages (actual or consequential) of every kind and nature, whether known or unknown, resulting from that dispute or connected to that dispute. This includes damages for loss of profits, goodwill, use or data.
+          h4.m-l-10 NO WARRANTIES AND DISCLAIMERS
+          p
+            | THE SERVICES, THE INTERACTIVE AREAS AND THE CONTENT ARE PROVIDED ON AN “AS IS, AS AVAILABLE” BASIS AND WITHOUT ANY WARRANTY OR CONDITION, EXPRESS OR IMPLIED OR STATUTORY. {{siteName}} EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. {{siteName}} DISCLAIMS ALL RESPONSIBILITY FOR ANY LOSS, INJURY, CLAIM, LIABILITY, OR DAMAGE OF ANY KIND RESULTING FROM, ARISING OUT OF OR IN ANY WAY RELATED TO: 1) ANY ERRORS IN OR OMISSIONS FROM THE SERVICES, THE INTERACTIVE AREAS AND THE CONTENT, INCLUDING, BUT NOT LIMITED TO TECHNICAL INACCURACIES AND TYPOGRAPHICAL ERRORS; 2) THIRD PARTY COMMUNICATIONS; 3) ANY THIRD PARTY WEB SERVICES OR CONTENT THEREIN DIRECTLY OR INDIRECTLY ACCESSED THROUGH LINKS IN THE SERVICES, INCLUDING BUT NOT LIMITED TO ANY ERRORS IN OR OMISSIONS THEREFROM; 4) THE UNAVAILABILITY OF THESE SERVICES, THE INTERACTIVE AREAS, THE CONTENT OR ANY PORTION THEREOF; 5) YOUR USE OF THESE SERVICES, THE INTERACTIVE AREAS OR THE CONTENT; 6) THE TIMELESSNESS, DELETION, MISS-DELIVERY OR FAILURE TO STORE ANY USER COMMUNICATION OR PERSONALIZATION SETTING; OR 6) YOUR USE OF ANY EQUIPMENT OR SOFTWARE IN CONNECTION WITH THESE SERVICES, THE INTERACTIVE AREAS OR THE CONTENT.
+          p
+            | We do not warrant that your use of the Services will be accurate, complete, reliable, current, secure, uninterrupted, always available, or error free, or will meet your requirements, and any defects will be corrected, that the Services are free from viruses or other harmful components. We disclaim liability for, and no warranty is made with respect to, connectivity and availability of the Services.
+          p
+            | We advise you to use the Services with a data plan with unlimited or very high data usage limits, and {{siteName}} shall not responsible or liable for any fees, costs, or overage charges associated with any data plan you use to access the Services. You understand and agree that we have no control over third party networks you may use, access or be required to access in the use of the Services; and therefore, delays and disruptions of or by other network transmissions are completely beyond our control.
+          h4.m-l-10 LIMITATION OF LIABILITY
+          p
+            | IN NO SESSION WILL {{siteName}}, INCLUDING OUR AFFILIATES, SUBSIDIARIES, PARENTS, SUCCESSORS AND ASSIGNS, AND EACH OF OUR RESPECTIVE OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, OR SHAREHOLDERS (COLLECTIVELY “{{siteName}}” FOR PURPOSES OF THIS SECTION), BE LIABLE TO YOU FOR ANY INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, CONSEQUENTIAL, OR INDIRECT DAMAGES (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR DELETION, CORRUPTION, LOSS OF DATA, LOSS OF PROGRAMS, FAILURE TO STORE ANY INFORMATION OR OTHER CONTENT MAINTAINED OR TRANSMITTED BY THE {{siteName}} PLATFORM, SERVICE INTERRUPTIONS, OR FOR THE COST OF PROCUREMENT OF SUBSTITUTE SERVICES) ARISING OUT OF OR IN CONNECTION WITH THE {{siteName}} PLATFORM, THE SERVICES, OR THIS AGREEMENT, HOWEVER ARISING INCLUDING NEGLIGENCE, EVEN IF WE OR OUR AGENTS OR REPRESENTATIVES KNOW OR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+          h4.m-l-10 INDEMNITY
+          p
+            | You will defend, indemnify, and hold {{siteName}} including our affiliates, subsidiaries, parents, successors and assigns, and each of our respective officers, directors, employees, agents, or shareholders harmless from any claims, actions, suits, losses, costs, liabilities and expenses (including reasonable attorneys’ fees) relating to or arising out of your use of and participation in the Services, including: (1) your breach of this Agreement or the other documents it incorporates by reference; (2) your violation of any law or the rights of a third party; (3) any allegation that any materials that you submit to us or transmit through the Services or to us infringe or otherwise violate the copyright, trademark, trade secret, right of publicity or other intellectual property or other rights of any third party; and/or (4) any other activities in connection with the Services. This indemnity shall be applicable without regard to the negligence of any party, including any indemnified person.
+          h4.m-l-10 PRIVACY & SECURITY
+          p
+            | Protecting the privacy of our clients and users of our Services is important to {{siteName}}. The {{siteName}} Privacy Policy describes how we use and protect information you provide to us.
+          p
+            | In order to use the Services, we may ask you to create an account and select a password and/or provide us with certain personal information. This information will be held and used according to the {{siteName}} Privacy Policy. You agree to supply us with accurate, complete and updated information.
+          p
+            | Data transmitted to and from {{siteName}} is encrypted for the user's protection. However, the security of information transmitted through the Internet can never be guaranteed. {{siteName}} is not responsible for any interception or interruption of any communications through the Internet or for changes to or losses of data. User is responsible for maintaining the security of any password, user ID, or other form of authentication involved in obtaining access to password protected or secure areas of the Services. We expressly disclaim liability arising from the unauthorized use of your User account. In order to protect you and your data, we may suspend your use of the Services, without notice, pending an investigation, if any breach of security is suspected.
+          p
+            | Should you suspect that any unauthorized party may be using your User account or you suspect any other breach of security, you agree to notify us immediately.
+          h4.m-l-10 TERM AND TERMINATION
+          p
+            | This Agreement is effective upon your visiting, accessing and use of the Services and/or the creation of your User account. You may terminate this Agreement at any time and for any reason by providing notice to {{siteName}}. This Agreement may be terminated by either party, immediately, without notice, upon the other party’s material breach of this Agreement. Additionally, {{siteName}} may terminate this Agreement or deactivate your User account or suspend access to all or part of the Services with or without notice and for any reason.
+          p
+            | Upon termination or suspension, for any reason, your right to use the Services shall immediately cease and you acknowledge and agree that we may deactivate or delete your account and all related information and/or bar any further access to such files or information.
+          h4.m-l-10 JURISDICTION/GOVERNING LAW
+          p
+            | This Agreement shall be governed and construed in accordance with the laws of India and applicable federal laws without regard to conflicts of law principles.
+          h4.m-l-10 ENTIRE AGREEMENT
+          p
+            | This Agreement and other policies or rules referenced in this Agreement make up the entire agreement between us related to the subject matter of this Agreement and supersedes all prior understandings of the parties to the subject matter of this Agreement, whether those prior understandings were electronic, oral or written, or whether established by custom, practice, policy or precedent, between you and us.
+          h4.m-l-10 SEVERABILITY
+          p
+            | If any part of this Agreement or the Privacy Policy is not enforceable, the rest of these terms and the Privacy Policy still applies and is binding and any unenforceable term will be substituted reflecting our intent as closely as possible.
+          h4.m-l-10 ASSIGNMENT
+          p
+            | We may give our rights or our obligations under this Agreement or our
+            <router-link :to="getPageURL('privacy')">
+              |  Privacy Policy
+            </router-link>
+            |  to any person or entity at any time with or without your consent. You may not give your rights or obligations under this Agreement or our Privacy Policy without first getting our written consent, and any attempt to do so without our written consent is void.
+          h4.m-l-10 NO WAIVER
+          p
+            | If we do not enforce a provision of this Agreement or our Privacy Policy, that does not waive our right to do so later. If we waive a provision of this Agreement or our Privacy Policy, that does not mean that it is waived for all time in the future. Any waiver must be signed in writing by both you and us to be legally binding.
+          h4.m-l-10 NOTICE
+          p
+            | We may notify you by posting something on or through the Site or App and by sending you an email or using other ways of communicating with you based on the contact information you provided us. Such broadcasts shall constitute notice to you. If you have to give us notice of something according to this Agreement or our Privacy Policy, the notice must be in writing and delivered by certified mail, postage prepaid and return receipt requested to “Attention Office of the CEO, {{siteName}}, Inc.”, unless we have provided a more specific way for you to notify us. Any attempt to notify us that does not follow these rules has no legal effect.
+          h4.m-l-10 MODIFICATIONS TO AGREEMENT
+          p
+            | {{siteName}} reserves the right to change this Agreement and its terms at any time. You acknowledge and agree that it is your responsibility to review the Services and this Agreement periodically and be aware of any modifications. In the session that {{siteName}} modifies the terms and conditions of this Agreement, such modifications shall be binding on you. Continued use of the Services after any changes or modifications constitutes your acknowledgement and consent to such changes to abide by and be bound by the changed or modified Agreement. You cannot make changes to this Agreement or the Privacy Policy unless both you and {{siteName}} sign a written amendment.
+
+          p
+            | If you have questions regarding the Services, please contact customer support.
 </template>
 <script>
 import mixin from '../../globals/mixin'
