@@ -1,22 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Post
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link :to="getTagLink('all')">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active {{postType | capitalize}}
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
+  <page-title heading="Post" :subHeading="breadcrumbSubHead | capitalize"/>
   // ==============================================================
   // Start Page Content
   // ==============================================================
@@ -34,14 +18,14 @@ import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 import mixin from '../../globals/mixin.js'
-import TotalRevenue from './../../components/total-revenue'
+import PageTitle from './../../components/page-title'
 
 export default {
   name: 'Pages',
   components: {
     Preloader,
     Feed,
-    TotalRevenue
+    PageTitle
   },
   mixins: [mixin],
   data () {
@@ -49,7 +33,8 @@ export default {
       id: this.$route.params.id,
       feed: [],
       pageLoading: true,
-      postType: 'Post'
+      postType: 'Post',
+      breadcrumbSubHead: 'Post'
     }
   },
   mounted () {
@@ -60,6 +45,7 @@ export default {
         data.showComments = true
         this.postType = this.getPostTypeLabel(data.type)
         this.setDocumentTitle(this.getPageTitle(data))
+        this.breadcrumbSubHead = this.postType
         this.feed.push(data)
       })
       .catch((postErr) => {

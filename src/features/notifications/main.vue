@@ -1,23 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Profile
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link to="/">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active Notifications
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
-  // ==============================================================
+  <page-title heading="Notifications"/>
   // Start Page Content
   // ==============================================================
   // Row
@@ -42,7 +25,7 @@
 <script>
 import UserNotifications from './../../components/notifications/notifications'
 import Preloader from './../../components/preloader'
-import TotalRevenue from './../../components/total-revenue'
+import PageTitle from './../../components/page-title'
 import auth from '@/auth/helpers'
 
 export default {
@@ -50,7 +33,7 @@ export default {
   components: {
     UserNotifications,
     Preloader,
-    TotalRevenue
+    PageTitle
   },
   data () {
     return {

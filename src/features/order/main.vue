@@ -1,23 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Order
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link to="/">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active Order
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
-  // ==============================================================
+  <page-title heading="Order"/>
   // Start Page Content
   // ==============================================================
   // Row
@@ -32,14 +15,14 @@
 <script>
 import OrderCreate from './create-order'
 import OrderCheck from './check-order'
-import TotalRevenue from './../../components/total-revenue'
+import PageTitle from './../../components/page-title'
 
 export default {
   name: 'Order',
   components: {
     OrderCreate,
     OrderCheck,
-    TotalRevenue
+    PageTitle
   },
   data () {
     return {

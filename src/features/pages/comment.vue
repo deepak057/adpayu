@@ -1,22 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Response
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link to="/">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active {{getCommentType() | capitalize}}
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
+  <page-title heading="Response" :subHeading="breadcrumbSubHead | capitalize"/>
   // ==============================================================
   // Start Page Content
   // ==============================================================
@@ -44,7 +28,7 @@
 import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import mixin from '../../globals/mixin.js'
-import TotalRevenue from './../../components/total-revenue'
+import PageTitle from './../../components/page-title'
 import Service from './service'
 import SingleComment from '../../components/feed/single-comment'
 import commentMixin from '../../components/feed/comment-mixin'
@@ -55,7 +39,7 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    TotalRevenue,
+    PageTitle,
     SingleComment
   },
   mixins: [mixin, commentMixin],
@@ -65,7 +49,8 @@ export default {
       pageLoading: true,
       comment: {},
       post: {},
-      commentUser: {}
+      commentUser: {},
+      breadcrumbSubHead: 'Response'
     }
   },
   computed: {
@@ -89,6 +74,7 @@ export default {
           this.post = data.post
           this.commentUser = this.comment.User
           this.setDocumentTitle('Response on ' + this.getPostTitle(this.post))
+          this.breadcrumbSubHead = this.getCommentType()
         })
         .catch((cErr) => {
           this.showNotification('Something went wrong while getting the comment.', 'error')

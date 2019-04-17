@@ -454,6 +454,10 @@ body {
   .comment-response-container .response-head-title {
   	font-size: 12px;
   }
+
+  .small-screen-text-left {
+  	text-align: left !important;
+  }
 }
 
 /*

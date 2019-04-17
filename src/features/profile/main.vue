@@ -1,22 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Profile
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link to="/">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active Profile
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
+  <page-title heading="Profile"/>
   // ==============================================================
   // Start Page Content
   // ==============================================================
@@ -69,8 +53,8 @@
 </template>
 <script>
 import auth from '@/auth/helpers'
+import PageTitle from './../../components/page-title'
 import Preloader from './../../components/preloader'
-import TotalRevenue from './../../components/total-revenue'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import ProfilePicture from './profile-pic'
@@ -82,12 +66,12 @@ export default {
   name: 'Profile',
   service: new Service(),
   components: {
+    PageTitle,
     Preloader,
     ProfilePicture,
     Friends,
     ProfileTabs,
-    ProfileUserName,
-    TotalRevenue
+    ProfileUserName
   },
   mixins: [mixin],
   data () {

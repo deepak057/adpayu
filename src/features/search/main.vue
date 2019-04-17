@@ -1,22 +1,6 @@
 <template lang="pug">
 .container-fluid
-  // ==============================================================
-  // Bread crumb and right sidebar toggle
-  // ==============================================================
-  .row.page-titles
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Profile
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link to="/">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active Search
-    .col-md-8.col-12.align-self-center.text-right
-      <total-revenue/>
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
+  <page-title heading="Search"/>
   // ==============================================================
   // Start Page Content
   // ==============================================================
@@ -71,7 +55,7 @@
 </template>
 <script>
 import SearchField from './../../components/search-field'
-import TotalRevenue from './../../components/total-revenue'
+import PageTitle from './../../components/page-title'
 import ContentSearch from './content-search'
 import UserSearch from './user-search'
 import TagSearch from './tag-search'
@@ -85,7 +69,7 @@ export default {
     UserSearch,
     TagSearch,
     SearchField,
-    TotalRevenue
+    PageTitle
   },
   mixins: [mixin],
   data () {
