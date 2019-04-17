@@ -16,18 +16,21 @@
          <preloader class="m-r-5"></preloader>
          | {{fileOperationText}} ...
      input.none(type="file" id="profile-pic-file-upload" accept="image/*" data-type="image" @change="filesChange($event.target.name, $event.target.files)")
+     <crop-pic ref="picCropComponent" @ImageCropped="getCroppedImage"/>
 </template>
 <script>
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
+import CropPic from './pic-crop'
 
 export default {
   name: 'ProfilePicture',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    CropPic
   },
   mixins: [mixin],
   props: {
@@ -45,7 +48,8 @@ export default {
   data () {
     return {
       fileOperationText: '',
-      user: this.profileUser
+      user: this.profileUser,
+      fileName: ''
     }
   },
   watch: {
@@ -64,12 +68,16 @@ export default {
       if (!this.validImageFile(files[0])) {
         alert('Please choose a valid image file')
       } else {
-        this.uploadImage(files[0])
+        this.fileName = files[0].name
+        this.$refs.picCropComponent.trigger(files[0])
       }
+    },
+    getCroppedImage (imageBlob) {
+      this.uploadImage(imageBlob)
     },
     uploadImage (file) {
       let formData = new FormData()
-      formData.append('image', file)
+      formData.append('image', file, this.fileName)
       this.fileOperationText = 'Uploading file'
       this.$options.service.uploadProfilePic(formData)
         .then((data) => {
