@@ -55,7 +55,7 @@ export default {
     },
     setDocumentTitle (title_) {
       var t_ = title_ || this.getTitle()
-      document.title = t_.charAt(0).toUpperCase() + t_.slice(1)
+      document.title = this.capitalizeString(t_)
     },
     getTagLink (tag) {
       return '/tag/' + tag
@@ -120,7 +120,7 @@ export default {
       return Math.round(number * 100) / 100
     },
     closeAllModals () {
-      // A hackw way that uses jQuery directly to
+      // A hacky way that uses jQuery directly to
       // close all the Bootstrap modals
       /* eslint-disable */
       $('.modal').modal('hide')

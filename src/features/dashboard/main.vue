@@ -11,7 +11,9 @@
           <router-link :to="getTagLink('all')">
             | Home
           </router-link>
-        li.breadcrumb-item.active {{pageTitle() | capitalize}}
+        li.breadcrumb-item.active
+          | {{pageTitle() | capitalize}}
+          i.mdi.mdi-refresh.cursor-hand.m-l-5(@click="reloadFeed()" title="Refresh the feed to pull newer posts.")
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap.p-0
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
@@ -231,7 +233,7 @@ export default {
     }
   },
   created () {
-    this.setDocumentTitle()
+    this.setDocumentTitle(this.pageTitle())
     this.showHideFeed()
     this.setPostDefaultOptions()
   },
@@ -247,12 +249,15 @@ export default {
         .then((data) => {
           this.feed = []
           this.showNotification('Preferences updated successfully.', 'success')
-          this.currentPage = 1
-          this.getFeed()
+          this.reloadFeed()
         })
         .catch((pErr) => {
           this.showNotification('Soemthing went wrong while updating your preferences', 'error')
         })
+    },
+    reloadFeed () {
+      this.currentPage = 1
+      this.getFeed()
     },
     getFeed () {
       if (this.currentPage === 1) {

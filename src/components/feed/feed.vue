@@ -18,12 +18,12 @@
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
-      <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
+      <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
         img.img-circle(:src='getMedia(f.User.pic)', alt='user')
       </router-link>
     .sl-right
       div
-        <router-link @click.native = "leavePage()" :to="userProfileLink(f.User.id)">
+        <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
           | {{userName(f.User)}}
         </router-link>
         |  {{getPostDescriptionText(f)}}
@@ -36,18 +36,18 @@
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
-              | {{f['Question'].question}}
-            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
-              | {{f['Question'].question}}
+              | {{f['Question'].question | capitalize}}
+            <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
+              | {{f['Question'].question | capitalize}}
             </router-link>
             i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
-              | {{f['Video'].title}}
-            <router-link @click.native = "leavePage()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
-              | {{f['Video'].title}}
+              | {{f['Video'].title | capitalize}}
+            <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
+              | {{f['Video'].title | capitalize}}
             </router-link>
             i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
           p.text-muted {{f['Video'].description}}
@@ -65,7 +65,7 @@
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
         .m-b-15.feed-tags(v-if="f['Tags'] && f['Tags'].length")
-          <router-link class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
+          <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
         .like-comm.m-t-15(v-show="!preview")

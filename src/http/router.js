@@ -38,7 +38,6 @@ const router = new Router({
     component: route.component,
     children: route.children,
     beforeEnter: (to, from, next) => {
-      console.log(to)
       // Setup some per-page stuff.
       document.title = route.title
       store.dispatch('common/updateTitle', route.title)

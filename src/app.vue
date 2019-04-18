@@ -29,7 +29,6 @@ export default {
       return state.common.title
     }, (title) => {
       document.title = title
-      console.log('title updated')
     }, {
       deep: true
     })

@@ -1,13 +1,13 @@
 <template lang="pug">
 .comment-row.row.custom-comment-row.m-t-10.m-l-0.m-r-0
   .col-0.p-0.hidden-xs-down
-    <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
+    <router-link @click.native = "closeAllModals()" :to="userProfileLink(comment.User.id)">
       span.round
         img(:src='getMedia(comment.User.pic)', alt='user', width='50')
     </router-link>
   .col-11.col-md-10.col-xs-12.comment-text.p-0.m-l-25.m-t-10
     h5.user-name-wrap
-      <router-link @click.native = "leavePage()" :to="userProfileLink(comment.User.id)">
+      <router-link @click.native = "closeAllModals()" :to="userProfileLink(comment.User.id)">
         | {{userName(comment.User)}}
       </router-link>
     .m-b-5(v-if="!isQuestion()")
@@ -33,7 +33,7 @@
           button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list
           .dropdown-menu
-            <router-link :href="getCommentLink(comment.id)" class="dropdown-item" title="Go to its own separate page" :to="getCommentLink(comment.id)">
+            <router-link @click.native = "closeAllModals()" class="dropdown-item" title="Go to its own separate page" :to="getCommentLink(comment.id)">
               i.ti-link
               | Comment Page
             </router-link>
