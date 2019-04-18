@@ -47,7 +47,7 @@ export default {
       notificationData: [],
       unseenIds: [],
       showNotifications: false,
-      fetchInterval: 5000,
+      fetchInterval: 30000,
       loadingInProgress: false
     }
   },
