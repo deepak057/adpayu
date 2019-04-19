@@ -1,6 +1,6 @@
 <template lang="pug">
  .profile-pic-container
-   img.profile-pic-image.img-circle(:src='getMedia(user.pic)', alt='Avatar' width='150')
+   img.profile-pic-image.img-circle.img-zoom-enable(:src='getMedia(user.pic)', alt='Avatar' width='150')
    .profile-pic-overlay(v-if="imageAdmin" :class="{'opacity-8': fileOperationText}")
      .profile-pic-overlay-content
        <template v-if="!fileOperationText">

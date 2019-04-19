@@ -503,8 +503,17 @@ body {
 .video-js .vjs-big-play-button {
     left: 40%;
     top: 40%;
+    background-color: rgba(30,136,229, 0.7)
     /*width: 20%;
     height: 20%;*/
+}
+
+.video-js:hover .vjs-big-play-button
+/*,.video-js:hover .vjs-control-bar
+,.video-js:hover .vjs-menu-button .vjs-menu-content */
+{
+  background-color: rgba(30,136,229, .5)
+  /*background-color: rgba($secondary-background-color, 0.7);*/
 }
 /*
 .video-js .vjs-play-control:before {
@@ -625,4 +634,7 @@ img.preloader-h-20 {
 .post-recent-activity-icon {
 	position: relative;
 	top: -2px;
+}
+.img-zoom-enable {
+	cursor: pointer;
 }

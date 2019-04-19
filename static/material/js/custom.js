@@ -160,11 +160,15 @@ $(function () {
                 });
             })
             
-            $(document).on("mouseover", ".answer-content-wrap img", function(){
+            $(document).on("mouseover", ".answer-content-wrap img, .img-zoom-enable", function(){
 
-                let src = $(this).attr('src')
+                initMagnificPopup($(this))
+            })
 
-                $(this).magnificPopup({
+            function initMagnificPopup (ele) {
+            	let src = ele.attr('src')
+
+               ele.magnificPopup({
                     type: 'image',
                     items: {
                         src: src
@@ -173,9 +177,20 @@ $(function () {
                     mainClass: 'mfp-img-mobile',
                     image: {
                         verticalFit: true
-                    }
+                    },
+                    callbacks: {
+    open: function() {
+      $.magnificPopup.instance.close = function() {
+        // Do whatever else you need to do here
+        ele.removeData('magnificPopup')
+
+        // Call the original close method to close the popup
+        $.magnificPopup.proto.close.call(this);
+      };
+    }
+  }
                 });
-            })
+            }
 
             $(document).on("click", ".search-box a, .search-box .app-search .srh-btn", function () {
                 $(".app-search").toggle(200);
