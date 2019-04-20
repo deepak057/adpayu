@@ -20,11 +20,22 @@ section#contact.module
                     .text-center
                         button#cfsubmit.btn.btn-block.btn-round.btn-d(type='submit') {{btnText}}
                 #contactFormResponse.ajax-response.font-alt
+        .row
+            .col-sm-6.col-sm-offset-3
+                .m-t-50.text-center
+                    | Alternatively, you can contact our support team directly at
+                    a(:href="'mailto:'+contactEmail")  {{contactEmail}}
+                    |  or call us on our headquarter numbers
+                    a(:href="'tel:'+contactPhone")  {{contactPhone}}
+                    |  or
+                    a(:href="'tel:'+contactPhone2")   {{contactPhone2}}
+                    | .
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import userRegister from '../../globals/user-register'
 import Service from './service'
+import * as constants from '@/constants'
 
 function contactInitialState () {
   return {
@@ -32,7 +43,10 @@ function contactInitialState () {
     email: '',
     message: '',
     emailError: false,
-    messageError: false
+    messageError: false,
+    contactEmail: constants.CONTACT_EMAIL,
+    contactPhone: constants.CONTACT_NUMBER,
+    contactPhone2: constants.CONTACT_NUMBER_2
   }
 }
 

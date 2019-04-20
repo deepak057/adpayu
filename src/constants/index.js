@@ -4,6 +4,10 @@ let SiteName = process.env.SITE_NAME || 'Svanq'
 export const SITE_NAME = SiteName
 export const SITE_SLOGAN = process.env.SITE_SLOGAN
 
+export const CONTACT_EMAIL = process.env.CONTACT_EMAIL
+export const CONTACT_NUMBER = process.env.CONTACT_NUMBER
+export const CONTACT_NUMBER_2 = process.env.CONTACT_NUMBER_2
+
 // Backend API endpoints
 export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000/v1'
 export const REFRESH_TOKEN_URL = process.env.REFRESH_TOKEN_URL || '/auth'
