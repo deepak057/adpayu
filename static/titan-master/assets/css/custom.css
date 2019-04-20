@@ -65,7 +65,7 @@
 	height: 100vh;
 }
 #contact {
-	padding-top: 10px;
+	/* padding-top: 10px;*/
 }
 .footer a.active, .nav.navbar-nav .active {
 	color: #fff;
@@ -88,4 +88,7 @@
 }
 .m-t-50 {
 	margin-top: 50px;
+}
+.p-b-0{
+	padding-bottom: 0px;
 }

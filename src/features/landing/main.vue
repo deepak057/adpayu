@@ -7,7 +7,7 @@ div
                 .font-alt.mb-40.titan-title-size-4 {{slogan}}
                 a.section-scroll.btn.btn-border-w.btn-round.section-scroll(href="#services") Learn More
     .main
-        section#services.module
+        section#services.module.p-b-0
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
