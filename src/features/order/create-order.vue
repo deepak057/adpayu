@@ -60,7 +60,7 @@ export default {
             container: CashFreeWrapperId,
             width: 500
           },
-          mode: 'TEST'// use PROD when we go live
+          mode: 'PROD'// use PROD when we go live
         }
       },
       currentUser: auth.getUser(),
