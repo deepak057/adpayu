@@ -37,23 +37,33 @@ export default {
       breadcrumbSubHead: 'Post'
     }
   },
+  watch: {
+    '$route.params.id' (newV) {
+      this.id = newV
+      this.loadPost()
+    }
+  },
   mounted () {
-    this.scrollToTop()
-    auth.getPost(this.id)
-      .then((data) => {
-        this.pageLoading = false
-        data.showComments = true
-        this.postType = this.getPostTypeLabel(data.type)
-        this.setDocumentTitle(this.getPageTitle(data))
-        this.breadcrumbSubHead = this.postType
-        this.feed.push(data)
-      })
-      .catch((postErr) => {
-        this.pageLoading = false
-        alert('Something went wrong while getting the data, please try again later.')
-      })
+    this.loadPost()
   },
   methods: {
+    loadPost () {
+      this.scrollToTop()
+      this.pageLoading = true
+      auth.getPost(this.id)
+        .then((data) => {
+          this.pageLoading = false
+          data.showComments = true
+          this.postType = this.getPostTypeLabel(data.type)
+          this.setDocumentTitle(this.getPageTitle(data))
+          this.breadcrumbSubHead = this.postType
+          this.feed = [data]
+        })
+        .catch((postErr) => {
+          this.pageLoading = false
+          alert('Something went wrong while getting the data, please try again later.')
+        })
+    },
     getPageTitle (post) {
       if (post.type === 'question' || post.type === 'video') {
         if (post.Video) {

@@ -39,6 +39,7 @@ import Preloader from './../../components/preloader'
 import Service from './service'
 import mixin from '../../globals/mixin.js'
 import userRegistrationMixin from '../../globals/user-register'
+import * as constants from '@/constants'
 
 let CashFreeWrapperId = 'cf-widget-wrap'
 
@@ -60,7 +61,7 @@ export default {
             container: CashFreeWrapperId,
             width: 500
           },
-          mode: 'PROD'// use PROD when we go live
+          mode: constants.PAYMENT_MODE // use PROD when we go live
         }
       },
       currentUser: auth.getUser(),

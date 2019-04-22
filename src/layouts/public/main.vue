@@ -106,16 +106,16 @@ export default {
       scripts: [
         'static/titan-master/assets/lib/jquery/dist/jquery.js',
         'static/titan-master/assets/lib/bootstrap/dist/js/bootstrap.min.js',
+        /* 'static/titan-master/assets/lib/smoothscroll.js',
         'static/titan-master/assets/lib/wow/dist/wow.js',
         'static/titan-master/assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js',
         'static/titan-master/assets/lib/isotope/dist/isotope.pkgd.js',
         'static/titan-master/assets/lib/imagesloaded/imagesloaded.pkgd.js',
         'static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
         'static/titan-master/assets/lib/owl.carousel/dist/owl.carousel.min.js',
-        'static/titan-master/assets/lib/smoothscroll.js',
         'static/titan-master/assets/lib/magnific-popup/dist/jquery.magnific-popup.js',
         'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
-        'static/titan-master/assets/js/plugins.js',
+        'static/titan-master/assets/js/plugins.js', */
         'static/titan-master/assets/js/main.js'
       ]
     }

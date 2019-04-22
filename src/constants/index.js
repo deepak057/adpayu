@@ -8,6 +8,8 @@ export const CONTACT_EMAIL = process.env.CONTACT_EMAIL
 export const CONTACT_NUMBER = process.env.CONTACT_NUMBER
 export const CONTACT_NUMBER_2 = process.env.CONTACT_NUMBER_2
 
+export const PAYMENT_MODE = process.env.PAYMENT_MODE
+
 // Backend API endpoints
 export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000/v1'
 export const REFRESH_TOKEN_URL = process.env.REFRESH_TOKEN_URL || '/auth'

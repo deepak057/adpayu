@@ -1,4 +1,3 @@
-console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55');
 
 /* ---------------------------------------------- /*
  * Preloader
@@ -10,10 +9,10 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
         $('.preloader').fadeOut()
         $('.page-loader').delay(350).fadeOut('slow');
 
-        let wow = new WOW({
+        /* let wow = new WOW({
             mobile: false
         });
-        wow.init();
+        wow.init();*/
     });
    
    /* ---------------------------------------------- /*
@@ -153,11 +152,11 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          * Rotate
          /* ---------------------------------------------- */
 
-        $(".rotate").textrotator({
+        /* $(".rotate").textrotator({
             animation: "dissolve",
             separator: "|",
             speed: 3000
-        });
+        });*/
 
 
         /* ---------------------------------------------- /*
@@ -251,7 +250,7 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          * Video popup, Gallery
          /* ---------------------------------------------- */
 
-        $('.video-pop-up').magnificPopup({
+        /* $('.video-pop-up').magnificPopup({
             type: 'iframe'
         });
 
@@ -269,12 +268,12 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
             }
         });
 
-
+        */
         /* ---------------------------------------------- /*
          * Portfolio
          /* ---------------------------------------------- */
 
-        var worksgrid   = $('#works-grid'),
+        /* var worksgrid   = $('#works-grid'),
             worksgrid_mode;
 
         if (worksgrid.hasClass('works-grid-masonry')) {
@@ -288,7 +287,7 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
                 layoutMode: worksgrid_mode,
                 itemSelector: '.work-item'
             });
-        });
+        });*/
 
         $('#filters a').click(function() {
             $('#filters .current').removeClass('current');
@@ -362,9 +361,9 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          * Youtube video background
          /* ---------------------------------------------- */
 
-        $(function(){
+        /* $(function(){
             $(".video-player").mb_YTPlayer();
-        });
+        });*/
 
         $('#video-play').click(function(event) {
             event.preventDefault();
@@ -435,9 +434,9 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
          * Blog masonry
          /* ---------------------------------------------- */
 
-        $('.post-masonry').imagesLoaded(function() {
+        /* $('.post-masonry').imagesLoaded(function() {
             $('.post-masonry').masonry();
-        });
+        });*/
 
 
         /* ---------------------------------------------- /*
@@ -447,7 +446,7 @@ console.log('%c Proudly Crafted with ZiOn.', 'background: #222; color: #bada55')
         $('.section-scroll').bind('click', function(e) {
             var anchor = $(this);
             $('html, body').stop().animate({
-                scrollTop: $(anchor.attr('href')).offset().top - 50
+                scrollTop: $(anchor.attr('href')).offset().top
             }, 1000);
             e.preventDefault();
         });
