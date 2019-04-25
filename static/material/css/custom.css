@@ -458,6 +458,10 @@ body {
   .small-screen-text-left {
   	text-align: left !important;
   }
+
+  .post-description-text-wrap, .post-description-text-wrap .sl-date {
+  	font-size: 10px;
+  }
 }
 
 /*

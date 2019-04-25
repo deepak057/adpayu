@@ -14,12 +14,14 @@ div
 <script>
 import auth from '@/auth/helpers'
 import WithdrawMoney from './withdraw/main'
+import mixin from '../globals/mixin'
 
 export default {
   name: 'TotalRevenue',
   components: {
     WithdrawMoney
   },
+  mixins: [mixin],
   data () {
     return {
       totalRevenue: auth.getLocalRevenue()
@@ -27,12 +29,15 @@ export default {
   },
   watch: {
     '$store.state.auth.totalRevenue' (newV) {
-      this.totalRevenue = newV
+      this.updateTotal(newV)
     }
   },
+  mounted () {
+    this.updateTotal()
+  },
   methods: {
-    updateTotal () {
-      this.totalRevenue = auth.getUser().totalAmount
+    updateTotal (newV) {
+      this.totalRevenue = this.roundToDecimalPlaces(newV || auth.getLocalRevenue())
     },
     withdrawTrigger () {
       this.$refs.withdrawMoneyComp.triggerPopup()

@@ -23,15 +23,19 @@
       </router-link>
     .sl-right
       div
-        <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
-          | {{userName(f.User)}}
-        </router-link>
-        |  {{getPostDescriptionText(f)}}
-        span.sl-date
-          <timeago :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
-          i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
-          i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
-          i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
+        span.post-description-text-wrap
+          span.m-r-5(v-if="manipulatePostDescriptionText(f)")
+            | {{getRecentActivityText(f)}}
+          <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
+            | {{userName(f.User)}}
+          </router-link>
+          |  {{getPostDescriptionText(f)}}
+          span.sl-date
+            <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
+            <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" class="m-l-5" :title="f['updatedAt'] | date"></timeago>
+            i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
+            i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
+            i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
         p.m-t-10(v-if="f['content']") {{f['content']}}
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
@@ -40,7 +44,7 @@
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question | capitalize}}
             </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
+            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
           p.text-muted {{f['Question'].description}}
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
@@ -49,7 +53,7 @@
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Video'].title | capitalize}}
             </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="!preview && f['updatedAt'] !== f['createdAt']" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
+            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
           p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-8.video-container.p-b-0
@@ -123,6 +127,12 @@ export default {
       required: true
     },
     preview: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
+    userFeed: {
       type: Boolean,
       default () {
         return false
@@ -201,6 +211,9 @@ export default {
       }
       return feed
     },
+    recentActivity (f) {
+      return !this.preview && f['updatedAt'] !== f['createdAt']
+    },
     sortTheTopPosts (feed) {
       let top = []
       let final = []
@@ -218,17 +231,27 @@ export default {
       }
       return final
     },
+    getRecentActivityText (f) {
+      if (f.type === 'text') {
+        return 'Recent activity on the status update of '
+      } else {
+        return 'Recent activity on the ' + f.type + ' that'
+      }
+    },
     getPostDescriptionText (f) {
       switch (f.type) {
         case 'text':
           return ''
         case 'question':
-          return 'asked a question'
+          return 'asked ' + (this.manipulatePostDescriptionText(f) ? '' : 'a question')
         case 'video':
-          return 'uploaded a video'
+          return 'uploaded ' + (this.manipulatePostDescriptionText(f) ? '' : 'a video')
         default:
           return ''
       }
+    },
+    manipulatePostDescriptionText (f) {
+      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f)
     },
     editPost (f) {
       this.$refs.editPostComponent.trigger(f)

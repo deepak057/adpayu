@@ -72,7 +72,7 @@ export default {
       })
       .catch((error) => {
         /* let errorMessage = null */
-        return error.response.data
+        return error.response.status
         /* if (error.response) errorMessage = error.response.status
         else if (error.request) errorMessage = 'no response from server'
         else errorMessage = error.message
