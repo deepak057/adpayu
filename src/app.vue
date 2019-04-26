@@ -8,13 +8,15 @@
 <script>
 import PublicLayout from '@/layouts/public/main.vue'
 import DefaultLayout from '@/layouts/default/main.vue'
+import AdminLayout from '@/layouts/admin/main.vue'
 
 export default {
   name: 'App',
 
   components: {
     PublicLayout,
-    DefaultLayout
+    DefaultLayout,
+    AdminLayout
   },
 
   computed: {

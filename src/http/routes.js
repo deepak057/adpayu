@@ -164,6 +164,15 @@ const routes = [
     layout: 'DefaultLayout',
     isPublic: false,
     props: true
+  },
+  {
+    name: 'admin',
+    path: '/admin/:action',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/admin/main.vue'),
+    title: 'Admin',
+    layout: 'AdminLayout',
+    isPublic: false,
+    props: true
   }
 ]
 

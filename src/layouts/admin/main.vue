@@ -1,0 +1,243 @@
+<template lang="pug">
+div
+  link(href='static/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+  // Popup CSS
+  link(href='static/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css', rel='stylesheet')
+  // Custom CSS
+  link(href='static/material/css/style.css', rel='stylesheet')
+  // You can change the theme colors from here
+  link#theme(href='static/material/css/colors/blue.css', rel='stylesheet')
+  // ==============================================================
+  // Preloader - style you can find in spinners.css
+  // ==============================================================
+  .preloader
+    svg.circular(viewBox='25 25 50 50')
+      circle.path(cx='50', cy='50', r='20', fill='none', stroke-width='2', stroke-miterlimit='10')
+  // ==============================================================
+  // Main wrapper - style you can find in pages.scss
+  // ==============================================================
+  #main-wrapper
+    // ==============================================================
+    // Topbar header - style you can find in pages.scss
+    // ==============================================================
+    header.topbar.is_stuck
+      nav.navbar.top-navbar.navbar-expand-md.navbar-light
+        // ==============================================================
+        // Logo
+        // ==============================================================
+        .navbar-header
+          a.navbar-brand(href='index.html')
+            // Logo icon
+            b
+              // You can put here icon as well // <i class="wi wi-sunset"></i> //
+              // Dark Logo icon
+              img.dark-logo(src='/static/assets/images/logo-icon.png', alt='homepage')
+              // Light Logo icon
+              img.light-logo(src='/static/assets/images/logo-light-icon.png', alt='homepage')
+            // End Logo icon
+            // Logo text
+            span(style='display: none')
+              // dark Logo text
+              img.dark-logo(src='/static/assets/images/logo-text.png', alt='homepage')
+              // Light Logo text
+              img.light-logo(src='/static/assets/images/logo-light-text.png', alt='homepage')
+        // ==============================================================
+        // End Logo
+        // ==============================================================
+        .navbar-collapse
+          // ==============================================================
+          // toggle and nav items
+          // ==============================================================
+          ul.navbar-nav.mr-auto.mt-md-0
+            // This is
+            li.nav-item
+              a.nav-link.nav-toggler.hidden-md-up.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
+                i.mdi.mdi-menu
+            li.nav-item
+              a.nav-link.sidebartoggler.hidden-sm-down.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
+                i.ti-menu
+            // ==============================================================
+            // Search
+            // ==============================================================
+            li.nav-item.hidden-sm-down.search-box
+              a.nav-link.hidden-sm-down.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
+                i.ti-search
+              form.app-search
+                input.form-control(type='text', placeholder='Search & enter')
+                a.srh-btn
+                  i.ti-close
+            // ==============================================================
+            // Messages
+            // ==============================================================
+            // ==============================================================
+            // User profile and search
+            // ==============================================================
+          ul.navbar-nav.my-lg-0
+            // ==============================================================
+            // Profile
+            // ==============================================================
+            li.nav-item.dropdown
+              a.nav-link.dropdown-toggle.text-muted.waves-effect.waves-dark(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                img.profile-pic(src='/static/assets/images/users/1.jpg', alt='user')
+              .dropdown-menu.dropdown-menu-right.scale-up
+                ul.dropdown-user
+                  li
+                    .dw-user-box
+                      .u-img
+                        img(src='/static/assets/images/users/1.jpg', alt='user')
+                      .u-text
+                        h4 Steave Jobs
+                        p.text-muted varun@gmail.com
+                        a.btn.btn-rounded.btn-danger.btn-sm(href='profile.html') View Profile
+                  li.divider(role='separator')
+                  li
+                    a(href='#')
+                      i.ti-user
+                      |  My Profile
+                  li
+                    a(href='#')
+                      i.ti-wallet
+                      |  My Balance
+                  li
+                    a(href='#')
+                      i.ti-email
+                      |  Inbox
+                  li.divider(role='separator')
+                  li
+                    a(href='#')
+                      i.ti-settings
+                      |  Account Setting
+                  li.divider(role='separator')
+                  li
+                    a(href='#')
+                      i.fa.fa-power-off
+                      |  Logout
+    // ==============================================================
+    // End Topbar header
+    // ==============================================================
+    // ==============================================================
+    // Left Sidebar - style you can find in sidebar.scss
+    // ==============================================================
+    aside.left-sidebar
+      // Sidebar scroll
+      .scroll-sidebar
+        // User profile
+        .user-profile(style='background: url(/static/assets/images/background/user-info.jpg) no-repeat;')
+          // User profile image
+          .profile-img
+            img(src='/static/assets/images/users/profile.png', alt='user')
+          // User profile text
+          .profile-text
+            a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') Markarn Doe
+            .dropdown-menu.animated.flipInY
+              a.dropdown-item(href='login.html')
+                i.fa.fa-power-off
+                |  Logout
+        // End User profile text
+        // Sidebar navigation
+        nav.sidebar-nav
+          ul#sidebarnav
+            li
+              a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false', href='/tag/all')
+                i.mdi.mdi-gauge
+                span.hide-menu POSTS
+    .page-wrapper
+      // ==============================================================
+      // Container fluid
+      // ==============================================================
+      .container-fluid
+        // ==============================================================
+        // Bread crumb and right sidebar toggle
+        // ==============================================================
+        .row.page-titles
+          .col-md-5.col-8.align-self-center
+            h3.text-themecolor ADMIN PANEL
+            ol.breadcrumb
+              li.breadcrumb-item
+                a(href='javascript:void(0)') Home
+              li.breadcrumb-item.active Dashboard
+        // ==============================================================
+        // End Bread crumb and right sidebar toggle
+        // ==============================================================
+        // ==============================================================
+        // Start Page Content
+        // ==============================================================
+        .row
+          // Column
+          .col-lg-3.col-md-6
+            .card
+              .card-body
+                .d-flex.flex-row
+                  .round.round-lg.align-self-center.round-info
+                    i.ti-wallet
+                  .m-l-10.align-self-center
+                    h3.m-b-0.font-light $3249
+                    h5.text-muted.m-b-0 Total Revenue
+          // Column
+          // Column
+          .col-lg-3.col-md-6
+            .card
+              .card-body
+                .d-flex.flex-row
+                  .round.round-lg.align-self-center.round-warning
+                    i.mdi.mdi-cellphone-link
+                  .m-l-10.align-self-center
+                    h3.m-b-0.font-lgiht $2376
+                    h5.text-muted.m-b-0 Online Revenue
+          // Column
+          // Column
+          .col-lg-3.col-md-6
+            .card
+              .card-body
+                .d-flex.flex-row
+                  .round.round-lg.align-self-center.round-primary
+                    i.mdi.mdi-cart-outline
+                  .m-l-10.align-self-center
+                    h3.m-b-0.font-lgiht $1795
+                    h5.text-muted.m-b-0 Offline Revenue
+          // Column
+          // Column
+          .col-lg-3.col-md-6
+            .card
+              .card-body
+                .d-flex.flex-row
+                  .round.round-lg.align-self-center.round-danger
+                    i.mdi.mdi-bullseye
+                  .m-l-10.align-self-center
+                    h3.m-b-0.font-lgiht $687
+                    h5.text-muted.m-b-0 Ad. Expense
+          // Column
+</template>
+<script>
+import mixin from '@/globals/mixin'
+
+export default {
+  name: 'AdminLayout',
+  mixins: [mixin],
+  data () {
+    return {
+      scripts: [
+        'static/assets/plugins/jquery/jquery.min.js',
+        'static/assets/plugins/bootstrap/js/popper.min.js',
+        'static/assets/plugins/bootstrap/js/bootstrap.min.js',
+        'static/material/js/waves.js',
+        'static/material/js/sidebarmenu.js',
+        'static/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js',
+        'static/assets/plugins/sparkline/jquery.sparkline.min.js',
+        'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js',
+        'static/material/js/custom.js'
+      ]
+    }
+  },
+  mounted () {
+    for (let i in this.scripts) {
+      this.loadScript(this.scripts[i])
+    }
+  },
+  methods: {
+    ifHomePage () {
+      return this.$route.name === 'home'
+    }
+  }
+}
+</script>
