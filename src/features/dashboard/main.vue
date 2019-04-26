@@ -247,7 +247,6 @@ export default {
       this.showNotification('Updating, please wait...', 'warn')
       auth.updateCurrentUser(this.currentUser)
         .then((data) => {
-          this.feed = []
           this.showNotification('Preferences updated successfully.', 'success')
           this.reloadFeed()
         })
@@ -256,8 +255,13 @@ export default {
         })
     },
     reloadFeed () {
-      this.currentPage = 1
+      this.resetFeed()
       this.getFeed()
+    },
+    resetFeed () {
+      this.feed = []
+      this.noMoreFeed = false
+      this.currentPage = 1
     },
     getFeed () {
       if (this.currentPage === 1) {
@@ -273,9 +277,7 @@ export default {
         })
     },
     categoryChanged (newCat) {
-      this.feed = []
-      this.noMoreFeed = false
-      this.currentPage = 1
+      this.resetFeed()
       this.setDocumentTitle(newCat)
       this.getFeed()
     },
