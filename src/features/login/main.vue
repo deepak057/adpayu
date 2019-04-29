@@ -54,7 +54,7 @@ export default {
         password: this.credentials.password
       }
 
-      auth.login(credentials, 'dashboard', ({isSuccess, data, errorMessage}) => {
+      auth.login(credentials, this.getRedirectPath(), ({isSuccess, data, errorMessage}) => {
         // console.log('Look here ' + data)
       })
         .then((data) => {

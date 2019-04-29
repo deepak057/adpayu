@@ -642,3 +642,6 @@ img.preloader-h-20 {
 .img-zoom-enable {
 	cursor: pointer;
 }
+.profiletimeline:has(> .nothing-to-show) {
+	margin: 0px !important;
+}

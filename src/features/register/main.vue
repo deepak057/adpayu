@@ -105,7 +105,7 @@ export default {
           last: this.last,
           location: this.location
         }
-        auth.signup(data, 'dashboard', ({isSuccess, data, errorMessage}) => {
+        auth.signup(data, this.getRedirectPath(), ({isSuccess, data, errorMessage}) => {
         })
           .then((data) => {
             if (!data.success) {

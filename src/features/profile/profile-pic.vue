@@ -8,7 +8,7 @@
          i.mdi.mdi-image.m-r-5
          | Upload pic
        br
-       a(href="javascript: void(0)" @click="removePic()")
+       a(href="javascript: void(0)" @click="removePic()" v-if="user.pic")
          i.mdi.mdi-delete.m-r-5
          | Remove pic
        </template>
@@ -83,6 +83,7 @@ export default {
         .then((data) => {
           this.fileOperationText = false
           this.user.pic = data.user.pic
+          this.showNotification('Profile picture updated successfully.', 'success')
           auth.updateUserState(data.user)
         })
         .catch((imageErr) => {

@@ -184,6 +184,9 @@ export default {
     },
     getPageURL (page) {
       return '/pages/' + page
+    },
+    getRedirectPath () {
+      return this.$route.query.redirect || 'dashboard'
     }
   }
 }

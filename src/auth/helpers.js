@@ -34,7 +34,7 @@ export default {
       .then((response) => {
         auth.storeToken(response)
 
-        if (redirect) router.push({ name: redirect })
+        if (redirect) router.push(redirect)
         return response.data
       })
       .catch((error) => {
@@ -67,12 +67,12 @@ export default {
       .then((response) => {
         auth.storeToken(response)
 
-        if (redirect) router.push({ name: redirect })
-        return response.response.data
+        if (redirect) router.push(redirect)
+        return response.data
       })
       .catch((error) => {
         /* let errorMessage = null */
-        return error.response.status
+        return error.response.data
         /* if (error.response) errorMessage = error.response.status
         else if (error.request) errorMessage = 'no response from server'
         else errorMessage = error.message

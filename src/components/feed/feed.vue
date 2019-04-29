@@ -1,6 +1,6 @@
 <template lang="pug">
-.profiletimeline
-  .nothing-to-show(v-if="initialized && !feedArr.length")
+.profiletimeline(:class="{'m-0': emptyFeed()}")
+  .nothing-to-show(v-if="emptyFeed()")
     .jumbotron.white-back.text-center
       h1.display-3 Nothing Here!
       p.lead
@@ -335,6 +335,9 @@ export default {
           this.feed[i].CommentsCount = data.count
         }
       }
+    },
+    emptyFeed () {
+      return this.initialized && !this.feedArr.length
     },
     updatePost (postObj) {
       for (let i in this.feed) {
