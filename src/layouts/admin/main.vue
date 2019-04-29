@@ -137,14 +137,16 @@ div
         // Sidebar navigation
         nav.sidebar-nav
           ul#sidebarnav
-            li.active
-              a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false', href='/admin/d')
+            <router-link tag="li" :to="adminURL('overview')">
+              a.waves-effect.waves-dark.no-ative-anchor
                 i.mdi.mdi-gauge
                 span.hide-menu Dashboard
-            li
-              a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false', href='/admin/posts')
+            </router-link>
+            <router-link tag="li" :to="adminURL('posts')">
+              a.waves-effect.waves-dark.no-ative-anchor
                 i.mdi.mdi-gauge
                 span.hide-menu Posts
+            </router-link>
     .page-wrapper
       router-view
 </template>

@@ -166,6 +166,15 @@ const routes = [
     props: true
   },
   {
+    name: 'adminDashboard',
+    path: '/Pooja1957',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/admin/main.vue'),
+    title: 'Admin',
+    layout: 'AdminLayout',
+    isPublic: false,
+    props: true
+  },
+  {
     name: 'admin',
     path: '/Pooja1957/:action',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/admin/main.vue'),

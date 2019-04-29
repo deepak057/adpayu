@@ -196,6 +196,9 @@ export default {
       } else {
         return base
       }
+    },
+    adminURL (page) {
+      return '/Pooja1957/' + page
     }
   }
 }
