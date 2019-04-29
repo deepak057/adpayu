@@ -21,7 +21,7 @@
               </router-link>
             .form-group
               | Don't have an account?
-              <router-link to="signup">
+              <router-link :to="redirectURLs('signup')">
                 |  Sign Up
               </router-link>
 </template>

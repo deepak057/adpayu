@@ -187,6 +187,15 @@ export default {
     },
     getRedirectPath () {
       return this.$route.query.redirect || 'dashboard'
+    },
+    redirectURLs (action) {
+      let base = '/' + action
+      let path = this.getRedirectPath()
+      if (path !== 'dashboard') {
+        return base + '?redirect=' + path
+      } else {
+        return base
+      }
     }
   }
 }

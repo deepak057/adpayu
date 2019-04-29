@@ -46,7 +46,7 @@
               button.btn.btn-round.btn-info(@click="signup") Sign Up
             .form-group
               | Already have an account?
-              <router-link to="login">
+              <router-link :to="redirectURLs('login')">
                 |  Sign In
               </router-link>
 </template>

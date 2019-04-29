@@ -128,15 +128,6 @@ export default {
   methods: {
     ifHomePage () {
       return this.$route.name === 'home'
-    },
-    redirectURLs (action) {
-      let base = '/' + action
-      let path = this.getRedirectPath()
-      if (path !== 'dashboard') {
-        return base + '?redirect=' + path
-      } else {
-        return base
-      }
     }
   }
 }
