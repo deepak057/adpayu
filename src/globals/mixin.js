@@ -54,7 +54,7 @@ export default {
       return postType === 'text' ? 'status' : postType
     },
     setDocumentTitle (title_) {
-      var t_ = title_ || this.getTitle()
+      var t_ = title_ || constants.SITE_NAME
       document.title = this.capitalizeString(t_)
     },
     getTagLink (tag) {
@@ -199,6 +199,14 @@ export default {
     },
     adminURL (page) {
       return '/Pooja1957/' + page
+    },
+    /*
+    * function to return the Page title for
+    * public pages. It just ads the Site name
+    * as prefix to the given page title
+    */
+    getPageTitle (title) {
+      return constants.SITE_NAME + ' - ' + title
     }
   }
 }

@@ -37,9 +37,8 @@
                input#checkbox-signup(type='checkbox' v-model='terms' :class="{'form-control-danger': termsError.length}")
                label(for='checkbox-signup')
                  |  I agree to all
-                 <router-link :to="getPageURL('terms')" class="m-l-5">
+                 a(:href="getPageURL('terms')" target='_blank' class="m-l-5")
                    | Terms & Conditions
-                 </router-link>
                small.form-control-feedback.block.m-t-10(v-show="termsError.length")
                  | {{termsError}}
             .form-group

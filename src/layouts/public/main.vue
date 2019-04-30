@@ -47,6 +47,10 @@ main
                     // li
                         a.section-scroll(href='#news') News
                     li
+                        <router-link :to="getPageURL('advertise')">
+                            | Advertise
+                        </router-link>
+                    li
                         a.section-scroll(href='#contact') Contact
                     li
                         <router-link :to="redirectURLs('login')">

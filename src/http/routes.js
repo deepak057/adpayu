@@ -114,18 +114,10 @@ const routes = [
     props: true
   },
   {
-    name: 'terms',
-    path: '/pages/terms',
-    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/terms.vue'),
-    title: getPageTitle('Terms and Conditions'),
-    layout: 'PublicLayout',
-    isPublic: true
-  },
-  {
-    name: 'privacy',
-    path: '/pages/privacy',
-    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/privacy.vue'),
-    title: getPageTitle('Privacy Policy'),
+    name: 'pages',
+    path: '/pages/:page',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/pages.vue'),
+    title: getPageTitle('Pages'),
     layout: 'PublicLayout',
     isPublic: true
   },
