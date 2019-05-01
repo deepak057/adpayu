@@ -98,3 +98,6 @@
 .all-caps {
 	text-transform: uppercase;
 }
+.min-h-500 {
+	min-height: 500px;
+}

@@ -51,6 +51,10 @@ main
                             | Advertise
                         </router-link>
                     li
+                        <router-link :to="getPageURL('faqs')">
+                            | FAQs
+                        </router-link>
+                    li
                         a.section-scroll(href='#contact') Contact
                     li
                         <router-link :to="redirectURLs('login')">
