@@ -3,35 +3,38 @@
   .col-12.public-page-content-wrap
     .text-center
       h2.font-alt Advertise on {{siteName}}
-    p.m-t-40 {{siteName}} offers a cost effective and easy way to promote and advertise businesses on the site. It revolutionises the way ads are created and consumed online. Unlike traditional approach, where the site gets paid if a visitor/user engages with ads, on {{siteName}}, visitors/users are the ones to get paid for engaging with ads. As we at {{siteName}} believe, Time is Money.
+    p.m-t-40 {{siteName}} offers a cost effective and easy way to promote and advertise businesses on the site. It revolutionises the way ads are created and consumed online. Unlike traditional model, where the site gets paid if a visitor/user engages with ads, on {{siteName}}, visitors/users are the ones to get paid for engaging with ads. As we at {{siteName}} believe, Time is Money.
     h4.m-l-10.all-caps WHAT IS AN AD ON {{siteName}}?
     p
       | By default, users see only those public posts (status update. question or video) in their feed which belong to the tags/topics/categories they follow or the posts created by their friends. While, ad is a special post (status update. question or video) that will show up in the feed of all the targeted users, regardless of topics/tags/categories they follow.
+    h4.m-l-10 HOW IT WORKS?
     p
-      | See below how a typical video ad looks on the site.
+      | See below how a typical video ad looks on the site -
     p.text-center
       img.light-border(src="/static/images/site/sample_ad.png")
-    h4.m-l-10 HOW IT WORKS?
+    p
+      | When an user sees an ad in their feed, the CPI amount of that ad is instantly added to user's account. So say if an user sees the ad that is shown in the screenshot above, in their feed, the CPI amount of $0.0071 is instantly added to user's account. Additionally, if user clicks the link in the ad shown in the screenshot above, the user will get $0.028 added to their {{siteName}} account instantly. And finally, if user also chooses to watch the video in the above ad, they will get $0.21 added to their {{siteName}} account.
+    h4.m-l-10 AD CONFIGURATION
     ol
       li
-        | Advertiesrs can create an ad with following configuration-
+        | Advertisers can create an ad with following configuration-
         ul
           li CPI (Cost Per Impression)- Required. Your ad must always have impression budget. Without impression target, your ads won't show up in user's feed in first place.
           li CPC (Cost Per Click)- Optional. You can enable it in all types of post (status update, question, video), you will be able to specify a link/URL in your ad which users will be able to click when they see your ad.
           li CPV (Cost per video view)- Optional. You can enable it in Video Post. Once enabled, you can specify the CPV (the price you are willing to pay per unique video view).
       li
-       | Advertisers can select maximum number of each of the above parameters and will specify the cost for each of those actions. So say, an advertiser can specify maximum number of impression he wants say 1000 and cost for every single impression say $.0071 which will be paid to the user who will see the ad (as depicted in the screenshot below).
+       | Advertisers can select maximum number of each of the above parameters and will specify the cost for each of those actions. So say, an advertiser can specify maximum number of impressions he wants say 1000 and cost for every single impression say $.0071 which will be paid to the user who will see the ad (as depicted in the screenshot below).
        p.text-center.m-t-20
          img.light-border(src="/static/images/site/ad_configuration.png")
-       | However, there will be a minimum cost for each of those actions and the cost that advertier specifies must be equal or greater thant that minimumm cost.
+       | However, there will be a minimum cost for each of those actions and the cost that advertiser specifies must be equal or greater than that minimum cost.
       li
-        | Advertisers can also specify the contries in which they want to show this ad. By default, each ad is shown globally.
+        | Advertisers can also specify the countries in which they want to show this ad. By default, each ad is shown globally.
     h4.m-l-10 BENEFITS FOR ADVERTISERS
     p
       | Running ads on {{siteName}} has many advantages over traditional online ad services, including-
     ol
       li
-        | The ad pricing is very cheap and is same all over the world. There are no variations in ad pricing depending upon the location, users, interests, devices etc. No matter how you configure your ad or how you specify target audience, the pricing will always be the same, all arounf the world.
+        | The ad pricing is very cheap and is same all over the world. There are no variations in ad pricing depending upon the location, users, interests, devices etc. No matter how you configure your ad or how you specify target audience, the pricing will always be the same, all around the world.
       li
         | For as long as your ad has not exhausted its budget, it will continue to appear in user's feed even though if they have already consumed it. Unlike other platforms, where if an user sees a particular ad once, the same ad doesn't appear again for them, on {{siteName}}, the ads actually become a part of your feed, just like a story/update in feed and will continue to be there until the overall ad budget has exhausted. So, same user sees your ad multiple times and you're charged only once. Seeing your ad multiple times will greatly increase the chances of them engaging with your ad.
       li
@@ -41,7 +44,7 @@
     h4.m-l-10  PLEASE NOTE
     ul
       li
-        | If impression target is acheived but click (CPC) or view (CPV) target is still not acheived, a part of Click or View budget will be taken away and will be used to add more impressions to the impression target/budget of that ad. Once that happens, you will receive a notification about how many clicks or views were converted to how many new impressions. This is to ensure that impression budget is always there on your ad so that your ad doesn't stop showing up in user's feed. Without impression budget, the click and view budgets will not be effective as ad will not show up in user's feed in first place.
+        | If impression target is achieved but click (CPC) or view (CPV) target is still not achieved, a part of Click or View budget will be taken away and will be used to add more impressions to the impression target/budget of that ad. Once that happens, you will receive a notification about how many clicks or views were converted to how many new impressions. This is to ensure that impression budget is always there on your ad so that your ad doesn't stop showing up in user's feed. Without impression budget, the click and view budgets will not be effective as ad will not show up in user's feed in first place.
       li
         | This document/page is a part of {{siteName}}'s
         <router-link :to="getPageURL('terms')">

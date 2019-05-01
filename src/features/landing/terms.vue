@@ -3,7 +3,7 @@
   .col-12.public-page-content-wrap
     .text-center
       h2.font-alt Terms & Conditions
-    p.m-t-40 Our Terms & Consitions were last updated and posted on 2nd April, 2019
+    p.m-t-40 Our Terms & Consitions were last updated and posted on 1st May, 2019
     p By signing up, you indicate that you agree to our terms and conditions.
     p
       | These terms of service (the “Agreement”) constitute a legally binding agreement between you (“You” or “User”) and {{siteName}}, Inc. (“{{siteName}}”, “us”, “we” or “our”), governing your use of our website {{siteName}}.com (the “Site”) and the {{siteName}} application (the “App”) and various related services (collectively the “Services” or “{{siteName}}”). You must read and agree to this Agreement before using the Services, and if you do not agree with these terms and conditions, you may not use the Services.
