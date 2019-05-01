@@ -62,7 +62,7 @@ header.topbar
             a.nav-link.dropdown-toggle.text-muted.waves-effect.waves-dark(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
               img.profile-pic(:src='getMedia(user.pic)', alt='user')
             .dropdown-menu.dropdown-menu-right.scale-up
-              ul.dropdown-user
+              ul.dropdown-user.custom-user-dropdown
                 li
                   .dw-user-box
                     .u-img

@@ -8,7 +8,7 @@
       h3.text-themecolor.m-b-0.m-t-0 Tags
       ol.breadcrumb
         li.breadcrumb-item
-          <router-link to="/">
+          <router-link :to="getTagLink('all')">
             | Home
           </router-link>
         li.breadcrumb-item.active Tags

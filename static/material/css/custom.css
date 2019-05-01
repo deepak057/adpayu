@@ -642,3 +642,6 @@ img.preloader-h-20 {
 .img-zoom-enable {
 	cursor: pointer;
 }
+.topbar ul.dropdown-user.custom-user-dropdown li .dw-user-box {
+	padding: 10px 10px;
+}
