@@ -23,7 +23,7 @@
                   a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#support1', aria-expanded='true') How do I make money on the site?
               #support1.panel-collapse.collapse(aria-expanded='false')
                 .panel-body
-                  | While using the site, you will see the promoted posts or ads in your feed. You make money as soon as you see an ad in your feed. Optioanlly, more money can be made by clicking the links or watching the videos in the ad (if links or video are available in the ad).
+                  | While using the site, you will see the promoted posts or ads in your feed. You make money as soon as you see an ad in your feed. Optionally, more money can be made by clicking the links or watching the videos in the ad (if links or video are available in the ad).
             .panel.panel-default
               .panel-heading
                 h4.panel-title.font-alt
