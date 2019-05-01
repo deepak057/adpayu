@@ -7,7 +7,7 @@
     h3.text-themecolor.m-b-0.m-t-0 {{head}}
     ol.breadcrumb
       li.breadcrumb-item
-       <router-link to="/">
+       <router-link :to="getTagLink('all')">
         | Home
         </router-link>
       li.breadcrumb-item.active {{subHead}}
@@ -19,12 +19,14 @@
 </template>
 <script>
 import TotalRevenue from './total-revenue'
+import mixin from '../globals/mixin'
 
 export default {
   name: 'PageTitle',
   components: {
     TotalRevenue
   },
+  mixins: [mixin],
   props: {
     heading: {
       type: String,
