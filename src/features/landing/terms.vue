@@ -32,6 +32,13 @@
     h4.m-l-10 YOUR INFORMATION
     p
       | Your information is any information you provide, publish or post to or through the Services (including any profile information you provide) or send to others through the App or Site or any email feature or through any {{siteName}} owned or controlled- related social media account (your “Information”). You consent to us using your Information to create a User account that will allow you to use the Services. To enable {{siteName}} to use your Information, you grant us a non-exclusive, worldwide, perpetual, irrevocable, royalty-free, transferable, sub-licensable, right and license to exercise the copyright, publicity and database rights you have in your Information, and to use, copy, perform, display and distribute such Information to prepare derivative works, incorporate into other works, in any media now known or not currently known. {{siteName}} does not assert any ownership over your Information and you retain ownership of your Information and any intellectual property rights or other proprietary rights associated with your Information.
+    h4.m-l-10 ADVERTISMENT
+    p
+      | Advertisers are allowed to run the ads on the site as per the description and conditions of the
+      <router-link :to="getPageURL('advertise')">
+        |  Ad Services
+      </router-link>
+      |  which is subject to change.
     h4.m-l-10 RESTRICTED ACTIVITIES
     p
       | Access to and use of the Services is subject to all applicable international, federal, state and local laws and regulations. User agrees not to use the Services in any way that violates such laws or regulations.

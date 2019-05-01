@@ -7,6 +7,10 @@
     h4.m-l-10.all-caps WHAT IS AN AD ON {{siteName}}?
     p
       | By default, users see only those public posts (status update. question or video) in their feed which belong to the tags/topics/categories they follow or the posts created by their friends. While, ad is a special post (status update. question or video) that will show up in the feed of all the targeted users, regardless of topics/tags/categories they follow.
+    p
+      | See below how a typical video ad looks on the site.
+    p.text-center
+      img.light-border(src="/static/images/site/sample_ad.png")
     h4.m-l-10 HOW IT WORKS?
     ol
       li
@@ -35,8 +39,15 @@
       li
         | Once CPC or CPV target has been achieved but CPI target is still not achieved on your ad, the links and videos will be there for users to click or watch. However, no money will be paid to them for clicking the link or watching the video as the CPC or CPV budget is already over. So there will always be a chance of getting a click or view at the very cheap price of an impression.
     h4.m-l-10  PLEASE NOTE
-    p
-      | If impression target is acheived but click (CPC) or view (CPV) target is still not acheived, a part of Click or View budget will be taken away and will be used to add more impressions to the impression target/budget of that ad. Once that happens, you will receive a notification about how many clicks or views were converted to how many new impressions. This is to ensure that impression budget is always there on your ad so that your ad doesn't stop showing up in user's feed. Without impression budget, the click and view budgets will not be effective as ad will not show up in user's feed in first place.
+    ul
+      li
+        | If impression target is acheived but click (CPC) or view (CPV) target is still not acheived, a part of Click or View budget will be taken away and will be used to add more impressions to the impression target/budget of that ad. Once that happens, you will receive a notification about how many clicks or views were converted to how many new impressions. This is to ensure that impression budget is always there on your ad so that your ad doesn't stop showing up in user's feed. Without impression budget, the click and view budgets will not be effective as ad will not show up in user's feed in first place.
+      li
+        | This document/page is a part of {{siteName}}'s
+        <router-link :to="getPageURL('terms')">
+          |  Terms and Conditions
+        </router-link>
+        |  and you indicate you understand and agree to it while creating an account on the site.
 </template>
 <script>
 import mixin from '../../globals/mixin'
