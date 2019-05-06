@@ -132,7 +132,6 @@ export default {
         responsive: true,
         dataSetup: {'fluid': true},
         aspectRatio: '16:9'
-
       }
     },
     getVideoSources (path) {

@@ -76,8 +76,11 @@ main
                         </router-link>
                         | , All Rights Reserved
                 .col-sm-6.text-center.font-alt
+                    a(href="https://svanq.blogspot.com/" target="_blank")
+                      | Blog
+                    |  |
                     <router-link :to="getPageURL('terms')">
-                      | Terms
+                      |  Terms
                     </router-link>
                     |  |
                     <router-link :to="getPageURL('privacy')">
