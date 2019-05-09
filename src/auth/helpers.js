@@ -121,6 +121,20 @@ export default {
       })
   },
 
+  uploadImage (image) {
+    return Vue.http({
+      method: 'post',
+      url: constants.API_BASE_URL + '/upload/image',
+      data: image
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   createPost (feed) {
     return Vue.http({
       method: 'post',

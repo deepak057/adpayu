@@ -160,7 +160,7 @@ $(function () {
                 });
             })
             
-            $(document).on("mouseover", ".answer-content-wrap img, .img-zoom-enable", function(){
+            $(document).on("mouseover", ".custom-status-update-wrap img, .answer-content-wrap img, .img-zoom-enable", function(){
 
                 initMagnificPopup($(this))
             })

@@ -17,6 +17,7 @@ div
           <video-file-upload v-if="options.type==='video'" ref="videoFileUploadComp" @videoUploaded="setVideoPath"></video-file-upload>
           div(v-show="!enableMoreOptions")
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
+              i.mdi.mdi-settings.m-r-2
               | More Options
               i.fa.fa-angle-right.m-l-5
           <ad ref="ad" v-show= "enableMoreOptions" @adOptionsUpdated="getAdData" :adType="options.type" @PrivacyUpdated="PrivacyUpdated"></ad>

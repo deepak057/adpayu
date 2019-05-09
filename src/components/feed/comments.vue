@@ -151,19 +151,6 @@ export default {
       } */
       this.$emit('CommentsCountUpdated', {postId: this.postId, count: count})
       return count
-    },
-    handleImageAdded (file, Editor, cursorLocation, resetUploader) {
-      let formData = new FormData()
-      formData.append('image', file)
-      this.$options.service.uploadImage(formData)
-        .then((d) => {
-          let url = this.getMedia(d.path)
-          Editor.insertEmbed(cursorLocation, 'image', url)
-          resetUploader()
-        })
-        .catch((iErr) => {
-          this.showNotification('Something went wrong while trying to upload image. Please try again later')
-        })
     }
   }
 }

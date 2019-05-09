@@ -631,10 +631,11 @@ img.preloader-h-20 {
 	position: relative;
 	top: -12px;
 }
-.answer-content-wrap img{
+.custom-status-update-wrap img, .answer-content-wrap img{
 	max-width: 50%;
 	cursor: pointer;
 }
+
 .post-recent-activity-icon {
 	position: relative;
 	top: -2px;
@@ -644,4 +645,41 @@ img.preloader-h-20 {
 }
 .topbar ul.dropdown-user.custom-user-dropdown li .dw-user-box {
 	padding: 10px 10px;
+}
+.ql-indent-1 {
+	margin-left: 20px;
+}
+.ql-indent-2 {
+	margin-left: 40px;
+}
+strong{
+	font-weight: bold;
+}
+.ql-align-center {
+	text-align: center;
+}
+.ql-align-right{
+	text-align: right;
+}
+.ql-snow .ql-toolbar button svg, .quillWrapper .ql-snow.ql-toolbar button svg {
+	height: 16px !important;
+}
+.quillWrapper .ql-snow.ql-toolbar {
+	background: #F8F8F8;
+}
+.quillWrapper.custom-text-editor-status-update .ql-link{
+	display: none !important;
+}
+.f-s-11{
+	font-size: 11px;
+}
+.m-b-1rem{
+	margin-bottom: 1rem;
+}
+.w-s-pre {
+	white-space: pre;
+}
+.p-r-t--1 {
+	position: relative;
+	top: -1px;
 }

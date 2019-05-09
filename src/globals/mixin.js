@@ -1,4 +1,5 @@
 import * as constants from '@/constants'
+import auth from '@/auth/helpers'
 
 export default {
   data () {
@@ -206,6 +207,19 @@ export default {
     */
     getPageTitle (title) {
       return constants.SITE_NAME + ' - ' + title
+    },
+    handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      let formData = new FormData()
+      formData.append('image', file)
+      auth.uploadImage(formData)
+        .then((d) => {
+          let url = this.getMedia(d.path)
+          Editor.insertEmbed(cursorLocation, 'image', url)
+          resetUploader()
+        })
+        .catch((iErr) => {
+          this.showNotification('Something went wrong while trying to upload image. Please try again later')
+        })
     }
   }
 }
