@@ -462,6 +462,9 @@ body {
   .post-description-text-wrap, .post-description-text-wrap .sl-date {
   	font-size: 11px;
   }
+  .post-ad-location-wrap label {
+  	font-size: 10px !important;
+  }
 }
 
 /*
@@ -682,4 +685,19 @@ strong{
 .p-r-t--1 {
 	position: relative;
 	top: -1px;
+}
+.postAdOptions {
+	margin: 0px auto;
+	width: 95%;
+}
+.ad-crteation-wrap {
+	display: inline-block;
+	background: #F0F0F0;
+}
+.post-ad-location-wrap label{
+	font-size: 12px;
+}
+.google-map-area-select {
+	height: 400px;
+	width: 770px;
 }

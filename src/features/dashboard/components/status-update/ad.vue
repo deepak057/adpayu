@@ -8,11 +8,25 @@ div
   .m-t-20.text-center(v-if="adOptions.postIsAd && !defaultOptionsLoaded")
     <preloader/>
   .postAdOptions(v-if="adOptions.postIsAd && defaultOptionsLoaded")
-    .row.m-t-10.ad-crteation-wrap
+    .row.m-t-10.ad-crteation-wrap.p-t-10
       .form
-        .form-group.p-l-10.p-r-10.m-b-15
+        .form-group.p-l-10.p-r-10.m-b-15.post-ad-location-wrap
+          h6
+            | Location
+            i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Ad Target Location" data-toggle="popover" data-placement="right" data-content="Choose where your ad will be shown in the world. By default, it shows up globally.")
+          .m-t-5
+            input.m-r-5.with-gap(v-model="locationType" value="global" type="radio" name="adLocationRadio" id="post-ad-world-wide")
+            label.small.m-r-5(for="post-ad-world-wide")
+              | World Wide
+            input.m-r-5.with-gap(v-model="locationType" value="countries" type="radio" name="adLocationRadio" id="post-ad-countries")
+            label.small.m-r-5(for="post-ad-countries")
+              | Countries
+            input.m-r-5.with-gap(v-model="locationType" value="local" type="radio" name="adLocationRadio" id="post-local-area")
+            label.small.m-r-5(for="post-local-area")
+              | Local Area
+        .form-group.p-l-10.p-r-10.m-b-15(v-if="locationType=='countries'")
           label
-            | Add target countries (Optional)
+            | Add target countries
             i.mdi.mdi-information.cursor-hand.m-l-2.text-muted(data-container="body" title="Target Countries" data-toggle="popover" data-placement="right" data-content="Choose which countries this ad should be served in. By default, your ad will appear globally.")
           <vue-tags-input placeholder="Type country name" v-model="country" :tags="adOptions.adCountries" :autocomplete-items="filteredItems()" @tags-changed="countriesUpdated"/>
         table.table
@@ -102,6 +116,7 @@ div
                 b Total
               td.align-middle.w-100px.text-center
                 b ${{totalCost}}
+  <select-map-area ref="SelectMapAreaComponent"/>
 </template>
 
 <script>
@@ -111,6 +126,7 @@ import countryList from '../../../../globals/countries'
 import VueTagsInput from '@johmun/vue-tags-input'
 import Preloader from './../../../../components/preloader'
 import Service from './service'
+import SelectMapArea from './../../../../components/location/select_area'
 
 function defaultAdValues () {
   return {
@@ -145,7 +161,8 @@ function initialState () {
     adLinkLabelError: false,
     country: '',
     adOptions: defaultAdValues(),
-    defaultOptionsLoaded: false
+    defaultOptionsLoaded: false,
+    locationType: 'global'
   }
 }
 
@@ -155,7 +172,8 @@ export default {
   components: {
     PostPrivacy,
     VueTagsInput,
-    Preloader
+    Preloader,
+    SelectMapArea
   },
   mixins: [mixin, countryList],
   props: {
@@ -218,6 +236,11 @@ export default {
         }
       },
       deep: true
+    },
+    locationType (newV) {
+      if (newV === 'local') {
+        this.$refs.SelectMapAreaComponent.triggerPopup()
+      }
     }
   },
   mounted () {
