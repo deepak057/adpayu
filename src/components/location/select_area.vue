@@ -58,41 +58,43 @@ export default {
   methods: {
     triggerPopup () {
       /*eslint-disable*/
+      let that = this
       document.getElementById(this.triggerButtonId).click()
-      let citymap = {
-        chicago: {
-          center: {lat: 41.878, lng: -87.629},
-          population: 2714856
-        }
+      let map = new google.maps.Map(document.getElementById(that.mapId), {
+            zoom: 4,
+            center: {lat: 20.5937, lng: 78.9629},
+          })
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+          map.setCenter(pos)
+          map.setZoom(14)
+        })  
       }
-      var map = new google.maps.Map(document.getElementById(this.mapId), {
-        zoom: 4,
-        center: {lat: 37.090, lng: -95.712},
-        mapTypeId: 'terrain'
-      })
-      for (var city in citymap) {
-        // Add the circle for this city to the map.
-        var cityCircle = new google.maps.Circle({
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35,
-          map: map,
-          center: citymap[city].center,
-          radius: Math.sqrt(citymap[city].population) * 100,
-          editable: true,
-          draggable: true
-        })
+    // Add the circle for this city to the map.
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: map.getCenter(),
+      radius: 2000,
+      editable: true,
+      draggable: true
+    })
 
-        google.maps.event.addListener(cityCircle, 'radius_changed', function () {
-          console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
-        })
+    google.maps.event.addListener(cityCircle, 'radius_changed', function () {
+      console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
+    })
 
-        google.maps.event.addListener(cityCircle, 'dragend', function () {
-          console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
-        })
-      }
+    google.maps.event.addListener(cityCircle, 'dragend', function () {
+      console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
+    })
     }
   }
 }
