@@ -5,13 +5,15 @@ div
     .modal-dialog.modal-lg
       .modal-content
         .modal-header
-          h4.modal-title Select an area
+          h4.modal-title
+            | Select an area
+            i.mdi.mdi-information-outline.cursor-hand.m-l-5.text-muted.p-r-t-1(data-container="body" title="Select an Area on Map" data-toggle="popover" data-placement="right" data-content='You can drag or expand the circle to select the area of your choice. Once you are sure about the location, hit Save button. This ad will be shown only to the people who live within that selected area')
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           div(:id="mapId" :class="mapId")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect(type='button') Proceed
+          button.btn.btn-danger.waves-effect(type='button' @click="emitEvent()") Save
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -27,7 +29,19 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-map-select-area-',
-      mapId: 'google-map-area-select'
+      mapId: 'google-map-area-select',
+      areaCircleConfig: {
+        strokeColor: '#1e88e5',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#1e88e5',
+        fillOpacity: 0.35,
+        radius: 2000,
+        editable: true,
+        draggable: true
+      },
+      defaultMapCenter: {lat: 20.5937, lng: 78.9629},
+      mapArea: ''
     }
   },
   computed: {
@@ -56,14 +70,29 @@ export default {
     this.loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBwMd4oRgisDbb4gxsTsmBZwgk1WBITlGQ&callback=initMap')
   },
   methods: {
+    updateArea (cityCircle) {
+      this.mapArea = {
+        radius: cityCircle.getRadius(),
+        center: cityCircle.getCenter()
+      }
+    },
+    emitEvent () {
+      this.closePopup()
+      this.$emit('MapAreaUpdated', this.mapArea)
+    },
+    closePopup () {
+      document.getElementById(this.closeButtonId).click()
+    },
     triggerPopup () {
       /*eslint-disable*/
       let that = this
+      let cityCircle
+      let map
       document.getElementById(this.triggerButtonId).click()
-      let map = new google.maps.Map(document.getElementById(that.mapId), {
+      map = new google.maps.Map(document.getElementById(that.mapId), {
             zoom: 4,
-            center: {lat: 20.5937, lng: 78.9629},
-          })
+            center: that.defaultMapCenter
+      })
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -72,28 +101,22 @@ export default {
           }
           map.setCenter(pos)
           map.setZoom(14)
+          cityCircle.setCenter(map.getCenter())
+          cityCircle.setRadius(500)
+          that.updateArea(cityCircle)
         })  
       }
-    // Add the circle for this city to the map.
-    var cityCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map,
-      center: map.getCenter(),
-      radius: 2000,
-      editable: true,
-      draggable: true
-    })
-
+    cityCircle = new google.maps.Circle(this.areaCircleConfig)
+    cityCircle.setCenter(cityCircle.setCenter(map.getCenter()))
+    cityCircle.setMap(map)
+    that.updateArea(cityCircle)
+    
     google.maps.event.addListener(cityCircle, 'radius_changed', function () {
-      console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
+      that.updateArea(cityCircle)
     })
 
     google.maps.event.addListener(cityCircle, 'dragend', function () {
-      console.log(cityCircle.getRadius() + ' ' + cityCircle.getCenter())
+      that.updateArea(cityCircle)
     })
     }
   }

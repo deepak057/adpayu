@@ -686,6 +686,10 @@ strong{
 	position: relative;
 	top: -1px;
 }
+.p-r-t-1 {
+	position: relative;
+	top: 1px;
+}
 .postAdOptions {
 	margin: 0px auto;
 	width: 95%;

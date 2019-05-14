@@ -116,7 +116,7 @@ div
                 b Total
               td.align-middle.w-100px.text-center
                 b ${{totalCost}}
-  <select-map-area ref="SelectMapAreaComponent"/>
+  <select-map-area ref="SelectMapAreaComponent" @MapAreaUpdated="updateAdArea"/>
 </template>
 
 <script>
@@ -141,7 +141,8 @@ function defaultAdValues () {
     adLink: '',
     adLinkLabel: '',
     adCountries: [],
-    totalAmount: 0
+    totalAmount: 0,
+    adArea: ''
   }
 }
 
@@ -239,13 +240,24 @@ export default {
     },
     locationType (newV) {
       if (newV === 'local') {
+        this.adOptions.adCountries = []
         this.$refs.SelectMapAreaComponent.triggerPopup()
+      }
+      if (newV === 'countries') {
+        this.adOptions.adArea = ''
+      }
+      if (newV === 'global') {
+        this.adOptions.adArea = ''
+        this.adOptions.adCountries = []
       }
     }
   },
   mounted () {
   },
   methods: {
+    updateAdArea (areaCords) {
+      this.adOptions.adArea = JSON.stringify(areaCords)
+    },
     fetchDefaultOptions () {
       this.$options.service.fetchAdOptions()
         .then((data) => {
