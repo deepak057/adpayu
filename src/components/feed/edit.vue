@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
+  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false" data-backdrop="static")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog
       .modal-content
@@ -18,7 +18,8 @@ div
             <template v-if="data.post.type === 'text'">
             .form-group(:class="{'has-danger': data.statusError}")
               label Your Status*
-              textarea.form-control(type="text" v-model.trim="data.post.content" placeholder = "Type Status")
+              <vue-editor v-model.trim="data.post.content" useCustomImageHandler @imageAdded="handleImageAdded" placeholder="Type Status" class="custom-text-editor-status-update"></vue-editor>
+              // textarea.form-control(type="text" v-model.trim="data.post.content" placeholder = "Type Status")
               small.form-control-feedback(v-if="data.statusError")
                 | {{data.statusError}}
             </template>
@@ -53,6 +54,7 @@ import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import auth from '@/auth/helpers'
 import Service from './service'
+import { VueEditor } from 'vue2-editor'
 
 function getEditPostInitialState () {
   return {
@@ -69,7 +71,8 @@ export default {
   name: 'EditPost',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    VueEditor
   },
   mixins: [mixin],
   data () {
