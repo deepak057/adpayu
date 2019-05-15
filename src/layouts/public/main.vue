@@ -56,13 +56,17 @@ main
                         </router-link>
                     li
                         a.section-scroll(href='#contact') Contact
-                    li
+                    li(v-if="!isLoggedIn()")
                         <router-link :to="redirectURLs('login')">
                             | Login
                         </router-link>
-                    li
+                    li(v-if="!isLoggedIn()")
                         <router-link :to="redirectURLs('signup')">
                             | Register
+                        </router-link>
+                    li(v-if="isLoggedIn()")
+                        <router-link to="/dashboard">
+                            | Dashboard
                         </router-link>
     router-view
     footer.footer.bg-dark

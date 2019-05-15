@@ -101,3 +101,7 @@
 .min-h-500 {
 	min-height: 500px;
 }
+.highlighted-button {
+	background: #d8d8d8 !important;
+	color: #111 !important;
+}

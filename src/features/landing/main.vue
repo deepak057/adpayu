@@ -5,7 +5,12 @@ div
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
                 .font-alt.mb-40.titan-title-size-4 {{slogan}}
-                a.section-scroll.btn.btn-border-w.btn-round.section-scroll(href="#services") Learn More
+                <router-link to="/signup" class="btn btn-border-w btn-round highlighted-button">
+                  | Sign Up
+                </router-link>
+                <router-link to="/login" class="btn btn-border-w btn-round m-l-10">
+                  | Log In
+                </router-link>
     .main
         section#services.module.p-b-0
             .container

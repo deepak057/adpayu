@@ -1,5 +1,6 @@
 import * as constants from '@/constants'
 import auth from '@/auth/helpers'
+import store from '@/store'
 
 export default {
   data () {
@@ -20,6 +21,9 @@ export default {
     }
   },
   methods: {
+    isLoggedIn () {
+      return store.state.auth.isLoggedIn
+    },
     capitalizeString (value) {
       if (!value) return ''
       value = value.toString()

@@ -3,6 +3,9 @@
   .col-12.public-page-content-wrap
     .text-center
       h2.font-alt Advertise on {{siteName}}
+    .text-center.min-h-500(v-if="pageLoader")
+      <preloader class="m-t-20"/>
+    <template v-if="!pageLoader">
     p.m-t-40 {{siteName}} offers a cost effective and easy way to promote and advertise businesses on the site. It revolutionises the way ads are created and consumed online. Unlike traditional model, where the site gets paid if a visitor/user engages with ads, on {{siteName}}, visitors/users are the ones to get paid for engaging with ads. As we at {{siteName}} believe, Time is Money.
     h4.m-l-10.all-caps WHAT IS AN AD ON {{siteName}}?
     p
@@ -26,9 +29,42 @@
        | Advertisers can select maximum number of each of the above parameters and will specify the cost for each of those actions. So say, an advertiser can specify maximum number of impressions he wants say 1000 and cost for every single impression say $.0071 which will be paid to the user who will see the ad (as depicted in the screenshot below).
        p.text-center.m-t-20
          img.light-border(src="/static/images/site/ad_configuration.png")
-       | However, there will be a minimum cost for each of those actions and the cost that advertiser specifies must be equal or greater than that minimum cost.
+       | However, there will be a minimum cost for each of those actions and the cost that advertiser specifies must be equal or greater than that minimum cost (explained in detail in AD PRICING section).
       li
         | Advertisers can also specify the countries in which they want to show this ad. By default, each ad is shown globally.
+    h4.m-l-10 AD PRICING
+    p
+      | Ads pricing will always be the same for any location or ad configuration. Also, the ad pricing below is specific to individual ads. Below is the pricing structure for running different types of ads on {{siteName}} -
+    table.table.table-bordered.m-l-10(style="width: 70%")
+      thead
+        tr
+          th Ad Type
+          th Minimum Cost Per Action (INR)
+          th Minimum Cost Per Action (USD)
+          th Minimum number of actions
+      tbody
+        tr
+          td Cost Per impression (CPI)
+          td {{pricing.CPIINR}} per impression
+          td {{pricing.defaultCPI}}
+          td {{pricing.defaultImpressionTarget}}
+        tr
+          td Cost Per Click (CPC)
+          td {{pricing.CPCINR}} per click
+          td {{pricing.defaultCPC}}
+          td 0
+        tr
+          td Cost Per Video View (CPV)
+          td {{pricing.CPVINR}} per video view
+          td {{pricing.defaultCPV}}
+          td 0
+    p.text-muted
+      i
+        | Note- The INR values above may vary due to Forex rates. However, the above USD pricing will be fixed and are taken as base for calculating the INR pricing.
+    p
+      | The above are the minimum pricing values that can be set for different ad types. However, you can edit those values while creating an ad but the values you specify must be equal or greater than the minimum values shown above. Higher ad values will encourage users more to consume the ad.
+    p
+      | Additionally, you can specify the number of actions your ad needs to acheive. So, you can specify the number of CPI as 500, which means your ad will stop running after it has been seen by 500 unique users. Having a CPI target on your ad is mandatory and the minimum number of CPI target is 500. CPC or CPV target is optional.
     h4.m-l-10 BENEFITS FOR ADVERTISERS
     p
       | Running ads on {{siteName}} has many advantages over traditional online ad services, including-
@@ -51,16 +87,37 @@
           |  Terms and Conditions
         </router-link>
         |  and you indicate you understand and agree to it while creating an account on the site.
+    </template>
 </template>
 <script>
 import mixin from '../../globals/mixin'
+import Preloader from '../../components/preloader'
+import Service from './service'
 
 export default {
   name: 'Advertise',
+  service: new Service(),
+  components: {
+    Preloader
+  },
   mixins: [mixin],
+  data () {
+    return {
+      pageLoader: true,
+      pricing: {}
+    }
+  },
   mounted () {
     this.setDocumentTitle(this.getPageTitle('Advertise'))
     this.scrollToTop()
+    this.$options.service.getDefaultAdPricing()
+      .then((data) => {
+        this.pageLoader = false
+        this.pricing = data.options
+      })
+      .catch((pErr) => {
+        alert('Something went wrong while loading the page.')
+      })
   }
 }
 </script>
