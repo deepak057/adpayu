@@ -24,6 +24,8 @@ div
             input.m-r-5.with-gap(v-model="locationType" value="local" type="radio" name="adLocationRadio" id="post-local-area")
             label.small.m-r-5(for="post-local-area")
               | Local Area
+            a.f-s-11(v-if="adOptions.adArea" href="javascript:void(0)" @click="triggerLocationPopup()")
+              | (Selected area)
         .form-group.p-l-10.p-r-10.m-b-15(v-if="locationType=='countries'")
           label
             | Add target countries
@@ -241,7 +243,7 @@ export default {
     locationType (newV) {
       if (newV === 'local') {
         this.adOptions.adCountries = []
-        this.$refs.SelectMapAreaComponent.triggerPopup()
+        this.triggerLocationPopup()
       }
       if (newV === 'countries') {
         this.adOptions.adArea = ''
@@ -257,6 +259,9 @@ export default {
   methods: {
     updateAdArea (areaCords) {
       this.adOptions.adArea = JSON.stringify(areaCords)
+    },
+    triggerLocationPopup () {
+      this.$refs.SelectMapAreaComponent.triggerPopup(this.adOptions.adArea)
     },
     fetchDefaultOptions () {
       this.$options.service.fetchAdOptions()

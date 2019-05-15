@@ -36,12 +36,13 @@ export default {
         strokeWeight: 2,
         fillColor: '#1e88e5',
         fillOpacity: 0.35,
-        radius: 2000,
+        radius: 200000,
         editable: true,
         draggable: true
       },
       defaultMapCenter: {lat: 20.5937, lng: 78.9629},
-      mapArea: ''
+      mapArea: '',
+      zoomLevel: 4
     }
   },
   computed: {
@@ -70,10 +71,11 @@ export default {
     this.loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBwMd4oRgisDbb4gxsTsmBZwgk1WBITlGQ&callback=initMap')
   },
   methods: {
-    updateArea (cityCircle) {
+    updateArea (cityCircle, map) {
       this.mapArea = {
         radius: cityCircle.getRadius(),
-        center: cityCircle.getCenter()
+        center: cityCircle.getCenter(),
+        zoom: map.getZoom()
       }
     },
     emitEvent () {
@@ -83,41 +85,54 @@ export default {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
-    triggerPopup () {
+    triggerPopup (defaultCords) {
       /*eslint-disable*/
       let that = this
       let cityCircle
       let map
+      defaultCords = defaultCords ? JSON.parse(defaultCords) : ''
+      let defaultCenter = defaultCords ? defaultCords.center: that.defaultMapCenter
       document.getElementById(this.triggerButtonId).click()
       map = new google.maps.Map(document.getElementById(that.mapId), {
-            zoom: 4,
-            center: that.defaultMapCenter
+            zoom: that.zoomLevel,
+            center: defaultCenter
       })
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
-          map.setCenter(pos)
-          map.setZoom(14)
-          cityCircle.setCenter(map.getCenter())
-          cityCircle.setRadius(500)
-          that.updateArea(cityCircle)
-        })  
-      }
-    cityCircle = new google.maps.Circle(this.areaCircleConfig)
-    cityCircle.setCenter(cityCircle.setCenter(map.getCenter()))
-    cityCircle.setMap(map)
-    that.updateArea(cityCircle)
-    
-    google.maps.event.addListener(cityCircle, 'radius_changed', function () {
-      that.updateArea(cityCircle)
-    })
+      cityCircle = new google.maps.Circle(this.areaCircleConfig)
+      cityCircle.setMap(map)
 
-    google.maps.event.addListener(cityCircle, 'dragend', function () {
-      that.updateArea(cityCircle)
-    })
+      if (defaultCords) {
+        map.setZoom(defaultCords.zoom)
+        cityCircle.setCenter(defaultCenter)
+        cityCircle.setRadius(defaultCords.radius)
+        that.updateArea(cityCircle, map)
+      } else {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+            map.setCenter(pos)
+            map.setZoom(15)
+            cityCircle.setCenter(map.getCenter())
+            cityCircle.setRadius(500)
+            that.updateArea(cityCircle, map)
+          })  
+        }
+        cityCircle.setCenter(map.getCenter())
+        that.updateArea(cityCircle, map)
+      }
+      google.maps.event.addListener(cityCircle, 'radius_changed', function () {
+        that.updateArea(cityCircle, map)
+      })
+
+      google.maps.event.addListener(cityCircle, 'dragend', function () {
+        that.updateArea(cityCircle, map)
+      })
+
+      map.addListener('zoom_changed', function() {
+        that.updateArea(cityCircle, map)
+      })
     }
   }
 }
