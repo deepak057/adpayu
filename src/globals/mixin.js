@@ -224,6 +224,9 @@ export default {
         .catch((iErr) => {
           this.showNotification('Something went wrong while trying to upload image. Please try again later')
         })
+    },
+    loadGoogleMapScript () {
+      this.loadScript('https://maps.googleapis.com/maps/api/js?key=' + constants.GOOGLE_MAP_KEY + '&callback=initMap')
     }
   }
 }

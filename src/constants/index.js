@@ -7,7 +7,7 @@ export const SITE_SLOGAN = process.env.SITE_SLOGAN
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL
 export const CONTACT_NUMBER = process.env.CONTACT_NUMBER
 export const CONTACT_NUMBER_2 = process.env.CONTACT_NUMBER_2
-
+export const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY
 export const PAYMENT_MODE = process.env.PAYMENT_MODE
 
 // Backend API endpoints

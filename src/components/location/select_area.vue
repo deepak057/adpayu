@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBwMd4oRgisDbb4gxsTsmBZwgk1WBITlGQ&callback=initMap')
+    this.loadGoogleMapScript()
   },
   methods: {
     updateArea (cityCircle, map) {

@@ -705,3 +705,9 @@ strong{
 	height: 400px;
 	width: 770px;
 }
+.mfp-bg {
+	z-index: 2000;
+}
+.mfp-wrap {
+	z-index: 2001;
+}

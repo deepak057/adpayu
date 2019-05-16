@@ -3,7 +3,7 @@ aside.left-sidebar(style='overflow: visible;')
     // Sidebar scroll
     .scroll-sidebar(style='overflow: hidden;')
       // User profile
-      .user-profile(style='background: url(static/assets/images/background/user-info.jpg) no-repeat;')
+      .user-profile(:id="mapId" style='background: url(static/assets/images/background/user-info.jpg) no-repeat;')
         // User profile image
         .profile-img
           img(:src='getMedia(user.pic)', alt='user')
@@ -91,7 +91,8 @@ export default {
         default: true
       },
       user: auth.getUser(),
-      menuItems: []
+      menuItems: [],
+      mapId: 'side-bar-map-wrap'
     }
   },
   computed: {
@@ -113,6 +114,7 @@ export default {
     }
   },
   mounted () {
+    this.loadGoogleMapScript()
     this.$options.service.getTags()
       .then((data) => {
         // add the default menu item
@@ -124,10 +126,21 @@ export default {
       .catch((Tagserror) => {
         alert('Soemthing went wrong while getting your tags')
       })
+    this.initGoogleMap()
   },
   methods: {
     logout () {
       auth.logout()
+    },
+    initGoogleMap () {
+      /* eslint-disable */
+      let that = this
+      setTimeout(function () {
+        let map = new google.maps.Map(document.getElementById(that.mapId), {
+          center: {lat: 20.5937, lng: 78.9629},
+          zoom: 14
+        })  
+      }, 5000)  
     }
   }
 }
