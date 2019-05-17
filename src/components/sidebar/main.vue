@@ -2,34 +2,7 @@
 aside.left-sidebar(style='overflow: visible;')
     // Sidebar scroll
     .scroll-sidebar(style='overflow: hidden;')
-      // User profile
-      .user-profile(:id="mapId" style='background: url(static/assets/images/background/user-info.jpg) no-repeat;')
-        // User profile image
-        .profile-img
-          img(:src='getMedia(user.pic)', alt='user')
-        // User profile text
-        .profile-text
-          a.dropdown-toggle.u-dropdown(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true') {{userName(user)}}
-          .dropdown-menu.animated.flipInY
-            <router-link class="dropdown-item" :to="userProfileLink()">
-              i.ti-user
-              |  My Profile
-            </router-link>
-            // a.dropdown-item(href="#")
-              // i.ti-wallet
-              // |  My Balance
-            // a.dropdown-item(href='#')
-              // i.ti-email
-              // |  Inbox
-            // .dropdown-divider
-            // a.dropdown-item(href='#')
-              // i.ti-settings
-              // |  Account Setting
-            // .dropdown-divider
-            a.dropdown-item(href='javascript:void(0)' @click="logout()")
-              i.fa.fa-power-off
-              |  Logout
-      // End User profile text
+      <user-location />
       // Preloader
       .sidebar-preloader(v-show="preloader")
         <preloader></preloader>
@@ -65,15 +38,17 @@ aside.left-sidebar(style='overflow: visible;')
 
 <script>
 import auth from '@/auth/helpers'
-import mixin from '../globals/mixin.js'
+import mixin from '@/globals/mixin.js'
 import Service from './service'
-import Preloader from './preloader'
+import Preloader from '../preloader'
+import UserLocation from './user_location'
 
 export default {
   name: 'AppSidebar',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    UserLocation
   },
   mixins: [mixin],
   props: {
@@ -91,8 +66,7 @@ export default {
         default: true
       },
       user: auth.getUser(),
-      menuItems: [],
-      mapId: 'side-bar-map-wrap'
+      menuItems: []
     }
   },
   computed: {
@@ -114,7 +88,6 @@ export default {
     }
   },
   mounted () {
-    this.loadGoogleMapScript()
     this.$options.service.getTags()
       .then((data) => {
         // add the default menu item
@@ -126,21 +99,10 @@ export default {
       .catch((Tagserror) => {
         alert('Soemthing went wrong while getting your tags')
       })
-    this.initGoogleMap()
   },
   methods: {
     logout () {
       auth.logout()
-    },
-    initGoogleMap () {
-      /* eslint-disable */
-      let that = this
-      setTimeout(function () {
-        let map = new google.maps.Map(document.getElementById(that.mapId), {
-          center: {lat: 20.5937, lng: 78.9629},
-          zoom: 14
-        })  
-      }, 5000)  
     }
   }
 }

@@ -24,7 +24,7 @@
 
 <script>
 import AppBar from '@/components/app-bar'
-import AppSidebar from '@/components/app-sidebar'
+import AppSidebar from '@/components/sidebar/main'
 import AppFooter from '@/components/app-footer'
 import mixin from '@/globals/mixin'
 

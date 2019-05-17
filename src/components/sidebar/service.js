@@ -6,18 +6,8 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  getNotifications () {
-    return auth.get('/notifications', {})
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
-
-  generalCheckUp () {
-    return auth.get('/general/get', {})
+  getTags () {
+    return auth.get('/tags/user', {})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

@@ -711,3 +711,29 @@ strong{
 .mfp-wrap {
 	z-index: 2001;
 }
+#side-bar-map-wrap {
+	height: 160px;
+}
+.user-profile.custom .profile-text{
+  bottom: -4px;
+  width: 100%;
+  position: absolute;
+}
+.user-profile.custom .profile-text > a {
+	background: rgb(0, 0, 0, .9) !important;
+}
+.mini-sidebar #side-bar-map-wrap {
+	display: none;
+}
+.user-profile.custom .profile-img {
+	display: none;
+}
+.mini-sidebar .user-profile.custom .profile-img{
+	display: block;
+}
+.sidebar-map-icon {
+	font-size: 31px;
+    position: relative;
+    left: 9px;
+    top: 3px;
+}
