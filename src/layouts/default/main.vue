@@ -27,9 +27,12 @@ import AppBar from '@/components/app-bar'
 import AppSidebar from '@/components/sidebar/main'
 import AppFooter from '@/components/app-footer'
 import mixin from '@/globals/mixin'
+import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'DefaultLayout',
+  service: new Service(),
   components: { AppBar, AppSidebar, AppFooter },
   mixins: [mixin],
   data () {
@@ -49,8 +52,22 @@ export default {
     }
   },
   mounted () {
-    for (let i in this.scripts) {
-      this.loadScript(this.scripts[i])
+    this.updateUser()
+    this.loadScripts()
+  },
+  methods: {
+    loadScripts () {
+      for (let i in this.scripts) {
+        this.loadScript(this.scripts[i])
+      }
+    },
+    updateUser () {
+      this.$options.service.getUser(auth.getUser().id)
+        .then((data) => {
+          auth.updateUserState(data.user)
+        })
+        .catch((uErr) => {
+        })
     }
   }
 }

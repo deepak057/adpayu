@@ -737,3 +737,15 @@ strong{
     left: 9px;
     top: 3px;
 }
+.mini-sidebar .user-profile.custom {
+  background: url('../../images/map-back.png') no-repeat;
+}
+.mini-sidebar .user-profile.custom .sidebar-map-header-wrap {
+	display: none;
+}
+.sidebar-map-header-wrap {
+	text-align: center;
+	color: #fff;
+	background: rgba(0, 0, 0, .8);
+	padding: 5px 0px;
+}
