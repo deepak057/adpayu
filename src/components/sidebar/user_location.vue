@@ -1,16 +1,22 @@
 <template lang="pug">
 .user-profile.custom()
   .sidebar-map-header-wrap
+    i.mdi.mdi-home-map-marker.m-r-5
     | Your Location
   div(:id="mapId")
   .profile-img
     i.mdi.mdi-map-marker.sidebar-map-icon.text-danger.cursor-hand
   .profile-text
-    a.dropdown-toggle.u-dropdown.small(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='true')
-      i.mdi.mdi-map-marker.m-r-2
-      | {{formattedAddress}}
+    a.small(href='javascript: void(0)')
+      span.d-inherit(:class="{'truncate-text': !detailMenuExpended}" @click="showLocationDetails()")
+        i.mdi.mdi-map-marker.m-r-2
+        | {{formattedAddress}}
+      i.mdi.menu-icon(:class="{'mdi-menu-up': detailMenuExpended, 'mdi-menu-down': !detailMenuExpended}" @click="showLocationDetails()")
       // p.small.m-t-10(v-if="formattedAddress")
         | {{formattedAddress}}
+      .text-center.m-t-10.f-s-16.light-text-8(v-if="detailMenuExpended")
+        i.fa.fa-edit.m-r-10(@click="updateLocation()")
+        i.fa.fa-refresh(@click="getCurrentLocation()" title="Reset to current location")
     .dropdown-menu.animated.flipInY
       a.dropdown-item(href='javascript:void(0)')
         i.fa.fa-map-marker
@@ -32,7 +38,9 @@ export default {
       geocoder: '',
       marker: '',
       formattedAddress: '',
-      maxlenAddress: 10
+      maxlenAddress: 10,
+      detailMenuExpended: false,
+      currentUser: auth.getUser()
     }
   },
   mounted () {
@@ -40,9 +48,15 @@ export default {
     setTimeout(this.initGoogleMap, 5000)
   },
   methods: {
+    showLocationDetails () {
+      this.detailMenuExpended = !this.detailMenuExpended
+    },
     initGoogleMap () {
       let that = this
       /* eslint-disable */
+
+
+      
       this.map = new google.maps.Map(document.getElementById(this.mapId), {
         center: {lat: 20.5937, lng: 78.9629},
         zoom: 2
@@ -55,7 +69,23 @@ export default {
 	    draggable: true,
 	    title: 'Your location'
 	  })
-
+	  
+      google.maps.event.addListener(that.marker, 'click', function(event) {
+        that.updateLocationOnMap(event.latLng)
+        that.showInfoWindow()
+  	  })
+  	  google.maps.event.addListener(that.marker, 'dragend', function(event) {
+          that.updateUserLocation(event.latLng)
+          that.updateLocationOnMap(event.latLng)
+  	  })
+      if (!this.currentUser.locationCords) {
+        this.getCurrentLocation()
+      } else {
+        this.updateLocationOnMap(JSON.parse(this.currentUser.locationCords))
+      }
+    },
+    getCurrentLocation () {
+      let that = this
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -65,17 +95,15 @@ export default {
           that.updateUserLocation(pos)
           that.updateLocationOnMap(pos)
         })
+      } else {
+        this.setMapToUserCountry ()
       }
-      this.marker.setPosition(this.map.getCenter())
-      google.maps.event.addListener(that.marker, 'click', function(event) {
-        that.updateLocationOnMap(event.latLng)
-        that.showInfoWindow()
-  	  });
+    },
+    setMapToUserCountry () {
     },
     updateUserLocation (cords) {
-      let user = auth.getUser()
-      user.locationCords = JSON.stringify(cords)
-      auth.updateCurrentUser(user)
+      this.currentUser.locationCords = JSON.stringify(cords)
+      auth.updateCurrentUser(this.currentUser)
     },
     updateLocationOnMap (pos) {
       let that = this
@@ -84,9 +112,8 @@ export default {
       this.marker.setPosition(pos);
       this.geocoder.geocode({'location': pos}, function(results, status) {
     	if (status === 'OK') {
-    	  console.log(results)
   			if (results[0]) {
-  			  that.formattedAddress = results[2].formatted_address 
+  			  that.formattedAddress = results[0].formatted_address 
   			} else {
   				// that.infoWindow.setContent('Your location.')
   			}
@@ -99,6 +126,8 @@ export default {
       this.infoWindow.close()
       this.infoWindow.setContent('<div style="text-align: center"><h4> Your Location </h4><p>' + this.formattedAddress + '</p></div>')
       this.infoWindow.open(this.map, this.marker)
+    },
+    updateLocation () {
     }
   }
 }

@@ -70,6 +70,9 @@
 .f-s-12{
 	font-size: 12px;
 }
+.f-s-16{
+	font-size: 16px;
+}
 .f-s-14{
 	font-size: 14px;
 }
@@ -720,7 +723,13 @@ strong{
   position: absolute;
 }
 .user-profile.custom .profile-text > a {
-	background: rgb(0, 0, 0, .9) !important;
+	    background: #e2e2e2;
+    color: #000 !important;
+}
+.truncate-text {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .mini-sidebar #side-bar-map-wrap {
 	display: none;
@@ -745,7 +754,22 @@ strong{
 }
 .sidebar-map-header-wrap {
 	text-align: center;
-	color: #fff;
-	background: rgba(0, 0, 0, .8);
-	padding: 5px 0px;
+    position: relative;
+    color: #fff;
+    font-size: 12px;
+    background: rgba(0,0,0,.4);
+    padding: 5px 0px;
+    top: 1px;
+}
+.d-inherit {
+	display: inherit;
+}
+.user-profile.custom .profile-text > a .menu-icon {
+	position: absolute;
+    right: 3px;
+    top: 2px;
+    font-size: 24px;
+}
+.light-text-8 {
+	color: #888;
 }
