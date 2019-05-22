@@ -704,9 +704,8 @@ strong{
 .post-ad-location-wrap label{
 	font-size: 12px;
 }
-.google-map-area-select {
-	height: 400px;
-	width: 770px;
+.google-map-area-select, .google-map-update-location {
+	height: 300px;
 }
 .mfp-bg {
 	z-index: 2000;
@@ -772,4 +771,7 @@ strong{
 }
 .light-text-8 {
 	color: #888;
+}
+.popup-map-h {
+	height: 300px;
 }
