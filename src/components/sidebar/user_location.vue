@@ -48,6 +48,14 @@ export default {
       currentUser: auth.getUser()
     }
   },
+  watch: {
+    '$store.state.auth.user' (user) {
+      this.currentUser = user
+      if (this.map) {
+        this.updateLocationOnMap(JSON.parse(this.currentUser.locationCords))
+      }
+    }
+  },
   mounted () {
     this.loadGoogleMap()
   },

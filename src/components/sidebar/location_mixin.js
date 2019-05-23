@@ -59,8 +59,8 @@ export default {
     },
     updateLocationOnMap (pos) {
       let that = this
-      that.map.setZoom(17)
-      that.map.setCenter(pos)
+      this.map.setZoom(17)
+      this.map.setCenter(pos)
       this.marker.setPosition(pos);
       this.geocoder.geocode({'location': pos}, function(results, status) {
       if (status === 'OK') {

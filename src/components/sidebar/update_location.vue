@@ -10,10 +10,18 @@ div
             i.mdi.mdi-information-outline.cursor-hand.m-l-5.text-muted.p-r-t-1(data-container="body" title="Select an Area on Map" data-toggle="popover" data-placement="right" data-content='You can drag and drop the marker at the desired location.')
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          .popup-map-h(:id="mapId" :class="mapId")
+          p
+            i.mdi.mdi-information-outline.m-r-5
+            | Drag and drop the marker at your desired location.
+          p
+            strong
+              i.mdi.mdi-map-marker.m-r-5
+              | {{formattedAddress}}
+              i.fa.fa-refresh.m-l-10.cursor-hand(@click="getCurrentLocation()" title="Reset to current location")
+          div(:id="mapId" :class="mapId")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect(type='button' @click="emitEvent()") Save
+          // button.btn.btn-danger.waves-effect(type='button' @click="emitEvent()") Save
 </template>
 <script>
 import mixin from '../../globals/mixin'
