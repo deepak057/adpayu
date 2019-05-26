@@ -5,10 +5,10 @@ div
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
                 .font-alt.mb-40.titan-title-size-4 {{slogan}}
-                <router-link to="/signup" class="btn btn-border-w btn-round highlighted-button">
+                <router-link to="/signup" class="btn btn-info btn-round color-white">
                   | Sign Up
                 </router-link>
-                <router-link to="/login" class="btn btn-border-w btn-round m-l-10">
+                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
                   | Log In
                 </router-link>
     .main

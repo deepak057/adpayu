@@ -53,11 +53,13 @@ export default {
       this.currentUser = user
       if (this.map) {
         this.updateLocationOnMap(JSON.parse(this.currentUser.locationCords))
+        this.map.setCenter(JSON.parse(this.currentUser.locationCords))
       }
     }
   },
   mounted () {
     this.loadGoogleMap()
+    setTimeout(this.initGoogleMap, 5000)
   },
   methods: {
     showLocationDetails () {

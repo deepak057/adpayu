@@ -12,7 +12,7 @@ div
         .modal-body
           p
             i.mdi.mdi-information-outline.m-r-5
-            | Drag and drop the marker at your desired location.
+            | Drag and drop the marker or click/tap on your desired location.
           p
             strong
               i.mdi.mdi-map-marker.m-r-5
@@ -80,6 +80,7 @@ export default {
     triggerPopup () {
       /*eslint-disable*/
       document.getElementById(this.triggerButtonId).click()
+      this.initGoogleMap()
     }
   }
 }
