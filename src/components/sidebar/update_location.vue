@@ -21,7 +21,7 @@ div
           div(:id="mapId" :class="mapId")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          // button.btn.btn-danger.waves-effect(type='button' @click="emitEvent()") Save
+          button.btn.btn-danger.waves-effect(type='button' @click="saveLocation()") Save
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -45,7 +45,8 @@ export default {
       geocoder: '',
       marker: '',
       formattedAddress: '',
-      currentUser: auth.getUser()
+      currentUser: auth.getUser(),
+      autoSave: false
     }
   },
   computed: {
@@ -70,6 +71,11 @@ export default {
       }
     }
   },
+  watch: {
+    '$store.state.auth.user' (user) {
+      this.onUserLocationUpdate(user)
+    }
+  },
   mounted () {
     this.loadGoogleMap()
   },
@@ -81,6 +87,10 @@ export default {
       /*eslint-disable*/
       document.getElementById(this.triggerButtonId).click()
       this.initGoogleMap()
+    },
+    saveLocation () {
+      this.updateUserLocation (this.marker.getPosition())
+      this.closePopup()
     }
   }
 }

@@ -10,6 +10,12 @@ export default {
     loadGoogleMap () {
       this.loadGoogleMapScript()
     },
+    onUserLocationUpdate (user) {
+      this.currentUser = user
+      if (this.map) {
+        this.updateLocationOnMap(JSON.parse(this.currentUser.locationCords))
+      }
+    },
     initGoogleMap () {
       let that = this
       /* eslint-disable */
@@ -31,12 +37,16 @@ export default {
         that.showInfoWindow()
       })
       google.maps.event.addListener(that.map, 'click', function(event) {
-        that.updateUserLocation(event.latLng)
+        if (that.autoSave) {
+          that.updateUserLocation(event.latLng)
+        }
         that.updateLocationOnMap(event.latLng)
       })
       
       google.maps.event.addListener(that.marker, 'dragend', function(event) {
-          that.updateUserLocation(event.latLng)
+          if (that.autoSave) {
+            that.updateUserLocation(event.latLng)
+          }
           that.updateLocationOnMap(event.latLng)
           //that.showInfoWindow()
       })

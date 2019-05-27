@@ -733,11 +733,17 @@ strong{
 .mini-sidebar #side-bar-map-wrap {
 	display: none;
 }
+.mini-sidebar.mobile-device #side-bar-map-wrap {
+	display: block;
+}
 .user-profile.custom .profile-img {
 	display: none;
 }
 .mini-sidebar .user-profile.custom .profile-img{
 	display: block;
+}
+.mini-sidebar.mobile-device .user-profile.custom .profile-img{
+	display: none;
 }
 .sidebar-map-icon {
 	font-size: 31px;
@@ -748,8 +754,15 @@ strong{
 .mini-sidebar .user-profile.custom {
   background: url('../../images/map-back.png') no-repeat;
 }
+.mini-sidebar.mobile-device .user-profile.custom {
+  background: none;
+}
+
 .mini-sidebar .user-profile.custom .sidebar-map-header-wrap {
 	display: none;
+}
+.mini-sidebar.mobile-device .user-profile.custom .sidebar-map-header-wrap {
+	display: block;
 }
 .sidebar-map-header-wrap {
 	text-align: center;
@@ -774,4 +787,9 @@ strong{
 }
 .popup-map-h {
 	height: 300px;
+}
+.side-bar-user-location-preloader img{
+	position: absolute;
+	top: 42%;
+	left: 42%;
 }
