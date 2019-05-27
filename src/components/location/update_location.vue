@@ -7,7 +7,6 @@ div
         .modal-header
           h4.modal-title
             | Update your location
-            i.mdi.mdi-information-outline.cursor-hand.m-l-5.text-muted.p-r-t-1(data-container="body" title="Select an Area on Map" data-toggle="popover" data-placement="right" data-content='You can drag and drop the marker at the desired location.')
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           p

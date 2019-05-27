@@ -65,7 +65,9 @@ export default {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           }
-          that.updateUserLocation(pos)
+          if(that.autoSave) {
+            that.updateUserLocation(pos)
+          }
           that.updateLocationOnMap(pos)
           that.positionMap(pos)
         }, function(error) {

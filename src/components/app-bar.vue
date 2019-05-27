@@ -5,7 +5,7 @@ header.topbar
       // Logo
       // ==============================================================
       .navbar-header.text-left
-        <router-link :to="getTagLink('all')" class="navbar-brand logo-side-margin">
+        <router-link :to="getTagLink('all')" class="navbar-brand logo-side-margin h-100">
           // Logo icon
           b.p-r-t--12
             // You can put here icon as well // <i class="wi wi-sunset"></i> //
