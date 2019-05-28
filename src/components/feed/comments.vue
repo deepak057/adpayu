@@ -13,8 +13,8 @@
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   .row.m-t-10(v-if="comments.length && !commentsEnabled")
-    button.btn.btn-info.btn-circle.btn-sm.m-l-20(type='button' @click='leaveComment()')
-        i.fa.fa-plus(@click="enableComments()" :title="'Add your ' + getCommentType()")
+    button.btn.btn-info.btn-circle.btn-sm.m-l-20(type='button' @click="enableComments()" :title="'Add your ' + getCommentType()")
+        i.fa.fa-plus
   .row.m-t-10(v-if="!comments.length || commentsEnabled")
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
