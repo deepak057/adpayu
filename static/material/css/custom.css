@@ -803,3 +803,9 @@ strong{
   margin-top: 0px !important;
   padding-top: 0px !important;
 }
+.question-on-user-feed .enable-commenting-wrap {
+	display: none;
+}
+.question-on-user-feed .show-all-comments-wrap {
+	padding: 0px 0px 0px 0px !important;
+}

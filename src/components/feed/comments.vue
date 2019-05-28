@@ -9,10 +9,10 @@
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
   <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
-  .row.comment-row.m-0.no-border.p-l-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
+  .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
-  .row.m-t-10(v-if="comments.length && !commentsEnabled")
+  .row.m-t-10.enable-commenting-wrap(v-if="comments.length && !commentsEnabled")
     button.btn.btn-info.btn-circle.btn-sm.m-l-20(type='button' @click="enableComments()" :title="'Add your ' + getCommentType()")
         i.fa.fa-plus
   .row.m-t-10(v-if="!comments.length || commentsEnabled")
