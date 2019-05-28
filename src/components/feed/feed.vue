@@ -68,11 +68,11 @@
           a.m-r-5(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
-        .m-b-15.feed-tags(v-if="f['Tags'] && f['Tags'].length")
+        .m-b-15.feed-tags(v-if="f['Tags'] && f['Tags'].length && !userFeed")
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm.m-t-15(v-show="!preview")
+        .like-comm.m-t-15(v-show="!preview && (!f['Question'] || !userFeed)")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
