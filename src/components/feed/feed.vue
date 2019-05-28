@@ -72,7 +72,7 @@
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm.m-t-15(v-show="!preview && (!f['Question'] || !userFeed)")
+        .like-comm(:class="{'m-t-15': !userFeed}" v-show="!preview && (!f['Question'] || !userFeed)")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likes= "f['Likes']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
