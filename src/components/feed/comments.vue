@@ -9,7 +9,10 @@
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
   <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
-  .row.m-t-10
+  .row.m-t-10(v-if="comments.length && !commentsEnabled")
+    button.btn.btn-info.btn-circle.btn-sm.m-l-20(type='button' @click='leaveComment()')
+        i.fa.fa-plus(@click="enableComments()" :title="'Add your ' + getCommentType()")
+  .row.m-t-10(v-if="!comments.length || commentsEnabled")
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
     .col-11
@@ -45,7 +48,8 @@ function postCommentInitialState () {
     currentUser: auth.getUser(),
     videoPath: '',
     comments: [],
-    pageLoader: true
+    pageLoader: true,
+    commentsEnabled: false
   }
 }
 
@@ -78,6 +82,9 @@ export default {
     this.loadComments()
   },
   methods: {
+    enableComments () {
+      this.commentsEnabled = !this.commentsEnabled
+    },
     loadComments () {
       this.$options.service.loadComments(this.postId)
         .then((d) => {

@@ -168,6 +168,14 @@ export default {
     showAdStats (postObj) {
       this.$refs.adStatsComponent.triggerPopup(postObj.id)
     },
+    disableEnableCommentsByDefault (feed) {
+      for (let i in feed) {
+        if (!feed[i].CommentsCount) {
+          feed[i].showComments = false
+        }
+      }
+      return feed
+    },
     /*
     * Due to an unresolved issue
     * on the server side sequalize pagination query,
@@ -179,6 +187,8 @@ export default {
     * post object from Feed array
     */
     filterDuplicatePosts (feed) {
+      // first, enable or disable comments in post by default
+      feed = this.disableEnableCommentsByDefault(feed)
       let obj = {}
       this.initialized = true
       /*
