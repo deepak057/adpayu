@@ -11,11 +11,11 @@
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
-      | Show all {{getCommentType()}}s
-  .row.m-t-10.enable-commenting-wrap(v-if="comments.length && !commentsEnabled")
+      | Show more {{getCommentType()}}s
+  //.row.m-t-10.enable-commenting-wrap(v-if="comments.length && !commentsEnabled")
     button.btn.btn-info.btn-circle.btn-sm.m-l-20(type='button' @click="enableComments()" :title="'Add your ' + getCommentType()")
         i.fa.fa-plus
-  .row.m-t-10(v-if="!comments.length || commentsEnabled")
+  .row.m-t-10.leave-comment-wrap
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
     .col-11
@@ -46,7 +46,7 @@ function postCommentInitialState () {
   return {
     newCommentText: '',
     preloader: false,
-    defaultCommentsCount: 1,
+    defaultCommentsCount: 3,
     enableLoadPreviousComments: true,
     currentUser: auth.getUser(),
     videoPath: '',
@@ -82,6 +82,9 @@ export default {
     return postCommentInitialState()
   },
   mounted () {
+    if (this.getCommentType() === 'answer') {
+      this.defaultCommentsCount = 1
+    }
     this.loadComments()
   },
   methods: {
