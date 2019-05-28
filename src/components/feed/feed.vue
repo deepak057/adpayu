@@ -170,8 +170,8 @@ export default {
     },
     disableEnableCommentsByDefault (feed) {
       for (let i in feed) {
-        if (!feed[i].CommentsCount) {
-          feed[i].showComments = false
+        if (feed[i].CommentsCount && this.userFeed && feed[i].Question) {
+          feed[i].showComments = true
         }
       }
       return feed
