@@ -7,8 +7,8 @@
   div(:id="mapId")
     .text-center.side-bar-user-location-preloader(v-if="pageLoader")
       <preloader />
-  .profile-img
-    i.mdi.mdi-map-marker.sidebar-map-icon.text-danger.cursor-hand
+  .profile-img.cursor-hand(title="Toggle Map")
+    i.mdi.mdi-map-marker.sidebar-map-icon.text-danger.toggle-sidebar
   .profile-text
     a.small(href='javascript: void(0)')
       span.d-inherit(:class="{'truncate-text': !detailMenuExpended}" @click="showLocationDetails()")

@@ -217,7 +217,7 @@ $(function () {
                 $(".app-search").find('input:first').focus()
             });
 
-            $(document).on("click", ".sidebartoggler", function () {
+            $(document).on("click", ".sidebartoggler, .profile-img", function () {
                 if ($("body").hasClass("mini-sidebar")) {
                     $("body").trigger("resize");
                     $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible");
