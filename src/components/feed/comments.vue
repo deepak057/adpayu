@@ -5,7 +5,7 @@
   <template v-if="!pageLoader">
   .row.comment-row.m-0.no-border(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
-      | Load Previous comments
+      | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
   <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
@@ -40,7 +40,7 @@ function postCommentInitialState () {
   return {
     newCommentText: '',
     preloader: false,
-    defaultCommentsCount: 3,
+    defaultCommentsCount: 1,
     enableLoadPreviousComments: true,
     currentUser: auth.getUser(),
     videoPath: '',

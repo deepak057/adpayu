@@ -296,7 +296,7 @@ export default {
       /* for (let i in posts) {
         // add new proprties
         this.$set(posts[i], 'show', true)
-        this.$set(posts[i], 'showComments', false)
+        this.$set(posts[i], 'showComments', true)
       } */
       return posts
     },
