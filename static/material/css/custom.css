@@ -812,3 +812,6 @@ strong{
 .question-on-user-feed .show-all-comments-wrap {
 	padding: 0px !important;
 }
+.mini-sidebar .left-sidebar {
+	position: absolute !important;
+}
