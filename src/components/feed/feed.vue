@@ -88,7 +88,7 @@
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
                 i.mdi.mdi-delete.m-r-5
                 | Delete
-    <comments @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': userFeed && f['Question'], 'question-has-answers': userFeed && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
+    <comments :userFeed="userFeed" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': userFeed && f['Question'], 'question-has-answers': userFeed && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>

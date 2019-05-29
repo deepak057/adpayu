@@ -76,13 +76,19 @@ export default {
     postId: {
       type: Number,
       required: true
+    },
+    userFeed: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
     return postCommentInitialState()
   },
   mounted () {
-    if (this.getCommentType() === 'answer') {
+    if (this.getCommentType() === 'answer' && this.userFeed) {
       this.defaultCommentsCount = 1
     }
     this.loadComments()
