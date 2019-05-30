@@ -132,12 +132,20 @@ export default {
       /* eslint-enable */
     },
     videoPlayerOptions (path) {
-      return {
+      let r = {
         sources: this.getVideoSources(path),
         responsive: true,
         dataSetup: {'fluid': true},
         aspectRatio: '16:9'
       }
+      /* eslint-disable*/
+      let agent = navigator.userAgent
+      let isIphone = ((agent.indexOf('iPhone') != -1) || (agent.indexOf('iPad') != -1))
+      if (isIphone) {
+        r.autoplay = true
+      }
+      /* eslint-enable */
+      return r
     },
     getVideoSources (path) {
       let that = this
