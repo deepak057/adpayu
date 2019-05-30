@@ -142,7 +142,7 @@ export default {
       let agent = navigator.userAgent
       let isIphone = ((agent.indexOf('iPhone') != -1) || (agent.indexOf('iPad') != -1) || (agent.indexOf('iPod') != -1) || (agent.indexOf('Mac') != -1))
       if (isIphone) {
-        // r.autoplay = true
+        r.autoplay = true
       }
       /* eslint-enable */
       return r
@@ -151,7 +151,7 @@ export default {
       let that = this
       return [
         {
-          src: that.getMedia(path) + '#t=0.1'
+          src: that.getMedia(path)
         }
       ]
     },
