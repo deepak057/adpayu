@@ -1,5 +1,5 @@
 <template lang="pug">
-.main
+.main.vh-95
   section.module.login-register
     .container
       .row.min-h-300

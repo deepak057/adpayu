@@ -108,3 +108,6 @@
 .color-white {
 	color: #fff !important;
 }
+.vh-95 {
+	height: 95vh;
+}
