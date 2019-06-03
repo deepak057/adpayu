@@ -30,6 +30,11 @@ import auth from '@/auth/helpers'
 import mixin from '../../globals/mixin'
 export default {
   name: 'LoginPage',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Login')
+    }
+  },
   mixins: [mixin],
   data () {
     return {

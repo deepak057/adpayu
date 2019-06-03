@@ -106,9 +106,14 @@ import mixin from '../../globals/mixin'
 
 export default {
   name: 'Privacy',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Privacy Policy')
+    }
+  },
   mixins: [mixin],
   mounted () {
-    this.setDocumentTitle(this.getPageTitle('Privacy Policy'))
+    // this.setDocumentTitle(this.getPageTitle('Privacy Policy'))
     this.scrollToTop()
   }
 }

@@ -147,9 +147,14 @@ import mixin from '../../globals/mixin'
 
 export default {
   name: 'Terms',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Terms and Conditions')
+    }
+  },
   mixins: [mixin],
   mounted () {
-    this.setDocumentTitle(this.getPageTitle('Terms and Conditions'))
+    // this.setDocumentTitle(this.getPageTitle('Terms and Conditions'))
     this.scrollToTop()
   }
 }

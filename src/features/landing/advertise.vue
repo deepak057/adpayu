@@ -96,6 +96,11 @@ import Service from './service'
 
 export default {
   name: 'Advertise',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Advertise')
+    }
+  },
   service: new Service(),
   components: {
     Preloader
@@ -108,7 +113,7 @@ export default {
     }
   },
   mounted () {
-    this.setDocumentTitle(this.getPageTitle('Advertise'))
+    // this.setDocumentTitle(this.getPageTitle('Advertise'))
     this.scrollToTop()
     this.$options.service.getDefaultAdPricing()
       .then((data) => {

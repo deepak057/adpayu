@@ -58,6 +58,11 @@ import countryList from '../../globals/countries.js'
 
 export default {
   name: 'SignupPage',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Sign Up')
+    }
+  },
   mixins: [mixin, userRegistrationMixin, countryList],
   data () {
     return {

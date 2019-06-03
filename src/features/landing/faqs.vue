@@ -77,9 +77,14 @@ import mixin from '../../globals/mixin'
 
 export default {
   name: 'Faqs',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('FAQs')
+    }
+  },
   mixins: [mixin],
   mounted () {
-    this.setDocumentTitle(this.getPageTitle('FAQs'))
+    // this.setDocumentTitle(this.getPageTitle('FAQs'))
     this.scrollToTop()
   }
 }

@@ -613,6 +613,11 @@ import * as constants from '@/constants'
 
 export default {
   name: 'Landing',
+  metaInfo () {
+    return {
+      title: this.getPageTitle(constants.SITE_SLOGAN)
+    }
+  },
   components: {
     Contact
   },

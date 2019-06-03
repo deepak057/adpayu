@@ -15,6 +15,7 @@ import VueTimeago from 'vue-timeago'
 import infiniteScroll from 'vue-infinite-scroll'
 import Notifications from 'vue-notification'
 import VueObserveVisibility from 'vue-observe-visibility'
+import VueMeta from 'vue-meta'
 
 Vue.config.productionTip = false
 
@@ -58,6 +59,10 @@ Vue.use(Notifications)
 // Plugin that detects when an element is visible
 // in client's browser
 Vue.use(VueObserveVisibility)
+
+// plugin to update meta info to make
+// the app SEO friendly
+Vue.use(VueMeta)
 
 // Styles
 require('./styles/scss/main.scss')

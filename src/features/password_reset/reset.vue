@@ -54,6 +54,11 @@ import Preloader from '../../components/preloader'
 
 export default {
   name: 'ChangePassword',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Reset Account Password')
+    }
+  },
   service: new Service(),
   components: {
     Preloader
