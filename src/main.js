@@ -16,6 +16,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import Notifications from 'vue-notification'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueMeta from 'vue-meta'
+import VueAnalytics from 'vue-analytics'
 
 Vue.config.productionTip = false
 
@@ -64,6 +65,11 @@ Vue.use(VueObserveVisibility)
 // the app SEO friendly
 Vue.use(VueMeta)
 
+// include support for Google Analytics
+Vue.use(VueAnalytics, {
+  id: 'ua-141287643-1',
+  router
+})
 // Styles
 require('./styles/scss/main.scss')
 require('./styles/stylus/main.styl')
