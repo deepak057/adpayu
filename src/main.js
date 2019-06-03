@@ -67,7 +67,7 @@ Vue.use(VueMeta)
 
 // include support for Google Analytics
 Vue.use(VueAnalytics, {
-  id: 'ua-141287643-1',
+  id: 'UA-141287643-1',
   router
 })
 // Styles
