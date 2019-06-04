@@ -31,7 +31,14 @@
          img.light-border(src="/static/images/site/ad_configuration.png")
        | However, there will be a minimum cost for each of those actions and the cost that advertiser specifies must be equal or greater than that minimum cost (explained in detail in AD PRICING section).
       li
-        | Advertisers can also specify the countries in which they want to show this ad. By default, each ad is shown globally.
+        | Advertisers can target the audience in three ways:
+        ul
+          li
+            | Internationally (default): By default, your ad will be shown to everyone (globally, all around the world) irrespective of their location.
+          li
+            | Nationally: You can target national audiences by specifying multiple countries. If you choose this option, your ad will be shown only to people who live in specified countries.
+          li
+            | Locally: You can also target local area audience by selecting a geographical area on the map. Basically, you can select any custom area which you can specify by the means of a circle on the Google Map. In this way, your ad will be shown only to the people who live within the radius of selected area.
     h4.m-l-10 AD PRICING
     p
       | Ads pricing will always be the same for any location or ad configuration. Also, the ad pricing below is specific to individual ads. Below is the pricing structure for running different types of ads on {{siteName}} -
@@ -69,6 +76,8 @@
     p
       | Running ads on {{siteName}} has many advantages over traditional online ad services, including-
     ol
+      li
+        | You can target International, National and Local audience as per the need of your business.
       li
         | The ad pricing is very cheap and is same all over the world. There are no variations in ad pricing depending upon the location, users, interests, devices etc. No matter how you configure your ad or how you specify target audience, the pricing will always be the same, all around the world.
       li
