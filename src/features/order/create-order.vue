@@ -54,7 +54,7 @@ export default {
     return {
       pagePreloader: true,
       cashFree: {
-        ScriptURL: 'https://www.gocashfree.com/assets/cashfree.sdk.v1.js',
+        ScriptURL: 'https://www.cashfree.com/assets/cashfree.sdk.v1.2.js',
         config: {
           layout: {
             view: 'inline',

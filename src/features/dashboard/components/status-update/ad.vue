@@ -144,7 +144,10 @@ function defaultAdValues () {
     adLinkLabel: '',
     adCountries: [],
     totalAmount: 0,
-    adArea: ''
+    adArea: '',
+    adLat: '',
+    adLng: '',
+    adRadius: ''
   }
 }
 
@@ -246,10 +249,10 @@ export default {
         this.triggerLocationPopup()
       }
       if (newV === 'countries') {
-        this.adOptions.adArea = ''
+        this.resetAdArea()
       }
       if (newV === 'global') {
-        this.adOptions.adArea = ''
+        this.resetAdArea()
         this.adOptions.adCountries = []
       }
     }
@@ -259,6 +262,16 @@ export default {
   methods: {
     updateAdArea (areaCords) {
       this.adOptions.adArea = JSON.stringify(areaCords)
+      areaCords = JSON.parse(JSON.stringify(areaCords))
+      this.adOptions.adRadius = areaCords.radius
+      this.adOptions.adLat = areaCords.center.lat
+      this.adOptions.adLng = areaCords.center.lng
+    },
+    resetAdArea () {
+      this.adOptions.adArea = ''
+      this.adOptions.adRadius = ''
+      this.adOptions.adLat = ''
+      this.adOptions.adLng = ''
     },
     triggerLocationPopup () {
       this.$refs.SelectMapAreaComponent.triggerPopup(this.adOptions.adArea)
