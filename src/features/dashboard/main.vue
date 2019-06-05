@@ -232,8 +232,12 @@ export default {
       this.categoryChanged(newCat)
     }
   },
+  metaInfo () {
+    return {
+      title: this.pageTitle()
+    }
+  },
   created () {
-    this.setDocumentTitle(this.pageTitle())
     this.showHideFeed()
     this.setPostDefaultOptions()
   },
