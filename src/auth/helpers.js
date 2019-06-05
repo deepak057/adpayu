@@ -90,7 +90,13 @@ export default {
   getUser () {
     return store.state.auth.user
   },
-
+  getOrderId () {
+    return store.state.auth.orderId
+  },
+  updateOrderId (orderId = false) {
+    store.state.auth.orderId = orderId
+    store.dispatch('auth/update', store.state.auth)
+  },
   getNotifications (page = 1, autoMarkSeen = false) {
     return Vue.http({
       method: 'get',

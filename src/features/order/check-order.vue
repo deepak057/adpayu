@@ -100,6 +100,8 @@ export default {
           // by passing an empty object to
           // below method
           auth.saveLocalPost({})
+          // also, reset the local OrderId
+          auth.updateOrderId()
           // redirect to the post page
           router.push({name: 'p', params: { id: data.id }})
         })
@@ -108,7 +110,7 @@ export default {
         })
     },
     getOrderId () {
-      if (this.$route.query.orderId && !this.isEmptyObject(this.localPost)) {
+      if (this.$route.query.orderId && !this.isEmptyObject(this.localPost) && parseInt(this.$route.query.orderId) === auth.getOrderId()) {
         return this.$route.query.orderId
       } else {
         this.error = 'Error: Soemthing went wrong. The link might be broken or you might not have created any ad. Please contact us if you need more details.'

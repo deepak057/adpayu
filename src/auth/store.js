@@ -9,7 +9,8 @@ const defaults = {
   userTags: [],
   post: {},
   options: {},
-  totalRevenue: 0
+  totalRevenue: 0,
+  orderId: false
 }
 
 const auth = {

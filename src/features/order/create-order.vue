@@ -91,6 +91,11 @@ export default {
           .then((data) => {
             this.pagePreloader = false
             this.paymentParameters = data.params
+            // save the Order Id in local storage. This will be matched
+            // against the order Id in the PG callback. This is to make
+            // sure that user doesn't use an old  CheckOrder URL to
+            // submit the status that is currently stored in local storage
+            auth.updateOrderId(this.paymentParameters.orderId)
           })
           .catch((pErr) => {
             this.showNotification('Something went wrong while initializing the payment, please try again later', 'error')
