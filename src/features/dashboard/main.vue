@@ -43,9 +43,9 @@
       .card
         .card-body
           .btn-group.btn-add-feed
-            button.btn.waves-effect.waves-light.btn-outline-secondary.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+            button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
-              | Post Somehting
+              | Post Something
             .dropdown-menu(x-placement='bottom-start')
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")

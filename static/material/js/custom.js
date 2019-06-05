@@ -72,7 +72,7 @@ $(function () {
 
     // topbar stickey on scroll
     
-   // $(".fix-header .topbar").stick_in_parent({});
+   $(".fix-header .topbar").stick_in_parent({});
     
     
     
