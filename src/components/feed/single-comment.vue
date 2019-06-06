@@ -30,7 +30,7 @@
           i.ti-trash
         <like :likes="comment.Likes" :commentId="comment.id"></like>
         .btn-group()
-          button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+          button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list
           .dropdown-menu
             <router-link @click.native = "closeAllModals()" class="dropdown-item" title="Go to its own separate page" :to="getCommentLink(comment.id)">
