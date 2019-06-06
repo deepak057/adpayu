@@ -21,7 +21,7 @@
     .col-11
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
-      textarea.form-control.b-0(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
+      textarea.form-control.b-0.bg-none(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
     .col-1.text-right
       button.btn.btn-info.btn-circle.btn-lg(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3

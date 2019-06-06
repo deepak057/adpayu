@@ -8,10 +8,10 @@
   link(href='static/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css', rel='stylesheet')
   // Custom CSS
   link(href='static/material/css/style.css', rel='stylesheet')
-  // Custom CSS  outside of theme
-  link(href='static/material/css/custom.css', rel='stylesheet')
   // You can change the theme colors from here
   link#theme(href='static/material/css/colors/blue.css', rel='stylesheet')
+  // Custom CSS  outside of theme
+  link(href='static/material/css/custom.css', rel='stylesheet')
   <app-bar/>
   <app-sidebar :cat="cat"/>
   .page-wrapper

@@ -821,3 +821,9 @@ strong{
 .bg-special-2 {
 	background: url('../../images/dust_scratches.png') !important;
 }
+.bg-none{
+	background: none;
+}
+.sidebar-nav > ul > li > a.active {
+	background: none;
+}

@@ -3,7 +3,7 @@
   // ==============================================================
   // Bread crumb and right sidebar toggle
   // ==============================================================
-  .row.page-titles
+  .row.page-titles.bg-special-2
     .col-md-8.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0 Tags
       ol.breadcrumb
