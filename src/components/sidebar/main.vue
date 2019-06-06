@@ -1,5 +1,5 @@
 <template lang="pug">
-aside.left-sidebar(style='overflow: visible;')
+aside.left-sidebar.bg-special-2(style='overflow: visible;')
     // Sidebar scroll
     .scroll-sidebar(style='overflow: hidden;')
       <user-location />
@@ -7,7 +7,7 @@ aside.left-sidebar(style='overflow: visible;')
       .sidebar-preloader(v-show="preloader")
         <preloader></preloader>
       // Sidebar navigation
-      nav.sidebar-nav(v-show="!preloader")
+      nav.sidebar-nav.bg-special-2(v-if="!preloader")
         ul#sidebarnav
           <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
             a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')

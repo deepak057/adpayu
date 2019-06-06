@@ -815,3 +815,9 @@ strong{
 .mini-sidebar .left-sidebar {
 	position: absolute !important;
 }
+.card-body, .bg-special-1 {
+	background: url('../../images/snow.png')
+}
+.bg-special-2 {
+	background: url('../../images/dust_scratches.png') !important;
+}

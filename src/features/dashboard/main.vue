@@ -3,7 +3,7 @@
   // ==============================================================
   // Bread crumb and right sidebar toggle
   // ==============================================================
-  .row.page-titles
+  .row.page-titles.bg-special-2
     .col-md-4.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
@@ -41,7 +41,7 @@
   .row.dashboard-feed-view
     .col-12.feed-container-col
       .card
-        .card-body
+        .card-body.bg-special-1
           .btn-group.btn-add-feed
             button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
