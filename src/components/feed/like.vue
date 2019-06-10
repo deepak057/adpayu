@@ -1,7 +1,7 @@
 <template lang="pug">
 a.link.m-r-10.comment-padding-0(href='javascript:void(0)' @click="likeToggle(likes)" title="Click to like or unlike it")
   i.text-danger(:class="{'ti-heart pr-t-2': !liked, 'fa fa-heart': liked}")
-  |  {{count}} {{liked? 'Loved': 'Love'}}
+  |  {{likesCount}} {{liked? 'Loved': 'Love'}}
 </template>
 <script>
 import Service from './service'
@@ -10,10 +10,16 @@ export default {
   name: 'Like',
   service: new Service(),
   props: {
-    likes: {
-      type: Array,
+    likesCount: {
+      type: Number,
       default () {
-        return []
+        return 0
+      }
+    },
+    hasLiked: {
+      type: Boolean,
+      default () {
+        return false
       }
     },
     postId: {
@@ -36,29 +42,18 @@ export default {
     }
   },
   mounted () {
-    this.count = this.likes.length
-    this.liked = this.hasLikedAlready()
+    this.liked = this.hasLiked
   },
   methods: {
     likeToggle (likes) {
       if (this.liked) {
-        this.count--
+        this.likesCount--
         this.removeLike()
       } else {
-        this.count++
+        this.likesCount++
         this.addLike()
       }
       this.liked = !this.liked
-    },
-    hasLikedAlready () {
-      let liked = false
-      for (let i in this.likes) {
-        if (this.likes[i].liked) {
-          liked = true
-          break
-        }
-      }
-      return liked
     },
     addLike () {
       if (this.postId) {

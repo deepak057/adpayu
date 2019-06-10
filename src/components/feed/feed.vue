@@ -74,7 +74,7 @@
           </router-link>
         .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !userFeed || !f['CommentsCount'])")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
-          <like :likes= "f['Likes']" :postId="f['id']"></like>
+          <like :likesCount="f['LikesCount']" :hasLiked="f['HasLiked']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
