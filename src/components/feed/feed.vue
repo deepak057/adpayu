@@ -60,7 +60,7 @@
             <feed-video-player :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
           .col-lg-6.col-md-4.col-sm-12.p-0(v-if="enableAdOption(f, 'view')")
             span.hidden-sm-down.m-l-10
-            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
+            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
