@@ -147,9 +147,11 @@ export default {
         responsive: true,
         poster: this.getMedia(path, 'videoPoster'),
         dataSetup: {'fluid': true},
-        aspectRatio: '16:9'
+        aspectRatio: '16:9',
+        preload: 'none'
       }
       /* eslint-disable*/
+      /*
       let agent = navigator.userAgent
       let isIphone = ((agent.indexOf('iPhone') != -1) || (agent.indexOf('iPad') != -1) || (agent.indexOf('iPod') != -1) || (agent.indexOf('Mac') != -1))
       if (isIphone) {
