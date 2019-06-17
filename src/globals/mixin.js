@@ -29,8 +29,18 @@ export default {
       value = value.toString()
       return value.charAt(0).toUpperCase() + value.slice(1)
     },
-    getMedia (path) {
-      return path && path !== 'null' ? constants.SERVER_STATIC_CONTENT_URL + '/' + path : 'static/img/no-profile-pic.png'
+    getMedia (path, mediaType = false) {
+      if (path && path !== 'null') {
+        let base = constants.SERVER_STATIC_CONTENT_URL + '/'
+        if (mediaType && mediaType === 'videoPoster') {
+          // replace the extension of given video file with ".png"
+          return base + 'thumbs/' + path.substr(0, path.lastIndexOf('.')) + '.png'
+        } else {
+          return base + path
+        }
+      } else {
+        return 'static/img/no-profile-pic.png'
+      }
     },
     userProfileLink (uid) {
       return '/profile/' + (uid || '')
@@ -135,6 +145,7 @@ export default {
       let r = {
         sources: this.getVideoSources(path),
         responsive: true,
+        poster: this.getMedia(path, 'videoPoster'),
         dataSetup: {'fluid': true},
         aspectRatio: '16:9'
       }
