@@ -22,6 +22,11 @@ import PageTitle from './../../components/page-title'
 
 export default {
   name: 'Pages',
+  metaInfo () {
+    return {
+      title: 'Post'
+    }
+  },
   components: {
     Preloader,
     Feed,

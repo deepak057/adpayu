@@ -36,6 +36,11 @@ import { router } from '@/http'
 
 export default {
   name: 'Pages',
+  metaInfo () {
+    return {
+      title: 'Comment'
+    }
+  },
   service: new Service(),
   components: {
     Preloader,

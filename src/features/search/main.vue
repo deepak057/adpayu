@@ -64,6 +64,11 @@ import mixin from '../../globals/mixin.js'
 
 export default {
   name: 'Search',
+  metaInfo () {
+    return {
+      title: 'Search'
+    }
+  },
   components: {
     ContentSearch,
     UserSearch,

@@ -19,6 +19,11 @@ import PageTitle from './../../components/page-title'
 
 export default {
   name: 'Order',
+  metaInfo () {
+    return {
+      title: 'Order'
+    }
+  },
   components: {
     OrderCreate,
     OrderCheck,

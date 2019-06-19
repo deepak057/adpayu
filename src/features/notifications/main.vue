@@ -30,6 +30,11 @@ import auth from '@/auth/helpers'
 
 export default {
   name: 'NotificationsPage',
+  metaInfo () {
+    return {
+      title: 'Notifications'
+    }
+  },
   components: {
     UserNotifications,
     Preloader,
