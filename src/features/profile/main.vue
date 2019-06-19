@@ -64,6 +64,11 @@ import ProfileUserName from './profile-user-name'
 
 export default {
   name: 'Profile',
+  metaInfo () {
+    return {
+      title: 'Profile'
+    }
+  },
   service: new Service(),
   components: {
     PageTitle,

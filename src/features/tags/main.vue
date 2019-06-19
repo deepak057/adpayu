@@ -46,6 +46,11 @@ import mixin from '../../globals/mixin.js'
 
 export default {
   name: 'Tags',
+  metaInfo () {
+    return {
+      title: 'Browse Tags'
+    }
+  },
   service: new Service(),
   components: {
     Preloader,
