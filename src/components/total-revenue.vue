@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+.total-revenue-wrap
   h3.m-b-0.font-light
     | ${{totalRevenue || 0}}
     span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="withdrawTrigger()")
