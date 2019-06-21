@@ -404,6 +404,12 @@ and (max-device-width : 1024px)  {
 	.dashboard-feed-view .profiletimeline {
 		margin-top: 32px;
 	}
+	.mini-sidebar .left-sidebar {
+      overflow: hidden !important;
+	}
+	.mini-sidebar .left-sidebar .hide-menu {
+		display: none !important;
+	}
 }
 
 @media only screen 

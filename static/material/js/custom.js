@@ -39,7 +39,7 @@ $(function () {
     // ============================================================== 
     // This is for the top header part and sidebar part
     // ==============================================================  
-    var set = function () {
+    /*var set = function () {
             var width = (window.innerWidth > 0) ? window.innerWidth : this.screen.width;
             var topOffset = 70;
             if (width < 1170) {
