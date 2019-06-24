@@ -13,7 +13,7 @@
       span
         | Friend Request Sent
     .dropdown-menu
-      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
+      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cancel
   </template>
   <template v-if="requesting">
   .btn-group
@@ -23,7 +23,7 @@
         | Sent you friend request
     .dropdown-menu
       a.dropdown-item(href='javascript:void(0)' @click="acceptFriendship()") Accept
-      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cencel
+      a.dropdown-item(href='javascript:void(0)' @click="cancelRequest()") Cancel
   </template>
   </template>
   <template v-if="areFriends()">
@@ -32,7 +32,7 @@
       i.fa.fa-check.m-r-5
       | Friends
     .dropdown-menu
-      a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Cencel friendship
+      a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Cancel friendship
   </template>
 </template>
 <script>

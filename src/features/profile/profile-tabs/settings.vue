@@ -105,7 +105,7 @@ export default {
   methods: {
     updateProfile () {
       if (this.nameValidate() && this.validateTagLine() && this.PhoneValidate() && this.passwordVaildate()) {
-        this.showNotification('Saving profile, please wait....', 'warn', -1)
+        // this.showNotification('Saving profile, please wait....', 'warn', -1)
         auth.updateCurrentUser(this.getUserObject())
           .then((data) => {
             this.showNotification('Profile updated successfully', 'success')
@@ -119,9 +119,9 @@ export default {
     // get updated properties of
     // User object after successfull validation
     getUserObject () {
-      let t = this.name.split(' ')
-      this.user.first = t[0]
-      this.user.last = t[1]
+      let t = this.getUserFirstAndLastName(this.name)
+      this.user.first = t.first
+      this.user.last = t.last
       this.user.newPassword = this.newPassword
       return this.user
     },

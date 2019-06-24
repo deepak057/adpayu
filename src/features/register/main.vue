@@ -83,14 +83,9 @@ export default {
   },
   watch: {
     name (newName) {
-      if (newName.indexOf(' ') >= 0) {
-        var name = newName.split(' ')
-        this.first = name[0]
-        this.last = name[1]
-      } else {
-        this.first = ''
-        this.last = ''
-      }
+      let firstLast = this.getUserFirstAndLastName(newName)
+      this.first = firstLast.first
+      this.last = firstLast.last
     }
   },
   mounted () {

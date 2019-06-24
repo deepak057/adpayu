@@ -248,7 +248,7 @@ export default {
     updateFeedPreference () {
       this.noMoreFeed = false
       // this.showHideFeed()
-      this.showNotification('Updating, please wait...', 'warn')
+      // this.showNotification('Updating, please wait...', 'warn')
       auth.updateCurrentUser(this.currentUser)
         .then((data) => {
           this.showNotification('Preferences updated successfully.', 'success')

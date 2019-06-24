@@ -24,6 +24,26 @@ export default {
     },
     validateCountry (country) {
       return country && country.length
+    },
+    getUserFirstAndLastName (newName) {
+      let first = ''
+      let last = ''
+      if (newName.indexOf(' ') >= 0) {
+        let name = newName.split(' ')
+        first = name[0]
+        if (name.length > 2) {
+          for (let i = 1; i < name.length; i++) {
+            last += name[i] + ' '
+          }
+          last = last.trim()
+        } else {
+          last = name[1]
+        }
+      }
+      return {
+        first: first,
+        last: last
+      }
     }
   }
 }
