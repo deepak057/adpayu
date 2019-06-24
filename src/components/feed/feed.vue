@@ -4,7 +4,7 @@
     .jumbotron.white-back.text-center
       h1.display-3 Nothing Here!
       p.lead
-        | There are no feed here
+        | There are no feeds here
       hr.my-4
       p
         | You will see stuff here soon. You may browse more tags or topics
