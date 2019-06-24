@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  h4.card-title.m-t-10 {{userName(user)}}
+  h4.card-title.m-t-10 {{userName(user, false)}}
   h6.card-subtitle {{user.tagline}}
 </template>
 <script>
