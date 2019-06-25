@@ -291,14 +291,18 @@ $(function () {
     $(function () {
         $('#sidebarnav').metisMenu();
     });
+    */
     // ============================================================== 
     // Slimscrollbars
     // ============================================================== 
-    /*$('.scroll-sidebar').slimScroll({
+    
+    $('.scroll-sidebar').slimScroll({
         position: 'left'
-        , size: "5px"
+        , size: "7px"
         , height: '100%'
-        , color: '#dcdcdc'
+        , color: '#1e88e5',
+        //alwaysVisible: true
+        disableFadeOut: true
      });
     $('.message-center').slimScroll({
         position: 'right'
@@ -333,7 +337,7 @@ $(function () {
         , size: "5px"
         , color: '#dcdcdc'
      });
-*/
+
     // ============================================================== 
     // Resize all elements
     // ============================================================== 

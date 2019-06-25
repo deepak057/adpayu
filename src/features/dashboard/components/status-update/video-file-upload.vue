@@ -2,7 +2,7 @@
 .form-group.post-upload-media-wrap
   span.m-r-10.pointer(@click="triggerVideoSelect")
     i.mdi.mdi.mdi-video.f-s-20
-    |  Upload Video
+    |  Upload Video*
   .post-media-file-upload-progress.m-t-10(v-show="uploadPercentage")
     span.post-img-preloader.m-r-5
       <preloader v-if="uploadPercentage < 100"></preloader>

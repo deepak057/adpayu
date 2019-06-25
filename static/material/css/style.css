@@ -5507,8 +5507,8 @@ When click on sidebar toggler and also for tablet
     padding-left: 1px; }
   .mini-sidebar .sidebar-nav {
     padding: 5px; }
-  .mini-sidebar.fix-sidebar .left-sidebar {
-    position: absolute; }
+  /*.mini-sidebar.fix-sidebar .left-sidebar {
+    position: absolute; }*/
   .mini-sidebar .sidebar-nav #sidebarnav > li:hover > ul {
     height: auto !important;
     overflow: auto; }

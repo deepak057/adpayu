@@ -19,10 +19,11 @@
 	min-height: auto;
 }
 
-.slimScrollDiv{
-	top: -21px;
-}
 
+.slimScrollDiv{
+	/*top: -21px;*/
+	overflow: visible !important;
+}
 .page-titles{
 	padding-bottom: 8px;
 	padding-top: 8px;
@@ -410,6 +411,9 @@ and (max-device-width : 1024px)  {
 	.mini-sidebar .left-sidebar .hide-menu {
 		display: none !important;
 	}
+	/*.fix-sidebar .left-sidebar{
+		position: absolute !important;
+   }*/
 }
 
 @media only screen 
@@ -847,8 +851,14 @@ strong{
 .question-on-user-feed .show-all-comments-wrap {
 	padding: 0px !important;
 }
-.mini-sidebar .left-sidebar {
+/*.mini-sidebar .left-sidebar {
 	position: absolute !important;
+}*/
+.fix-sidebar.mobile-device .left-sidebar {
+	/*position: absolute !important;*/
+}
+.fix-sidebar .left-sidebar{
+	position: fixed ;
 }
 .card-body, .bg-special-1 {
 	background: url('../../images/snow.png')

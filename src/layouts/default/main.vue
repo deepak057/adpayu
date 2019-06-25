@@ -44,6 +44,7 @@ export default {
         'static/assets/plugins/bootstrap/js/bootstrap.min.js',
         'static/material/js/waves.js',
         'static/material/js/sidebarmenu.js',
+        'static/material/js/jquery.slimscroll.js',
         'static/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js',
         'static/assets/plugins/sparkline/jquery.sparkline.min.js',
         'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js',
