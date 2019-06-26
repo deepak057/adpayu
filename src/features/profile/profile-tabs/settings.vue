@@ -88,7 +88,7 @@ export default {
   data () {
     return {
       user: Object.assign({}, this.currentUser),
-      name: this.userName(this.currentUser),
+      name: this.userName(this.currentUser, false),
       nameError: false,
       taglineError: false,
       maxTaglineChars: 100,
