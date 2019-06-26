@@ -3,13 +3,13 @@
   .text-center.m-t-10(v-if="pageLoader")
     <preloader class="preloader-h-20"/>
   <template v-if="!pageLoader">
-  //.row.comment-row.m-0.no-border(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
+  .row.comment-row.m-0.no-border(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
   <single-comment :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
-  .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments")
+  .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show more {{getCommentType()}}s
   //.row.m-t-10.enable-commenting-wrap(v-if="comments.length && !commentsEnabled")
