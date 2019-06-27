@@ -30,8 +30,9 @@ div
               | {{data.success}}
           </template>
           <template v-if="data.error">
-          .text-center.m-t-20
-            h4.text-danger
+          .text-center.m-t-20.no-enough-money-error-wrap
+            img.m-b-20(:src="staticImageUrl('sad.png')")
+            h4
               i.mdi.mdi-alert.m-r-5
               | {{data.error}}
           </template>

@@ -878,3 +878,6 @@ strong{
 .p-b-0 {
 	padding-bottom: 0px !important;
 }
+.no-enough-money-error-wrap img {
+	height: 120px;
+}
