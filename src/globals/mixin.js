@@ -29,9 +29,12 @@ export default {
       value = value.toString()
       return value.charAt(0).toUpperCase() + value.slice(1)
     },
+    getStaticContentURL () {
+      return constants.SERVER_STATIC_CONTENT_URL
+    },
     getMedia (path, mediaType = false) {
       if (path && path !== 'null') {
-        let base = constants.SERVER_STATIC_CONTENT_URL + '/'
+        let base = this.getStaticContentURL() + '/'
         if (mediaType && mediaType === 'videoPoster') {
           // replace the extension of given video file with ".png"
           return base + 'thumbs/' + path.substr(0, path.lastIndexOf('.')) + '.png'
@@ -41,6 +44,10 @@ export default {
       } else {
         return 'static/img/no-profile-pic.png'
       }
+    },
+    getUserProfileImage (path = false, defaultPic = 'white') {
+      let staticPath = 'static/img/'
+      return path ? this.getMedia(path) : staticPath + (defaultPic === 'white' ? 'no-profile-pic-white-thumb.png' : 'no-profile-pic.png')
     },
     userProfileLink (uid) {
       return '/profile/' + (uid || '')

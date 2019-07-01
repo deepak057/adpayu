@@ -881,3 +881,8 @@ strong{
 .no-enough-money-error-wrap img {
 	height: 120px;
 }
+.white-default-pic-thumb {
+	width: 17px !important;
+	position: relative;
+	top: -2px;
+}

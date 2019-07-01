@@ -60,7 +60,7 @@ header.topbar
           // ==============================================================
           li.nav-item.dropdown
             a.nav-link.dropdown-toggle.text-muted.waves-effect.waves-dark(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-              img.profile-pic(:src='getMedia(user.pic)', alt='user')
+              img.profile-pic(:src='getUserProfileImage(user.pic)', alt='user' :class="{'white-default-pic-thumb': !user.pic}")
             .dropdown-menu.dropdown-menu-right.scale-up
               ul.dropdown-user.custom-user-dropdown
                 li
