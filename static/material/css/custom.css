@@ -94,6 +94,7 @@
 .feed-video-wrap .video-container{
 	padding: 0px;
 	padding-bottom: 20px;
+	/*margin-bottom: 15px;*/
 }
 
 .none{
@@ -159,10 +160,13 @@ body {
 
 .feed-tags {
 	font-size: 12px;
+	margin-top: 15px;
 }
 .feed-tags a {
 	color: #99abb4 !important;
 	padding: 1px 5px;
+	margin-bottom: 5px;
+	display: inline-block;
 }
 .feed-preloader {
 	height: 500px;
