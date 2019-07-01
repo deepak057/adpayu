@@ -24,14 +24,16 @@ div
             <preloader/>
           <template v-if="!pageLoader">
           <template v-if="data.success">
-          .text-center.m-t-20
+          .text-center.m-t-20.withdraw-messages-wrap
+            img.m-b-20(:src="staticImageUrl('success.png')")
             .alert.alert-success
-              i.mdi.mdi-check
-              | {{data.success}}
+              h4
+                i.mdi.mdi-check.m-r-5
+                | {{data.success}}
           </template>
           <template v-if="data.error">
-          .text-center.m-t-20.no-enough-money-error-wrap
-            img.m-b-20(:src="staticImageUrl('sad.png')")
+          .text-center.m-t-20.withdraw-messages-wrap
+            img.m-b-20(:src="staticImageUrl('error.png')")
             h4
               i.mdi.mdi-alert.m-r-5
               | {{data.error}}
@@ -126,7 +128,7 @@ div
                     | {{data.messageError}}
           </template>
           </template>
-        .modal-footer
+        .modal-footer(v-if="!data.success && !data.error")
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           button.btn.btn-danger.waves-effect(type='button' v-if="!pageLoader && !data.error && !data.success" @click="triggerWithdrawl()") Proceed
 </template>
