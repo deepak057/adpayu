@@ -722,7 +722,7 @@ strong{
 	margin-bottom: 1rem;
 }
 .w-s-pre {
-	white-space: pre;
+	white-space: pre-line;
 }
 .p-r-t--1 {
 	position: relative;
