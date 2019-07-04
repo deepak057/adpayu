@@ -1,5 +1,5 @@
 <template lang="pug">
-a.link.m-r-10.comment-padding-0(href='javascript:void(0)' @click="likeToggle(likes)" title="Click to like or unlike it")
+a.link.m-r-10.comment-padding-0(href='javascript:void(0)' @click="likeToggle(likes)" :title="tooltipText()")
   i.text-danger(:class="{'ti-heart pr-t-2': !liked, 'fa fa-heart': liked}")
   |  {{likesCount}} {{liked? 'Loved': 'Love'}}
 </template>
@@ -45,6 +45,9 @@ export default {
     this.liked = this.hasLiked
   },
   methods: {
+    tooltipText () {
+      return 'Click to ' + (this.liked ? 'unlike it' : 'like it')
+    },
     likeToggle (likes) {
       if (this.liked) {
         this.likesCount--

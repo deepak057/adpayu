@@ -12,13 +12,13 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
           <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
             a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
               i.mdi(:class="item.icon")
-              span.hide-menu {{item.name | capitalize}}
+              span.hide-menu {{ (item.name === 'all' ? 'All Tags' : item.name) | capitalize}}
           </router-link>
           li.add-topics-wrap
             <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
               i.mdi.mdi-plus
               span.hide-menu
-                |  Add Topics
+                |  Follow Tags
             </router-link>
       // End Sidebar navigation
     // End Sidebar scroll

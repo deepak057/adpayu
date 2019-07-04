@@ -6,7 +6,7 @@
        <template v-if="!fileOperationText">
        a(href="javascript: void(0)" @click="triggerFileSelect")
          i.mdi.mdi-image.m-r-5
-         | Upload pic
+         | {{ (user.pic ? 'Change' : 'Upload') }} pic
        br
        a(href="javascript: void(0)" @click="removePic()" v-if="user.pic")
          i.mdi.mdi-delete.m-r-5
@@ -92,7 +92,7 @@ export default {
         })
     },
     removePic () {
-      if (confirm('Remove profile pcture?')) {
+      if (confirm('Remove profile picture?')) {
         this.fileOperationText = 'Removing'
         this.user.pic = ''
         this.$options.service.updateUser(this.user)

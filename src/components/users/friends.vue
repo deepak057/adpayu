@@ -32,7 +32,7 @@
       i.fa.fa-check.m-r-5
       | Friends
     .dropdown-menu
-      a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Cancel friendship
+      a.dropdown-item(href='javascript:void(0)' @click="cancelFriendship()") Unfriend
   </template>
 </template>
 <script>
