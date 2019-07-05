@@ -111,3 +111,24 @@
 .vh-95 {
 	height: 90vh;
 }
+.gmaps {
+	height: 300px;
+	width: 100%;
+}
+
+.user-base-map-wrap {
+	background: #F0F0F0;
+    padding: 20px;
+    border-radius: 5px;
+    /* color: #fff; */
+    padding-left: 10px;
+}
+.user-base-map-wrap .user-stats h1{ 
+	font-size: 80px;
+}
+.user-base-map-wrap .user-stats p{
+	font-size: 22px;
+}
+.user-base-map-wrap .user-stats h1{
+	margin-top: 45px;
+}
