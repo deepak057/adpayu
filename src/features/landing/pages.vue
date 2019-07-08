@@ -1,5 +1,5 @@
 <template lang="pug">
-.main.vh-95
+.main
   section.module.p-40
     .container
       <terms v-if="page('terms')"/>
