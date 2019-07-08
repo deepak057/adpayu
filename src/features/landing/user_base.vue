@@ -89,7 +89,7 @@ export default {
       /* eslint-enable */
     },
     updateUserCount (circle, map) {
-      this.userCount = Math.round(((circle.getRadius() / 100) * 10) + this.getRandomSalt())
+      this.userCount = Math.round(((circle.getRadius() / 100) * 13) + this.getRandomSalt())
     },
     getRandomSalt () {
       return Math.random() * (5000 - 1000) + 1000
