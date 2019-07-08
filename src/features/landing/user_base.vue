@@ -6,10 +6,12 @@
     .m-t-20(v-if = "pageLoader")
       <preloader />
     .row.user-base-map-wrap.m-t-40(v-show = "!pageLoader")
+      p.show-mb.d-none
+        | Select an area on the map and see how many users are registered within that.
       .col-md-6
         .gmaps(:id="mapId")
       .col-md-6.user-stats
-        p.description
+        p.description.hide-mb
           | Select an area on the map and see how many users are registered within that.
         h1.text-success {{userCount}}
         p Users in this area
