@@ -342,7 +342,8 @@ export default {
     updateCommentsCount (data) {
       for (let i in this.feed) {
         if (this.feed[i].id === data.postId) {
-          this.feed[i].CommentsCount = data.count
+          this.$set(this.feed[i], 'CommentsCount', data.count)
+          // this.feed[i].CommentsCount = data.count
         }
       }
     },
