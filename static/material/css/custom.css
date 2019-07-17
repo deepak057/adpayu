@@ -680,7 +680,11 @@ img.preloader-h-20 {
 	position: relative;
 	top: -12px;
 }
-.custom-status-update-wrap img, .answer-content-wrap img{
+.custom-status-update-wrap img {
+	width: 100%;
+	cursor: pointer;
+}
+.answer-content-wrap img{
 	max-width: 50%;
 	cursor: pointer;
 }
