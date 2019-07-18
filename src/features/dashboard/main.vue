@@ -5,7 +5,9 @@
   // ==============================================================
   .row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
     .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
+      h3.text-themecolor.m-b-0.m-t-0
+        | {{pageTitle() | capitalize}}
+        i.mdi.mdi-refresh.cursor-hand.m-l-5.text-muted.f-s-14(v-if="currentUser.pageTitleCollapsed" @click="reloadFeed()" title="Refresh the feed to pull newer posts.")
       ol.breadcrumb
         li.breadcrumb-item
           <router-link :to="getTagLink('all')">
