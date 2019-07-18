@@ -515,7 +515,9 @@ and (orientation : landscape) {
   	width: 100%;
   	max-width: none !important;
   }
-
+  .page-title-collapse-control-wrap {
+  	top: 69px !important;
+  }
 }
 
 /*
@@ -894,4 +896,20 @@ strong{
 	width: 17px !important;
 	position: relative;
 	top: -2px;
+}
+.page-title-collapse-control-wrap {
+	position: absolute;
+	top: 66px;
+	right: 12px;
+	font-size: 30px;
+	cursor: pointer;
+}
+.page-titles.collapsed.collapsed .page-title-collapse-control-wrap {
+	top: 54px;
+}
+.page-titles.collapsed .feed-ads-options-wrap, .page-titles.collapsed  .total-revenue-wrap, .page-titles.collapsed .breadcrumb {
+	display: none;
+}
+.m-r-50 {
+	margin-right: 50px;
 }

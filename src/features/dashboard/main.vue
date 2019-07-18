@@ -3,7 +3,7 @@
   // ==============================================================
   // Bread crumb and right sidebar toggle
   // ==============================================================
-  .row.page-titles.bg-special-2
+  .row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
     .col-md-4.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0 {{pageTitle() | capitalize}}
       ol.breadcrumb
@@ -32,6 +32,7 @@
       <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
     .col-md-2.col-12.align-self-center
       <total-revenue/>
+    <title-collapse />
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================
@@ -145,6 +146,7 @@ import StatusUpdate from './components/status-update/main'
 import Feed from './../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
+import TitleCollapse from '../../components/title-collapse'
 
 export default {
   name: 'Dashboard',
@@ -153,7 +155,8 @@ export default {
     StatusUpdate,
     Feed,
     Preloader,
-    TotalRevenue
+    TotalRevenue,
+    TitleCollapse
   },
   mixins: [mixin],
   props: {
@@ -223,6 +226,9 @@ export default {
     },
     'currentUser.recentActivitiesEnabled' () {
       this.updateFeedPreference()
+    },
+    '$store.state.auth.user' (user) {
+      this.currentUser = user
     },
     feed () {
       this.feed = this.prepareFeed(this.feed)
