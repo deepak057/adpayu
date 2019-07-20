@@ -64,7 +64,7 @@ export default {
       return splitStr.join(' ')
     },
     validImageFile (file) {
-      let validImageTypes = ['image/gif', 'image/jpeg', 'image/png']
+      let validImageTypes = this.getValidImageTypes()
       return validImageTypes.indexOf(file['type']) !== -1
     },
     getPostLink (postId) {
@@ -260,6 +260,9 @@ export default {
     },
     staticImageUrl (img) {
       return '/static/images/' + img
+    },
+    getValidImageTypes () {
+      return ['image/gif', 'image/jpeg', 'image/png']
     }
   }
 }

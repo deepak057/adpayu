@@ -10,21 +10,25 @@
     | Total Revenue
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Revenue" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
+  <verify-account ref="verifyAccountComp"/>
 </template>
 <script>
 import auth from '@/auth/helpers'
 import WithdrawMoney from './withdraw/main'
 import mixin from '../globals/mixin'
+import VerifyAccount from './withdraw/verify-account'
 
 export default {
   name: 'TotalRevenue',
   components: {
-    WithdrawMoney
+    WithdrawMoney,
+    VerifyAccount
   },
   mixins: [mixin],
   data () {
     return {
-      totalRevenue: auth.getLocalRevenue()
+      totalRevenue: auth.getLocalRevenue(),
+      currentUser: auth.getUser()
     }
   },
   watch: {
@@ -40,7 +44,11 @@ export default {
       this.totalRevenue = this.roundToDecimalPlaces(newV || auth.getLocalRevenue())
     },
     withdrawTrigger () {
-      this.$refs.withdrawMoneyComp.triggerPopup()
+      if (this.currentUser.accountStatus === 'verified') {
+        this.$refs.withdrawMoneyComp.triggerPopup()
+      } else {
+        this.$refs.verifyAccountComp.triggerPopup()
+      }
     }
   }
 }

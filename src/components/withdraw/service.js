@@ -24,4 +24,18 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+  uploadAccountIdentityDocs (files, config = false) {
+    let configuration = config || {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+    return auth.post('/upload/image', files, configuration)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }

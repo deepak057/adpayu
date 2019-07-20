@@ -640,6 +640,10 @@ and (orientation : landscape) {
 img.preloader-h-20 {
 	height: 20px;
 }
+img.preloader-h-15 {
+	height: 15px;
+}
+
 .m-l-2 {
 	margin-left: 2px;
 }
@@ -915,4 +919,7 @@ strong{
 }
 .body-text-color {
 	color: #67757c;
+}
+.verify-account-popup .upload-progress img{
+  width: 15px;
 }
