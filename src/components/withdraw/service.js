@@ -30,7 +30,7 @@ export default class Service {
         'Content-Type': 'multipart/form-data'
       }
     }
-    return auth.post('/upload/image', files, configuration)
+    return auth.post('/upload/accountIdentityDocs/', files, configuration)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

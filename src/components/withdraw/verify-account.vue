@@ -10,6 +10,7 @@ div
             i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Identity Verification" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
+          <template v-if="!isAccountStatusPending()">
           p
             | Please upload any document that verifies your identity. You can upload an image of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
           p
@@ -25,13 +26,17 @@ div
               span.upload-progress(v-if="data.uploadInProgress")
                 <preloader class="m-r-5"/>
                 | {{uploadProgressText()}}
+          </template>
+          <template v-if= "isAccountStatusPending()">
+            | Pending
+          </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
-// import auth from '@/auth/helpers'
+import auth from '@/auth/helpers'
 import Service from './service'
 
 function verifyAccountInitialState () {
@@ -42,7 +47,9 @@ function verifyAccountInitialState () {
     uploadInProgress: false,
     filesCount: 0,
     uploadPercentage: 0,
-    allowedFileTypes: ['application/pdf', 'image/x-eps']
+    allowedFileTypes: ['application/pdf', 'image/x-eps'],
+    success: false,
+    currentUser: auth.getUser()
   }
 }
 
@@ -89,6 +96,9 @@ export default {
       this.reset()
       document.getElementById(this.triggerButtonId).click()
     },
+    isAccountStatusPending () {
+      return this.data.currentUser.accountStatus === 'pending'
+    },
     reset () {
       this.data = verifyAccountInitialState()
     },
@@ -134,7 +144,7 @@ export default {
       this.data.uploadInProgress = true
       let formData = new FormData()
       for (let i in files) {
-        formData.append('files[]', files[i])
+        formData.append('files_' + i, files[i])
       }
       let config = {
         headers: {
@@ -146,6 +156,13 @@ export default {
       }
       this.$options.service.uploadAccountIdentityDocs(formData, config)
         .then((data) => {
+          if (data.success) {
+            this.data.success = 'Thanks. We will get back to you.'
+            this.data.currentUser.accountStatus = data.user.accountStatus
+            auth.updateCurrentUser(data.user)
+          } else {
+            this.notification('Something went wrong, please try again later.', 'error')
+          }
         })
     },
     validFileTypes () {
