@@ -10,7 +10,7 @@
     | Total Revenue
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Revenue" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
-  <verify-account ref="verifyAccountComp"/>
+  <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
 </template>
 <script>
 import auth from '@/auth/helpers'
@@ -44,11 +44,14 @@ export default {
       this.totalRevenue = this.roundToDecimalPlaces(newV || auth.getLocalRevenue())
     },
     withdrawTrigger () {
-      if (this.currentUser.accountStatus === 'verified') {
+      if (this.accountVerified()) {
         this.$refs.withdrawMoneyComp.triggerPopup()
       } else {
         this.$refs.verifyAccountComp.triggerPopup()
       }
+    },
+    accountVerified () {
+      return this.currentUser.accountStatus === 'verified'
     }
   }
 }
