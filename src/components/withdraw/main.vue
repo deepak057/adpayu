@@ -264,7 +264,7 @@ export default {
       document.getElementById(this.closeButtonId).click()
     },
     getSiteFeeText () {
-      return 'We will keep ' + this.data.transactionDetails.siteFeePercentage + '% of the money you have made as part of our service fee. This money will help us continue to run and suport this platform.'
+      return 'We will keep ' + this.data.transactionDetails.siteFeePercentage + '% of the money you have made as part of our service fee. This money will help us continue to run and support this platform.'
     },
     triggerWithdrawl () {
       if (this.validateDetails()) {
