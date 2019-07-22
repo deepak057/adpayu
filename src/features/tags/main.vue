@@ -13,7 +13,7 @@
           </router-link>
         li.breadcrumb-item.active Tags
     .col-md-4.col-12.align-self-center.text-right
-      <search-field :searchType="'tags'"></search-field>
+      <search-field :searchType="'tags'" class="m-m-t-10"></search-field>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================

@@ -518,6 +518,9 @@ and (orientation : landscape) {
   .page-title-collapse-control-wrap {
   	top: 69px !important;
   }
+  .m-m-t-10 {
+  	margin-top: 10px;
+  }
 }
 
 /*
