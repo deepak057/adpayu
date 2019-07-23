@@ -52,14 +52,19 @@ export default {
         })
     },
     getFileUploadProgressText () {
-      if (this.uploadPercentage < 100) {
-        return 'Uploading video...' + this.uploadPercentage + '%'
+      if (!this.path) {
+        if (this.uploadPercentage < 100) {
+          return 'Uploading video...' + this.uploadPercentage + '%'
+        } else {
+          return 'Processing...'
+        }
       } else {
         return 'Video uploaded'
       }
     },
     reset () {
       this.uploadPercentage = 0
+      this.path = ''
     }
   }
 }

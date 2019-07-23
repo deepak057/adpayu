@@ -10,8 +10,8 @@
     <template v-if="uploadPercentage">
     .post-media-file-upload-progress.m-t-10(v-if="uploadPercentage")
       span.post-img-preloader.m-r-5
-        <preloader v-if="uploadPercentage < 100"></preloader>
-        i.mdi.mdi-check-all.f-s-17(v-show = "uploadPercentage >= 100")
+        <preloader v-if="!path"></preloader>
+        i.mdi.mdi-check-all.f-s-17(v-if = "path")
       span
         | {{getFileUploadProgressText()}}
     </template>
@@ -38,7 +38,8 @@ export default {
   },
   data () {
     return {
-      elementId: 'video-comment-video-upload-file-element-' + this.getUniqueId()
+      elementId: 'video-comment-video-upload-file-element-' + this.getUniqueId(),
+      path: ''
     }
   }
 }

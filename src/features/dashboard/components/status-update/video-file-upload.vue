@@ -5,8 +5,8 @@
     |  Upload Video*
   .post-media-file-upload-progress.m-t-10(v-show="uploadPercentage")
     span.post-img-preloader.m-r-5
-      <preloader v-if="uploadPercentage < 100"></preloader>
-      i.mdi.mdi-check-all.f-s-17(v-show = "uploadPercentage >= 100")
+      <preloader v-if="!path"></preloader>
+      i.mdi.mdi-check-all.f-s-17(v-if = "path")
     span
       | {{getFileUploadProgressText()}}
   input.none(type="file" :id="elementId" :accept="videoAcceptString()" data-type="video" @change="filesChange($event.target.name, $event.target.files)")
