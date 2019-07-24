@@ -36,7 +36,7 @@ export default {
   /* watch: {
     path (newV) {
       if (!newV.length) {
-        this.uploadPercentage = 0
+         this.uploadPercentage = 0
       }
     }
   }, */
