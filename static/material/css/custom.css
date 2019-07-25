@@ -179,7 +179,7 @@ body {
 }
 .post-upload-media-wrap span{
 }
-.post-upload-media-wrap span i{
+.post-upload-media-wrap span i.mdi.mdi-check-all{
 	color: rgba(0,0,0,.15);
 	position: relative;
 	top: 3px;
@@ -191,7 +191,12 @@ body {
 .f-s-17 {
 	font-size: 17px;
 }
-
+.f-s-15 {
+	font-size: 15px;
+}
+.f-s-13 {
+	font-size: 13px;
+}
 .post-media-file-upload-progress {
 	font-size: 12px;
 }

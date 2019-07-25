@@ -3,12 +3,13 @@
   span.m-r-10.pointer(@click="triggerImageSelect")
     i.mdi.mdi.mdi-image.f-s-20
     |  Add images
-  .post-media-file-upload-progress.m-t-10(v-show="files.length > 0")
+  .post-media-file-upload-progress.m-t-10(v-if="files.length > 0")
     span.post-img-preloader.m-r-5
       <preloader v-if="totalFilesUploaded < totalFiles"></preloader>
-      i.mdi.mdi-check-all.f-s-17(v-show = "totalFilesUploaded == totalFiles")
+      i.mdi.mdi-check-all.f-s-17.checked-icon(v-if = "totalFilesUploaded == totalFiles")
     span
       | {{getFileUploadProgressText()}}
+      i.fa.fa-trash.m-l-5.f-s-13.pointer(v-if="totalFilesUploaded == totalFiles" title="Remove image(s)")
   input.none(type="file" multiple id="post-file-image" accept="image/*" data-type="image" @change="filesChange($event.target.name, $event.target.files)")
 </template>
 <script>
