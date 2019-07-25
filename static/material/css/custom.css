@@ -751,6 +751,10 @@ strong{
 	position: relative;
 	top: -1px;
 }
+.p-r-t--2 {
+	position: relative;
+	top: -2px;
+}
 .p-r-t-1 {
 	position: relative;
 	top: 1px;

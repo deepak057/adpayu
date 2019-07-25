@@ -127,6 +127,20 @@ export default {
       })
   },
 
+  deleteFiles (fileNames) {
+    return Vue.http({
+      method: 'delete',
+      url: constants.API_BASE_URL + '/upload/removeFiles',
+      data: { files: fileNames }
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   uploadImage (image) {
     return Vue.http({
       method: 'post',

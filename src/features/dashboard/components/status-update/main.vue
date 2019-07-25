@@ -13,7 +13,7 @@ div
           <pictures v-if="options.type==='picture'"></pictures>
           <video-upload v-if="options.type ==='video'" :video="video" ref="videoUpload" @videoDetailsUpdated="getVideo"></video-upload>
           <post-tags :tags="tags" :currentTag="currentTag" @tagsUpdated="getTags"></post-tags>
-          <image-upload v-if="options.type!=='video'" :images="images" @imagesUpdated="getImages"></image-upload>
+          <image-upload v-if="options.type!=='video'" :images="images" @resetImages = "resetImagesArr" @imagesUpdated="getImages"></image-upload>
           <video-file-upload v-if="options.type==='video'" ref="videoFileUploadComp" @videoUploaded="setVideoPath"></video-file-upload>
           div(v-show="!enableMoreOptions")
             a.text-small.text-muted.f-s-12(href="javascript:void(0)" @click="showMoreOptions()")
@@ -202,6 +202,9 @@ export default {
     },
     getImages (images) {
       // this.images.push(images)
+    },
+    resetImagesArr () {
+      this.images = []
     },
     setVideoPath (path) {
       this.$refs.videoUpload.setVideoPath(path)

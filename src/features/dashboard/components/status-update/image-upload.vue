@@ -2,20 +2,26 @@
 .form-group.post-upload-media-wrap
   span.m-r-10.pointer(@click="triggerImageSelect")
     i.mdi.mdi.mdi-image.f-s-20
-    |  Add images
+    span.p-r-t--2
+      |  Add
+      span(v-show="totalFiles")
+        |  more
+      span
+        |  images
   .post-media-file-upload-progress.m-t-10(v-if="files.length > 0")
     span.post-img-preloader.m-r-5
-      <preloader v-if="totalFilesUploaded < totalFiles"></preloader>
-      i.mdi.mdi-check-all.f-s-17.checked-icon(v-if = "totalFilesUploaded == totalFiles")
+      <preloader v-show="totalFilesUploaded < totalFiles"></preloader>
+      i.mdi.mdi-check-all.f-s-17.checked-icon(v-show = "totalFilesUploaded == totalFiles")
     span
       | {{getFileUploadProgressText()}}
-      i.fa.fa-trash.m-l-5.f-s-13.pointer(v-if="totalFilesUploaded == totalFiles" title="Remove image(s)")
+      i.fa.fa-trash.m-l-5.f-s-13.pointer(@click="reset()" v-show="totalFilesUploaded == totalFiles" title="Remove image(s)")
   input.none(type="file" multiple id="post-file-image" accept="image/*" data-type="image" @change="filesChange($event.target.name, $event.target.files)")
 </template>
 <script>
 import Service from './service'
 import Preloader from './../../../../components/preloader'
 import mixin from '../../../../globals/mixin'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'ImageUpload',
@@ -82,7 +88,7 @@ export default {
       }
     },
     getFileUploadProgressText () {
-      let text = 'Uploading images...'
+      let text = 'Uploading...'
       if (!this.totalFilesUploaded) {
         return text
       } else if (this.totalFilesUploaded < this.totalFiles) {
@@ -101,10 +107,21 @@ export default {
       return valid
     },
     reset () {
+      if (this.images.length) {
+        this.deleteImages()
+      }
       this.images = []
       this.files = []
       this.totalFilesUploaded = 0
       this.totalFiles = 0
+      this.$emit('resetImages')
+    },
+    deleteImages () {
+      let pathArr = []
+      for (let i in this.images) {
+        pathArr.push(this.images[i].path)
+      }
+      auth.deleteFiles(pathArr)
     }
   }
 }
