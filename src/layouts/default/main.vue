@@ -52,24 +52,27 @@ export default {
       ]
     }
   },
+  created () {
+    auth.syncUser()
+  },
   mounted () {
-    this.updateUser()
     this.loadScripts()
+    // updateUser()
   },
   methods: {
     loadScripts () {
       for (let i in this.scripts) {
         this.loadScript(this.scripts[i])
       }
-    },
-    updateUser () {
+    }
+    /* updateUser () {
       this.$options.service.getUser(auth.getUser().id)
         .then((data) => {
           auth.updateUserState(data.user)
         })
         .catch((uErr) => {
         })
-    }
+    } */
   }
 }
 </script>

@@ -20,7 +20,12 @@ function guardRoute (to, from, next) {
   if (!auth.isLoggedIn) {
     next({path: '/login', query: { redirect: to.fullPath }})
   } else {
-    next()
+    let restrictedPages = ['login', 'signup', 'passwordReset', 'changePassword']
+    if (restrictedPages.indexOf(to.name) === -1) {
+      next()
+    } else {
+      next({path: '/'})
+    }
   }
 }
 

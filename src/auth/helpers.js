@@ -298,6 +298,26 @@ export default {
       })
   },
 
+  syncUser (uid = false) {
+    let currentUser = this.getUser()
+    uid = uid || currentUser.id
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/users/' + currentUser.id
+    })
+      .then((response) => {
+        return new Promise((resolve) => {
+          if (uid === currentUser.id) {
+            this.updateUserState(response.data.user)
+          }
+          resolve(response.data)
+        })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   fakeLogin (creds, redirect) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

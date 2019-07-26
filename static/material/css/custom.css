@@ -651,7 +651,9 @@ img.preloader-h-20 {
 img.preloader-h-15 {
 	height: 15px;
 }
-
+img.preloader-h-10 {
+	height: 10px;
+}
 .m-l-2 {
 	margin-left: 2px;
 }

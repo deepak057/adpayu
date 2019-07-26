@@ -2,9 +2,10 @@
 .total-revenue-wrap
   h3.m-b-0.font-light
     | ${{totalRevenue || 0}}
-    span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="withdrawTrigger()")
+    span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="syncUser()")
       i.fa.fa-sign-out.m-r-2
       | Withdraw
+      <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
       //i.mdi.mdi-information-outline.m-l-2
   h5.text-muted.m-b-0
     | Total Revenue
@@ -17,18 +18,21 @@ import auth from '@/auth/helpers'
 import WithdrawMoney from './withdraw/main'
 import mixin from '../globals/mixin'
 import VerifyAccount from './withdraw/verify-account'
+import Preloader from './preloader'
 
 export default {
   name: 'TotalRevenue',
   components: {
     WithdrawMoney,
-    VerifyAccount
+    VerifyAccount,
+    Preloader
   },
   mixins: [mixin],
   data () {
     return {
       totalRevenue: auth.getLocalRevenue(),
-      currentUser: auth.getUser()
+      currentUser: auth.getUser(),
+      loader: false
     }
   },
   watch: {
@@ -49,6 +53,19 @@ export default {
       } else {
         this.$refs.verifyAccountComp.triggerPopup()
       }
+    },
+    syncUser () {
+      this.loader = true
+      auth.syncUser()
+        .then((data) => {
+          this.loader = false
+          this.currentUser = auth.getUser()
+          this.withdrawTrigger()
+        })
+        .catch((wErr) => {
+          this.loader = false
+          this.withdrawTrigger()
+        })
     },
     accountVerified () {
       return this.currentUser.accountStatus === 'verified'
