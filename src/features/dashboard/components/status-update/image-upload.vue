@@ -57,7 +57,9 @@ export default {
   },
   methods: {
     triggerImageSelect () {
-      document.getElementById('post-file-image').click()
+      let elem = document.getElementById('post-file-image')
+      elem.value = ''
+      elem.click()
     },
     triggerVideoSelect () {
       document.getElementById('file-video').click()

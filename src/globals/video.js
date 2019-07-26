@@ -22,7 +22,9 @@ export default {
       return v.join(',')
     },
     triggerVideoSelect () {
-      document.getElementById(this.elementId).click()
+      let elem = document.getElementById(this.elementId)
+      elem.value = ''
+      elem.click()
     },
     filesChange (event, files) {
       if (files.length && this.validateVideo(files)) {

@@ -62,7 +62,9 @@ export default {
   },
   methods: {
     triggerFileSelect () {
-      document.getElementById('profile-pic-file-upload').click()
+      let elem = document.getElementById('profile-pic-file-upload')
+      elem.value = ''
+      elem.click()
     },
     filesChange (event, files) {
       if (!this.validImageFile(files[0])) {
