@@ -24,7 +24,7 @@ function guardRoute (to, from, next) {
     if (restrictedPages.indexOf(to.name) === -1) {
       next()
     } else {
-      next({path: '/'})
+      next({name: 'dashboard'})
     }
   }
 }

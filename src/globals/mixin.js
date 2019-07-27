@@ -1,6 +1,7 @@
 import * as constants from '@/constants'
 import auth from '@/auth/helpers'
 import store from '@/store'
+import { router } from '@/http'
 
 export default {
   data () {
@@ -19,6 +20,15 @@ export default {
       let strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       return date.getDate() + ' ' + strArray[date.getMonth()] + ', ' + date.getFullYear()
     }
+  },
+  created () {
+    /*
+    * A work-around to prevent user from accessing the
+    * pages that are not supposed to be accessd after login
+    * This temporary solution is used as the standard way of
+    * protecting the routes through router.js didn't seem to be working
+    */
+    this.toHome()
   },
   methods: {
     isLoggedIn () {
@@ -125,6 +135,14 @@ export default {
     },
     getBaseURL () {
       return window.location.origin
+    },
+    toHome () {
+      if (store.state.auth.isLoggedIn) {
+        let restrictedPages = ['login', 'signup', 'passwordReset', 'changePassword']
+        if (restrictedPages.indexOf(this.$route.name) !== -1) {
+          router.push({name: 'dashboard'})
+        }
+      }
     },
     showNotification (content, classType, duration = 3000) {
       this.$notify({
