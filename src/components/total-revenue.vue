@@ -55,6 +55,9 @@ export default {
       }
     },
     syncUser () {
+      if (this.loader) {
+        return
+      }
       this.loader = true
       auth.syncUser()
         .then((data) => {
