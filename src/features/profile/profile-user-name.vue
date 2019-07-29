@@ -5,10 +5,7 @@ div
 </template>
 <script>
 import mixin from '../../globals/mixin.js'
-
-/* eslint-disable */
 import auth from '@/auth/helpers'
-/* eslint-enable */
 
 export default {
   name: 'ProfileUserName',
@@ -21,7 +18,8 @@ export default {
   },
   data () {
     return {
-      user: this.profileUser
+      user: this.profileUser,
+      currentUser: auth.getUser()
     }
   },
   watch: {
@@ -29,7 +27,14 @@ export default {
       this.user = profileUser
     },
     '$store.state.auth.user' (user) {
-      this.user = user
+      // this check is to prevent the User profile pic and name from changing to current user's
+      // when the page title is collapsed or expanded by current user
+      // as updating the page title updates the user state which affacts the profile page
+      // the same check is also put on the profile pic component (file- profile-pic)
+      if (this.user.id !== this.currentUser.id && user.id === this.currentUser.id) {
+      } else {
+        this.user = user
+      }
     }
   }
 }

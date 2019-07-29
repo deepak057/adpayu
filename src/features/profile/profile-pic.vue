@@ -49,7 +49,8 @@ export default {
     return {
       fileOperationText: '',
       user: this.profileUser,
-      fileName: ''
+      fileName: '',
+      currentUser: auth.getUser()
     }
   },
   watch: {
@@ -57,7 +58,13 @@ export default {
       this.user = profileUser
     },
     '$store.state.auth.user' (user) {
-      this.user = user
+      // this check is to prevent the User profile pic and name from changing to current user's
+      // when the page title is collapsed or expanded by current user
+      // as updating the page title updates the user state which affacts the profile page
+      if (this.user.id !== this.currentUser.id && user.id === this.currentUser.id) {
+      } else {
+        this.user = user
+      }
     }
   },
   methods: {
