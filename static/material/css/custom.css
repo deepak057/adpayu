@@ -937,3 +937,70 @@ strong{
 .verify-account-popup .upload-progress img{
   width: 15px;
 }
+
+/************Custom css starts here*****************/
+.font-dark i.fa.fa-plus-circle {
+    font-size: 18px;
+    position: relative;
+    top: 1px;
+    left: 5px;
+}
+/************Custom css ends here*****************/
+
+/******Custom media css starts here******/
+@media screen and (max-width: 767px){
+    .change_direction_row {
+        display: flex;
+        flex-direction: row-reverse;
+        flex-flow: column-reverse;
+    }
+    html body .padd_l_0{
+        padding-left: 0;
+    }
+    .font-dark i.fa.fa-plus-circle{
+        font-size: 14px
+    }
+    html body .font-bold{
+        font-size: 14px;
+        line-height: normal
+    }
+    .comment-footer .text-muted time{
+        margin-top: 10px;
+        display: inline-block
+    }
+    .profiletimeline, .profiletimeline .sl-left{
+        margin: 0
+    }
+    .profiletimeline .sl-left{
+        margin-bottom: 10px;
+        float: none
+    }
+    .btn-add-feed {
+        top: 15px;
+        right: 15px;
+    }
+    .profiletimeline .sl-left img {
+        max-width: 50px;
+    }
+    .video-js .vjs-big-play-button{
+        width: 2em
+    }
+    .profiletimeline .sl-item {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .comment-row.row.custom-comment-row.m-t-10.m-l-0.m-r-0 .comments.col-sm-8{
+        max-width: 100%;
+        flex: auto
+    }
+    .vjs_video_524-dimensions{
+        width: 100%
+    }
+    .comment-widgets .comment-row {
+        border-left: 0px solid #1e88e5 !important;
+    }
+    .question-has-answers .m-l-25{
+        margin-left: 0
+    }
+}
+/******Custom media css ends here******/
