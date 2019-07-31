@@ -938,7 +938,7 @@ strong{
 .verify-account-popup .upload-progress img{
   width: 15px;
 }
-.custom-status-update-wrap strong {
+.custom-status-update-wrap strong, .custom-status-update-wrap .font-bold{
 	font-weight: 500 !important;
 }
 .custom-status-update-wrap p {
