@@ -738,7 +738,7 @@ strong{
 	background: #F8F8F8;
 }
 .quillWrapper.custom-text-editor-status-update .ql-link{
-	display: none !important;
+	/* display: none !important; */
 }
 .f-s-11{
 	font-size: 11px;
