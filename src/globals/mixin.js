@@ -139,8 +139,9 @@ export default {
     toHome () {
       if (store.state.auth.isLoggedIn) {
         let restrictedPages = ['login', 'signup', 'passwordReset', 'changePassword']
-        if (restrictedPages.indexOf(this.$route.name) !== -1) {
-          router.push({name: 'dashboard'})
+        let toName = 'dashboard'
+        if (restrictedPages.indexOf(this.$route.name) !== -1 && this.getRedirectPath() === toName) {
+          router.push({name: toName})
         }
       }
     },

@@ -21,7 +21,9 @@
       <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
         img.img-circle(:src='getMedia(f.User.pic)', alt='user')
       </router-link>
-      span.post-description-text-wrap
+    .sl-right
+      div
+        span.post-description-text-wrap
           span.m-r-5(v-if="manipulatePostDescriptionText(f)")
             | {{getRecentActivityText(f)}}
           <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
@@ -34,9 +36,6 @@
             i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
             i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
             i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
-
-    .sl-right
-      div
         .m-t-10.m-b-1rem.w-s-pre.custom-status-update-wrap(v-if="f['content']" v-html="f['content']")
         div.m-t-10(v-if="f['Question']")
           h3.font-bold
