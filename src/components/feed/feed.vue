@@ -243,7 +243,7 @@ export default {
     },
     getRecentActivityText (f) {
       if (f.type === 'text') {
-        return 'Recent activity on the status update of '
+        return 'Recent activity on the status update of'
       } else {
         return 'Recent activity on the ' + f.type + ' that'
       }
@@ -268,7 +268,7 @@ export default {
     },
     deletePost (f, n) {
       if (confirm('Are you sure you want to delete this post?')) {
-        this.feed.splice(n, 1)
+        this.deletePostFromFeedArray(f)
         this.$options.service.deletePost(f.id)
           .then((data) => {})
           .catch((pErr) => {
@@ -276,6 +276,13 @@ export default {
             this.feed.splice(n, 0, f)
             this.showNotification('Something went wrong while trying to delete your post', 'error')
           })
+      }
+    },
+    deletePostFromFeedArray (f) {
+      for (let i in this.feed) {
+        if (this.feed[i].id === f.id) {
+          this.feed.splice(i, 1)
+        }
       }
     },
     getTagTooltip (text) {
