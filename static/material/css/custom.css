@@ -1031,6 +1031,10 @@ strong{
     .post-description {
     	font-size: 11px;
     }
+    .comment-text {
+    	margin-left: 0px !important;
+    	margin-top: 0px !important;
+    }
 
 }
 /******Custom media css ends here******/
@@ -1058,4 +1062,8 @@ strong{
 }
 .d-flex {
 	display: flex;
+}
+.comment-text {
+	margin-left: 25px;
+	margin-top: 10px;
 }

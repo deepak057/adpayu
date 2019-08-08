@@ -62,7 +62,13 @@
               | {{f['Video'].title | capitalize}}
             </router-link>
             i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
-          p.text-muted {{f['Video'].description}}
+          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Video'].description")
+            span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
+              | {{f['Video'].description}}
+            span(v-if="f['enableFullDescription']") ...
+            span.underline.pointer(@click="showFullDescription(k)" v-if="f['Video'].description.length > descriptionExcerptCharsCount")
+              | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
+          //p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-8.video-container.p-b-0
             <feed-video-player :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
