@@ -17,56 +17,45 @@
   .sl-item.feed-block(v-for="(f, k) in feedArr" :class="{'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}" v-show="f['show']" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
-    .sl-left.row.m-d-flext-center
-      .col-1.p-0
-        <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
-          img.img-circle(:src='getMedia(f.User.pic)', alt='user')
-        </router-link>
-      .col-11.p-t-0.p-r-0.p-b-0.p-l-5
-        span.post-description-text-wrap
-            span.m-r-5(v-if="manipulatePostDescriptionText(f)")
-              | {{getRecentActivityText(f)}}
-            <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
-              | {{userName(f.User)}}
-            </router-link>
-            |  {{getPostDescriptionText(f)}}
-            span.sl-date
-              <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" class="m-l-5" :title="f['createdAt'] | date"></timeago>
-              <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" class="m-l-5" :title="f['updatedAt'] | date"></timeago>
-              i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
-              i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
-              i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
-        div(v-if="f['Video']")
-          h3.font-bold.feed-video-title
-            a.font-dark(href="javascript:void(0)" v-if="preview")
-              | {{f['Video'].title | capitalize}}
-            <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
-              | {{f['Video'].title | capitalize}}
-            </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
-        div(v-if="f['Question']")
-          h3.font-bold.feed-question-title
-            a.font-dark(href="javascript:void(0)" v-if="preview")
-              | {{f['Question'].question | capitalize}}
-            <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
-              | {{f['Question'].question | capitalize}}
-            </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
-          p.text-muted(v-if="f['Question'].description") {{f['Question'].description}}
+    .sl-left
+      <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)" class="hidden-xs-down">
+        img.img-circle(:src='getMedia(f.User.pic)', alt='user')
+      </router-link>
     .sl-right
       div
+        span.post-description-text-wrap
+          <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)" class="show-on-mobile">
+            img.img-circle.m-r-5(:src='getMedia(f.User.pic)', alt='user' style="max-width: 25px")
+          </router-link>
+          span.m-r-5(v-if="manipulatePostDescriptionText(f)")
+            | {{getRecentActivityText(f)}}
+          <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
+            | {{userName(f.User)}}
+          </router-link>
+          |  {{getPostDescriptionText(f)}}
+          span.sl-date
+            <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" class="m-l-5 hide-on-mobile" :title="f['createdAt'] | date"></timeago>
+            <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" class="m-l-5 hide-on-mobile" :title="f['updatedAt'] | date"></timeago>
+            i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
+            i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
+            i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
         .m-t-10.m-b-1rem.w-s-pre.custom-status-update-wrap(v-if="f['content']" v-html="f['content']")
         div.m-t-10(v-if="f['Question']")
-          // h3.font-bold
+          h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
               | {{f['Question'].question | capitalize}}
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question | capitalize}}
             </router-link>
             i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
-          p.text-muted {{f['Question'].description}}
+          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Question'].description")
+            span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
+              | {{f['Question'].description}}
+            span(v-if="f['enableFullDescription']") ...
+            span.underline.pointer(@click="showFullDescription(k)" v-if="f['Question'].description.length > descriptionExcerptCharsCount")
+              | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
         div.m-t-10(v-if="f['Video']")
-          // h3.font-bold
+          h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
               | {{f['Video'].title | capitalize}}
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
@@ -87,7 +76,7 @@
           a.m-r-5(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
-        .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!userFeed || !f['Question'])")
+        .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!userFeed)")
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
@@ -107,6 +96,9 @@
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
                 i.mdi.mdi-delete.m-r-5
                 | Delete
+          .pull-right.text-muted.show-on-mobile
+            <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
+            <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
     <comments :userFeed="userFeed" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': userFeed && f['Question'], 'question-has-answers': userFeed && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
@@ -162,7 +154,8 @@ export default {
     return {
       feedArr: [],
       initialized: false,
-      currentUser: auth.getUser()
+      currentUser: auth.getUser(),
+      descriptionExcerptCharsCount: 28
       /* postVisibilityConfig: {
         throttle: 1000,
         intersection: {
@@ -184,6 +177,15 @@ export default {
     }
   },
   methods: {
+    showFullDescription (k) {
+      if (typeof this.feed[k].enableFullDescription === 'undefined') {
+        this.$set(this.feed[k], 'enableFullDescription', false)
+      }
+      this.feed[k].enableFullDescription = !this.feed[k].enableFullDescription
+    },
+    descriptionExcerpt (text) {
+      return text.substring(0, this.descriptionExcerptCharsCount) + '...'
+    },
     showAdStats (postObj) {
       this.$refs.adStatsComponent.triggerPopup(postObj.id)
     },

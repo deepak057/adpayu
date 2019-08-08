@@ -467,7 +467,7 @@ and (orientation : landscape) {
   }
 
   .comment-footer .comment-datetimestamp {
-  	float: none;
+  	/*float: none;*/
   	font-size: 11px;
   	margin: 0;
   }
@@ -526,7 +526,9 @@ and (orientation : landscape) {
   .m-m-t-10 {
   	margin-top: 10px;
   }
-  
+  .comment-text .comment-footer .action-icons {
+  	padding: 0px !important;
+  }
 }
 
 /*
@@ -972,7 +974,7 @@ strong{
         line-height: normal
     }
     .comment-footer .text-muted time{
-        margin-top: 10px;
+        /*margin-top: 10px;*/
         display: inline-block
     }
     .profiletimeline, .profiletimeline .sl-left{
@@ -993,8 +995,8 @@ strong{
         width: 2em
     }
     .profiletimeline .sl-item {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
     .comment-row.row.custom-comment-row.m-t-10.m-l-0.m-r-0 .comments.col-sm-8{
         max-width: 100%;
@@ -1011,10 +1013,49 @@ strong{
     }
     .m-d-flext-center {
     	display: flex;
-    	align-items: center;
+    	align-items: flex-end;
     }
     .feed-video-title, .feed-question-title {
     	margin-bottom: 0px;
+    	margin-top: 5px;
     }
+    .show-on-mobile {
+    	display: inline !important;
+    }
+    .hide-on-mobile {
+    	display: none !important; 
+    }
+    .like-comm {
+    	margin-top: 10px;
+    }
+    .post-description {
+    	font-size: 11px;
+    }
+
 }
 /******Custom media css ends here******/
+.show-on-mobile {
+   display: none;
+}
+.hide-on-mobile {
+	display: inline;
+}
+.like-comm {
+	margin-top: 15px;
+}
+.underline {
+	text-decoration: underline;
+}
+.italic {
+	font-style: italic;
+}
+.post-description-excerpt {
+	display: inline-block;
+    width: 145px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+.d-flex {
+	display: flex;
+}
