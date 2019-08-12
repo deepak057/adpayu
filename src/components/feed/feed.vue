@@ -271,6 +271,10 @@ export default {
     getRecentActivityText (f) {
       if (f.type === 'text') {
         return 'Recent activity on the status update of'
+      } else if (f.type === 'question') {
+        let comment = f.Comments && f.Comments.length ? f.Comments[0] : false
+        let action = comment.videoPath ? 'left' : 'wrote'
+        return action + ' an answer on '
       } else {
         return 'Recent activity on the ' + f.type + ' that'
       }

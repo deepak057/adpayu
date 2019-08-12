@@ -1035,7 +1035,18 @@ strong{
     	margin-left: 0px !important;
     	margin-top: 0px !important;
     }
+    .ql-video {
+    	width: 100% !important;
+    	height: auto !important;
+    }
+    .user-name-wrap {
+    	margin: 0px;
+    	font-size: 12px;
+    }
 
+}
+.hide-comment-user-name .user-name-wrap {
+	display: none;
 }
 /******Custom media css ends here******/
 .show-on-mobile {
@@ -1066,4 +1077,8 @@ strong{
 .comment-text {
 	margin-left: 25px;
 	margin-top: 10px;
+}
+.ql-video {
+	width: 55%;
+	height: 336px;
 }

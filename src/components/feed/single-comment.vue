@@ -6,7 +6,7 @@
         img(:src='getMedia(comment.User.pic)', alt='user', width='50')
     </router-link>
   .col-12.col-md-10.col-xs-12.comment-text.p-0
-    h5.user-name-wrap.hide-on-mobile
+    h5.user-name-wrap
       <router-link @click.native = "closeAllModals()" :to="userProfileLink(comment.User.id)">
         | {{userName(comment.User)}}
       </router-link>
