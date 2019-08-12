@@ -18,19 +18,25 @@
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'impression')") Sponsored + $ {{f['AdOption'].cpi}}
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
-      <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)" class="hidden-xs-down">
-        img.img-circle(:src='getMedia(f.User.pic)', alt='user')
+      <router-link @click.native = "closeAllModals()" :to="userProfileLink(getPostUser(f).id)" class="hidden-xs-down">
+        img.img-circle(:src='getMedia(getPostUser(f).pic)', alt='user')
       </router-link>
     .sl-right
       div
         span.post-description-text-wrap
-          <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)" class="show-on-mobile">
-            img.img-circle.m-r-5(:src='getMedia(f.User.pic)', alt='user' style="max-width: 25px")
+          <router-link v-if="isQuestion(f) || !manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="hide-on-mobile" :to="userProfileLink(getPostUser(f).id)">
+            | {{userName(getPostUser(f))}}
           </router-link>
-          span.m-r-5(v-if="manipulatePostDescriptionText(f)")
+          <router-link @click.native = "closeAllModals()" :to="userProfileLink(getPostUser(f).id)" class="show-on-mobile">
+            img.img-circle.m-r-5(:src='getMedia(getPostUser(f).pic)', alt='user' style="max-width: 25px")
+          </router-link>
+          <router-link v-if="isQuestion(f) || !manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="show-on-mobile" :to="userProfileLink(getPostUser(f).id)">
+            | {{userName(getPostUser(f))}}
+          </router-link>
+          span(v-if="manipulatePostDescriptionText(f)")
             | {{getRecentActivityText(f)}}
-          <router-link @click.native = "closeAllModals()" :to="userProfileLink(f.User.id)">
-            | {{userName(f.User)}}
+          <router-link v-if="!isQuestion(f) && manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="" :to="userProfileLink(getPostUser(f).id)">
+            | {{userName(getPostUser(f))}}
           </router-link>
           |  {{getPostDescriptionText(f)}}
           span.sl-date
@@ -189,6 +195,21 @@ export default {
       }
       this.feed[k].enableFullDescription = !this.feed[k].enableFullDescription
     },
+    isQuestion (f) {
+      return f.type === 'question'
+    },
+    getPostUser (f) {
+      if (this.isQuestion(f) && this.manipulatePostDescriptionText(f)) {
+        let comment = this.getLastComment(f)
+        if (comment) {
+          return comment.User
+        }
+      }
+      return f.User
+    },
+    getLastComment (f) {
+      return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
+    },
     descriptionExcerpt (text) {
       return text.substring(0, this.descriptionExcerptCharsCount) + '...'
     },
@@ -270,16 +291,19 @@ export default {
     },
     getRecentActivityText (f) {
       if (f.type === 'text') {
-        return 'Recent activity on the status update of'
-      } else if (f.type === 'question') {
-        let comment = f.Comments && f.Comments.length ? f.Comments[0] : false
+        return ' Recent activity on the status update of '
+      } else if (this.isQuestion(f)) {
+        let comment = this.getLastComment(f)
         let action = comment.videoPath ? 'left' : 'wrote'
-        return action + ' an answer on '
+        return ' ' + action + ' an answer on '
       } else {
-        return 'Recent activity on the ' + f.type + ' that'
+        return ' Recent activity on the ' + f.type + ' that '
       }
     },
     getPostDescriptionText (f) {
+      if (this.isQuestion(f) && this.manipulatePostDescriptionText(f)) {
+        return ''
+      }
       switch (f.type) {
         case 'text':
           return ''
