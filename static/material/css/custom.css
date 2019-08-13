@@ -1043,10 +1043,25 @@ strong{
     	margin: 0px;
     	font-size: 12px;
     }
+    .comment-widgets .comment-divider{ 
+    	border-bottom: 1px dotted #d2d2d2;
+    	padding-bottom: 10px !important;
+    }
+    .comment-widgets .custom-comment-row:last-of-type {
+    	border: none !important;
+    	padding-bottom: 0px !important;
+    }
 
 }
-.hide-comment-user-name .user-name-wrap {
+.hide-comment-user-name {
+	padding: 0px !important;
+	border: none !important;
+}
+.hide-comment-user-name .user-name-wrap, .hide-comment-user-name .comment-user-profile-pic-container {
 	display: none;
+}
+.hide-comment-user-name .comment-text {
+	margin: 0px !important;
 }
 /******Custom media css ends here******/
 .show-on-mobile {

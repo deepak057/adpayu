@@ -1,6 +1,6 @@
 <template lang="pug">
 .comment-row.row.custom-comment-row.m-t-10.m-l-0.m-r-0
-  .col-0.p-0.hidden-xs-down
+  .col-0.p-0.hidden-xs-down.comment-user-profile-pic-container
     <router-link @click.native = "closeAllModals()" :to="userProfileLink(comment.User.id)">
       span.round
         img(:src='getMedia(comment.User.pic)', alt='user', width='50')
