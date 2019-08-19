@@ -317,7 +317,7 @@ export default {
       }
     },
     manipulatePostDescriptionText (f) {
-      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f)
+      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f) && f.lastComment
     },
     editPost (f) {
       this.$refs.editPostComponent.trigger(f)
