@@ -16,8 +16,12 @@
         </template>
         span.mail-desc
           | {{noti.text}}
-          span.m-l-5.pointer(v-show="getPostId(noti)" @click="triggerPostPopup(noti)")
+          span.m-l-5.pointer(v-if="getPostId(noti) && !noti.linkObject" @click="triggerPostPopup(noti)")
             | <u>{{getPostType(noti)}}</u>
+          span.m-l-5.pointer(v-if="noti.linkObject")
+            <router-link tag="span" :to="noti.linkObject.url">
+              | <u>{{noti.linkObject.label}}</u>
+            </router-link>
         span.time.text-muted
           <timeago :datetime="noti['createdAt']" :auto-update="60" :title="noti['createdAt'] | date"></timeago>
         <template v-if="isFriendRequest(noti)">
@@ -66,7 +70,7 @@ export default {
   methods: {
     prepareNotification () {
       this.unseen = 0
-      let meta
+      let meta, linkObj
       for (let i in this.notificationData) {
         /* add a property to keep track of freindship status
         ** on friendship requests
@@ -80,7 +84,7 @@ export default {
             this.notificationData[i].text = 'Sent you a friend request'
             break
           case 'COMMENT_ON_POST':
-            this.notificationData[i].text = this.getPostType(this.notificationData[i]) === 'question' ? 'wrote answer to your' : 'commented on your'
+            this.notificationData[i].text = this.getPostType(this.notificationData[i]) === 'question' ? 'left an answer on your' : 'commented on your'
             break
           case 'LIKE_ON_POST':
             this.notificationData[i].text = 'loved your'
@@ -103,7 +107,17 @@ export default {
           case 'VIDEO_COMMENT_ACCEPTED':
             this.notificationData[i].heading = 'Video comment approved'
             meta = this.getNotiMeta(this.notificationData[i])
-            this.notificationData[i].text = '$' + meta.amountUSD + ' (' + meta.amountINR + ' INR) have been added to your account'
+            this.notificationData[i].text = '$' + meta.amountUSD + ' (' + meta.amountINR + ' INR) added to your account for your'
+            linkObj = {
+              label: 'comment',
+              url: this.getCommentLink(meta.commentId)
+            }
+            this.$set(this.notificationData[i], 'linkObject', linkObj)
+            break
+          case 'VIDEO_COMMENT_REJECTED':
+            this.notificationData[i].heading = 'Video comment rejected'
+            meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = 'You will not be paid for your video comment on'
             break
         }
       }
@@ -143,13 +157,14 @@ export default {
     },
     getPostType (noti) {
       let meta = this.getNotiMeta(noti)
+      let defaultType = 'post'
       if (!meta) {
-        return false
+        return defaultType
       }
       if ('postType' in meta) {
         return this.getPostTypeLabel(meta.postType)
       }
-      return false
+      return defaultType
     },
     getPostId (noti) {
       let meta = this.getNotiMeta(noti)
