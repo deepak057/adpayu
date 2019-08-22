@@ -66,6 +66,7 @@ export default {
   methods: {
     prepareNotification () {
       this.unseen = 0
+      let meta
       for (let i in this.notificationData) {
         /* add a property to keep track of freindship status
         ** on friendship requests
@@ -96,8 +97,13 @@ export default {
             break
           case 'AD_TARGET_MANIPULATED':
             this.notificationData[i].heading = 'Ad targets manipulated'
-            let meta = this.getNotiMeta(this.notificationData[i])
+            meta = this.getNotiMeta(this.notificationData[i])
             this.notificationData[i].text = meta.targetsManipulation.impressionsAdded + ' impressions added and ' + meta.targetsManipulation.ViewOrClickRemoved + ' ' + meta.targetsManipulation.removedAction + ' removed in the targets of your'
+            break
+          case 'VIDEO_COMMENT_ACCEPTED':
+            this.notificationData[i].heading = 'Video comment approved'
+            meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = '$' + meta.amountUSD + ' (' + meta.amountINR + ' INR) have been added to your account'
             break
         }
       }
