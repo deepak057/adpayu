@@ -7,7 +7,7 @@
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
-  <single-comment :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n) && userFeed, 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
+  <single-comment :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n) && userFeed && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
