@@ -297,6 +297,20 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
+  getCurrentUserRevenue () {
+    return Vue.http({
+      method: 'post',
+      url: constants.API_BASE_URL + '/users/getUserRevenue'
+    })
+      .then((response) => {
+        return new Promise((resolve) => {
+          resolve(response.data)
+        })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
 
   syncUser (uid = false) {
     let currentUser = this.getUser()

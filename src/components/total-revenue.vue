@@ -32,7 +32,8 @@ export default {
     return {
       totalRevenue: auth.getLocalRevenue(),
       currentUser: auth.getUser(),
-      loader: false
+      loader: false,
+      revenueUpdateInterval: 30000
     }
   },
   watch: {
@@ -42,6 +43,7 @@ export default {
   },
   mounted () {
     this.updateTotal()
+    this.updateTotalRevenue()
   },
   methods: {
     updateTotal (newV) {
@@ -53,6 +55,16 @@ export default {
       } else {
         this.$refs.verifyAccountComp.triggerPopup()
       }
+    },
+    updateTotalRevenue () {
+      setInterval(() => {
+        auth.getCurrentUserRevenue()
+          .then((d) => {
+            if (d) {
+              auth.saveLocalRevenue(d.totalRevenue)
+            }
+          })
+      }, this.revenueUpdateInterval)
     },
     syncUser () {
       if (this.loader) {
