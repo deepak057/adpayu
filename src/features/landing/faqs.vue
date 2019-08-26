@@ -24,13 +24,25 @@
               #support1.panel-collapse.collapse(aria-expanded='false')
                 .panel-body
                   | While using the site, you will see the promoted posts or ads in your feed. You make money as soon as you see an ad in your feed. Optionally, more money can be made by clicking the links or watching the videos in the ad (if links or video are available in the ad).
+                  br
+                  | You can also make money by uploading video comments or answers on the questions or videos uploaded on the site. At the moment of writing this FAQs, for each video comment, you will be paid 10 INR. However, you can
+                  a(href="/#contact")
+                    |  contact us
+                  |  if you think you want a different price for your video.
+            .panel.panel-default
+              .panel-heading
+                h4.panel-title.font-alt
+                  a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#support12', aria-expanded='true') What is a video comment or video answer?
+              #support12.panel-collapse.collapse(aria-expanded='false')
+                .panel-body
+                  | Video answer is basically a short video clip made in response to a given question asked on the platform. So, say there can be a question, such as "Show us your Pet?" and people can make a very small video clip (ideally 10-15 seconds) and post it as a response to that question. After you post it, a site moderator will review the video and upon their approval, you will get 10 INR added t your {{siteName}} account. If they reject it, you will not be paid for that video. You get notified about the status of the video via an on-site notification and an email.
             .panel.panel-default
               .panel-heading
                 h4.panel-title.font-alt
                   a.collapsed(data-toggle='collapse', data-parent='#accordion', href='#support2', aria-expanded='false') How to withdraw money to my bank account?
               #support2.panel-collapse.collapse(aria-expanded='false')
                 .panel-body
-                  | You will see Total Revenue section on the top-right corner of your Dashboard. In that section, you will see a Withdraw button. Click on the button to withdraw money to your Indian Bank or Paytm account.
+                  | You will see Total Revenue section on the top-right corner of your Dashboard. In that section, you will see a Withdraw button. Click on the button to withdraw money to your Indian Bank or Paytm account. However, before being able to withdraw money, you will have to upload your identity verification document for the verification of your identity.
             .panel.panel-default
               .panel-heading
                 h4.panel-title.font-alt
