@@ -12,6 +12,7 @@ const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
 const proxyMiddleware = require('http-proxy-middleware')
+const compression = require('compression')
 const webpackConfig = process.env.NODE_ENV === 'production'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
@@ -61,6 +62,9 @@ app.use(require('connect-history-api-fallback')())
 
 // serve webpack bundle output
 app.use(devMiddleware)
+
+// compress all responses
+app.use(compression())
 
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
