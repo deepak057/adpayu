@@ -1,5 +1,5 @@
 <template lang="pug">
-<video-player class="vjs-3-4" :options="videoPlayerOptions(videoPath)" :playsinline="true" data-setup="{fluid: true}"/>
+<video-player class="vjs-3-4" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}"/>
 </template>
 <script>
 // require styles
@@ -14,8 +14,8 @@ export default {
   },
   mixins: [mixin],
   props: {
-    videoPath: {
-      type: String,
+    comment: {
+      type: Object,
       required: true
     }
   }

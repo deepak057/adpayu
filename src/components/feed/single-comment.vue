@@ -18,7 +18,7 @@
     .row.m-0
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
       .comments.video-container.col-lg-6.col-md-8.p-0.m-t-5(:class="videoWrapColClass")
-        <comment-video-player :videoPath="comment.videoPath"/>
+        <comment-video-player :comment="comment"/>
     </template>
     div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion()")
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")
