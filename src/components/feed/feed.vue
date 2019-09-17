@@ -53,7 +53,7 @@
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Question'].question | capitalize}}
             </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
+            //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
           p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Question'].description")
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Question'].description}}
@@ -67,7 +67,7 @@
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
               | {{f['Video'].title | capitalize}}
             </router-link>
-            i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
+            //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
           p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Video'].description")
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Video'].description}}
