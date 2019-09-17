@@ -7,18 +7,18 @@ main
     link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700', rel='stylesheet')
     link(href='https://fonts.googleapis.com/css?family=Volkhov:400i', rel='stylesheet')
     link(href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/animate.css/animate.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/animate.css/animate.css', rel='stylesheet')
     link(href='static/titan-master/assets/lib/components-font-awesome/css/font-awesome.min.css', rel='stylesheet')
     link(href='static/titan-master/assets/lib/et-line-font/et-line-font.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.carousel.min.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/magnific-popup/dist/magnific-popup.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/simple-text-rotator/simpletextrotator.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.carousel.min.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/magnific-popup/dist/magnific-popup.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/lib/simple-text-rotator/simpletextrotator.css', rel='stylesheet')
     // Main stylesheet and color file
-    link(href='static/titan-master/assets/css/style.css', rel='stylesheet')
-    link(href='static/titan-master/assets/css/custom.css', rel='stylesheet')
-    link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
+    link(href='static/titan-master/assets/css/style.min.css', rel='stylesheet')
+    // link(href='static/titan-master/assets/css/custom.css', rel='stylesheet')
+    // link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
     nav.navbar.navbar-custom.navbar-fixed-top.one-page(role='navigation' :class="{'navbar-transparent make-transparent': ifHomePage()}")
         .container
             .navbar-header
@@ -119,7 +119,7 @@ export default {
   data () {
     return {
       scripts: [
-        'static/titan-master/assets/lib/jquery/dist/jquery.js',
+        'static/titan-master/assets/lib/jquery/dist/jquery.min.js',
         'static/titan-master/assets/lib/bootstrap/dist/js/bootstrap.min.js',
         /* 'static/titan-master/assets/lib/smoothscroll.js',
         'static/titan-master/assets/lib/wow/dist/wow.js',

@@ -39,7 +39,7 @@ export default {
     return {
       cat: 'all',
       scripts: [
-        'static/assets/plugins/jquery/jquery.min.js',
+        /* 'static/assets/plugins/jquery/jquery.min.js',
         'static/assets/plugins/bootstrap/js/popper.min.js',
         'static/assets/plugins/bootstrap/js/bootstrap.min.js',
         'static/material/js/waves.js',
@@ -47,7 +47,8 @@ export default {
         'static/material/js/jquery.slimscroll.js',
         'static/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js',
         'static/assets/plugins/sparkline/jquery.sparkline.min.js',
-        'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js',
+        'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', */
+        'static/material/js/all-plugins-compressed.js',
         'static/material/js/custom.js'
       ]
     }
