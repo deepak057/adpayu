@@ -1,6 +1,7 @@
 'use strict'
 
 require('./check-versions')()
+require('dotenv').config();//instatiate environment variables
 
 const config = require('../config')
 if (!process.env.NODE_ENV) {
