@@ -1051,6 +1051,9 @@ strong{
     	border: none !important;
     	padding-bottom: 0px !important;
     }
+    .make-comment-btn {
+    	margin-top: 10px;
+    }
 
 }
 .hide-comment-user-name {
