@@ -52,7 +52,8 @@ function postCommentInitialState () {
     videoPath: '',
     comments: [],
     pageLoader: true,
-    commentsEnabled: false
+    commentsEnabled: false,
+    defaultCommentIndex: 0
   }
 }
 
@@ -97,11 +98,14 @@ export default {
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled
     },
+    isCommentEnabled (index_) {
+      return this.enableLoadPreviousComments ? (this.userFeed ? index_ === this.defaultCommentIndex : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
+    },
     loadComments () {
       this.$options.service.loadComments(this.postId)
         .then((d) => {
           this.pageLoader = false
-          this.comments = d.comments
+          this.comments = this.updateDefaultCommentIndex(d.comments)
           this.updateCommentCount()
         })
         .catch((cErr) => {
@@ -123,9 +127,6 @@ export default {
             alert('Something went wrong while posting your comment/answer')
           })
       }
-    },
-    isCommentEnabled (index_) {
-      return this.enableLoadPreviousComments ? index_ >= (this.comments.length - this.defaultCommentsCount) : true
     },
     showAllComments () {
       this.enableLoadPreviousComments = false
@@ -170,6 +171,30 @@ export default {
       } */
       this.$emit('CommentsCountUpdated', {postId: this.postId, count: count})
       return count
+    },
+    /*
+    ** This method determines and sets the index of the
+    ** comment in Comments array that will be
+    ** shown as default comment in User Feed
+    ** It shows the default comment index as
+    ** the index of the comment having highest
+    ** number of likes
+    */
+    updateDefaultCommentIndex (comments) {
+      if (this.userFeed && comments.length && comments.length > 1) {
+        let sortedArr = comments.sort((a, b) => {
+          return a.CommentsLikesCount - b.CommentsLikesCount
+        })
+        // alert(sortedArr[0].id)
+        for (let i in comments) {
+          if (comments[i].id === sortedArr[(sortedArr.length - 1)].id) {
+            this.defaultCommentIndex = i
+            break
+          }
+        }
+      }
+      // alert(this.defaultCommentIndex)
+      return comments
     }
   }
 }
