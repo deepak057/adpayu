@@ -42,6 +42,9 @@ export default {
     getStaticContentURL () {
       return constants.SERVER_STATIC_CONTENT_URL
     },
+    copyObject (obj) {
+      return JSON.parse(JSON.stringify(obj))
+    },
     getMedia (path, mediaType = false) {
       if (path && path !== 'null') {
         let base = this.getStaticContentURL() + '/'

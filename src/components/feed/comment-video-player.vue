@@ -1,5 +1,5 @@
 <template lang="pug">
-<video-player class="vjs-3-4" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}"/>
+<video-player class="vjs-3-4" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}" @play="onPlay($event, comment)"/>
 </template>
 <script>
 // require styles
@@ -17,6 +17,12 @@ export default {
     comment: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    onPlay (e, c) {
+      alert('d')
+      this.$emit('play', {event: e, postObj: c})
     }
   }
 }

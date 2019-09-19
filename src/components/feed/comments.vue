@@ -17,7 +17,7 @@
         i.fa.fa-plus
   .row.m-t-10.leave-comment-wrap
     div
-      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
+      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent" @play="onVideoPlay"/>
     .col-11
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
@@ -182,19 +182,22 @@ export default {
     */
     updateDefaultCommentIndex (comments) {
       if (this.userFeed && comments.length && comments.length > 1) {
-        let sortedArr = comments.sort((a, b) => {
+        let sortedArr = this.copyObject(comments)
+        sortedArr.sort((a, b) => {
           return a.CommentsLikesCount - b.CommentsLikesCount
         })
-        // alert(sortedArr[0].id)
+        console.log(sortedArr)
         for (let i in comments) {
           if (comments[i].id === sortedArr[(sortedArr.length - 1)].id) {
-            this.defaultCommentIndex = i
+            this.defaultCommentIndex = parseInt(i)
             break
           }
         }
       }
-      // alert(this.defaultCommentIndex)
       return comments
+    },
+    onVideoPlay (obj) {
+      alert('played')
     }
   }
 }
