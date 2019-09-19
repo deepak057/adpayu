@@ -17,7 +17,7 @@
         i.fa.fa-plus
   .row.m-t-10.leave-comment-wrap
     div
-      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent" @play="onVideoPlay"/>
+      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent" @OnPlayerPlay="onVideoPlay"/>
     .col-11
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
@@ -183,21 +183,29 @@ export default {
     updateDefaultCommentIndex (comments) {
       if (this.userFeed && comments.length && comments.length > 1) {
         let sortedArr = this.copyObject(comments)
+        let unviewedFound = false
+        let getIndexInOriginalArrayByCommentId = function (commentId) {
+          for (let i in comments) {
+            if (comments[i].id === commentId) {
+              return parseInt(i)
+            }
+          }
+        }
         sortedArr.sort((a, b) => {
           return a.CommentsLikesCount - b.CommentsLikesCount
         })
-        console.log(sortedArr)
-        for (let i in comments) {
-          if (comments[i].id === sortedArr[(sortedArr.length - 1)].id) {
-            this.defaultCommentIndex = parseInt(i)
+        for (let i = (sortedArr.length - 1); i >= 0; i--) {
+          if (!sortedArr[i].HasViewed) {
+            this.defaultCommentIndex = getIndexInOriginalArrayByCommentId(sortedArr[i].id)
+            unviewedFound = true
             break
           }
         }
+        if (!unviewedFound) {
+          this.defaultCommentIndex = getIndexInOriginalArrayByCommentId(sortedArr[(sortedArr.length - 1)].id)
+        }
       }
       return comments
-    },
-    onVideoPlay (obj) {
-      alert('played')
     }
   }
 }

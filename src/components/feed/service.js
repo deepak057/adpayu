@@ -95,4 +95,14 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  markCommentAsViewed (commentId) {
+    return auth.put('/comments/markAsViewed/' + commentId)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }

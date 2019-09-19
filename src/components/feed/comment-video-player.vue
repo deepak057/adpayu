@@ -6,9 +6,11 @@
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
 import mixin from '../../globals/mixin.js'
+import Service from './service'
 
 export default {
   name: 'CommentVideoPlayer',
+  service: new Service(),
   components: {
     videoPlayer
   },
@@ -21,8 +23,16 @@ export default {
   },
   methods: {
     onPlay (e, c) {
-      alert('d')
-      this.$emit('play', {event: e, postObj: c})
+      try {
+        if (!c.HasViewed) {
+          this.$options.service.markCommentAsViewed(c.id)
+            .then((d) => {
+              c.HasViewed = 1
+            })
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
