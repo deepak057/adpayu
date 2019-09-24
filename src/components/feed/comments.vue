@@ -6,8 +6,8 @@
   .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
-  <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n)">
-  <single-comment :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n) && userFeed && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
+  <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
+  <single-comment :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && userFeed && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
@@ -52,8 +52,7 @@ function postCommentInitialState () {
     videoPath: '',
     comments: [],
     pageLoader: true,
-    commentsEnabled: false,
-    defaultCommentIndex: 0
+    commentsEnabled: false
   }
 }
 
@@ -98,14 +97,14 @@ export default {
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled
     },
-    isCommentEnabled (index_) {
-      return this.enableLoadPreviousComments ? (this.userFeed ? index_ === this.defaultCommentIndex : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
+    isCommentEnabled (index_, comment) {
+      return this.enableLoadPreviousComments ? (this.userFeed ? comment.setDefault : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
     },
     loadComments () {
       this.$options.service.loadComments(this.postId)
         .then((d) => {
           this.pageLoader = false
-          this.comments = this.updateDefaultCommentIndex(d.comments)
+          this.comments = d.comments
           this.updateCommentCount()
         })
         .catch((cErr) => {
@@ -171,7 +170,7 @@ export default {
       } */
       this.$emit('CommentsCountUpdated', {postId: this.postId, count: count})
       return count
-    },
+    }
     /*
     ** This method determines and sets the index of the
     ** comment in Comments array that will be
@@ -180,7 +179,7 @@ export default {
     ** the index of the comment having highest
     ** number of likes
     */
-    updateDefaultCommentIndex (comments) {
+    /* updateDefaultCommentIndex (comments) {
       if (this.userFeed && comments.length && comments.length > 1) {
         let sortedArr = this.copyObject(comments)
         let unviewedFound = false
@@ -205,8 +204,12 @@ export default {
           this.defaultCommentIndex = getIndexInOriginalArrayByCommentId(sortedArr[(sortedArr.length - 1)].id)
         }
       }
+      this.$emit('defaultAnswerSelected', {
+        userObj: comments[this.defaultCommentIndex].User
+        // postId: postId
+      })
       return comments
-    }
+    } */
   }
 }
 </script>

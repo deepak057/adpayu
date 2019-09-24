@@ -209,7 +209,7 @@ export default {
     },
     getLastComment (f) {
       // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
-      return f.lastComment
+      return f.defaultComment
     },
     descriptionExcerpt (text) {
       return text.substring(0, this.descriptionExcerptCharsCount) + '...'
@@ -317,7 +317,7 @@ export default {
       }
     },
     manipulatePostDescriptionText (f) {
-      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f) && f.lastComment
+      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f) && f.defaultComment
     },
     editPost (f) {
       this.$refs.editPostComponent.trigger(f)
