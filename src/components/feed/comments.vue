@@ -98,7 +98,7 @@ export default {
       this.commentsEnabled = !this.commentsEnabled
     },
     isCommentEnabled (index_, comment) {
-      return this.enableLoadPreviousComments ? (this.userFeed ? comment.setDefault : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
+      return this.enableLoadPreviousComments ? (this.userFeed ? (this.comments.length > 1 ? comment.setDefault : true) : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
     },
     loadComments () {
       this.$options.service.loadComments(this.postId)
