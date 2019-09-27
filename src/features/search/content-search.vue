@@ -67,7 +67,10 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search(this.searchType, this.k, this.page)
+      let otherParams = {
+        uncommented: this.$route.query.uncommented || false
+      }
+      this.$options.service.search(this.searchType, this.k, this.page, otherParams)
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false

@@ -20,6 +20,12 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
               span.hide-menu
                 |  Follow Tags
             </router-link>
+          li.add-topics-wrap
+            <router-link tag="a" to="/search/questions?k=&uncommented=true" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
+              i.mdi.mdi-library-plus
+              span.hide-menu
+                |  Answer
+            </router-link>
       // End Sidebar navigation
     // End Sidebar scroll
     // Bottom points

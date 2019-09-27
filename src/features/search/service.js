@@ -6,8 +6,21 @@ export default class Service {
     this.id = store.state.auth.user.id
   }
 
-  search (type, keyword, page) {
-    return auth.get('/search/' + type, {k: keyword, page: page})
+  search (type, keyword, page, otherParameters = false) {
+    let paramObj = {
+      k: keyword,
+      page: page
+    }
+
+    if (otherParameters) {
+      for (let i in otherParameters) {
+        if (otherParameters.hasOwnProperty(i)) {
+          paramObj[i] = otherParameters[i]
+        }
+      }
+    }
+
+    return auth.get('/search/' + type, paramObj)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
