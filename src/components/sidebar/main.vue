@@ -16,15 +16,15 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
           </router-link>
           li.add-topics-wrap
             <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
-              i.mdi.mdi-plus
+              i.mdi.mdi-tag-plus
               span.hide-menu
                 |  Follow Tags
             </router-link>
           li.add-topics-wrap
-            <router-link tag="a" to="/search/questions?k=&uncommented=true" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
-              i.mdi.mdi-library-plus
+            <router-link tag="a" to="/search/questions?k=&uncommented=true" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
+              i.mdi.mdi-comment-plus-outline
               span.hide-menu
-                |  Answer
+                |  Add Answer
             </router-link>
       // End Sidebar navigation
     // End Sidebar scroll
@@ -68,7 +68,7 @@ export default {
       preloader: true,
       defaultItem: {
         name: 'all',
-        icon: 'mdi-gauge',
+        icon: 'mdi-tag-multiple',
         default: true
       },
       user: auth.getUser(),
