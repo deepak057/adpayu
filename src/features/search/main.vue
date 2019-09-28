@@ -13,7 +13,7 @@
             .col-md-8
               h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
             .col-md-4.text-right
-              <search-field :searchType="searchType" :searchKeyword="k"></search-field>
+              <search-field :searchType="searchType" :searchKeyword="k" :additionalParams="additionalParams"></search-field>
           ul.nav.nav-tabs.customtab(role='tablist')
             li.nav-item
               a.nav-link(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false' :class="{'active': checkSearchType('content')}" @click="changeTab('content')")
@@ -80,7 +80,8 @@ export default {
   data () {
     return {
       searchType: '',
-      k: ''
+      k: '',
+      additionalParams: false
     }
   },
   watch: {
@@ -98,7 +99,17 @@ export default {
     init () {
       this.searchType = this.$route.params.type || 'content'
       this.k = this.$route.query.k || ''
+      this.additionalParams = this.getAdditionalParameters()
       this.setDocumentTitle('Search for "' + this.k + '"')
+    },
+    getAdditionalParameters () {
+      let uncommented = this.$route.query.uncommented || false
+      if (uncommented) {
+        return {
+          uncommented: uncommented
+        }
+      }
+      return false
     },
     checkSearchType (sType) {
       return sType === this.searchType
