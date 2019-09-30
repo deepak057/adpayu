@@ -24,6 +24,7 @@ export default {
   methods: {
     onPlay (e, c) {
       try {
+        this.pauseAllOtherVideos(e)
         if (!c.HasViewed) {
           this.$options.service.markCommentAsViewed(c.id)
             .then((d) => {

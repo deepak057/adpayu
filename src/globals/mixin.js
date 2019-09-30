@@ -211,6 +211,17 @@ export default {
         }
       ]
     },
+    /* eslint-disable */
+    pauseAllOtherVideos (currentPlayer) {
+      if($(".video-js").length) {
+        $(".video-js").each(function (index) {
+          if (this.player.poster() !== currentPlayer.poster()) {
+            this.player.pause();
+          }
+        })
+      }
+    },
+    /* eslint-disable */
     getCommentLink (commentId) {
       return '/c/' + commentId
     },
