@@ -15,6 +15,11 @@
           | {{noti.heading}}
         </template>
         span.mail-desc
+          <template v-if="noti.linkObject0">
+            <router-link tag="span" :to="noti.linkObject0.url" class="pointer">
+              | Your <u>{{noti.linkObject0.label}}</u>
+            </router-link>
+          </template>
           | {{noti.text}}
           span.m-l-5.pointer(v-if="getPostId(noti) && !noti.linkObject" @click="triggerPostPopup(noti)")
             | <u>{{getPostType(noti)}}</u>
@@ -118,6 +123,17 @@ export default {
             this.notificationData[i].heading = 'Video comment rejected'
             meta = this.getNotiMeta(this.notificationData[i])
             this.notificationData[i].text = 'You will not be paid for your video comment on'
+            break
+          case 'COMMENT_ASSOCIATION_CHANGED':
+            meta = this.getNotiMeta(this.notificationData[i])
+            let labelType = meta.postType === 'question' ? 'answer' : 'comment'
+            this.notificationData[i].heading = this.capitalizeString(labelType) + ' Moved'
+            this.notificationData[i].text = ' was moved to this'
+            let linkObj0 = {
+              label: labelType,
+              url: this.getCommentLink(meta.commentId)
+            }
+            this.$set(this.notificationData[i], 'linkObject0', linkObj0)
             break
         }
       }
