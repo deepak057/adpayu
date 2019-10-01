@@ -135,6 +135,16 @@ export default {
             }
             this.$set(this.notificationData[i], 'linkObject0', linkObj0)
             break
+          case 'IDENTITY_DOCS_APPROVED':
+            this.notificationData[i].heading = 'Your Identity Verified'
+            meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = 'Your verification is successful. You can now withdraw money.'
+            break
+          case 'IDENTITY_DOCS_REJECTED':
+            this.notificationData[i].heading = 'Identity Verification Failed'
+            meta = this.getNotiMeta(this.notificationData[i])
+            this.notificationData[i].text = 'Sorry, there was a problem. Please check your mail for more details.'
+            break
         }
       }
       return this.notificationData
