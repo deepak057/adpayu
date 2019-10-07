@@ -82,18 +82,27 @@ export default {
       default () {
         return false
       }
+    },
+    feedPage: {
+      type: String,
+      default () {
+        return 'userFeed'
+      }
     }
   },
   data () {
     return postCommentInitialState()
   },
   mounted () {
-    if (this.getCommentType() === 'answer' && this.userFeed) {
+    if (this.getCommentType() === 'answer' && this.manipulativePage()) {
       this.defaultCommentsCount = 1
     }
     this.loadComments()
   },
   methods: {
+    manipulativePage () {
+      return this.userFeed || this.feedPage === 'profile'
+    },
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled
     },

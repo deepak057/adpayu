@@ -88,11 +88,11 @@
           a.m-r-5(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'click')") + $ {{f['AdOption'].cpc}}
             i.mdi.mdi-information.m-l-4
-        .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!userFeed)")
+        .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!manipulativePage())")
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !userFeed || !f['CommentsCount'])")
+        .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'])")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="f['LikesCount']" :hasLiked="f['HasLiked']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
@@ -111,7 +111,7 @@
           .pull-right.text-muted.show-on-mobile
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
-    <comments :userFeed="userFeed" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': userFeed && f['Question'], 'question-has-answers': userFeed && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
+    <comments :userFeed="userFeed" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': userFeed && f['Question'], 'question-has-answers': userFeed && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>
@@ -159,6 +159,12 @@ export default {
       type: Boolean,
       default () {
         return false
+      }
+    },
+    feedPage: {
+      type: String,
+      default () {
+        return 'userFeed'
       }
     }
   },
@@ -219,7 +225,7 @@ export default {
     },
     disableEnableCommentsByDefault (feed) {
       for (let i in feed) {
-        if (this.userFeed && feed[i].Question && feed[i].CommentsCount) {
+        if (this.manipulativePage() && feed[i].Question && feed[i].CommentsCount) {
           feed[i].showComments = true
         }
       }
@@ -317,7 +323,10 @@ export default {
       }
     },
     manipulatePostDescriptionText (f) {
-      return this.currentUser.recentActivitiesEnabled && this.userFeed && this.recentActivity(f) && f.defaultComment
+      return this.currentUser.recentActivitiesEnabled && this.manipulativePage() && this.recentActivity(f) && f.defaultComment
+    },
+    manipulativePage () {
+      return this.userFeed || (this.feedPage && this.feedPage === 'profile')
     },
     editPost (f) {
       this.$refs.editPostComponent.trigger(f)

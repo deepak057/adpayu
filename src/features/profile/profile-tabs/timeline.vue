@@ -2,7 +2,7 @@
 .card-body.min-h-400
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
-  <feed :feed="feed" v-show="!pageLoader"></feed>
+  <feed :feed="feed" :feedPage="feedPage" :userFeed="'true'" v-show="!pageLoader"></feed>
   div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
     <preloader v-show="loadMorePreloader"></preloader>
     span(v-show="noMoreFeed")
@@ -22,7 +22,8 @@ function getInitialData () {
     page: 1,
     disableLoadMore: true,
     noMoreFeed: false,
-    loadMorePreloader: false
+    loadMorePreloader: false,
+    feedPage: 'profile'
   }
 }
 export default {
