@@ -92,7 +92,7 @@
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'])")
+        .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="f['LikesCount']" :hasLiked="f['HasLiked']" :postId="f['id']"></like>
           .btn-group(v-if="f.UserId===currentUser.id")
@@ -225,7 +225,10 @@ export default {
     },
     disableEnableCommentsByDefault (feed) {
       for (let i in feed) {
-        if (this.manipulativePage() && feed[i].Question && feed[i].CommentsCount) {
+        if (this.feedPage === 'profile' && !feed[i].defaultComment) {
+          feed[i].showComments = false
+        }
+        if (this.manipulativePage() && feed[i].defaultComment && feed[i].Question && feed[i].CommentsCount) {
           feed[i].showComments = true
         }
       }
