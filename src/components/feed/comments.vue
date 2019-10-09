@@ -88,6 +88,12 @@ export default {
       default () {
         return 'userFeed'
       }
+    },
+    postObj: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -100,8 +106,20 @@ export default {
     this.loadComments()
   },
   methods: {
+    // this method helps choose default number of comments to be shown, if the page is Profile and
+    // there is no default Comment on the post
+    manipulateAnswers () {
+      if (this.feedPage === 'profile') {
+        return this.postHasDefaultComment()
+      }
+      return false
+    },
+    postHasDefaultComment () {
+      return !this.isEmptyObject(this.postObj) && this.postObj.defaultComment
+    },
     manipulativePage () {
-      return this.userFeed || this.feedPage === 'profile'
+      // return this.userFeed || this.feedPage === 'profile'
+      return this.userFeed || (this.feedPage === 'profile' && this.postHasDefaultComment())
     },
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled

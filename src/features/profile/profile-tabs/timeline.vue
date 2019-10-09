@@ -1,5 +1,5 @@
 <template lang="pug">
-.card-body.min-h-400
+.card-body.min-h-400.profile-page-timeline
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
   <feed :feed="feed" :feedPage="feedPage" v-show="!pageLoader"></feed>

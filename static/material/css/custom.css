@@ -870,10 +870,14 @@ strong{
 .p-l-0 {
 	padding-left: 0px !important;
 }
-.question-on-user-feed .custom-comment-row:first-child {
+.profile-page-timeline .question-on-user-feed .custom-comment-row:first-child {
+	margin-top: 15px !important;
+}
+.question-on-user-feed .custom-comment-row.hide-comment-user-name:first-child {
   margin-top: 0px !important;
   padding-top: 0px !important;
 }
+
 .question-on-user-feed .enable-commenting-wrap, .question-on-user-feed.question-has-answers .leave-comment-wrap {
 	display: none;
 }
