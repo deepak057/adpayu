@@ -86,13 +86,19 @@ export default {
     feedPage: {
       type: String,
       default () {
-        return 'userFeed'
+        return ''
       }
     },
     postObj: {
       type: Object,
       default () {
         return {}
+      }
+    },
+    profileUserId: {
+      type: String,
+      default () {
+        return ''
       }
     }
   },
@@ -125,7 +131,16 @@ export default {
       this.commentsEnabled = !this.commentsEnabled
     },
     isCommentEnabled (index_, comment) {
-      return this.enableLoadPreviousComments ? (this.userFeed ? (this.comments.length > 1 ? comment.setDefault : true) : index_ >= (this.comments.length - this.defaultCommentsCount)) : true
+      if (this.enableLoadPreviousComments) {
+        if (this.userFeed && this.feedPage !== 'profile') {
+          return this.comments.length > 1 ? comment.setDefault : true
+        } else if (this.feedPage === 'profile') {
+          return this.postObj.defaultComment ? comment.UserId === this.profileUserId : true
+        } else {
+          return index_ >= (this.comments.length - this.defaultCommentsCount)
+        }
+      }
+      return true
     },
     loadComments () {
       this.$options.service.loadComments(this.postId)
