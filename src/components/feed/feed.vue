@@ -278,7 +278,7 @@ export default {
       * Sort posts by updatedAt timestamp if
       * user has enabled RecentActivities filter
       */
-      if (this.currentUser.recentActivitiesEnabled) {
+      if (this.currentUser.recentActivitiesEnabled && this.feedPage === 'userFeed') {
         feed.sort(function (a, b) {
           return new Date(b.updatedAt) - new Date(a.updatedAt)
         })
