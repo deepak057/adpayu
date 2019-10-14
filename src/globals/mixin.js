@@ -216,7 +216,13 @@ export default {
       if($(".video-js").length) {
         $(".video-js").each(function (index) {
           if (this.player.poster() !== currentPlayer.poster()) {
-            this.player.pause();
+            // this.player.dispose()
+            // this.player.pause()
+            /* reset the src of the video 
+            * to stop the buffering in all
+            * the previous videos
+            */
+            this.player.src(this.player.currentSrc());
           }
         })
       }
