@@ -222,7 +222,7 @@ export default {
             * to stop the buffering in all
             * the previous videos
             */
-            this.player.src(this.player.currentSrc());
+            // this.player.src(this.player.currentSrc());
           }
         })
       }
