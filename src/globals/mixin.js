@@ -217,7 +217,7 @@ export default {
         $(".video-js").each(function (index) {
           if (this.player.poster() !== currentPlayer.poster()) {
             // this.player.dispose()
-            // this.player.pause()
+            this.player.pause()
             /* reset the src of the video 
             * to stop the buffering in all
             * the previous videos
