@@ -3,7 +3,7 @@
   .text-center.m-t-10(v-if="pageLoader")
     <preloader class="preloader-h-20"/>
   <template v-if="!pageLoader">
-  .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !manipulativePage()")
+  .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed && (feedPage !=='profile' || !postHasDefaultComment())")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
@@ -18,11 +18,11 @@
   .row.m-t-10.leave-comment-wrap
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent" @OnPlayerPlay="onVideoPlay"/>
-    .col-11
+    .col-11.submit-comment-textwrap
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
       textarea.form-control.b-0.bg-none(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
-    .col-1.text-right
+    .col-1.text-right.submit-comment-btn
       button.btn.btn-info.btn-circle.btn-lg.make-comment-btn(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")
@@ -131,13 +131,16 @@ export default {
       this.commentsEnabled = !this.commentsEnabled
     },
     isCommentEnabled (index_, comment) {
+      let defaultCondition = () => {
+        return index_ >= (this.comments.length - this.defaultCommentsCount)
+      }
       if (this.enableLoadPreviousComments) {
         if (this.userFeed && this.feedPage !== 'profile') {
           return this.comments.length > 1 ? comment.setDefault : true
         } else if (this.feedPage === 'profile') {
-          return this.postObj.defaultComment ? comment.UserId === this.profileUserId : true
+          return this.postObj.defaultComment ? comment.UserId === this.profileUserId : defaultCondition()
         } else {
-          return index_ >= (this.comments.length - this.defaultCommentsCount)
+          return defaultCondition()
         }
       }
       return true

@@ -1058,6 +1058,10 @@ strong{
     .make-comment-btn {
     	margin-top: 10px;
     }
+    .leave-comment-wrap .submit-comment-textwrap {
+    	flex: 0 0 100%;
+    	max-width: 100%;
+    }
 
 }
 .hide-comment-user-name {
