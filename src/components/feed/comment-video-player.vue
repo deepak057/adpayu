@@ -26,7 +26,7 @@ export default {
       try {
         this.pauseAllOtherVideos(e)
         if (!c.HasViewed) {
-          this.$options.service.markCommentAsViewed(c.id)
+          this.$options.service.markEntityAsViewed(c.id, 'comment')
             .then((d) => {
               c.HasViewed = 1
             })

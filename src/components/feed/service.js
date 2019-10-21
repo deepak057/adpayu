@@ -96,8 +96,12 @@ export default class Service {
       })
   }
 
-  markCommentAsViewed (commentId) {
-    return auth.put('/comments/markAsViewed/' + commentId)
+  markEntityAsViewed (id, entityType = 'comment') {
+    let data = {
+      entityType: entityType,
+      id: id
+    }
+    return auth.put('/users/markAsViewed', data)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

@@ -6,9 +6,11 @@
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
 import mixin from '../../globals/mixin.js'
+import Service from './service'
 
 export default {
   name: 'FeedVideoPlayer',
+  service: new Service(),
   components: {
     videoPlayer
   },
@@ -27,7 +29,17 @@ export default {
       this.$emit('ended', {event: e, postObj: f})
     },
     onPlay (e, f) {
-      this.pauseAllOtherVideos(e)
+      try {
+        this.pauseAllOtherVideos(e)
+        if (!f.HasViewed) {
+          this.$options.service.markEntityAsViewed(f.id, 'post')
+            .then((d) => {
+              f.HasViewed = 1
+            })
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
