@@ -14,13 +14,16 @@
       <template v-if="comment.comment">
       | {{comment.comment}}
       </template>
+    <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
+    .video-comment-content.excerpt(v-html="comment.comment")
+    </template>
     <template v-if="getVideo(comment)">
     .row.m-0
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
       .comments.video-container.col-lg-6.col-md-8.p-0.m-t-5(:class="videoWrapColClass")
         <comment-video-player :comment="comment"/>
     </template>
-    div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion()")
+    div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion() && !isVideoAnswer() && comment.comment")
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")
       span.text-muted.pull-right.comment-datetimestamp.m-l-5
         <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
@@ -102,6 +105,12 @@ export default {
     },
     triggerSharing () {
       this.$refs.socialShareComp.triggerPopup()
+    },
+    videoAnswerHasContent () {
+      return this.isQuestion() && this.comment.comment
+    },
+    isVideoAnswer () {
+      return this.comment.videoPath
     }
   }
 }

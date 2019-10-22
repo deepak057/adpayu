@@ -1111,7 +1111,33 @@ strong{
 .mailbox .message-center a {
 	padding: 9px 11px;
 }
+.video-comment-content p{
+  margin: 0px !important;
+}
 
+.video-comment-content p strong {
+	font-weight: normal !important;
+}
+
+.video-comment-content p u {
+	text-decoration: none !important;
+}
+
+.video-comment-content p em {
+	font-style: normal !important;
+}
+
+.video-comment-content {
+	font-size: 12px;
+}
+.video-comment-content.excerpt, .video-comment-content.excerpt p{
+	display: inline-block;
+    width: 145px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+
+}
 
 @media screen and (max-width: 568px){
 	.mailbox .message-center a {
