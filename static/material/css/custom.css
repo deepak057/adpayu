@@ -1127,12 +1127,16 @@ strong{
 	text-decoration: none !important;
 }
 
+/*
 .video-comment-content .excerpt p em {
-	font-style: normal !important;
+	font-style: normal;
 }
-
+*/
 .video-comment-content .excerpt, .video-comment-content .toggle {
 	font-size: 12px;
+}
+.video-comment-content .excerpt {
+	margin-top: 3px;
 }
 .video-comment-content .excerpt, .video-comment-content .excerpt p{
 	display: inline-block;
@@ -1141,7 +1145,10 @@ strong{
     text-overflow: ellipsis;
     width: 77%;
     font-style: italic;
+}
 
+.m-t-1 {
+	margin-top: 1px;
 }
 
 .v-align-top {

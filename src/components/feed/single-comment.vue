@@ -24,8 +24,8 @@
     <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
     div(:class="{'row p-0 m-0': !commentDescriptionEnabled}")
       .video-comment-content(:class="{'col-lg-6 col-md-8 p-0 d-flex': !commentDescriptionEnabled}")
-        div(:class="{'excerpt ': !commentDescriptionEnabled}" v-html="comment.comment")
-        span.underline.pointer.v-align-top.toggle(v-if="comment.comment.length > defaultVideoCommentDescriptionCharLength" @click="toggleVideoCommentDescription()")
+        div(:class="{'excerpt': !commentDescriptionEnabled}" v-html="comment.comment")
+        span.underline.pointer.m-t-1.toggle(v-if="comment.comment.length > defaultVideoCommentDescriptionCharLength" @click="toggleVideoCommentDescription()")
           | show {{(!commentDescriptionEnabled ? "more" : "less")}}
     </template>
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")

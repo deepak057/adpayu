@@ -58,7 +58,7 @@
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Question'].description}}
             span(v-if="f['enableFullDescription']") ...
-            span.underline.pointer(@click="showFullDescription(k)" v-if="f['Question'].description.length > descriptionExcerptCharsCount")
+            span.underline.pointer(@click="showFullDescription(f)" v-if="f['Question'].description.length > descriptionExcerptCharsCount")
               | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
         div.m-t-10(v-if="f['Video']")
           h3.font-bold
@@ -72,7 +72,7 @@
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Video'].description}}
             span(v-if="f['enableFullDescription']") ...
-            span.underline.pointer(@click="showFullDescription(k)" v-if="f['Video'].description.length > descriptionExcerptCharsCount")
+            span.underline.pointer(@click="showFullDescription(f)" v-if="f['Video'].description.length > descriptionExcerptCharsCount")
               | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
           //p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
@@ -201,11 +201,11 @@ export default {
     }
   },
   methods: {
-    showFullDescription (k) {
-      if (typeof this.feed[k].enableFullDescription === 'undefined') {
-        this.$set(this.feed[k], 'enableFullDescription', false)
+    showFullDescription (f) {
+      if (typeof f.enableFullDescription === 'undefined') {
+        this.$set(f, 'enableFullDescription', false)
       }
-      this.feed[k].enableFullDescription = !this.feed[k].enableFullDescription
+      f.enableFullDescription = !f.enableFullDescription
     },
     isQuestion (f) {
       return f.type === 'question'
