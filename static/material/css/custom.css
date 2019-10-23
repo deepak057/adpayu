@@ -1062,6 +1062,10 @@ strong{
     	flex: 0 0 100%;
     	max-width: 100%;
     }
+    .video-comment-content .excerpt{
+	    width: 68% !important;
+	}
+
 
 }
 .hide-comment-user-name {
@@ -1111,34 +1115,45 @@ strong{
 .mailbox .message-center a {
 	padding: 9px 11px;
 }
-.video-comment-content p{
+.video-comment-content .excerpt p{
   margin: 0px !important;
 }
 
-.video-comment-content p strong {
+.video-comment-content .excerpt p strong {
 	font-weight: normal !important;
 }
 
-.video-comment-content p u {
+.video-comment-content .excerpt p u {
 	text-decoration: none !important;
 }
 
-.video-comment-content p em {
+.video-comment-content .excerpt p em {
 	font-style: normal !important;
 }
 
-.video-comment-content {
+.video-comment-content .excerpt, .video-comment-content .toggle {
 	font-size: 12px;
 }
-.video-comment-content.excerpt, .video-comment-content.excerpt p{
+.video-comment-content .excerpt, .video-comment-content .excerpt p{
 	display: inline-block;
-    width: 145px;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
+    width: 77%;
+    font-style: italic;
 
 }
 
+.v-align-top {
+	vertical-align: top;
+}
+.video-comment-content .excerpt p {
+	width: 100%;
+}
+
+.d-inline {
+	display: inline;
+}
 @media screen and (max-width: 568px){
 	.mailbox .message-center a {
 	padding: 9px 7px !important;

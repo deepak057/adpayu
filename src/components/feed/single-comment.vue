@@ -14,9 +14,6 @@
       <template v-if="comment.comment">
       | {{comment.comment}}
       </template>
-    <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
-    .video-comment-content.excerpt(v-html="comment.comment")
-    </template>
     <template v-if="getVideo(comment)">
     .row.m-0
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
@@ -24,6 +21,13 @@
         <comment-video-player :comment="comment"/>
     </template>
     div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion() && !isVideoAnswer() && comment.comment")
+    <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
+    div(:class="{'row p-0 m-0': !commentDescriptionEnabled}")
+      .video-comment-content(:class="{'col-lg-6 col-md-8 p-0 d-flex': !commentDescriptionEnabled}")
+        div(:class="{'excerpt ': !commentDescriptionEnabled}" v-html="comment.comment")
+        span.underline.pointer.v-align-top.toggle(v-if="comment.comment.length > defaultVideoCommentDescriptionCharLength" @click="toggleVideoCommentDescription()")
+          | show {{(!commentDescriptionEnabled ? "more" : "less")}}
+    </template>
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")
       span.text-muted.pull-right.comment-datetimestamp.m-l-5
         <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
@@ -89,7 +93,9 @@ export default {
   },
   data () {
     return {
-      currentUser: auth.getUser()
+      currentUser: auth.getUser(),
+      commentDescriptionEnabled: false,
+      defaultVideoCommentDescriptionCharLength: 50
     }
   },
   computed: {
@@ -111,6 +117,9 @@ export default {
     },
     isVideoAnswer () {
       return this.comment.videoPath
+    },
+    toggleVideoCommentDescription () {
+      this.commentDescriptionEnabled = !this.commentDescriptionEnabled
     }
   }
 }
