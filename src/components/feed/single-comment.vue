@@ -24,7 +24,7 @@
     <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
     div(:class="{'row p-0 m-0': !commentDescriptionEnabled}")
       .video-comment-content(:class="{'col-lg-6 col-md-8 p-0 d-flex': !commentDescriptionEnabled}")
-        div(:class="{'excerpt': !commentDescriptionEnabled}" v-html="comment.comment")
+        div(:class="{'excerpt': !commentDescriptionEnabled, 'm-t-5': commentDescriptionEnabled}" v-html="comment.comment")
         span.underline.pointer.m-t-1.toggle(v-if="comment.comment.length > defaultVideoCommentDescriptionCharLength" @click="toggleVideoCommentDescription()")
           | show {{(!commentDescriptionEnabled ? "more" : "less")}}
     </template>
@@ -95,7 +95,7 @@ export default {
     return {
       currentUser: auth.getUser(),
       commentDescriptionEnabled: false,
-      defaultVideoCommentDescriptionCharLength: 50
+      defaultVideoCommentDescriptionCharLength: 60
     }
   },
   computed: {
