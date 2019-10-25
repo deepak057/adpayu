@@ -95,7 +95,7 @@ export default {
     return {
       currentUser: auth.getUser(),
       commentDescriptionEnabled: false,
-      defaultVideoCommentDescriptionCharLength: 60
+      defaultVideoCommentDescriptionCharLength: 77
     }
   },
   computed: {
