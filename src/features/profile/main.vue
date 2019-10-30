@@ -11,7 +11,7 @@
       .card
         .card-body.page-preloader
           <preloader></preloader>
-  .row(v-show="!pagePreloader")
+  .row.change-direction-row(v-show="!pagePreloader")
     // Column
     // Column
     .col-lg-8.col-xlg-9.col-md-7.p-l-0.p-r-0
