@@ -17,7 +17,7 @@
     .col-lg-8.col-xlg-9.col-md-7.p-l-0.p-r-0
       <profile-tabs :profileUser = "user" :isOwnProfile="isOwnProfile" :currentUser="currentUser"></profile-tabs>
     // Column
-    .col-lg-4.col-xlg-3.col-md-5.p-r-0.p-l-10
+    .col-lg-4.col-xlg-3.col-md-5.p-r-0.p-l-10.no-p-mobile
       .card
         .card-body
           center.m-t-30

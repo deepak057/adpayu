@@ -967,6 +967,9 @@ strong{
         flex-direction: row-reverse;
         flex-flow: column-reverse;
     }
+    .no-p-mobile {
+    	padding: 0px !important;
+    }
     html body .padd_l_0{
         padding-left: 0;
     }
