@@ -24,6 +24,12 @@
         | To make sure we have only unique content available on the platform, we have created AI powered bots that crawl other video sharing platforms and match the videos against the videos uploaded on the platform.
       li
         | If any video answer you have uploaded on {{siteName}} is found on another platform, we might take some strict actions against as you as that would be a violation of {{siteName}}’s User Uploaded Conetent policies. In which case, you will be liable to pay a heavy fine.
+    h4.m-l-10.all-caps Payment for Video Answers
+    p
+      | You will get paid 7-10 INR for your video answer once it's approved. If you feel you should be paid higher, you can
+      a(href="/#contact")
+        |  contact us
+      | .
     h4.m-l-10.all-caps Reasons your video answer could be deleted or be unpaid
     ol
       li

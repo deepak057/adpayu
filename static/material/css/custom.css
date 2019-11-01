@@ -1157,6 +1157,9 @@ strong{
 .v-align-top {
 	vertical-align: top;
 }
+.v-align-text-bottom {
+	vertical-align: text-bottom;
+}
 .video-comment-content .excerpt p {
 	width: 100%;
 }
