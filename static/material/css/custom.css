@@ -967,6 +967,9 @@ strong{
         flex-direction: row-reverse;
         flex-flow: column-reverse;
     }
+    .v-align-text-bottom-desktop {
+    	vertical-align: initial !important;
+    }
     .no-p-mobile {
     	padding: 0px !important;
     }
@@ -1157,7 +1160,7 @@ strong{
 .v-align-top {
 	vertical-align: top;
 }
-.v-align-text-bottom {
+.v-align-text-bottom-desktop {
 	vertical-align: text-bottom;
 }
 .video-comment-content .excerpt p {

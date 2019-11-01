@@ -4,7 +4,7 @@
     i.mdi.mdi-upload.m-r-5
     | Upload a video {{commentType}}
   <router-link target="_blank" class="font-dark" :to="getPageURL('video-answer-guidelines')" :title = "'Learn more about video ' + commentType">
-    i.mdi.mdi-information-outline.m-l-2.v-align-text-bottom
+    i.mdi.mdi-information-outline.m-l-2.v-align-text-bottom-desktop
   </router-link>
   .m-t-10.m-l-5(:class="{'m-b-5': commentType === 'comment', 'm-b-15': commentType === 'answer'}")
     <template v-if="!uploadPercentage">
