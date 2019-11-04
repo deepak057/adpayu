@@ -4,7 +4,7 @@ div
     | Sorry, no results
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
-  <feed v-if="!pageLoader && results.length" :feed="results"></feed>
+  <feed :feedPage="'search'" v-if="!pageLoader && results.length" :feed="results"></feed>
   div.load-more-posts.text-center(v-infinite-scroll="loadMoreResults" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
     <preloader v-show="loadMorePreloader"></preloader>
     span(v-show="noMoreResults && results.length")
