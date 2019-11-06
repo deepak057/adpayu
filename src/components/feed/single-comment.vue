@@ -45,10 +45,14 @@
               i.ti-link
               | Comment Page
             </router-link>
+            a.dropdown-item(@click="triggerVideoEditing()" v-if="isOwner(comment.User.id) && getVideo(comment)" href="javascript:void(0)" title="Edit the video")
+              i.ti-pencil-alt.m-r-5
+              | Edit Video
             // a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
               i.ti-share.m-r-5
               | Share
   // <social-share ref="socialShareComp" />
+  <video-editing ref="videoEditingComponent"/>
 </template>
 <script>
 import Like from './like'
@@ -59,13 +63,15 @@ import commentMixin from './comment-mixin.js'
 import auth from '@/auth/helpers'
 import CommentVideoPlayer from './comment-video-player'
 // import SocialShare from '../../components/social-share'
+import VideoEditing from '../videoEditing/main'
 
 export default {
   name: 'SingleComment',
   service: new Service(),
   components: {
     Like,
-    CommentVideoPlayer
+    CommentVideoPlayer,
+    VideoEditing
     // SocialShare
   },
   mixins: [mixin, commentMixin],
@@ -108,6 +114,9 @@ export default {
   methods: {
     deleteComment () {
       this.$emit('deleteComment', this.index)
+    },
+    triggerVideoEditing () {
+      this.$refs.videoEditingComponent.triggerPopup()
     },
     triggerSharing () {
       this.$refs.socialShareComp.triggerPopup()

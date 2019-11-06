@@ -27,6 +27,7 @@
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")
         <preloader :option = 2></preloader>
+  <video-editing ref="videoEditingComponent"/>
   </template>
 </template>
 <script>
@@ -41,6 +42,7 @@ import VideoComment from './video-comment'
 import CommentVideoPlayer from './comment-video-player'
 import SingleComment from './single-comment'
 import { VueEditor } from 'vue2-editor'
+import VideoEditing from '../videoEditing/main'
 
 function postCommentInitialState () {
   return {
@@ -65,7 +67,8 @@ export default {
     VideoComment,
     CommentVideoPlayer,
     SingleComment,
-    VueEditor
+    VueEditor,
+    VideoEditing
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -106,12 +109,15 @@ export default {
     return postCommentInitialState()
   },
   mounted () {
-    if (this.getCommentType() === 'answer' && this.manipulativePage()) {
+    if (this.isAnswer() && this.manipulativePage()) {
       this.defaultCommentsCount = 1
     }
     this.loadComments()
   },
   methods: {
+    isAnswer () {
+      return this.getCommentType() === 'answer'
+    },
     // this method helps choose default number of comments to be shown, if the page is Profile and
     // there is no default Comment on the post
     manipulateAnswers () {
@@ -165,11 +171,17 @@ export default {
             that.$set(this.comments, this.comments.length, data.comment)
             this.updateCommentCount('add')
             this.reset()
+            this.enableVideoEditing(data.comment)
           })
           .catch((commentError) => {
             that.preloader = false
             alert('Something went wrong while posting your comment/answer')
           })
+      }
+    },
+    enableVideoEditing (comment) {
+      if (this.getVideo(comment)) {
+        this.$refs.videoEditingComponent.triggerPopup()
       }
     },
     showAllComments () {
