@@ -1175,3 +1175,17 @@ strong{
 	padding: 9px 7px !important;
 }
 }
+
+.accordion-blue .card-header {
+	background: #1e88e5;
+}
+.accordion-blue .card-header button {
+	color: #fff;
+}
+.accordion-blue .card-header button i {
+	font-size: 22px;
+}
+.accordion-blue .card-header button .tab-label {
+	vertical-align: text-top;
+	text-transform: uppercase;
+}
