@@ -20,77 +20,18 @@ div(v-if="triggered")
               .collapse(:id="getSectionId(1)" :aria-labelledby="getSectionId(1, header)", :data-parent="'#'+getSectionId(0)")
                 .card-body
                   .row
-                    .col-lg-4.col-md-6
+                    .col-lg-4.col-md-6(v-for="track in tracks")
                       .card.m-b-30
                         .card-body
                           .row
                             .col-4
-                              .pointer.round.round-lg.align-self-center.round-info
-                                i.mdi.mdi.mdi-play
+                              .pointer.round.round-lg.align-self-center.round-info(@click="playTrack(track)")
+                                i.mdi.mdi.mdi-play(v-if= "!track.playing")
+                                i.mdi.mdi.mdi-pause(v-if= "track.playing")
                             .col-8.p-0
                               .m-l-10.align-self-center
-                                h4.m-b-0.font-light
-                                  a.c-inherit(href='/tag/general') General
-                                h5.m-t-5.text-muted.m-b-0
-                                  span
-                                    span.pointer Add
-                                    .btn-group(style='display: none;')
-                                      button.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                        i.fa.fa-check.m-r-5
-                                        span Following
-                                      .dropdown-menu
-                                        a.dropdown-item(href='javascript:void(0)') Unfollow
-                    .col-lg-4.col-md-6
-                      .card.m-b-30
-                        .card-body
-                          .row
-                            .col-4
-                              .pointer.round.round-lg.align-self-center.round-info
-                                i.mdi.mdi.mdi-play
-                            .col-8.p-0
-                              .m-l-10.align-self-center
-                                h4.m-b-0.font-light
-                                  a.c-inherit(href='/tag/general') General
-                                h5.m-t-5.text-muted.m-b-0
-                                  span
-                                    span.pointer Add
-                                    .btn-group(style='display: none;')
-                                      button.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                        i.fa.fa-check.m-r-5
-                                        span Following
-                                      .dropdown-menu
-                                        a.dropdown-item(href='javascript:void(0)') Unfollow
-                    .col-lg-4.col-md-6
-                      .card.m-b-30
-                        .card-body
-                          .row
-                            .col-4
-                              .pointer.round.round-lg.align-self-center.round-info
-                                i.mdi.mdi.mdi-play
-                            .col-8.p-0
-                              .m-l-10.align-self-center
-                                h4.m-b-0.font-light
-                                  a.c-inherit(href='/tag/general') General
-                                h5.m-t-5.text-muted.m-b-0
-                                  span
-                                    span.pointer Add
-                                    .btn-group(style='display: none;')
-                                      button.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                        i.fa.fa-check.m-r-5
-                                        span Following
-                                      .dropdown-menu
-                                        a.dropdown-item(href='javascript:void(0)') Unfollow
-                    .col-lg-4.col-md-6
-                      .card.m-b-30
-                        .card-body
-                          .row
-                            .col-4
-                              .pointer.round.round-lg.align-self-center.round-info
-                                i.mdi.mdi.mdi-play
-                            .col-8.p-0
-                              .m-l-10.align-self-center
-                                h4.m-b-0.font-light
-                                  a.c-inherit(href='/tag/general') General
+                                h4.m-b-0.font-light.marquee-container
+                                  .c-inherit(:class="{'text-excerpt': !track.playing, 'marquee': track.playing}") {{track.title}}
                                 h5.m-t-5.text-muted.m-b-0
                                   span
                                     span.pointer Add
@@ -124,6 +65,7 @@ div(v-if="triggered")
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           button.btn.btn-danger.waves-effect.waves-light(@click="proceedToPay()")
             | Preview
+        audio.none(:id="audioPlayerId" autoplay="true" :src="audioTrack")
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -140,7 +82,28 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-video-editing',
-      triggered: false
+      triggered: false,
+      audioTrack: false,
+      tracks: [
+        {
+          id: 1,
+          title: 'DJ Snake- Taki Taki (reloaded 2019)',
+          URL: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
+          playing: false
+        },
+        {
+          id: 2,
+          title: 'ADJ Snake- Taki Taki (reloaded 2019)',
+          URL: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
+          playing: false
+        },
+        {
+          id: 3,
+          title: 'DJ Snake- Bala Bala (reloaded 2019)',
+          URL: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
+          playing: false
+        }
+      ]
     }
   },
   computed: {
@@ -152,6 +115,11 @@ export default {
     triggerButtonId: {
       get () {
         return this.id + '-video-editing'
+      }
+    },
+    audioPlayerId: {
+      get () {
+        return this.id + '-audio-player'
       }
     },
     modalId: {
@@ -168,6 +136,21 @@ export default {
   mounted () {
   },
   methods: {
+    playTrack (track) {
+      let player = document.getElementById(this.audioPlayerId)
+      player.pause()
+      for (let i in this.tracks) {
+        if (this.tracks[i].id !== track.id) {
+          this.tracks[i].playing = false
+        } else {
+          this.tracks[i].playing = !this.tracks[i].playing
+          if (this.tracks[i].playing) {
+            player.setAttribute('src', this.tracks[i].URL)
+            player.play()
+          }
+        }
+      }
+    },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
