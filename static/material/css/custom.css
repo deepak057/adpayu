@@ -1189,3 +1189,6 @@ strong{
 	vertical-align: text-top;
 	text-transform: uppercase;
 }
+.m-b-30 {
+	margin-bottom: 30px !important;
+}
