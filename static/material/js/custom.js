@@ -170,6 +170,10 @@ $(function () {
                 $(this).appendTo("body");
              })
 
+             $(document).on('hidden.bs.modal', '.modal', function(){
+                $(this).find("audio")[0].pause()
+             })
+
              $(document).on('shown.bs.modal', '.topmost-modal', function(){
                
                /*

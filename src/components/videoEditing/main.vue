@@ -63,7 +63,7 @@ div(v-if="triggered")
                   | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect.waves-light(@click="triggerPreview()")
+          button.btn.btn-danger.waves-effect.waves-light(:class="{'disabled': !audioTrack}" @click="triggerPreview()")
             | Preview
         audio.none(:id="audioPlayerId" autoplay="true" :src="audioTrack")
         <preview ref="PreviewComponent" />
@@ -142,6 +142,7 @@ export default {
   },
   methods: {
     addTrack (track) {
+      this.audioTrack = track
       for (let i in this.tracks) {
         if (this.tracks[i].id === track.id) {
           this.tracks[i].trackAdded = true
@@ -151,6 +152,7 @@ export default {
       }
     },
     removeTrack (track) {
+      this.audioTrack = false
       track.trackAdded = false
     },
     getTracks () {
@@ -174,7 +176,12 @@ export default {
       }
     },
     triggerPreview () {
-      this.$refs.PreviewComponent.triggerPopup()
+      if (this.audioTrack) {
+        this.playTrack(this.audioTrack)
+        this.$refs.PreviewComponent.triggerPopup({
+          audioSrc: this.audioTrack.URL
+        })
+      }
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()

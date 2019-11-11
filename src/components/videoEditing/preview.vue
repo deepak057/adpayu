@@ -14,6 +14,7 @@ div(v-if="triggered")
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light
             | Save
+    audio.none(:id="audioPlayerId")
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -44,6 +45,11 @@ export default {
         return this.id + '-video-editing-preview'
       }
     },
+    audioPlayerId: {
+      get () {
+        return this.id + '-video-editing-preview-audio-player'
+      }
+    },
     modalId: {
       get () {
         return this.id + '-video-editing-modal'
@@ -61,20 +67,29 @@ export default {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
-    triggerPopup () {
+    playPreview (config) {
+      let audioPlayer = document.getElementById(this.audioPlayerId)
+      audioPlayer.setAttribute('src', config.audioSrc)
+      audioPlayer.play()
+    },
+    triggerPopup (config) {
       /*eslint-disable*/
       this.triggered = true
       let d = document.getElementById(this.triggerButtonId)
+      let play = ()=> {
+        d.click()
+        this.playPreview(config)
+      }
       if (!d) {
           let interval = setInterval (()=> {
           d = document.getElementById(this.triggerButtonId)
           if (d) {
-            d.click()
+            play()
             clearInterval(interval)
           }
         }, 100)
       } else {
-        d.click()
+        play()
       }
     }
   }
