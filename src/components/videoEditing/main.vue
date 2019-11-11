@@ -177,7 +177,7 @@ export default {
     },
     triggerPreview () {
       if (this.audioTrack) {
-        this.playTrack(this.audioTrack)
+        this.audioTrack.playing = false
         this.$refs.PreviewComponent.triggerPopup({
           audioSrc: this.audioTrack.URL
         })
