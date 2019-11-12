@@ -65,7 +65,7 @@ div(v-if="triggered")
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           button.btn.btn-danger.waves-effect.waves-light(:class="{'disabled': !audioTrack}" @click="triggerPreview()")
             | Preview
-        audio.none(:id="audioPlayerId" autoplay="true" :src="audioTrack")
+        audio.none(:id="audioPlayerId" autoplay="true" :src="audioTrack" loop)
         <preview ref="PreviewComponent" />
 </template>
 <script>

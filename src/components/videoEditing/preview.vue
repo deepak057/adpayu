@@ -32,7 +32,8 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-video-editing-preview',
-      triggered: false
+      triggered: false,
+      videoBufferingInterval: false
     }
   },
   computed: {
@@ -91,14 +92,17 @@ export default {
     initVideoPlayerEvents (videoPlayer, audioPlayer) {
       /*eslint-disable*/
 
-      var checkInterval  = 50.0 // check every 50 ms (do not use lower values)
-      var lastPlayPos    = 0
-      var currentPlayPos = 0
-      var bufferingDetected = false
-      var player = videoPlayer
+      let checkInterval  = 50.0 // check every 50 ms (do not use lower values)
+      let lastPlayPos    = 0
+      let currentPlayPos = 0
+      let bufferingDetected = false
+      let player = videoPlayer
+      this.videoBufferingInterval = setInterval(checkBuffering, checkInterval)
+      let pauseAudio = ()=> {
+        audioPlayer.pause()
+        clearInterval(this.videoBufferingInterval)
+      }
 
-      let interval = setInterval(checkBuffering, checkInterval)
-      
       function checkBuffering() {
           currentPlayPos = player.currentTime
 
@@ -135,10 +139,11 @@ export default {
           }
           lastPlayPos = currentPlayPos
       }
-
       videoPlayer.onended = () => {
-        audioPlayer.pause()
-        clearInterval(interval)
+        pauseAudio()
+      }
+      videoPlayer.onpause = () => {
+        pauseAudio()
       }
       /* videoPlayer.onseeking = () => {
         if (videoPlayer.readyState < videoPlayer.HAVE_FUTURE_DATA) {
@@ -153,10 +158,18 @@ export default {
       /*eslint-disable*/
       this.triggered = true
       let d = document.getElementById(this.triggerButtonId)
+      let clearBufferingInterval = ()=> {
+         let that = this
+         $(document).on('hidden.bs.modal', '#' + this.modalId, function(){
+           clearInterval(that.videoBufferingInterval)
+         })
+      }
       let play = ()=> {
         d.click()
         this.playPreview(config)
+        clearBufferingInterval()
       }
+      
       if (!d) {
           let interval = setInterval (()=> {
           d = document.getElementById(this.triggerButtonId)
