@@ -181,7 +181,8 @@ export default {
         this.audioTrack.playing = false
         this.$refs.PreviewComponent.triggerPopup({
           audioSrc: this.audioTrack.URL,
-          videoSrc: this.getVideoURL(this.videoObj)
+          videoSrc: this.getVideoURL(this.videoObj),
+          videoObj: this.videoObj
         })
       }
     },

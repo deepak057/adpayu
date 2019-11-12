@@ -13,17 +13,19 @@ div(v-if="triggered")
             video(style="width:100%" :id="videoPlayerId" muted)
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
-          button.btn.btn-danger.waves-effect.waves-light
+          button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()")
             | Save
     audio.none(:id="audioPlayerId" loop)
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
+import Service from './service'
 // import auth from '@/auth/helpers'
 
 export default {
   name: 'VideoEditing',
+  service: new Service(),
   components: {
     Preloader
   },
@@ -33,7 +35,8 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-video-editing-preview',
       triggered: false,
-      videoBufferingInterval: false
+      videoBufferingInterval: false,
+      editingConfig: false
     }
   },
   computed: {
@@ -74,18 +77,23 @@ export default {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
+    saveEditedVideo () {
+      this.$options.service.saveEditedVideo({
+        backgroundTrack: this.editingConfig.audioSrc
+      }, this.editingConfig.videoObj.id, 'videoPath' in this.editingConfig.videoObj ? 'comment' : 'video'
+      )
+    },
     getVideoPlayer () {
       return document.getElementById(this.videoPlayerId)
     },
     getAudioPlayer () {
       return document.getElementById(this.audioPlayerId)
     },
-    playPreview (config) {
+    playPreview () {
       let audioPlayer = this.getAudioPlayer()
       let videoPlayer = this.getVideoPlayer()
-      audioPlayer.setAttribute('src', config.audioSrc)
-      videoPlayer.setAttribute('src', config.videoSrc)
-      // audioPlayer.play()
+      audioPlayer.setAttribute('src', this.editingConfig.audioSrc)
+      videoPlayer.setAttribute('src', this.editingConfig.videoSrc)
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
     },
@@ -157,6 +165,7 @@ export default {
     triggerPopup (config) {
       /*eslint-disable*/
       this.triggered = true
+      this.editingConfig = config
       let d = document.getElementById(this.triggerButtonId)
       let clearBufferingInterval = ()=> {
          let that = this
@@ -166,10 +175,9 @@ export default {
       }
       let play = ()=> {
         d.click()
-        this.playPreview(config)
+        this.playPreview()
         clearBufferingInterval()
       }
-      
       if (!d) {
           let interval = setInterval (()=> {
           d = document.getElementById(this.triggerButtonId)
