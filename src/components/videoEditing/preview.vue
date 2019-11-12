@@ -9,12 +9,13 @@ div(v-if="triggered")
             | Video Preview
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          h4 Preview
+          div
+            video(style="width:100%" :id="videoPlayerId" muted)
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light
             | Save
-    audio.none(:id="audioPlayerId")
+    audio.none(:id="audioPlayerId" loop)
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -50,6 +51,11 @@ export default {
         return this.id + '-video-editing-preview-audio-player'
       }
     },
+    videoPlayerId: {
+      get () {
+        return this.id + '-video-editing-preview-video-player'
+      }
+    },
     modalId: {
       get () {
         return this.id + '-video-editing-modal'
@@ -67,10 +73,81 @@ export default {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
+    getVideoPlayer () {
+      return document.getElementById(this.videoPlayerId)
+    },
+    getAudioPlayer () {
+      return document.getElementById(this.audioPlayerId)
+    },
     playPreview (config) {
-      let audioPlayer = document.getElementById(this.audioPlayerId)
+      let audioPlayer = this.getAudioPlayer()
+      let videoPlayer = this.getVideoPlayer()
       audioPlayer.setAttribute('src', config.audioSrc)
-      audioPlayer.play()
+      videoPlayer.setAttribute('src', config.videoSrc)
+      // audioPlayer.play()
+      videoPlayer.play()
+      this.initVideoPlayerEvents(videoPlayer, audioPlayer)
+    },
+    initVideoPlayerEvents (videoPlayer, audioPlayer) {
+      /*eslint-disable*/
+
+      var checkInterval  = 50.0 // check every 50 ms (do not use lower values)
+      var lastPlayPos    = 0
+      var currentPlayPos = 0
+      var bufferingDetected = false
+      var player = videoPlayer
+
+      let interval = setInterval(checkBuffering, checkInterval)
+      
+      function checkBuffering() {
+          currentPlayPos = player.currentTime
+
+          // checking offset should be at most the check interval
+          // but allow for some margin
+          var offset = (checkInterval - 20) / 1000
+
+          // if no buffering is currently detected,
+          // and the position does not seem to increase
+          // and the player isn't manually paused...
+          if (
+                  !bufferingDetected 
+                  && currentPlayPos < (lastPlayPos + offset)
+                  && !player.paused
+              ) {
+              console.log("buffering")
+              bufferingDetected = true
+          }
+
+          // if we were buffering but the player has advanced,
+          // then there is no buffering
+          if (
+              bufferingDetected 
+              && currentPlayPos > (lastPlayPos + offset)
+              && !player.paused
+              ) {
+              console.log("not buffering anymore")
+              bufferingDetected = false
+          }
+          if (bufferingDetected) {
+            audioPlayer.pause()
+          } else {
+            audioPlayer.play()
+          }
+          lastPlayPos = currentPlayPos
+      }
+
+      videoPlayer.onended = () => {
+        audioPlayer.pause()
+        clearInterval(interval)
+      }
+      /* videoPlayer.onseeking = () => {
+        if (videoPlayer.readyState < videoPlayer.HAVE_FUTURE_DATA) {
+          audioPlayer.pause()
+        } else {
+          audioPlayer.play()
+        }
+      }
+      */
     },
     triggerPopup (config) {
       /*eslint-disable*/

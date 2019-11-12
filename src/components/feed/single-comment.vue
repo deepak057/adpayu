@@ -116,7 +116,7 @@ export default {
       this.$emit('deleteComment', this.index)
     },
     triggerVideoEditing () {
-      this.$refs.videoEditingComponent.triggerPopup()
+      this.$refs.videoEditingComponent.triggerPopup(this.comment)
     },
     triggerSharing () {
       this.$refs.socialShareComp.triggerPopup()

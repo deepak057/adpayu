@@ -172,6 +172,7 @@ $(function () {
 
              $(document).on('hidden.bs.modal', '.modal', function(){
                 $(this).find("audio")[0].pause()
+                $(this).find("video")[0].pause()
              })
 
              $(document).on('shown.bs.modal', '.topmost-modal', function(){

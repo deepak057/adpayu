@@ -172,10 +172,9 @@ export default {
       /* eslint-enable */
     },
     videoPlayerOptions (videoObj) {
-      let path = 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
-      let videoOptimized = 'optimized' in videoObj ? videoObj.optimized : videoObj.videoOptimized
+      let path = this.getVideoPath(videoObj)
       let r = {
-        sources: this.getVideoSources(path, videoOptimized),
+        sources: this.getVideoSources(videoObj),
         responsive: true,
         poster: this.getMedia(path, 'videoPoster'),
         dataSetup: {'fluid': true},
@@ -193,8 +192,12 @@ export default {
       /* eslint-enable */
       return r
     },
-    getVideoSources (path, optimzed) {
-      let that = this
+    getVideoPath (videoObj) {
+      return 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
+    },
+    getVideoURL (videoObj) {
+      let path = this.getVideoPath(videoObj)
+      let optimzed = 'optimized' in videoObj ? videoObj.optimized : videoObj.videoOptimized
       let baseURL = this.getStaticContentURL()
       let subDir = false
       if (optimzed) {
@@ -204,7 +207,10 @@ export default {
           subDir = '480'
         }
       }
-      let src = baseURL + '/' + (subDir ? subDir + '/' : '') + path
+      return baseURL + '/' + (subDir ? subDir + '/' : '') + path
+    },
+    getVideoSources (videoObj) {
+      let src = this.getVideoURL(videoObj)
       return [
         {
           src: src

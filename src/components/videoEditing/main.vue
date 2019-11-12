@@ -88,6 +88,7 @@ export default {
       id: this.getUniqueId() + '-video-editing',
       triggered: false,
       audioTrack: false,
+      videoObj: false,
       tracks: [
         {
           id: 1,
@@ -179,7 +180,8 @@ export default {
       if (this.audioTrack) {
         this.audioTrack.playing = false
         this.$refs.PreviewComponent.triggerPopup({
-          audioSrc: this.audioTrack.URL
+          audioSrc: this.audioTrack.URL,
+          videoSrc: this.getVideoURL(this.videoObj)
         })
       }
     },
@@ -189,9 +191,10 @@ export default {
     getSectionId (index, type_ = 'collapse') {
       return this.id + '-' + type_ + '-' + index
     },
-    triggerPopup () {
+    triggerPopup (videoObj) {
       /*eslint-disable*/
       this.triggered = true
+      this.videoObj = videoObj
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval (()=> {
