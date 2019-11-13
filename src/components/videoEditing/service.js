@@ -7,7 +7,7 @@ export default class Service {
   }
 
   saveEditedVideo (config, videoId, type) {
-    return auth.post('/video', {
+    return auth.put('/video/edit', {
       config: config,
       videoId: videoId,
       type: type
