@@ -79,9 +79,10 @@ export default {
     },
     saveEditedVideo () {
       this.$options.service.saveEditedVideo({
-        backgroundTrack: this.editingConfig.audioSrc
-      }, this.editingConfig.videoObj.id, 'videoPath' in this.editingConfig.videoObj ? 'comment' : 'video'
-      )
+        backgroundTrack: this.editingConfig.audioSrc,
+        videoId: this.editingConfig.videoObj.id,
+        videoType: 'videoPath' in this.editingConfig.videoObj ? 'comment' : 'video'
+      })
     },
     getVideoPlayer () {
       return document.getElementById(this.videoPlayerId)
