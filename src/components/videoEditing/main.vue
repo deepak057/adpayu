@@ -11,14 +11,23 @@ div(v-if="triggered")
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")
             .card
-              .card-header(:id="getSectionId(1, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(1)", aria-expanded='true', :aria-controls='getSectionId(1)')
-                h2.mb-0
-                  button.btn(type='button')
-                    i.fa.fa-music.m-r-10
-                    span.tab-label
-                      | Background Music
-                .pull-right
-                  input.form-control(type="text")
+              .card-header.background-music-edit-controls-wrap.collapsed(:id="getSectionId(1, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(1)", aria-expanded='true', :aria-controls='getSectionId(1)')
+                <template>
+                .row
+                  .col-4.controls-label-wrap
+                    h2.mb-0
+                      button.btn(type='button')
+                        i.fa.fa-music.m-r-10
+                        span.tab-label
+                          | Background Music
+                  .col-8.controls-wrap.text-right
+                    select.form-control.custom-select.white-back
+                      option(value='') Genere (All)
+                      option(value='') Female
+                    input.m-l-10.form-control(type="text" placeholder="Search...")
+                    button.btn.btn-danger.m-l-10.font-bold.add-music-btn.pr-t--1
+                      i.mdi.mdi-plus
+                </template>
               .collapse(:id="getSectionId(1)" :aria-labelledby="getSectionId(1, header)", :data-parent="'#'+getSectionId(0)")
                 .card-body
                   .row

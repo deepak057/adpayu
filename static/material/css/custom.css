@@ -63,6 +63,10 @@
 	position: relative;
 	top: -2px;
 }
+.pr-t--1{
+	position: relative;
+	top: -1px;
+}
 .pr-t-2{
 	position: relative;
 	top: 2px;
@@ -1276,4 +1280,24 @@ strong{
 	text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.collapsed.background-music-edit-controls-wrap .controls-wrap{
+	display: none;
+}
+.background-music-edit-controls-wrap .controls-wrap select {
+	width: 140px;
+}
+.background-music-edit-controls-wrap .controls-wrap input {
+	width: 200px;
+}
+.background-music-edit-controls-wrap .controls-wrap .add-music-btn {
+	padding: 3px 7px 3px 5px;
+	/* 3px 7px 3px 7px*/
+}
+
+.collapsed.background-music-edit-controls-wrap.controls-label-wrap {
+	width: 100% !important;
+}
+.pd-5 {
+	padding: 5px;
 }
