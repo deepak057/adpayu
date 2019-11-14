@@ -17,6 +17,8 @@ div(v-if="triggered")
                     i.fa.fa-music.m-r-10
                     span.tab-label
                       | Background Music
+                .pull-right
+                  input.form-control(type="text")
               .collapse(:id="getSectionId(1)" :aria-labelledby="getSectionId(1, header)", :data-parent="'#'+getSectionId(0)")
                 .card-body
                   .row
