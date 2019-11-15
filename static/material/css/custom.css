@@ -1075,8 +1075,13 @@ strong{
     .video-comment-content .excerpt{
 	    width: 68% !important;
 	}
+	.background-music-edit-controls-wrap .controls-label-wrap .back-music-label{
+		display: none;
+	}
 
-
+	.background-music-edit-controls-wrap.collapsed .controls-label-wrap .back-music-label{
+		display: inline;
+	}
 }
 .hide-comment-user-name {
 	padding: 0px !important;
@@ -1298,6 +1303,17 @@ strong{
 .collapsed.background-music-edit-controls-wrap.controls-label-wrap {
 	width: 100% !important;
 }
+
+.background-music-edit-controls-wrap .controls-wrap-mobile select {
+	width: 115px;
+	min-height: auto !important;
+	height: auto !important;
+	font-size: 12px;
+}
+
 .pd-5 {
 	padding: 5px;
+}
+.c-white {
+	color: #fff;
 }
