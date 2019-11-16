@@ -14,18 +14,18 @@ div(v-if="triggered")
               .card-header.background-music-edit-controls-wrap.collapsed(:id="getSectionId(1, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(1)" :aria-controls='getSectionId(1)')
                 <template>
                 .row
-                  .controls-label-wrap(:class="{'col-4': !isMobile, 'col-2': isMobile}")
+                  .controls-label-wrap(:class="{'col-4': !isMobile, 'col-1': isMobile}")
                     h2.mb-0
                       button.btn(type='button')
-                        i.fa.fa-music
+                        i.fa.fa-music.back-music-icon
                         span.tab-label.m-l-10.back-music-label
                           | Background Music
-                  .col-8.controls-wrap.text-right
+                  .col-8.controls-wrap.text-right(:class="{'col-8': !isMobile, 'col-11 p-0': isMobile}")
                     select.form-control.custom-select.white-back(:class="{'form-control-sm': isMobile}")
                       option(value='') Genere (All)
                       option(value='') Female
                     input.form-control(:class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
-                    button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(:class="{'m-l-10': !isMobile, 'm-l-5': isMobile}")
+                    button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(:class="{'m-l-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
                       i.mdi.mdi-plus
                 </template>
                 <template v-if="false">

@@ -1082,6 +1082,37 @@ strong{
 	.background-music-edit-controls-wrap.collapsed .controls-label-wrap .back-music-label{
 		display: inline;
 	}
+
+	.background-music-edit-controls-wrap .controls-label-wrap h2 .btn{
+		padding: 0 0 0 8px;
+		position: relative;
+		top: -4px;
+	}
+	.background-music-edit-controls-wrap.collapsed .controls-label-wrap h2 .btn{
+		padding: 7px 12px;
+	}
+
+	.background-music-edit-controls-wrap .controls-label-wrap {
+		padding: 0px;
+	}
+	.collapsed.background-music-edit-controls-wrap .controls-label-wrap {
+		padding: 0px 15px 0px 15px ;
+	}
+	.background-music-edit-controls-wrap .controls-wrap select {
+		width: 115px !important;
+	}
+	.background-music-edit-controls-wrap .controls-wrap input[type=text] {
+		width: 100px;
+	}
+	.background-music-edit-controls-wrap .add-music-btn {
+		padding: 1.5px 6px;
+		position: relative;
+		top: 0.3px;
+		font-size: 13px !important;
+	}
+	.mobile-device .background-music-edit-controls-wrap.collapsed {
+	}
+
 }
 .hide-comment-user-name {
 	padding: 0px !important;
@@ -1179,10 +1210,15 @@ strong{
 .d-inline {
 	display: inline;
 }
+
 @media screen and (max-width: 568px){
 	.mailbox .message-center a {
-	padding: 9px 7px !important;
-}
+		padding: 9px 7px !important;
+	}
+	.background-music-edit-controls-wrap .controls-wrap input[type=text] {
+		width: 63px !important;
+	}
+
 }
 
 .accordion-blue .card-header {
@@ -1191,7 +1227,7 @@ strong{
 .accordion-blue .card-header button {
 	color: #fff;
 }
-.accordion-blue .card-header button i {
+.accordion-blue .card-header h2 button i {
 	font-size: 22px;
 }
 .accordion-blue .card-header button .tab-label {
@@ -1296,7 +1332,7 @@ strong{
 	width: 200px;
 }
 .background-music-edit-controls-wrap .controls-wrap .add-music-btn {
-	padding: 3px 7px 3px 5px;
+	
 	/* 3px 7px 3px 7px*/
 }
 
@@ -1317,3 +1353,6 @@ strong{
 .c-white {
 	color: #fff;
 }
+.background-music-edit-controls-wrap .add-music-btn {
+	font-size: 16px;
+}	
