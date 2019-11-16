@@ -1104,6 +1104,15 @@ strong{
 	.background-music-edit-controls-wrap .controls-wrap input[type=text] {
 		width: 100px;
 	}
+	.background-music-edit-controls-wrap {
+
+	}
+	.background-music-edit-controls-wrap {
+		padding-bottom: 3px;
+	}
+	.background-music-edit-controls-wrap.collapsed {
+		padding: .75rem 1.25rem;
+	}
 	.background-music-edit-controls-wrap .add-music-btn {
 		padding: 1.5px 6px;
 		position: relative;
