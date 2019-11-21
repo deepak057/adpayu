@@ -78,11 +78,7 @@ export default {
       document.getElementById(this.closeButtonId).click()
     },
     saveEditedVideo () {
-      this.$options.service.saveEditedVideo({
-        backgroundTrack: this.editingConfig.audioSrc,
-        videoId: this.editingConfig.videoObj.id,
-        videoType: 'videoPath' in this.editingConfig.videoObj ? 'comment' : 'video'
-      })
+      this.$options.service.saveEditedVideo(this.editingConfig)
     },
     getVideoPlayer () {
       return document.getElementById(this.videoPlayerId)
@@ -90,11 +86,14 @@ export default {
     getAudioPlayer () {
       return document.getElementById(this.audioPlayerId)
     },
+    getVideoSrc (videoObj) {
+      return 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
+    },
     playPreview () {
       let audioPlayer = this.getAudioPlayer()
       let videoPlayer = this.getVideoPlayer()
-      audioPlayer.setAttribute('src', this.editingConfig.audioSrc)
-      videoPlayer.setAttribute('src', this.editingConfig.videoSrc)
+      audioPlayer.setAttribute('src', this.editingConfig.backgroundTrack)
+      videoPlayer.setAttribute('src', this.getVideoSrc(this.editingConfig.videoObj))
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
     },
