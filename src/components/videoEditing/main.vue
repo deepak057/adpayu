@@ -11,30 +11,29 @@ div(v-if="triggered")
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")
             .card
-              .card-header.background-music-edit-controls-wrap.collapsed(:id="getSectionId(1, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(1)" :aria-controls='getSectionId(1)')
+              .card-header.background-music-edit-controls-wrap(:class="{'collapsed': !backMusicControlEnabled}" :id="getSectionId(1, 'header')"  :aria-controls='getSectionId(1)')
                 <template>
-                .row
-                  .controls-label-wrap(:class="{'col-4': !isMobile, 'col-1': isMobile}")
+                .row.controls-label-wrap-container
+                  .controls-label-wrap(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+getSectionId(1)" :class="{'col-5': !isMobile, 'col-1': isMobile}")
                     h2.mb-0
                       button.btn(type='button')
                         i.fa.fa-music.back-music-icon
                         span.tab-label.m-l-10.back-music-label
                           | Background Music
-                  .col-8.controls-wrap.text-right(:class="{'col-8': !isMobile, 'col-11 p-0': isMobile}")
+                  .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile, 'col-11 p-0': isMobile}")
                     select.form-control.custom-select.white-back(:class="{'form-control-sm': isMobile}")
                       option(value='') Genere (All)
                       option(value='') Female
                     input.form-control(:class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
-                    button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(:class="{'m-l-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
+                    button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(:class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
                       i.mdi.mdi-plus
                 </template>
-                <template v-if="false">
-                .controls-wrap-mobile
-                  select.form-control.custom-select.white-back
-                    option(value='') Genere (All)
-                    option(value='') Female
-                  i.fa.fa-search.m-l-5.c-white
-                </template>
+                .control-label-wrap-temp(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+getSectionId(1)")
+                  h2.mb-0
+                    button.btn(type='button')
+                      i.fa.fa-music.back-music-icon
+                      span.tab-label.m-l-10.back-music-label
+                        | Background Music
               .collapse(:id="getSectionId(1)" :aria-labelledby="getSectionId(1, header)", :data-parent="'#'+getSectionId(0)")
                 .card-body
                   .row
@@ -60,7 +59,7 @@ div(v-if="triggered")
                                       .dropdown-menu
                                         a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
             .card
-              .card-header(:id="getSectionId(2, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(2)", aria-expanded='true', :aria-controls='getSectionId(2)')
+              .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(2, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(2)", aria-expanded='true', :aria-controls='getSectionId(2)')
                 h2.mb-0
                   button.btn(type='button')
                     i.fa.fa-cut.m-r-10
@@ -70,7 +69,7 @@ div(v-if="triggered")
                 .card-body
                   | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
             .card
-              .card-header(:id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
+              .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
                 h2.mb-0
                   button.btn(type='button')
                     i.fa.fa-image.m-r-10
@@ -108,6 +107,7 @@ export default {
       audioTrack: false,
       videoObj: false,
       isMobile: this.isMobile(),
+      backMusicControlEnabled: false,
       tracks: [
         {
           id: 1,
@@ -161,6 +161,13 @@ export default {
     this.getTracks()
   },
   methods: {
+    toggleBackMusicControls (otherSection = false) {
+      if (!otherSection) {
+        this.backMusicControlEnabled = !this.backMusicControlEnabled
+      } else {
+        this.backMusicControlEnabled = false
+      }
+    },
     addTrack (track) {
       this.audioTrack = track
       for (let i in this.tracks) {

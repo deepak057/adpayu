@@ -1364,4 +1364,17 @@ strong{
 }
 .background-music-edit-controls-wrap .add-music-btn {
 	font-size: 16px;
-}	
+}
+.collapsed .controls-label-wrap-container {
+	display: none;
+}
+.controls-label-wrap-container {
+	display: flex;
+}
+.control-label-wrap-temp {
+	display: none;	
+}
+
+.collapsed .control-label-wrap-temp {
+	display: block;	
+}
