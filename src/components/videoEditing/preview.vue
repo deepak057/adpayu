@@ -92,8 +92,8 @@ export default {
     playPreview () {
       let audioPlayer = this.getAudioPlayer()
       let videoPlayer = this.getVideoPlayer()
-      audioPlayer.setAttribute('src', this.editingConfig.backgroundTrack)
-      videoPlayer.setAttribute('src', this.getVideoSrc(this.editingConfig.videoObj))
+      audioPlayer.setAttribute('src', this.editingConfig.backgroundTrack.URL)
+      videoPlayer.setAttribute('src', this.getVideoURL(this.editingConfig.videoObj))
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
     },

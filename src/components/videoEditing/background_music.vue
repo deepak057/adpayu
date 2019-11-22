@@ -13,7 +13,7 @@
           option(value='') Genere (All)
           option(value='') Female
         input.form-control(:class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
-        button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(:class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
+        button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
           i.mdi.mdi-plus
     .control-label-wrap-temp(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId")
       h2.mb-0
@@ -46,19 +46,21 @@
                           .dropdown-menu
                             a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
+  <add-music ref="AddMusicComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Preview from './preview'
-
+import AddMusic from './add_music'
 // import auth from '@/auth/helpers'
 
 export default {
   name: 'BackgroundMusic',
   components: {
     Preloader,
-    Preview
+    Preview,
+    AddMusic
   },
   mixins: [mixin],
   props: {
@@ -117,6 +119,9 @@ export default {
         this.backMusicControlEnabled = false
       }
     },
+    triggerAddMusic () {
+      this.$refs.AddMusicComp.triggerPopup()
+    },
     addTrack (track) {
       this.audioTrack = track
       for (let i in this.tracks) {
@@ -138,8 +143,19 @@ export default {
         this.$set(this.tracks[i], 'trackAdded', false)
       }
     },
+    pauseTracks (track) {
+      for (let i in this.tracks) {
+        if (this.tracks[i].id !== track.id) {
+          this.tracks[i].playing = false
+          this.getPlayer().pause()
+        }
+      }
+    },
+    getPlayer () {
+      return document.getElementById(this.getAudioPlayerId())
+    },
     playTrack (track) {
-      let player = document.getElementById(this.getAudioPlayerId())
+      let player = this.getPlayer()
       player.pause()
       for (let i in this.tracks) {
         if (this.tracks[i].id !== track.id) {

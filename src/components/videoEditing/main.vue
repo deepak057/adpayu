@@ -10,7 +10,7 @@ div(v-if="triggered")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")
-            <background-music @trackRemoved="trackRemoved" @trackAdded="trackAdded" :containerId="getSectionId(0)" :sectionHeaderId="getSectionId(1, 'header')" :sectionId="getSectionId(1)"/>
+            <background-music ref="BackgroundMusicComp" @trackRemoved="trackRemoved" @trackAdded="trackAdded" :containerId="getSectionId(0)" :sectionHeaderId="getSectionId(1, 'header')" :sectionId="getSectionId(1)"/>
             .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(2, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(2)", aria-expanded='true', :aria-controls='getSectionId(2)')
                 h2.mb-0
@@ -58,7 +58,6 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-video-editing',
       triggered: false,
-      videoObj: false,
       editedVideoConfig: {
         backgroundTrack: false,
         videoObj: false
@@ -88,11 +87,13 @@ export default {
     }
   },
   mounted () {
-    this.getInitialConfig()
   },
   methods: {
+    toggleBackMusicControls (otherSection = false) {
+      this.$refs.BackgroundMusicComp.toggleBackMusicControls(otherSection)
+    },
     trackAdded (track) {
-      this.editedVideoConfig.backgroundTrack = track.URL
+      this.editedVideoConfig.backgroundTrack = track
     },
     canTriggerPreview () {
       return this.editedVideoConfig.backgroundTrack
@@ -100,12 +101,9 @@ export default {
     trackRemoved () {
       this.editedVideoConfig.backgroundTrack = false
     },
-    getInitialConfig () {
-      this.editedVideoConfig.videoObj = this.videoObj
-    },
     triggerPreview () {
       if (this.canTriggerPreview()) {
-        // this.audioTrack.playing = false
+        this.$refs.BackgroundMusicComp.pauseTracks(this.editedVideoConfig.backgroundTrack)
         this.$refs.PreviewComponent.triggerPopup(this.editedVideoConfig)
       }
     },
@@ -118,7 +116,7 @@ export default {
     triggerPopup (videoObj) {
       /*eslint-disable*/
       this.triggered = true
-      this.videoObj = videoObj
+      this.editedVideoConfig.videoObj = videoObj
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval (()=> {
