@@ -51,15 +51,12 @@
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
-import Preview from './preview'
 import AddMusic from './add_music'
-// import auth from '@/auth/helpers'
 
 export default {
   name: 'BackgroundMusic',
   components: {
     Preloader,
-    Preview,
     AddMusic
   },
   mixins: [mixin],

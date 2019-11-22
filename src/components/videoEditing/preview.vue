@@ -14,17 +14,16 @@ div(v-if="triggered")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()")
-            | Save
+            | Add
     audio.none(:id="audioPlayerId" loop)
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Service from './service'
-// import auth from '@/auth/helpers'
 
 export default {
-  name: 'VideoEditing',
+  name: 'Preview',
   service: new Service(),
   components: {
     Preloader
