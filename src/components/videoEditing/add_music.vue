@@ -7,23 +7,25 @@ div(v-if="triggered")
         .modal-header
           h4.modal-title
             | Add Music
+            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Upload a Music File" data-toggle="popover" data-placement="right" data-content="Upload a music file that you'd like to use as background music for your videos.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-        .modal-body
+        .modal-body.p-b-0
           div
             form
               .form-group
-                label Track name/title*
-                input.form-control(type="text" placeholder="Enter here")
+                label(:for="trackTitleFieldId") Track Name/Title*
+                input.form-control(type="text" placeholder="Enter here" :id="trackTitleFieldId")
               .form-group
-                label Genere*
-                select.form-control.custom-select
+                label(:for="trackGenereFieldId") Genere*
+                select.form-control.custom-select(:id="trackGenereFieldId")
+                  option(value="" selected="selected" disabled="disabled" hidden="hidden") Please select
                   option(value='') Genere (All)
                   option(value='') Female
-              .form-group
-                label
-                  i.mdi.mdi-upload.m-r-5.v-align-top.f-s-20
-                  | Upload Audio File
-              file.none(:id="fileElementId")
+              .form-group.m-b-10
+                label.pointer(@click="triggerFileUpload()")
+                  i.mdi.mdi-upload.m-r-2.v-align-top.f-s-20
+                  | Upload Music File*
+                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light
@@ -45,7 +47,10 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-add-music-modal',
-      triggered: false
+      triggered: false,
+      acceptedAudioFileTypes: [
+        'audio/mp3'
+      ]
     }
   },
   computed: {
@@ -57,6 +62,16 @@ export default {
     triggerButtonId: {
       get () {
         return this.id + '-add-music-modal-trigger'
+      }
+    },
+    trackTitleFieldId: {
+      get () {
+        return this.id + '-add-music-track-title'
+      }
+    },
+    trackGenereFieldId: {
+      get () {
+        return this.id + '-add-music-genere-field'
       }
     },
     fileElementId: {
@@ -78,8 +93,14 @@ export default {
   mounted () {
   },
   methods: {
+    getAcceptedAudioString () {
+      return this.acceptedAudioFileTypes.join(',')
+    },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
+    },
+    triggerFileUpload () {
+      document.getElementById(this.fileElementId).click()
     },
     triggerPopup () {
       /*eslint-disable*/
