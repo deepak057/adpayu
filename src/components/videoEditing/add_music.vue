@@ -11,24 +11,28 @@ div(v-if="triggered")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0
           div
-            form
-              .form-group
+            form(@submit.prevent="addTrack()")
+              .form-group(:class="{'has-danger': error.nameError}")
                 label(:for="trackTitleFieldId") Track Name/Title*
-                input.form-control(type="text" placeholder="Enter here" :id="trackTitleFieldId")
-              .form-group
+                input.form-control(v-model="track.name" type="text" placeholder="Enter here" :id="trackTitleFieldId")
+                small.form-control-feedback(v-if="error.nameError") {{error.nameError}}
+              .form-group(:class="{'has-danger': error.genereError}")
                 label(:for="trackGenereFieldId") Genere*
-                select.form-control.custom-select(:id="trackGenereFieldId")
+                select.form-control.custom-select(v-model="track.genere" :id="trackGenereFieldId")
                   option(value="" selected="selected" disabled="disabled" hidden="hidden") Please select
-                  option(value='') Genere (All)
-                  option(value='') Female
-              .form-group.m-b-10
-                label.pointer(@click="triggerFileUpload()")
+                  <template v-if="musicCategories">
+                  option(v-for="cat in musicCategories" v-if="cat.id" :value="cat.id") {{cat.label}}
+                  </template>
+                small.form-control-feedback(v-if="error.genereError") {{error.genereError}}
+              .form-group.m-b-10(:class="{'has-danger': error.pathError}")
+                label.pointer(@click="triggerFileUpload()" :class="{'m-b-0': error.pathError}")
                   i.mdi.mdi-upload.m-r-2.v-align-top.f-s-20
                   | Upload Music File*
+                small.form-control-feedback.block(v-if="error.pathError") {{error.pathError}}
                 input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
-          button.btn.btn-danger.waves-effect.waves-light
+          button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()")
             | Add
 </template>
 <script>
@@ -43,6 +47,14 @@ export default {
     Preloader
   },
   mixins: [mixin],
+  props: {
+    musicCategories: {
+      type: Object,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
       pageLoader: true,
@@ -50,7 +62,17 @@ export default {
       triggered: false,
       acceptedAudioFileTypes: [
         'audio/mp3'
-      ]
+      ],
+      track: {
+        name: '',
+        path: '',
+        genere: ''
+      },
+      error: {
+        nameError: false,
+        pathError: false,
+        genereError: false
+      }
     }
   },
   computed: {
@@ -101,6 +123,41 @@ export default {
     },
     triggerFileUpload () {
       document.getElementById(this.fileElementId).click()
+    },
+    addTrack () {
+      if (this.validation()) {
+        alert('submit')
+      }
+    },
+    validation () {
+      return this.validateName() && this.validateCategory() && this.validateFile()
+    },
+    validateName () {
+      if (this.track.name) {
+        this.error.nameError = false
+        return true
+      } else {
+        this.error.nameError = 'Please enter track name'
+        return false
+      }
+    },
+    validateCategory () {
+      if (this.track.genere) {
+        this.error.genereError = false
+        return true
+      } else {
+        this.error.genereError = 'Please select a category'
+        return false
+      }
+    },
+    validateFile () {
+      if (this.track.path) {
+        this.error.pathError = false
+        return true
+      } else {
+        this.error.pathError = 'Please upload a file'
+        return false
+      }
     },
     triggerPopup () {
       /*eslint-disable*/

@@ -10,8 +10,10 @@
               | Background Music
       .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile, 'col-11 p-0': isMobile}")
         select.form-control.custom-select.white-back(:class="{'form-control-sm': isMobile}")
-          option(value='') Genere (All)
-          option(value='') Female
+          option(value="" selected="selected" disabled="disabled" hidden="hidden") Genere (All)
+          <template v-if="musicCategories">
+          option(v-for="cat in musicCategories" :value="cat.id") {{cat.label}}
+          </template>
         input.form-control(:class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
         button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
           i.mdi.mdi-plus
@@ -46,15 +48,17 @@
                           .dropdown-menu
                             a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
-  <add-music ref="AddMusicComp"/>
+  <add-music :musicCategories="musicCategories" ref="AddMusicComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import AddMusic from './add_music'
+import Service from './service'
 
 export default {
   name: 'BackgroundMusic',
+  service: new Service(),
   components: {
     Preloader,
     AddMusic
@@ -80,6 +84,7 @@ export default {
       audioTrack: false,
       isMobile: this.isMobile(),
       backMusicControlEnabled: false,
+      musicCategories: false,
       tracks: [
         {
           id: 1,
@@ -104,10 +109,20 @@ export default {
   },
   mounted () {
     this.getTracks()
+    this.getMusicCategories()
   },
   methods: {
     getAudioPlayerId () {
       return this.containerId + '-audio-player'
+    },
+    getMusicCategories () {
+      this.$options.service.getAudioCategories()
+        .then((data) => {
+          this.musicCategories = data
+        })
+        .catch((mErr) => {
+          this.showNotification('Something went wrong while trying to get Music Categories.', 'error')
+        })
     },
     toggleBackMusicControls (otherSection = false) {
       if (!otherSection) {
