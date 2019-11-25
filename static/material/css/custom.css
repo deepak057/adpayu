@@ -205,7 +205,7 @@ body {
 	font-size: 12px;
 }
 
-.post-media-file-upload-progress span.post-img-preloader img {
+.post-media-file-upload-progress span.post-img-preloader img, img.preloader-next-to-text {
 	width: 14px;
 }
 .pointer{

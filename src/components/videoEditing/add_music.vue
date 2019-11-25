@@ -1,6 +1,6 @@
 <template lang="pug">
 div(v-if="triggered")
-  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
+  span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog
       .modal-content
@@ -25,11 +25,19 @@ div(v-if="triggered")
                   </template>
                 small.form-control-feedback(v-if="error.genereError") {{error.genereError}}
               .form-group.m-b-10(:class="{'has-danger': error.pathError}")
+                <template v-if="!uploadPercentage">
                 label.pointer(@click="triggerFileUpload()" :class="{'m-b-0': error.pathError}")
                   i.mdi.mdi-upload.m-r-2.v-align-top.f-s-20
                   | Upload Music File*
                 small.form-control-feedback.block(v-if="error.pathError") {{error.pathError}}
-                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId")
+                </template>
+                <template v-if="uploadPercentage">
+                div
+                  <preloader class="m-r-5 preloader-next-to-text" v-if="!track.path"/>
+                  i.mdi.mdi-check-all.m-r-5(v-if="track.path")
+                  | {{getFileUploadProgressText()}}
+                </template>
+                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()")
@@ -60,6 +68,7 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-add-music-modal',
       triggered: false,
+      uploadPercentage: 0,
       acceptedAudioFileTypes: [
         'audio/mp3'
       ],
@@ -117,6 +126,50 @@ export default {
   methods: {
     getAcceptedAudioString () {
       return this.acceptedAudioFileTypes.join(',')
+    },
+    validateAudioFile (files) {
+      let valid = true
+      if (this.acceptedAudioFileTypes.indexOf(files[0]['type']) === -1) {
+        valid = false
+      }
+      return valid
+    },
+    filesChange (event, files) {
+      if (files.length && this.validateAudioFile(files)) {
+        this.uploadAudioFile(files)
+      } else {
+        alert('Please choose a valid video file')
+      }
+    },
+    uploadAudioFile (files) {
+      let formData = new FormData()
+      formData.append('audio', files[0])
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: function (progressEvent) {
+          this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+        }.bind(this)
+      }
+      this.$options.service.uploadAudioFile(formData, config)
+        .then((data) => {
+          this.track.path = data.path
+        })
+        .catch((errVideo) => {
+          this.showNotification('Something went wrong while uploading the music file', 'error')
+        })
+    },
+    getFileUploadProgressText () {
+      if (!this.track.path) {
+        if (this.uploadPercentage < 100) {
+          return 'Uploading file...' + this.uploadPercentage + '%'
+        } else {
+          return 'Processing...'
+        }
+      } else {
+        return 'File uploaded'
+      }
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
