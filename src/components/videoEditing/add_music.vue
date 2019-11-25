@@ -36,8 +36,9 @@ div(v-if="triggered")
                   <preloader class="m-r-5 preloader-next-to-text" v-if="!track.path"/>
                   i.mdi.mdi-check-all.m-r-5(v-if="track.path")
                   | {{getFileUploadProgressText()}}
+                  i.fa.fa-trash.m-l-5.pointer(@click="resetFileUpload()" v-if="track.path" title="Remove this file")
                 </template>
-                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)")
+                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)" onclick="this.value=null;")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()")
@@ -47,6 +48,27 @@ div(v-if="triggered")
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Service from './service'
+
+function AddMusicInitialState (id, triggered = false) {
+  return {
+    id: id,
+    triggered: triggered,
+    uploadPercentage: 0,
+    acceptedAudioFileTypes: [
+      'audio/mp3'
+    ],
+    track: {
+      name: '',
+      path: '',
+      genere: ''
+    },
+    error: {
+      nameError: false,
+      pathError: false,
+      genereError: false
+    }
+  }
+}
 
 export default {
   name: 'AddMusic',
@@ -64,25 +86,7 @@ export default {
     }
   },
   data () {
-    return {
-      pageLoader: true,
-      id: this.getUniqueId() + '-add-music-modal',
-      triggered: false,
-      uploadPercentage: 0,
-      acceptedAudioFileTypes: [
-        'audio/mp3'
-      ],
-      track: {
-        name: '',
-        path: '',
-        genere: ''
-      },
-      error: {
-        nameError: false,
-        pathError: false,
-        genereError: false
-      }
-    }
+    return AddMusicInitialState(this.getUniqueId() + '-add-music-modal')
   },
   computed: {
     modalIdHash: {
@@ -124,6 +128,18 @@ export default {
   mounted () {
   },
   methods: {
+    resetFileUpload () {
+      let path = this.track.path
+      this.track.path = ''
+      this.uploadPercentage = 0
+      this.error.pathError = false
+      if (path) {
+        this.$options.service.deleteAudioFile(path)
+      }
+    },
+    reset () {
+      Object.assign(this.$data, AddMusicInitialState(this.id, true))
+    },
     getAcceptedAudioString () {
       return this.acceptedAudioFileTypes.join(',')
     },
@@ -179,7 +195,10 @@ export default {
     },
     addTrack () {
       if (this.validation()) {
-        alert('submit')
+        this.$options.service.saveTrack(this.track)
+          .then((d) => {
+            this.reset()
+          })
       }
     },
     validation () {

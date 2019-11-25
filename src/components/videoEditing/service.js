@@ -39,4 +39,24 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  deleteAudioFile (filePath) {
+    return auth.delete('/audio/deleteFile/' + filePath)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
+  saveTrack (data) {
+    return auth.post('/audio/save', data)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }
