@@ -60,8 +60,8 @@ export default class Service {
       })
   }
 
-  fetchTracks () {
-    return auth.get('/audio/get')
+  fetchTracks (data) {
+    return auth.get('/audio/get', data)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

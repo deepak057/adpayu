@@ -25,7 +25,7 @@
             | Background Music
   .collapse(:id="sectionId" :aria-labelledby="sectionHeaderId", :data-parent="'#'+containerId")
     .card-body
-      .row(v-if="!fetching").background-music-tracks-outer-container
+      .row.background-music-tracks-outer-container(:id="tracksWrapperId" v-if="!fetching")
         .col-lg-4.col-md-6(v-for="track in tracks")
           .card.m-b-30
             .card-body
@@ -47,6 +47,11 @@
                             span Added
                           .dropdown-menu
                             a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
+        .text-center.col-12.m-0.p-0(v-if="loadMorePreloader || noMoreTracks")
+          <preloader v-if="loadMorePreloader"/>
+          span(v-if="noMoreTracks")
+            i.mdi.mdi-emoticon-sad.m-r-5
+            | No more tracks
       .m-t-20.text-center(v-if="fetching")
         <preloader />
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
@@ -88,7 +93,12 @@ export default {
       isMobile: this.isMobile(),
       backMusicControlEnabled: false,
       musicCategories: false,
-      tracks: []
+      disableLoadMore: false,
+      tracks: [],
+      tracksWrapperId: this.sectionId + '-track-wrapper',
+      page: 1,
+      loadMorePreloader: false,
+      noMoreTracks: false
     }
   },
   mounted () {
@@ -96,15 +106,55 @@ export default {
     this.getMusicCategories()
   },
   methods: {
+    getTracksWrapperElement () {
+      return document.getElementById(this.tracksWrapperId)
+    },
+    attachScrollEvent () {
+      let attachEvent = (elem) => {
+        elem.onscroll = () => {
+          if (elem.scrollTop >= (elem.scrollHeight - elem.offsetHeight)) {
+            this.page++
+            this.fetchTracks()
+          }
+        }
+      }
+      let interval = setInterval(() => {
+        let elem = this.getTracksWrapperElement()
+        if (elem) {
+          attachEvent(elem)
+          clearInterval(interval)
+        }
+      }, 100)
+    },
     getAudioPlayerId () {
       return this.containerId + '-audio-player'
     },
+    getQueryData () {
+      return {
+        page: this.page
+      }
+    },
     fetchTracks () {
-      this.fetching = true
-      this.$options.service.fetchTracks()
+      if (this.noMoreTracks) {
+        return false
+      }
+      if (this.page === 1) {
+        this.fetching = true
+      } else {
+        this.loadMorePreloader = true
+      }
+      this.$options.service.fetchTracks(this.getQueryData())
         .then((data) => {
-          this.tracks = this.getTracks(data.tracks)
+          this.loadMorePreloader = false
           this.fetching = false
+          if (data.tracks.length) {
+            this.tracks = this.tracks.concat(this.getTracks(data.tracks))
+            if (this.page === 1) {
+              this.attachScrollEvent()
+            }
+          } else {
+            this.noMoreTracks = true
+          }
         })
         .catch((tErr) => {
           this.showNotification('Something went wrong while trying to fetch music tracks.', 'error')
