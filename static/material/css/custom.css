@@ -1378,3 +1378,7 @@ strong{
 .collapsed .control-label-wrap-temp {
 	display: block;	
 }
+.background-music-tracks-outer-container {
+	max-height: 230px;
+	overflow-y: scroll;
+}

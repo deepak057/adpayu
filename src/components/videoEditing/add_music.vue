@@ -7,7 +7,7 @@ div(v-if="triggered")
         .modal-header
           h4.modal-title
             | Add Music
-            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Upload a Music File" data-toggle="popover" data-placement="right" data-content="Upload a music file that you'd like to use as background music for your videos.")
+            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Upload a Music File" data-toggle="popover" data-placement="right" data-content="You can contribute to our open source Music Library by uploading an open source or free-to-use music file which will also be publicly available for others to use as background music in their videos.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0
           div
@@ -41,8 +41,9 @@ div(v-if="triggered")
                 input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)" onclick="this.value=null;")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
-          button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()")
+          button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()" :disabled="saving")
             | Add
+          <preloader class="m-l-5 preloader-next-to-text" v-if="saving"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -54,6 +55,7 @@ function AddMusicInitialState (id, triggered = false) {
     id: id,
     triggered: triggered,
     uploadPercentage: 0,
+    saving: false,
     acceptedAudioFileTypes: [
       'audio/mp3'
     ],
@@ -195,9 +197,15 @@ export default {
     },
     addTrack () {
       if (this.validation()) {
+        this.saving = true
         this.$options.service.saveTrack(this.track)
           .then((d) => {
+            this.showNotification(d.message, 'success')
             this.reset()
+          })
+          .catch((tErr) => {
+            this.showNotification('Something went wrong. Please try again.', 'error')
+            this.saving = false
           })
       }
     },

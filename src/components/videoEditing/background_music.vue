@@ -25,7 +25,7 @@
             | Background Music
   .collapse(:id="sectionId" :aria-labelledby="sectionHeaderId", :data-parent="'#'+containerId")
     .card-body
-      .row
+      .row(v-if="!fetching").background-music-tracks-outer-container
         .col-lg-4.col-md-6(v-for="track in tracks")
           .card.m-b-30
             .card-body
@@ -37,7 +37,7 @@
                 .col-8.p-0
                   .m-l-10.align-self-center
                     h4.m-b-0.font-light.marquee-container
-                      .c-inherit(:class="{'text-excerpt': !track.playing, 'marquee': track.playing}") {{track.title}}
+                      .c-inherit(:class="{'text-excerpt': !track.playing, 'marquee': track.playing}") {{track.name}}
                     h5.m-t-5.text-muted.m-b-0
                       span
                         span.pointer(@click="addTrack(track)" v-if="!track.trackAdded") Add
@@ -47,6 +47,8 @@
                             span Added
                           .dropdown-menu
                             a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
+      .m-t-20.text-center(v-if="fetching")
+        <preloader />
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
   <add-music :musicCategories="musicCategories" ref="AddMusicComp"/>
 </template>
@@ -81,39 +83,39 @@ export default {
   data () {
     return {
       pageLoader: true,
+      fetching: true,
       audioTrack: false,
       isMobile: this.isMobile(),
       backMusicControlEnabled: false,
       musicCategories: false,
-      tracks: [
-        {
-          id: 1,
-          title: 'DJ Snake- Taki Taki (reloaded 2019)',
-          URL: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
-          playing: false
-        },
-        {
-          id: 2,
-          title: 'ADJ Snake- Taki Taki (reloaded 2019)',
-          URL: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-          playing: false
-        },
-        {
-          id: 3,
-          title: 'DJ Snake- Bala Bala (reloaded 2019)',
-          URL: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
-          playing: false
-        }
-      ]
+      tracks: []
     }
   },
   mounted () {
-    this.getTracks()
+    this.fetchTracks()
     this.getMusicCategories()
   },
   methods: {
     getAudioPlayerId () {
       return this.containerId + '-audio-player'
+    },
+    fetchTracks () {
+      this.fetching = true
+      this.$options.service.fetchTracks()
+        .then((data) => {
+          this.tracks = this.getTracks(data.tracks)
+          this.fetching = false
+        })
+        .catch((tErr) => {
+          this.showNotification('Something went wrong while trying to fetch music tracks.', 'error')
+        })
+    },
+    getTracks (tracks) {
+      for (let i in tracks) {
+        this.$set(tracks[i], 'trackAdded', false)
+        this.$set(tracks[i], 'playing', false)
+      }
+      return tracks
     },
     getMusicCategories () {
       this.$options.service.getAudioCategories()
@@ -150,11 +152,6 @@ export default {
       track.trackAdded = false
       this.$emit('trackRemoved')
     },
-    getTracks () {
-      for (let i in this.tracks) {
-        this.$set(this.tracks[i], 'trackAdded', false)
-      }
-    },
     pauseTracks (track) {
       for (let i in this.tracks) {
         if (this.tracks[i].id !== track.id) {
@@ -175,7 +172,7 @@ export default {
         } else {
           this.tracks[i].playing = !this.tracks[i].playing
           if (this.tracks[i].playing) {
-            player.setAttribute('src', this.tracks[i].URL)
+            player.setAttribute('src', this.audioURL(this.tracks[i]))
             player.play()
           }
         }

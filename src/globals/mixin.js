@@ -171,6 +171,9 @@ export default {
       $('.modal').modal('hide')
       /* eslint-enable */
     },
+    audioURL (trackObj) {
+      return this.getStaticContentURL() + '/audio/' + trackObj.path
+    },
     videoPlayerOptions (videoObj) {
       let path = this.getVideoPath(videoObj)
       let r = {
