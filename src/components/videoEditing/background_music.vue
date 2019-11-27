@@ -14,7 +14,7 @@
           <template v-if="musicCategories">
           option(v-for="cat in musicCategories" :value="cat.id") {{cat.label}}
           </template>
-        input.form-control(v-model="trackFilterModel.search" :class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
+        input.form-control(@keyup.enter="applyFilter()" v-model="trackFilterModel.search" :class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search & Enter...")
         button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
           i.mdi.mdi-plus
     .control-label-wrap-temp(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId")
@@ -108,10 +108,10 @@ export default {
   watch: {
     'trackFilterModel.genere' (newV, oldV) {
       this.applyFilter()
-    },
-    'trackFilterModel.search' (newV, oldV) {
-      this.applyFilter()
     }
+    /* 'trackFilterModel.search' (newV, oldV) {
+      this.applyFilter()
+    } */
   },
   mounted () {
     this.fetchTracks()
@@ -122,6 +122,7 @@ export default {
       this.trackFilterModel.page = 1
       this.noMoreTracks = false
       this.tracks = []
+      this.removeTrack()
       this.fetchTracks()
     },
     getTracksWrapperElement () {
@@ -210,9 +211,11 @@ export default {
         }
       }
     },
-    removeTrack (track) {
+    removeTrack (track = false) {
       this.audioTrack = false
-      track.trackAdded = false
+      if (track) {
+        track.trackAdded = false
+      }
       this.$emit('trackRemoved')
     },
     pauseTracks (track) {
