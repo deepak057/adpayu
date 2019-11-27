@@ -9,12 +9,12 @@
             span.tab-label.m-l-10.back-music-label
               | Background Music
       .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile, 'col-11 p-0': isMobile}")
-        select.form-control.custom-select.white-back(:class="{'form-control-sm': isMobile}")
+        select.form-control.custom-select.white-back(v-model="trackFilterModel.genere" :class="{'form-control-sm': isMobile}")
           option(value="" selected="selected" disabled="disabled" hidden="hidden") Genere (All)
           <template v-if="musicCategories">
           option(v-for="cat in musicCategories" :value="cat.id") {{cat.label}}
           </template>
-        input.form-control(:class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
+        input.form-control(v-model="trackFilterModel.search" :class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search...")
         button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
           i.mdi.mdi-plus
     .control-label-wrap-temp(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId")
@@ -96,9 +96,21 @@ export default {
       disableLoadMore: false,
       tracks: [],
       tracksWrapperId: this.sectionId + '-track-wrapper',
-      page: 1,
       loadMorePreloader: false,
-      noMoreTracks: false
+      noMoreTracks: false,
+      trackFilterModel: {
+        genere: '',
+        search: '',
+        page: 1
+      }
+    }
+  },
+  watch: {
+    'trackFilterModel.genere' (newV, oldV) {
+      this.applyFilter()
+    },
+    'trackFilterModel.search' (newV, oldV) {
+      this.applyFilter()
     }
   },
   mounted () {
@@ -106,6 +118,12 @@ export default {
     this.getMusicCategories()
   },
   methods: {
+    applyFilter () {
+      this.trackFilterModel.page = 1
+      this.noMoreTracks = false
+      this.tracks = []
+      this.fetchTracks()
+    },
     getTracksWrapperElement () {
       return document.getElementById(this.tracksWrapperId)
     },
@@ -113,7 +131,7 @@ export default {
       let attachEvent = (elem) => {
         elem.onscroll = () => {
           if (elem.scrollTop >= (elem.scrollHeight - elem.offsetHeight)) {
-            this.page++
+            this.trackFilterModel.page++
             this.fetchTracks()
           }
         }
@@ -129,27 +147,22 @@ export default {
     getAudioPlayerId () {
       return this.containerId + '-audio-player'
     },
-    getQueryData () {
-      return {
-        page: this.page
-      }
-    },
     fetchTracks () {
       if (this.noMoreTracks) {
         return false
       }
-      if (this.page === 1) {
+      if (this.trackFilterModel.page === 1) {
         this.fetching = true
       } else {
         this.loadMorePreloader = true
       }
-      this.$options.service.fetchTracks(this.getQueryData())
+      this.$options.service.fetchTracks(this.trackFilterModel)
         .then((data) => {
           this.loadMorePreloader = false
           this.fetching = false
           if (data.tracks.length) {
             this.tracks = this.tracks.concat(this.getTracks(data.tracks))
-            if (this.page === 1) {
+            if (this.trackFilterModel.page === 1) {
               this.attachScrollEvent()
             }
           } else {
