@@ -14,7 +14,7 @@ div(v-if="triggered")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()")
-            | Add
+            | Save
     audio.none(:id="audioPlayerId" loop)
 </template>
 <script>
@@ -74,10 +74,13 @@ export default {
   },
   methods: {
     closePopup () {
-      document.getElementById(this.closeButtonId).click()
+      let d = document.getElementById(this.closeButtonId)
+      if (d) {
+        d.click()
+      }
     },
     saveEditedVideo () {
-      this.$options.service.saveEditedVideo(this.editingConfig)
+      this.$emit('triggerSave')
     },
     getVideoPlayer () {
       return document.getElementById(this.videoPlayerId)

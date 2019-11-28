@@ -1,5 +1,5 @@
 <template lang="pug">
-<video-player class="vjs-3-4" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}" @play="onPlay($event, comment)"/>
+<video-player class="vjs-3-4" :options="videoOptions" :playsinline="true" data-setup="{fluid: true}" @play="onPlay($event, comment)" />
 </template>
 <script>
 // require styles
@@ -21,7 +21,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      videoOptions: this.videoPlayerOptions(this.comment)
+    }
+  },
   methods: {
+    refreshVideo () {
+      let ts = Math.round((new Date()).getTime() / 1000)
+      this.comment.videoPath = this.comment.videoPath + '?' + ts
+      this.comment.videoOptimized = false
+      this.videoOptions = this.videoPlayerOptions(this.comment)
+    },
     onPlay (e, c) {
       try {
         this.pauseAllOtherVideos(e)

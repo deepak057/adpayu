@@ -18,7 +18,7 @@
     .row.m-0
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
       .comments.video-container.col-lg-6.col-md-8.p-0.m-t-5(:class="videoWrapColClass")
-        <comment-video-player :comment="comment"/>
+        <comment-video-player ref="videoCommentComp" :comment="comment"/>
     </template>
     div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion() && !isVideoAnswer() && comment.comment")
     <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
@@ -52,7 +52,7 @@
               i.ti-share.m-r-5
               | Share
   // <social-share ref="socialShareComp" />
-  <video-editing ref="videoEditingComponent"/>
+  <video-editing @VideoEdited="refreshVideo()" ref="videoEditingComponent"/>
 </template>
 <script>
 import Like from './like'
@@ -112,6 +112,9 @@ export default {
     }
   },
   methods: {
+    refreshVideo () {
+      this.$refs.videoCommentComp.refreshVideo()
+    },
     deleteComment () {
       this.$emit('deleteComment', this.index)
     },

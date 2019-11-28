@@ -7,7 +7,7 @@ div(v-if="triggered")
         .modal-header
           h4.modal-title
             | Edit Video
-          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          button.close(:id="closeButtonId" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")
             <background-music ref="BackgroundMusicComp" @trackRemoved="trackRemoved" @trackAdded="trackAdded" :containerId="getSectionId(0)" :sectionHeaderId="getSectionId(1, 'header')" :sectionId="getSectionId(1)"/>
@@ -32,21 +32,25 @@ div(v-if="triggered")
                 .card-body
                   | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
         .modal-footer
-          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          button.btn.btn-danger.waves-effect.waves-light(:class="{'disabled': !canTriggerPreview()}" @click="triggerPreview()")
-            | Preview
-        <preview ref="PreviewComponent" />
+          button.btn.btn-secondary.waves-effect(:disabled = "disableButtons()" :class="{'disabled': disableButtons()}" type='button' @click="triggerPreview()") Preview
+          button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()" :disabled = "disableButtons()" :class="{'disabled': disableButtons()}")
+            span(v-if="saving")
+              | Saving...
+            span(v-if="!saving")
+              | Save
+          <preloader class="preloader-next-to-text m-l-5" v-if="saving"/>
+        <preview @triggerSave="saveEditedVideo()" ref="PreviewComponent" />
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Preview from './preview'
 import BackgroundMusic from './background_music'
-
-// import auth from '@/auth/helpers'
+import Service from './service'
 
 export default {
   name: 'VideoEditing',
+  service: new Service(),
   components: {
     Preloader,
     Preview,
@@ -55,7 +59,7 @@ export default {
   mixins: [mixin],
   data () {
     return {
-      pageLoader: true,
+      saving: false,
       id: this.getUniqueId() + '-video-editing',
       triggered: false,
       editedVideoConfig: {
@@ -89,6 +93,9 @@ export default {
   mounted () {
   },
   methods: {
+    disableButtons () {
+      return !this.canTriggerPreview() || this.saving
+    },
     toggleBackMusicControls (otherSection = false) {
       this.$refs.BackgroundMusicComp.toggleBackMusicControls(otherSection)
     },
@@ -106,6 +113,22 @@ export default {
         this.$refs.BackgroundMusicComp.pauseTracks(this.editedVideoConfig.backgroundTrack)
         this.$refs.PreviewComponent.triggerPopup(this.editedVideoConfig)
       }
+    },
+    saveEditedVideo () {
+      this.$refs.PreviewComponent.closePopup()
+      this.saving = true
+      this.$options.service.saveEditedVideo(this.editedVideoConfig)
+        .then((d) => {
+          this.saving = false
+          this.showNotification(d.message, 'success')
+          this.closePopup()
+          this.$emit('VideoEdited')
+          this.closeAllModals()
+        })
+        .catch((sErr) => {
+          this.saving = false
+          this.showNotification('Something went wrong while saving the edited video.', 'error')
+        })
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
