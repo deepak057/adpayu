@@ -55,7 +55,7 @@
       .m-t-20.text-center(v-if="fetching")
         <preloader />
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
-  <add-music :musicCategories="musicCategories" ref="AddMusicComp"/>
+  <add-music @newTrackUploaded="newTrackUploaded" :musicCategories="musicCategories" ref="AddMusicComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -148,6 +148,9 @@ export default {
     getAudioPlayerId () {
       return this.containerId + '-audio-player'
     },
+    newTrackUploaded (track) {
+      this.tracks.unshift(this.getTrack(track))
+    },
     fetchTracks () {
       if (this.noMoreTracks) {
         return false
@@ -176,10 +179,14 @@ export default {
     },
     getTracks (tracks) {
       for (let i in tracks) {
-        this.$set(tracks[i], 'trackAdded', false)
-        this.$set(tracks[i], 'playing', false)
+        tracks[i] = this.getTrack(tracks[i])
       }
       return tracks
+    },
+    getTrack (track) {
+      this.$set(track, 'trackAdded', false)
+      this.$set(track, 'playing', false)
+      return track
     },
     getMusicCategories () {
       this.$options.service.getAudioCategories()

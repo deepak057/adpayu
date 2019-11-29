@@ -10,7 +10,7 @@ div(v-if="triggered")
             i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Upload a Music File" data-toggle="popover" data-placement="right" data-content="You can contribute to our open source Music Library by uploading an open source or free-to-use music file which will also be publicly available for others to use as background music in their videos.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0
-          div
+          div(v-if="!trackAdded")
             form(@submit.prevent="addTrack()")
               .form-group(:class="{'has-danger': error.nameError}")
                 label(:for="trackTitleFieldId") Track Name/Title*
@@ -39,9 +39,18 @@ div(v-if="triggered")
                   i.fa.fa-trash.m-l-5.pointer(@click="resetFileUpload()" v-if="track.path" title="Remove this file")
                 </template>
                 input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)" onclick="this.value=null;")
+          div.text-center(v-if="trackAdded")
+            .alert.alert-success
+              | Music Track Uploaded Successfully
+            div
+              button.btn.btn-danger.all-caps.m-t-20
+                | Use This Track
+              button.btn.btn-secondary.all-caps.m-t-20.m-l-10(@click="enableAddTrack()")
+                i.mdi.mdi-plus.m-r-5
+                | Add Another Track
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
-          button.btn.btn-danger.waves-effect.waves-light(@click="addTrack()" :disabled="saving")
+          button.btn.btn-danger.waves-effect.waves-light(v-if="!trackAdded" @click="addTrack()" :disabled="saving")
             | Add
           <preloader class="m-l-5 preloader-next-to-text" v-if="saving"/>
 </template>
@@ -59,6 +68,7 @@ function AddMusicInitialState (id, triggered = false) {
     acceptedAudioFileTypes: [
       'audio/mp3'
     ],
+    trackAdded: false,
     track: {
       name: '',
       path: '',
@@ -142,6 +152,9 @@ export default {
     reset () {
       Object.assign(this.$data, AddMusicInitialState(this.id, true))
     },
+    enableAddTrack () {
+      this.trackAdded = false
+    },
     getAcceptedAudioString () {
       return this.acceptedAudioFileTypes.join(',')
     },
@@ -200,8 +213,10 @@ export default {
         this.saving = true
         this.$options.service.saveTrack(this.track)
           .then((d) => {
-            this.showNotification(d.message, 'success')
+            // this.showNotification(d.message, 'success')
             this.reset()
+            this.trackAdded = true
+            this.$emit('newTrackUploaded', d.track)
           })
           .catch((tErr) => {
             this.showNotification('Something went wrong. Please try again.', 'error')
