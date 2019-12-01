@@ -27,7 +27,6 @@
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")
         <preloader :option = 2></preloader>
-  <video-editing ref="videoEditingComponent"/>
   </template>
 </template>
 <script>
@@ -42,7 +41,6 @@ import VideoComment from './video-comment'
 import CommentVideoPlayer from './comment-video-player'
 import SingleComment from './single-comment'
 import { VueEditor } from 'vue2-editor'
-import VideoEditing from '../videoEditing/main'
 
 function postCommentInitialState () {
   return {
@@ -67,8 +65,7 @@ export default {
     VideoComment,
     CommentVideoPlayer,
     SingleComment,
-    VueEditor,
-    VideoEditing
+    VueEditor
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -165,23 +162,28 @@ export default {
     leaveComment () {
       if (this.newCommentText || this.videoPath) {
         this.preloader = true
-        let that = this
         this.$options.service.createComment(this.postId, {comment: this.newCommentText, videoPath: this.videoPath})
           .then((data) => {
-            that.$set(this.comments, this.comments.length, data.comment)
+            this.$set(this.comments, this.comments.length, data.comment)
             this.updateCommentCount('add')
             this.reset()
-            this.enableVideoEditing(data.comment)
+            this.triggerVideoEditing(data.comment)
           })
           .catch((commentError) => {
-            that.preloader = false
+            this.preloader = false
             alert('Something went wrong while posting your comment/answer')
           })
       }
     },
-    enableVideoEditing (comment) {
+    /* triggerVideoEditing (comment) {
+      if (this.isQuestion() && this.getVideo(comment)) {
+        this.$refs.videoEditingComponent.triggerPopup(comment)
+      }
+    }, */
+    triggerVideoEditing (comment) {
       if (this.getVideo(comment)) {
-        this.$refs.videoEditingComponent.triggerPopup()
+        // this.$refs.videoEditingComponent.triggerPopup(comment)
+        this.$set(comment, 'triggerEditing', true)
       }
     },
     showAllComments () {

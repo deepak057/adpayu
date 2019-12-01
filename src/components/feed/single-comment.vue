@@ -111,6 +111,21 @@ export default {
       }
     }
   },
+  watch: {
+    'comment.triggerEditing' (newV, oldV) {
+      if (newV) {
+        this.triggerVideoEditing()
+      }
+    }
+    /* comment: {
+      handler (newV, oldV) {
+        if ('triggerEditing' in newV) {
+          this.triggerVideoEditing()
+        }
+      },
+      deep: true
+    } */
+  },
   methods: {
     refreshVideo () {
       this.$refs.videoCommentComp.refreshVideo()
