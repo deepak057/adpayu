@@ -43,7 +43,7 @@ div(v-if="triggered")
             .alert.alert-success
               | Music Track Uploaded Successfully
             div
-              button.btn.btn-danger.all-caps.m-t-20
+              button.btn.btn-danger.all-caps.m-t-20(@click="useTrack()")
                 | Use This Track
               button.btn.btn-secondary.all-caps.m-t-20.m-l-10(@click="enableAddTrack()")
                 i.mdi.mdi-plus.m-r-5
@@ -69,6 +69,7 @@ function AddMusicInitialState (id, triggered = false) {
       'audio/mp3'
     ],
     trackAdded: false,
+    newTrack: false,
     track: {
       name: '',
       path: '',
@@ -216,12 +217,20 @@ export default {
             // this.showNotification(d.message, 'success')
             this.reset()
             this.trackAdded = true
+            this.newTrack = d.track
             this.$emit('newTrackUploaded', d.track)
           })
           .catch((tErr) => {
             this.showNotification('Something went wrong. Please try again.', 'error')
             this.saving = false
           })
+      }
+    },
+    useTrack () {
+      if (this.newTrack) {
+        this.closePopup()
+        this.$emit('addTrack', this.newTrack)
+        this.reset()
       }
     },
     validation () {

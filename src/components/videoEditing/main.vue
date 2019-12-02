@@ -117,18 +117,28 @@ export default {
     saveEditedVideo () {
       this.$refs.PreviewComponent.closePopup()
       this.saving = true
+      this.$refs.BackgroundMusicComp.pauseAllTracks(this.editedVideoConfig.backgroundTrack)
       this.$options.service.saveEditedVideo(this.editedVideoConfig)
         .then((d) => {
           this.saving = false
           this.showNotification(d.message, 'success')
+          this.$refs.BackgroundMusicComp.removeTrack(this.editedVideoConfig.backgroundTrack)
+          this.$emit('VideoEdited', this.getEditedVideoObj())
           this.closePopup()
-          this.$emit('VideoEdited')
           this.closeAllModals()
         })
         .catch((sErr) => {
           this.saving = false
           this.showNotification('Something went wrong while saving the edited video.', 'error')
         })
+    },
+    getEditedVideoObj () {
+      let ts = Math.round((new Date()).getTime() / 1000)
+      if ('videoPath' in this.editedVideoConfig.videoObj) {
+        this.editedVideoConfig.videoObj.videoPath = this.editedVideoConfig.videoObj.videoPath + '?' + ts
+        this.editedVideoConfig.videoObj.videoOptimized = false
+      }
+      return this.editedVideoConfig.videoObj
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()

@@ -55,7 +55,7 @@
       .m-t-20.text-center(v-if="fetching")
         <preloader />
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
-  <add-music @newTrackUploaded="newTrackUploaded" :musicCategories="musicCategories" ref="AddMusicComp"/>
+  <add-music @addTrack="useAddedTrack" @newTrackUploaded="newTrackUploaded" :musicCategories="musicCategories" ref="AddMusicComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -207,11 +207,16 @@ export default {
     triggerAddMusic () {
       this.$refs.AddMusicComp.triggerPopup()
     },
+    useAddedTrack (track) {
+      this.getTracksWrapperElement().scrollTop = 0
+      this.addTrack(track)
+    },
     addTrack (track) {
       this.audioTrack = track
       for (let i in this.tracks) {
         if (this.tracks[i].id === track.id) {
           this.tracks[i].trackAdded = true
+          this.tracks[i].playing = false
           this.$emit('trackAdded', this.tracks[i])
         } else {
           this.tracks[i].trackAdded = false
@@ -222,16 +227,28 @@ export default {
       this.audioTrack = false
       if (track) {
         track.trackAdded = false
+      } else {
+        for (let i in this.tracks) {
+          this.tracks[i].trackAdded = false
+        }
       }
       this.$emit('trackRemoved')
     },
     pauseTracks (track) {
       for (let i in this.tracks) {
         if (this.tracks[i].id !== track.id) {
-          this.tracks[i].playing = false
-          this.getPlayer().pause()
+          this.pauseTrack(this.tracks[i])
         }
       }
+    },
+    pauseAllTracks () {
+      for (let i in this.tracks) {
+        this.pauseTrack(this.tracks[i])
+      }
+    },
+    pauseTrack (track) {
+      track.playing = false
+      this.getPlayer().pause()
     },
     getPlayer () {
       return document.getElementById(this.getAudioPlayerId())

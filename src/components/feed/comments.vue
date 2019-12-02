@@ -27,6 +27,7 @@
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")
         <preloader :option = 2></preloader>
+  <video-editing ref="videoEditingComponent" @VideoEdited="refreshVideo"/>
   </template>
 </template>
 <script>
@@ -41,6 +42,7 @@ import VideoComment from './video-comment'
 import CommentVideoPlayer from './comment-video-player'
 import SingleComment from './single-comment'
 import { VueEditor } from 'vue2-editor'
+import VideoEditing from '../videoEditing/main'
 
 function postCommentInitialState () {
   return {
@@ -65,7 +67,8 @@ export default {
     VideoComment,
     CommentVideoPlayer,
     SingleComment,
-    VueEditor
+    VueEditor,
+    VideoEditing
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -159,6 +162,9 @@ export default {
           this.showNotification('Something went wrong while fetching the comments/answers', 'error')
         })
     },
+    refreshVideo (comment) {
+      this.comments[this.comments.length - 1] = comment
+    },
     leaveComment () {
       if (this.newCommentText || this.videoPath) {
         this.preloader = true
@@ -182,8 +188,8 @@ export default {
     }, */
     triggerVideoEditing (comment) {
       if (this.getVideo(comment)) {
-        // this.$refs.videoEditingComponent.triggerPopup(comment)
-        this.$set(comment, 'triggerEditing', true)
+        this.$refs.videoEditingComponent.triggerPopup(comment)
+        // this.$set(comment, 'triggerEditing', true)
       }
     },
     showAllComments () {

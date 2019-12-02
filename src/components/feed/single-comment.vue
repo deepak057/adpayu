@@ -52,7 +52,7 @@
               i.ti-share.m-r-5
               | Share
   // <social-share ref="socialShareComp" />
-  <video-editing @VideoEdited="refreshVideo()" ref="videoEditingComponent"/>
+  <video-editing @VideoEdited="refreshVideo" ref="videoEditingComponent"/>
 </template>
 <script>
 import Like from './like'
@@ -111,24 +111,9 @@ export default {
       }
     }
   },
-  watch: {
-    'comment.triggerEditing' (newV, oldV) {
-      if (newV) {
-        this.triggerVideoEditing()
-      }
-    }
-    /* comment: {
-      handler (newV, oldV) {
-        if ('triggerEditing' in newV) {
-          this.triggerVideoEditing()
-        }
-      },
-      deep: true
-    } */
-  },
   methods: {
-    refreshVideo () {
-      this.$refs.videoCommentComp.refreshVideo()
+    refreshVideo (comment) {
+      this.comment = comment
     },
     deleteComment () {
       this.$emit('deleteComment', this.index)
