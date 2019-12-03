@@ -136,7 +136,7 @@ export default {
       let ts = Math.round((new Date()).getTime() / 1000)
       if ('videoPath' in this.editedVideoConfig.videoObj) {
         this.editedVideoConfig.videoObj.videoPath = this.editedVideoConfig.videoObj.videoPath + '?' + ts
-        this.editedVideoConfig.videoObj.videoOptimized = false
+        // this.editedVideoConfig.videoObj.videoOptimized = false
       }
       return this.editedVideoConfig.videoObj
     },

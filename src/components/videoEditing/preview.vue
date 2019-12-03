@@ -2,15 +2,16 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
-    .modal-dialog.modal-lg
+    .modal-dialog
       .modal-content
         .modal-header
           h4.modal-title
             | Video Preview
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          div
-            video(style="width:100%" :id="videoPlayerId" muted)
+          .row
+            .col-12
+              video.w-100(:id="videoPlayerId" muted)
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()")

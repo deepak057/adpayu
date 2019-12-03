@@ -1382,3 +1382,7 @@ strong{
 	max-height: 230px;
 	overflow-y: scroll;
 }
+.full-height-width {
+	height: 100%;
+	width: 100%;
+}
