@@ -188,6 +188,7 @@ export default {
     }, */
     triggerVideoEditing (comment) {
       if (this.getVideo(comment)) {
+        this.$set(comment, 'pickLocalVideoSrc', true)
         this.$refs.videoEditingComponent.triggerPopup(comment)
         // this.$set(comment, 'triggerEditing', true)
       }

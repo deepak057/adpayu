@@ -10,7 +10,8 @@ const defaults = {
   post: {},
   options: {},
   totalRevenue: 0,
-  orderId: false
+  orderId: false,
+  localVideoURL: false
 }
 
 const auth = {

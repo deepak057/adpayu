@@ -47,6 +47,7 @@ import Preloader from '../preloader'
 import Preview from './preview'
 import BackgroundMusic from './background_music'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'VideoEditing',
@@ -138,7 +139,11 @@ export default {
     getEditedVideoObj () {
       let ts = Math.round((new Date()).getTime() / 1000)
       if ('videoPath' in this.editedVideoConfig.videoObj) {
+        this.editedVideoConfig.videoObj.pickLocalVideoSrc = false
+        auth.setLocalVideoURL()
         this.editedVideoConfig.videoObj.videoPath = this.editedVideoConfig.videoObj.videoPath + '?' + ts
+      } else {
+        this.editedVideoConfig.videoObj.path = this.editedVideoConfig.videoObj.path + '?' + ts
       }
       return this.editedVideoConfig.videoObj
     },

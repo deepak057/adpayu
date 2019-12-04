@@ -22,6 +22,7 @@ div(v-if="triggered")
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Preview',
@@ -96,13 +97,18 @@ export default {
       let audioPlayer = this.getAudioPlayer()
       let videoPlayer = this.getVideoPlayer()
       audioPlayer.setAttribute('src', this.audioURL(this.editingConfig.backgroundTrack))
-      videoPlayer.setAttribute('src', this.getVideoURL(this.editingConfig.videoObj))
+      videoPlayer.setAttribute('src', this.getVideoSrcURL(this.editingConfig.videoObj))
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
     },
+    getVideoSrcURL (videoObj) {
+      if ('pickLocalVideoSrc' in videoObj && videoObj.pickLocalVideoSrc && auth.getLocalVideoURL()) {
+        return auth.getLocalVideoURL()
+      }
+      return this.getVideoURL(this.editingConfig.videoObj)
+    },
     initVideoPlayerEvents (videoPlayer, audioPlayer) {
       /*eslint-disable*/
-
       let checkInterval  = 50.0 // check every 50 ms (do not use lower values)
       let lastPlayPos    = 0
       let currentPlayPos = 0

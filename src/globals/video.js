@@ -1,4 +1,5 @@
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   service: new Service(),
@@ -36,6 +37,7 @@ export default {
     uploadVideo (files) {
       let formData = new FormData()
       formData.append('video', files[0])
+      auth.setLocalVideoURL(files[0])
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'

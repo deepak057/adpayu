@@ -86,7 +86,20 @@ export default {
     router.push({ name: 'home' })
     window.location = '/'
   },
-
+  getLocalVideoURL () {
+    return store.state.auth.localVideoURL
+  },
+  setLocalVideoURL (file = false) {
+    if (!file) {
+      if (this.getLocalVideoURL()) {
+        window.URL.revokeObjectURL(this.getLocalVideoURL())
+      }
+      store.state.auth.localVideoURL = false
+    } else {
+      store.state.auth.localVideoURL = window.URL.createObjectURL(file)
+    }
+    store.dispatch('auth/update', store.state.auth)
+  },
   getUser () {
     return store.state.auth.user
   },
