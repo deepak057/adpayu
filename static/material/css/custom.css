@@ -1386,3 +1386,8 @@ strong{
 	height: 100%;
 	width: 100%;
 }
+.fix-in-bottom-right {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}

@@ -17,11 +17,11 @@ div(v-if="triggered")
                 input.form-control(v-model="track.name" type="text" placeholder="Enter here" :id="trackTitleFieldId")
                 small.form-control-feedback(v-if="error.nameError") {{error.nameError}}
               .form-group(:class="{'has-danger': error.genereError}")
-                label(:for="trackGenereFieldId") Genere*
+                label(:for="trackGenereFieldId") Type*
                 select.form-control.custom-select(v-model="track.genere" :id="trackGenereFieldId")
                   option(value="" selected="selected" disabled="disabled" hidden="hidden") Please select
                   <template v-if="musicCategories">
-                  option(v-for="cat in musicCategories" v-if="cat.id" :value="cat.id") {{cat.label}}
+                  option(v-for="cat in musicCategories" v-if="cat.id && cat.id !== myTracksCategoryId" :value="cat.id") {{cat.label}}
                   </template>
                 small.form-control-feedback(v-if="error.genereError") {{error.genereError}}
               .form-group.m-b-10(:class="{'has-danger': error.pathError}")
@@ -95,6 +95,12 @@ export default {
       type: Object,
       default () {
         return []
+      }
+    },
+    myTracksCategoryId: {
+      type: Object,
+      default () {
+        return 0
       }
     }
   },

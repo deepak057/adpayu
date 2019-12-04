@@ -10,7 +10,7 @@
               | Background Music
       .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile, 'col-11 p-0': isMobile}")
         select.form-control.custom-select.white-back(v-model="trackFilterModel.genere" :class="{'form-control-sm': isMobile}")
-          option(value="" selected="selected" disabled="disabled" hidden="hidden") Genere (All)
+          option(value="" selected="selected" disabled="disabled" hidden="hidden") Type (All)
           <template v-if="musicCategories">
           option(v-for="cat in musicCategories" :value="cat.id") {{cat.label}}
           </template>
@@ -25,6 +25,9 @@
             | Background Music
   .collapse(:id="sectionId" :aria-labelledby="sectionHeaderId", :data-parent="'#'+containerId")
     .card-body
+      .text-center(v-if="!fetching && !tracks.length && !noMoreTracks")
+        .alert.alert-info
+          | No Tracks
       .row.background-music-tracks-outer-container(:id="tracksWrapperId" v-if="!fetching")
         .col-lg-4.col-md-6(v-for="track in tracks")
           .card.m-b-30
@@ -47,6 +50,7 @@
                             span Added
                           .dropdown-menu
                             a.dropdown-item(href='javascript:void(0)' @click="removeTrack(track)") Remove
+              i.fa.fa-trash.pointer.fix-in-bottom-right(title="Delete this track which was uploaded by you" v-if="isTrackOwener(track)" @click="deleteTrack(track)")
         .text-center.col-12.m-0.p-0(v-if="loadMorePreloader || noMoreTracks")
           <preloader v-if="loadMorePreloader"/>
           span(v-if="noMoreTracks")
@@ -55,13 +59,14 @@
       .m-t-20.text-center(v-if="fetching")
         <preloader />
   audio.none(:id="getAudioPlayerId()" autoplay="true" :src="audioTrack" loop)
-  <add-music @addTrack="useAddedTrack" @newTrackUploaded="newTrackUploaded" :musicCategories="musicCategories" ref="AddMusicComp"/>
+  <add-music :myTracksCategoryId = "myTracksCategoryId" @addTrack="useAddedTrack" @newTrackUploaded="newTrackUploaded" :musicCategories="musicCategories" ref="AddMusicComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import AddMusic from './add_music'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'BackgroundMusic',
@@ -94,6 +99,8 @@ export default {
       backMusicControlEnabled: false,
       musicCategories: false,
       disableLoadMore: false,
+      myTracksCategoryId: 0,
+      currentUser: auth.getUser(),
       tracks: [],
       tracksWrapperId: this.sectionId + '-track-wrapper',
       loadMorePreloader: false,
@@ -118,6 +125,23 @@ export default {
     this.getMusicCategories()
   },
   methods: {
+    isTrackOwener (track) {
+      return this.currentUser.id === track.UserId
+    },
+    deleteTrack (track) {
+      if (confirm('Are you sure you want to delete it?')) {
+        for (let i in this.tracks) {
+          if (this.tracks[i].id === track.id) {
+            this.removeTrack(this.tracks[i])
+            this.tracks.splice(i, 1)
+            this.$options.service.deleteTrack(track.id)
+              .catch((tErr) => {
+                this.showNotification('Something went wrong while deleting the Track.', 'error')
+              })
+          }
+        }
+      }
+    },
     applyFilter () {
       this.trackFilterModel.page = 1
       this.noMoreTracks = false
@@ -191,7 +215,8 @@ export default {
     getMusicCategories () {
       this.$options.service.getAudioCategories()
         .then((data) => {
-          this.musicCategories = data
+          this.musicCategories = data.categories
+          this.myTracksCategoryId = data.myTracksCategoryId
         })
         .catch((mErr) => {
           this.showNotification('Something went wrong while trying to get Music Categories.', 'error')
@@ -224,15 +249,19 @@ export default {
       }
     },
     removeTrack (track = false) {
-      this.audioTrack = false
       if (track) {
-        track.trackAdded = false
+        if (track.trackAdded) {
+          this.audioTrack = false
+          track.trackAdded = false
+          this.$emit('trackRemoved')
+        }
       } else {
+        this.audioTrack = false
         for (let i in this.tracks) {
           this.tracks[i].trackAdded = false
         }
+        this.$emit('trackRemoved')
       }
-      this.$emit('trackRemoved')
     },
     pauseTracks (track) {
       for (let i in this.tracks) {

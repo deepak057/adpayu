@@ -69,4 +69,14 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+
+  deleteTrack (trackId) {
+    return auth.delete('/audio/delete/' + trackId)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }

@@ -110,14 +110,17 @@ export default {
     },
     triggerPreview () {
       if (this.canTriggerPreview()) {
-        this.$refs.BackgroundMusicComp.pauseTracks(this.editedVideoConfig.backgroundTrack)
+        this.pauseAllTracks()
         this.$refs.PreviewComponent.triggerPopup(this.editedVideoConfig)
       }
+    },
+    pauseAllTracks () {
+      this.$refs.BackgroundMusicComp.pauseAllTracks(this.editedVideoConfig.backgroundTrack)
     },
     saveEditedVideo () {
       this.$refs.PreviewComponent.closePopup()
       this.saving = true
-      this.$refs.BackgroundMusicComp.pauseAllTracks(this.editedVideoConfig.backgroundTrack)
+      this.pauseAllTracks()
       this.$options.service.saveEditedVideo(this.editedVideoConfig)
         .then((d) => {
           this.saving = false
@@ -161,6 +164,7 @@ export default {
       } else {
         d.click()
       }
+      /* eslint-enable */
     }
   }
 }
