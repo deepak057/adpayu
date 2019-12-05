@@ -182,21 +182,23 @@ export default {
       return this.acceptedAudioFileTypes.join(',')
     },
     validateAudioFile (files) {
-      // let valid = true
+      let valid = true
       /* bypassing following standard check as it seems Android devices
       * are rejecting a valid audio files as well
+      */
       if (this.acceptedAudioFileTypes.indexOf(files[0]['type']) === -1) {
         valid = false
-      } */
+      }
+      return valid
       /*
       * check the extension of select file as the above standard validation
       * doesn't seem to be working on Android devices
       */
-      let types = /(\.|\/)(mp3|mp2)$/i
-      return types.test(files[0].type) || types.test(files[0].name)
+      // let types = /(\.|\/)(mp3|mp2)$/i
+      // return types.test(files[0].type) || types.test(files[0].name)
     },
     filesChange (event, files) {
-      if (files.length) {
+      if (files.length && this.validateAudioFile(files)) {
         this.uploadAudioFile(files)
       } else {
         alert('Please choose a valid audio file.')
