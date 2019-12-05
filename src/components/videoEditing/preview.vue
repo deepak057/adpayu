@@ -12,6 +12,7 @@ div(v-if="triggered")
           .row
             .col-12
               video.w-100(:id="videoPlayerId" muted)
+              i.mdi.mdi-replay.pointer.custom-replay-btn(v-if="playerPaused" title = "Replay" @click="rePlay()")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
           button.btn.btn-danger.waves-effect.waves-light(@click="saveEditedVideo()")
@@ -37,7 +38,8 @@ export default {
       id: this.getUniqueId() + '-video-editing-preview',
       triggered: false,
       videoBufferingInterval: false,
-      editingConfig: false
+      editingConfig: false,
+      playerPaused: false
     }
   },
   computed: {
@@ -93,11 +95,20 @@ export default {
     getVideoSrc (videoObj) {
       return 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
     },
-    playPreview () {
+    rePlay () {
+      this.playPreview(true)
+    },
+    playPreview (replay = false) {
       let audioPlayer = this.getAudioPlayer()
       let videoPlayer = this.getVideoPlayer()
-      audioPlayer.setAttribute('src', this.audioURL(this.editingConfig.backgroundTrack))
-      videoPlayer.setAttribute('src', this.getVideoSrcURL(this.editingConfig.videoObj))
+      this.playerPaused = false
+      if (!replay) {
+        audioPlayer.setAttribute('src', this.audioURL(this.editingConfig.backgroundTrack))
+        videoPlayer.setAttribute('src', this.getVideoSrcURL(this.editingConfig.videoObj))
+      } else {
+        audioPlayer.currentTime = 0
+        videoPlayer.currentTime = 0
+      }
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
     },
@@ -117,6 +128,7 @@ export default {
       this.videoBufferingInterval = setInterval(checkBuffering, checkInterval)
       let pauseAudio = ()=> {
         audioPlayer.pause()
+        this.playerPaused = true
         clearInterval(this.videoBufferingInterval)
       }
 
