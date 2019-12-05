@@ -66,7 +66,23 @@ function AddMusicInitialState (id, triggered = false) {
     uploadPercentage: 0,
     saving: false,
     acceptedAudioFileTypes: [
-      'audio/mp3'
+      'audio/mp3',
+      'audio/mpeg',
+      'audio/basic',
+      'auido/L24',
+      'audio/mid',
+      'audio/mp4',
+      'audio/x-aiff',
+      'audio/x-mpegurl',
+      'audio/vnd.rn-realaudio',
+      'audio/ogg',
+      'audio/vorbis',
+      'audio/vnd.wav',
+      'audio/wav',
+      'audio/flac',
+      'audio/mpegurl',
+      'audio/x-scpls',
+      'audio/webm'
     ],
     trackAdded: false,
     newTrack: false,
@@ -176,7 +192,7 @@ export default {
       if (files.length && this.validateAudioFile(files)) {
         this.uploadAudioFile(files)
       } else {
-        alert('Please choose a valid video file')
+        alert('Please choose a valid audio file.')
       }
     },
     uploadAudioFile (files) {
