@@ -39,7 +39,7 @@ div(v-if="triggered")
                   i.fa.fa-trash.m-l-5.pointer(@click="resetFileUpload()" v-if="track.path" title="Remove this file")
                 </template>
                 input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)" onclick="this.value=null;")
-          div.text-center(v-if="trackAdded")
+          .m-b-20.text-center(v-if="trackAdded")
             .alert.alert-success
               | Music Track Uploaded Successfully
             div
