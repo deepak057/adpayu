@@ -38,7 +38,7 @@ div(v-if="triggered")
                   | {{getFileUploadProgressText()}}
                   i.fa.fa-trash.m-l-5.pointer(@click="resetFileUpload()" v-if="track.path" title="Remove this file")
                 </template>
-                input.none(:accept="getAcceptedAudioString()" type="file" data-type="audio" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)")
+                input.none(:accept="getAcceptedAudioString()" type="file" :id="fileElementId" @change="filesChange($event.target.name, $event.target.files)" onclick="this.value=null;")
           .m-b-20.text-center(v-if="trackAdded")
             .alert.alert-success
               | Music Track Uploaded Successfully
@@ -196,7 +196,7 @@ export default {
       return types.test(files[0].type) || types.test(files[0].name)
     },
     filesChange (event, files) {
-      if (files.length && this.validateAudioFile(files)) {
+      if (files.length) {
         this.uploadAudioFile(files)
       } else {
         alert('Please choose a valid audio file.')
