@@ -220,6 +220,7 @@ export default {
           this.track.path = data.path
         })
         .catch((errVideo) => {
+          this.uploadPercentage = 0
           this.showNotification('Something went wrong while uploading the music file', 'error')
         })
     },
