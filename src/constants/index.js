@@ -15,6 +15,7 @@ export const PAYMENT_MODE = process.env.PAYMENT_MODE
 export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000/v1'
 export const REFRESH_TOKEN_URL = process.env.REFRESH_TOKEN_URL || '/auth'
 export const SERVER_STATIC_CONTENT_URL = process.env.SERVER_STATIC_CONTENT_URL || 'http://localhost:3000/uploads'
+export const SERVER_STATIC_CONTENT_URL_NO_CDN = process.env.SERVER_STATIC_CONTENT_URL_NO_CDN || 'http://localhost:3000/uploads'
 /**
  * Key for local storage.
  *

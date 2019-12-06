@@ -39,8 +39,8 @@ export default {
       value = value.toString()
       return value.charAt(0).toUpperCase() + value.slice(1)
     },
-    getStaticContentURL () {
-      return constants.SERVER_STATIC_CONTENT_URL
+    getStaticContentURL (cdn = true) {
+      return cdn ? constants.SERVER_STATIC_CONTENT_URL : constants.SERVER_STATIC_CONTENT_URL_NO_CDN
     },
     copyObject (obj) {
       return JSON.parse(JSON.stringify(obj))
@@ -198,10 +198,13 @@ export default {
     getVideoPath (videoObj) {
       return 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
     },
+    hasQueryString (path) {
+      return path.indexOf('?') > -1
+    },
     getVideoURL (videoObj) {
       let path = this.getVideoPath(videoObj)
       let optimzed = 'optimized' in videoObj ? videoObj.optimized : videoObj.videoOptimized
-      let baseURL = this.getStaticContentURL()
+      let baseURL = this.getStaticContentURL(!this.hasQueryString(path))
       let subDir = false
       if (optimzed) {
         if (this.isMobile()) {
