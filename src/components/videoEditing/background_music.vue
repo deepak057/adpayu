@@ -130,6 +130,7 @@ export default {
     },
     deleteTrack (track) {
       if (confirm('Are you sure you want to delete it?')) {
+        this.pauseTrack(track, true)
         for (let i in this.tracks) {
           if (this.tracks[i].id === track.id) {
             this.removeTrack(this.tracks[i])
@@ -143,6 +144,7 @@ export default {
       }
     },
     applyFilter () {
+      this.pauseAllTracks()
       this.trackFilterModel.page = 1
       this.noMoreTracks = false
       this.tracks = []
@@ -275,9 +277,18 @@ export default {
         this.pauseTrack(this.tracks[i])
       }
     },
-    pauseTrack (track) {
-      track.playing = false
-      this.getPlayer().pause()
+    pauseTrack (track, playCheck = false) {
+      let pause = () => {
+        track.playing = false
+        this.getPlayer().pause()
+      }
+      if (playCheck) {
+        if (track.playing) {
+          pause()
+        }
+      } else {
+        pause()
+      }
     },
     getPlayer () {
       return document.getElementById(this.getAudioPlayerId())

@@ -49,7 +49,7 @@ div(v-if="triggered")
                 i.mdi.mdi-plus.m-r-5
                 | Add Another Track
         .modal-footer
-          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
+          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           button.btn.btn-danger.waves-effect.waves-light(v-if="!trackAdded" @click="addTrack()" :disabled="saving")
             | Add
           <preloader class="m-l-5 preloader-next-to-text" v-if="saving"/>

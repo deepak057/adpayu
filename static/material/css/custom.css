@@ -1121,6 +1121,9 @@ strong{
 	}
 	.mobile-device .background-music-edit-controls-wrap.collapsed {
 	}
+	.background-music-tracks-outer-container {
+		max-height: 376px !important;
+	}
 
 }
 .hide-comment-user-name {
