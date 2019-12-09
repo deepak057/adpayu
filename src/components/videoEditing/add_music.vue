@@ -189,42 +189,61 @@ export default {
         }
         return valid
       }
+      let extensionCheck = () => {
+        let types = /(\.|\/)(mp3|mp2)$/i
+        let file = files[0]
+        return types.test(file.type) || types.test(file.name)
+      }
       let checkIfValidMP3Signature = () => {
         return new Promise((resolve, reject) => {
           if (FileReader) {
-            var reader = new FileReader();
-            reader.addEventListener("load", function(e) {
-              var mp3FileSignature = [255, 251, 48];
-              var id3FileSignature = [73, 68, 51];
-              var arrayBuffer = e.target.result;
+            var reader = new FileReader()
+            reader.addEventListener('load', function (e) {
+              var mp3FileSignature = [255, 251, 48]
+              var id3FileSignature = [73, 68, 51]
+              var arrayBuffer = e.target.result
               if (arrayBuffer && arrayBuffer.byteLength >= 3) {
-                var slice = arrayBuffer.slice(0, 3)
-                var view = new Uint8Array(slice)
-                 if ((mp3FileSignature[0] != view[0] || mp3FileSignature[1] != view[1] || mp3FileSignature[2] != view[2])  && (id3FileSignature[0] != view[0] || id3FileSignature[1] != view[1] || id3FileSignature[2] != view[2])) {
-
-                  //Not an mp3
+                let slice = arrayBuffer.slice(0, 3)
+                let view = new Uint8Array(slice)
+                if ((mp3FileSignature[0] !== view[0] || mp3FileSignature[1] !== view[1] || mp3FileSignature[2] !== view[2]) && (id3FileSignature[0] !== view[0] || id3FileSignature[1] !== view[1] || id3FileSignature[2] !== view[2])) {
+                  resolve(false)
+                } else {
+                  resolve(true)
                 }
               }
-
             })
-          reader.readAsArrayBuffer(audioFile);
+            reader.readAsArrayBuffer(files[0])
           }
         })
       }
       return new Promise((resolve, reject) => {
-        if (!mimeCheck()) {
-
-        } else {
+        if (mimeCheck()) {
           resolve(true)
+        } else if (extensionCheck()) {
+          resolve(true)
+        } else {
+          checkIfValidMP3Signature()
+            .then((d) => {
+              resolve(d)
+            })
         }
       })
-      
     },
     filesChange (event, files) {
-      if (files.length && this.validateAudioFile(files)) {
-        this.uploadAudioFile(files)
-      } else {
+      let e = () => {
         alert('Please choose a valid audio file.')
+      }
+      if (files.length) {
+        this.validateAudioFile(files)
+          .then((d) => {
+            if (d) {
+              this.uploadAudioFile(files)
+            } else {
+              e()
+            }
+          })
+      } else {
+        e()
       }
     },
     uploadAudioFile (files) {
