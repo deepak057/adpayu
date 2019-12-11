@@ -20,7 +20,7 @@ div(v-if="triggered")
                     span.tab-label
                       | Trim Video
               .collapse(:id="getSectionId(2)" :aria-labelledby="getSectionId(2, header)", :data-parent="'#'+getSectionId(0)")
-                <trim-video ref="TrimVideoComponent"/>
+                <trim-video ref="TrimVideoComponent" :videoObj="editedVideoConfig.videoObj"/>
             // .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
                 h2.mb-0
