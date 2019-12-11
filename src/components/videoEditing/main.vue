@@ -12,7 +12,7 @@ div(v-if="triggered")
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")
             <background-music ref="BackgroundMusicComp" @trackRemoved="trackRemoved" @trackAdded="trackAdded" :containerId="getSectionId(0)" :sectionHeaderId="getSectionId(1, 'header')" :sectionId="getSectionId(1)"/>
-            // .card
+            .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(2, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(2)", aria-expanded='true', :aria-controls='getSectionId(2)')
                 h2.mb-0
                   button.btn(type='button')
@@ -20,8 +20,7 @@ div(v-if="triggered")
                     span.tab-label
                       | Trim Video
               .collapse(:id="getSectionId(2)" :aria-labelledby="getSectionId(2, header)", :data-parent="'#'+getSectionId(0)")
-                .card-body
-                  | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <trim-video ref="TrimVideoComponent"/>
             // .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
                 h2.mb-0
@@ -49,6 +48,7 @@ import Preview from './preview'
 import BackgroundMusic from './background_music'
 import Service from './service'
 import auth from '@/auth/helpers'
+import TrimVideo from './trim_video'
 
 export default {
   name: 'VideoEditing',
@@ -56,7 +56,8 @@ export default {
   components: {
     Preloader,
     Preview,
-    BackgroundMusic
+    BackgroundMusic,
+    TrimVideo
   },
   mixins: [mixin],
   data () {
@@ -100,6 +101,7 @@ export default {
     },
     toggleBackMusicControls (otherSection = false) {
       this.$refs.BackgroundMusicComp.toggleBackMusicControls(otherSection)
+      this.$refs.TrimVideoComponent.refresh()
     },
     trackAdded (track) {
       this.editedVideoConfig.backgroundTrack = track
