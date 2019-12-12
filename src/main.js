@@ -17,6 +17,8 @@ import Notifications from 'vue-notification'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueMeta from 'vue-meta'
 import VueAnalytics from 'vue-analytics'
+import Popover from 'vue-js-popover'
+
 // import SocialSharing from 'vue-social-sharing'
 
 Vue.config.productionTip = false
@@ -71,6 +73,9 @@ Vue.use(VueAnalytics, {
   id: 'UA-141287643-1',
   router
 })
+
+// include Popover
+Vue.use(Popover)
 
 // include Social Share
 // Vue.use(SocialSharing)

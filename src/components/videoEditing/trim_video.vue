@@ -15,9 +15,12 @@
          button.btn.dropdown-toggle.dropdown-toggle-split(:class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false' v-if="!trimCompleted()")
            span.sr-only Toggle Dropdown
          .dropdown-menu
-           a.dropdown-item(href='#') Enter Trim Time
+           a.dropdown-item(href='javascript:void(0)' v-popover = "{name: 'manualTrimPopop'}") Enter Trim Time
        button.btn.btn-outline-secondary.all-caps.m-l-10(:disabled="!trimCompleted()" @click="reset()")
          | Reset
+       <popover name="manualTrimPopop">
+         | Hello
+       </popover>
        .m-t-10(v-if="trimCompleted()")
          | {{trimedCompletedText()}}
      </template>
