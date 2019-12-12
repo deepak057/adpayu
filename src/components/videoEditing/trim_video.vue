@@ -6,10 +6,15 @@
     .col-12
      video.w-100(controls :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
-     <vue-range-slider ref="trimVideoRangeSlider" :formatter = "formatLabels" :piecewise="piecewise" v-model="value" :min="min" :max="max" :enable-cross="enableCross" />
-     .text-center
-       button.btn.btn-danger.all-caps.m-t-20(@click="startTrim()")
+     <vue-range-slider @drag-start="resetInterval" @drag-end="dragEnd" ref="trimVideoRangeSlider" :formatter = "formatLabels" :disabled = "sliderDisabled" :piecewise="piecewise" v-model="value" :min="min" :max="max" :enable-cross="enableCross" />
+     .text-center.m-t-20
+       button.btn.all-caps(@click="trimToggle()" :class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}")
+         i.mdi.mdi-check.m-r-5(v-if="trimCompleted()")
          | {{getTrimBtnText()}}
+       button.btn.btn-outline-secondary.all-caps.m-l-10(:disabled="!trimCompleted()" @click="reset()")
+         | Reset
+       .m-t-10(v-if="trimCompleted()")
+         | {{trimedCompletedText()}}
      </template>
 </template>
 <script>
@@ -25,9 +30,11 @@ function trimVideoInitialState () {
     max: 250,
     enableCross: false,
     pageLoader: true,
-    piecewise: false,
-    trimStart: false,
-    trimEnd: false
+    piecewise: true,
+    trimStart: 0,
+    trimEnd: false,
+    interval: false,
+    sliderDisabled: false
   }
 }
 
@@ -56,36 +63,118 @@ export default {
     player.preload = 'metadata'
     player.onloadedmetadata = () => {
       this.pageLoader = false
-      this.value = [0, player.duration]
-      this.max = player.duration
+      this.initRangeSlider(player)
+      this.refresh()
     }
     player.onplay = () => {
-      this.autoUpdateRangeSlider(player)
+      if (!this.trimStart) {
+        this.startTrim()
+      }
+      if (!this.trimCompleted()) {
+        this.autoUpdateRangeSlider(player)
+      }
+    }
+    player.onended = () => {
+      if (this.trimStart && !this.trimCompleted()) {
+        this.stopTrim()
+      }
     }
   },
   methods: {
+    trimedCompletedText () {
+      return 'Trimmed from ' + this.secondsToHms(this.trimStart) + ' to ' + this.secondsToHms(this.trimEnd)
+    },
+    initRangeSlider (player = false) {
+      let p = this.getVideoPlayer(player)
+      this.max = p.duration
+      this.trimEnd = p.duration
+      this.refreshTrimValue()
+    },
     getTrimBtnText () {
-      if (!this.trimStart) {
-        return 'Start Trim'
+      if (!this.trimCompleted()) {
+        if (!this.trimStart) {
+          return 'Start Trim'
+        } else {
+          return 'Stop Trim'
+        }
       } else {
-        return 'Stop Trim'
+        return 'Trim Completed'
       }
     },
-    autoUpdateRangeSlider (player) {
-      setInterval(() => {
-        if (this.trimStart) {
-          this.value = [this.trimStart, player.currentTime]
+    resetInterval () {
+      clearInterval(this.interval)
+    },
+    pausePlayer () {
+      this.getVideoPlayer().pause()
+    },
+    resetVideoPlayer () {
+      let p = this.getVideoPlayer()
+      p.pause()
+      p.currentTime = 0
+    },
+    reset () {
+      this.trimStart = 0
+      this.trimEnd = this.getVideoPlayer().duration
+      this.initRangeSlider()
+      this.sliderDisabled = false
+      this.resetInterval()
+      this.resetVideoPlayer()
+    },
+    dragEnd (slider) {
+      if (!this.trimStart) {
+        this.startTrim()
+      }
+      this.trimStart = slider.value[0]
+      this.getVideoPlayer().currentTime = parseInt(slider.value[1])
+      this.autoUpdateRangeSlider()
+    },
+    trimCompleted () {
+      return this.trimStart && this.trimEnd
+    },
+    autoUpdateRangeSlider (player = false) {
+      let p = this.getVideoPlayer(player)
+      this.interval = setInterval(() => {
+        if (this.trimStart && !this.trimEnd) {
+          this.refreshTrimValue(false, p.currentTime)
         }
       }, 1000)
     },
+    trimToggle () {
+      if (!this.trimStart || !this.trimEnd) {
+        if (!this.trimStart) {
+          this.startTrim()
+        } else {
+          this.stopTrim()
+        }
+      }
+    },
+    getSliderValue () {
+      return this.$refs.trimVideoRangeSlider.value
+    },
+    stopTrim () {
+      let player = this.getVideoPlayer()
+      let sValue = this.getSliderValue()
+      this.trimStart = sValue[0]
+      this.trimEnd = player.currentTime
+      this.$emit('VideoTrimmed', sValue)
+      this.sliderDisabled = true
+      this.refreshTrimValue()
+      this.resetInterval()
+      this.pausePlayer()
+    },
+    refreshTrimValue (start = false, end = false) {
+      this.value = [start || this.trimStart, end || this.trimEnd]
+    },
     startTrim () {
       let player = this.getVideoPlayer()
+      this.trimEnd = 0
       if (!this.isPlaying()) {
         player.play()
-        this.trimStart = 0
+        this.trimStart = 0.001
       } else {
         this.trimStart = player.currentTime
       }
+      this.refreshTrimValue()
     },
     isPlaying () {
       let player = this.getVideoPlayer()
@@ -99,8 +188,8 @@ export default {
       date.setSeconds(d)
       return date.toISOString().substr(11, 8)
     },
-    getVideoPlayer () {
-      return document.getElementById(this.videoElementId)
+    getVideoPlayer (player = false) {
+      return player || document.getElementById(this.videoElementId)
     },
     refresh () {
       /*

@@ -18,18 +18,22 @@
           | You should always try to show some creativity and make the video as interesting as possible, by adding some background music, some effects, etc. You can use any third party video editing app such as VivaVideo for basic and very easy video editing.
         li
           | Uploaded video answers must not have any watermark or branding of any other third party services.
+        li
+          | Your video should try to show things/actions that are not too common for people to see in their every day lives. Your videos will be considered valuable and be paid for when they show some unique and interesting things/actions or at least are presented in entertaining or creative ways.
+      p
+        | Hope you'd create the content which people, as well as you yourself will love to watch.
     h4.m-l-10.all-caps Content Uniqueness
     ol
       li
-        | To make sure we have only unique content available on the platform, we have created AI powered bots that crawl other video sharing platforms and match the videos against the videos uploaded on the platform.
+        | To make sure we have only unique content available on the platform, we have created an AI powered bots that crawl other video sharing platforms and match the videos against the videos uploaded on the platform.
       li
         | If any video answer you have uploaded on {{siteName}} is found on another platform, we might take some strict actions against as you as that would be a violation of {{siteName}}’s User Uploaded Conetent policies. In which case, you will be liable to pay a heavy fine.
     h4.m-l-10.all-caps Payment for Video Answers
     p
-      | You will get paid 7-10 INR for your video answer once it's approved. If you feel you should be paid higher, you can
+      | By default, you will get paid 10 INR for your video answer once it's approved. But if you feel you should be paid higher, don't hesitate to
       a(href="/#contact")
         |  contact us
-      | .
+      | . We will be very happy to appreciate your efforts, creativity and value that you put in your content.
     h4.m-l-10.all-caps Reasons your video answer could be deleted or be unpaid
     ol
       li
