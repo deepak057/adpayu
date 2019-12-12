@@ -1,16 +1,21 @@
 <template lang="pug">
 .card-body
-  .text-center.m-t-20
-    <preloader v-if="pageLoader"/>
+  .text-center.m-t-20(v-if="pageLoader")
+    <preloader/>
   .row
     .col-12
      video.w-100(controls :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
-     <vue-range-slider @drag-start="resetInterval" @drag-end="dragEnd" ref="trimVideoRangeSlider" :formatter = "formatLabels" :disabled = "sliderDisabled" :piecewise="piecewise" v-model="value" :min="min" :max="max" :enable-cross="enableCross" />
+     <vue-range-slider @drag-start="resetInterval" @drag-end="dragEnd" ref="trimVideoRangeSlider" :formatter = "formatLabels" :speed="speed" :disabled = "sliderDisabled" :piecewise="piecewise" v-model="value" :min="min" :max="max" :enable-cross="enableCross" />
      .text-center.m-t-20
-       button.btn.all-caps(@click="trimToggle()" :class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}")
-         i.mdi.mdi-check.m-r-5(v-if="trimCompleted()")
-         | {{getTrimBtnText()}}
+       .btn-group
+         button.btn.all-caps(@click="trimToggle()" :class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}")
+           i.mdi.mdi-check.m-r-5(v-if="trimCompleted()")
+           | {{getTrimBtnText()}}
+         button.btn.dropdown-toggle.dropdown-toggle-split(:class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false' v-if="!trimCompleted()")
+           span.sr-only Toggle Dropdown
+         .dropdown-menu
+           a.dropdown-item(href='#') Enter Trim Time
        button.btn.btn-outline-secondary.all-caps.m-l-10(:disabled="!trimCompleted()" @click="reset()")
          | Reset
        .m-t-10(v-if="trimCompleted()")
@@ -34,7 +39,8 @@ function trimVideoInitialState () {
     trimStart: 0,
     trimEnd: false,
     interval: false,
-    sliderDisabled: false
+    sliderDisabled: true,
+    speed: 0
   }
 }
 
@@ -116,14 +122,11 @@ export default {
       this.trimStart = 0
       this.trimEnd = this.getVideoPlayer().duration
       this.initRangeSlider()
-      this.sliderDisabled = false
+      this.sliderDisabled = true
       this.resetInterval()
       this.resetVideoPlayer()
     },
     dragEnd (slider) {
-      if (!this.trimStart) {
-        this.startTrim()
-      }
       this.trimStart = slider.value[0]
       this.getVideoPlayer().currentTime = parseInt(slider.value[1])
       this.autoUpdateRangeSlider()
@@ -167,6 +170,7 @@ export default {
     },
     startTrim () {
       let player = this.getVideoPlayer()
+      this.sliderDisabled = false
       this.trimEnd = 0
       if (!this.isPlaying()) {
         player.play()
