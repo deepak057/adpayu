@@ -33,7 +33,7 @@ import Preloader from '../preloader'
 
 function trimVideoInitialState () {
   return {
-    value: [0, 100],
+    value: [[0, 10], [14, 20]],
     min: 0,
     max: 250,
     enableCross: false,
