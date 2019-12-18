@@ -6,51 +6,30 @@
     .col-12
      video.w-100(controls :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
-     <vue-range-slider @drag-start="resetInterval" @drag-end="dragEnd" ref="trimVideoRangeSlider" :formatter = "formatLabels" :speed="speed" :disabled = "sliderDisabled" :piecewise="piecewise" v-model="value" :min="min" :max="max" :enable-cross="enableCross" />
      .text-center.m-t-20
        .btn-group
-         button.btn.all-caps(@click="trimToggle()" :class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}")
-           i.mdi.mdi-check.m-r-5(v-if="trimCompleted()")
-           | {{getTrimBtnText()}}
-         button.btn.dropdown-toggle.dropdown-toggle-split(:class="{'btn-danger': !trimCompleted(), 'btn-success': trimCompleted()}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false' v-if="!trimCompleted()")
-           span.sr-only Toggle Dropdown
-         .dropdown-menu
-           a.dropdown-item(href='javascript:void(0)' v-popover = "{name: 'manualTrimPopop'}") Enter Trim Time
-       button.btn.btn-outline-secondary.all-caps.m-l-10(:disabled="!trimCompleted()" @click="reset()")
-         | Reset
-       <popover name="manualTrimPopop">
-         | Hello
-       </popover>
-       .m-t-10(v-if="trimCompleted()")
-         | {{trimedCompletedText()}}
+         button.btn.btn-danger.all-caps(@click="toggleTrim()")
+           | {{toggleButtonText}}
+       div(v-for = "t in trim" v-if="trim.length")
+         span(v-if="t.length >= 2")
+           | Trimmed from {{t[0]}} to {{t[1]}}
      </template>
 </template>
 <script>
-import 'vue-range-component/dist/vue-range-slider.css'
-import VueRangeSlider from 'vue-range-component'
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 
 function trimVideoInitialState () {
   return {
-    value: [[0, 10], [14, 20]],
-    min: 0,
-    max: 250,
-    enableCross: false,
-    pageLoader: true,
-    piecewise: true,
-    trimStart: 0,
-    trimEnd: false,
     interval: false,
-    sliderDisabled: true,
-    speed: 0
+    trim: [],
+    toggleButtonText: 'Start Trim'
   }
 }
 
 export default {
   name: 'TrimVideo',
   components: {
-    VueRangeSlider,
     Preloader
   },
   mixins: [mixin],
@@ -72,43 +51,43 @@ export default {
     player.preload = 'metadata'
     player.onloadedmetadata = () => {
       this.pageLoader = false
-      this.initRangeSlider(player)
-      this.refresh()
     }
-    player.onplay = () => {
-      if (!this.trimStart) {
-        this.startTrim()
-      }
-      if (!this.trimCompleted()) {
-        this.autoUpdateRangeSlider(player)
-      }
-    }
-    player.onended = () => {
-      if (this.trimStart && !this.trimCompleted()) {
-        this.stopTrim()
-      }
+    player.onEnded = () => {
     }
   },
   methods: {
-    trimedCompletedText () {
-      return 'Trimmed from ' + this.secondsToHms(this.trimStart) + ' to ' + this.secondsToHms(this.trimEnd)
-    },
-    initRangeSlider (player = false) {
-      let p = this.getVideoPlayer(player)
-      this.max = p.duration
-      this.trimEnd = p.duration
-      this.refreshTrimValue()
-    },
-    getTrimBtnText () {
-      if (!this.trimCompleted()) {
-        if (!this.trimStart) {
-          return 'Start Trim'
-        } else {
-          return 'Stop Trim'
-        }
-      } else {
-        return 'Trim Completed'
+    toggleTrim () {
+      if (!this.isPlaying()) {
+        this.getVideoPlayer().play()
       }
+      if (this.trim[this.getCurrentEmptySlotIndex()] === undefined) {
+        this.startTrim()
+      } else {
+        this.stopTrim()
+      }
+    },
+    startTrim () {
+      this.trim[this.getCurrentEmptySlotIndex()] = []
+      this.trim[this.getCurrentEmptySlotIndex()][0] = this.getVideoPlayer().currentTime
+      this.toggleButtonText = 'Stop Trim'
+    },
+    stopTrim () {
+      this.trim[this.getCurrentEmptySlotIndex()][1] = this.getVideoPlayer().currentTime
+      this.toggleButtonText = 'Start Trim'
+    },
+    setSlotIndexValue () {
+      this.getCurrentEmptySlotIndex()
+    },
+    getCurrentEmptySlotIndex () {
+      if (this.trim.length) {
+        let lastElem = this.trim[this.trim.length - 1]
+        if (lastElem && lastElem.length >= 2) {
+          return this.trim.length
+        } else {
+          return (this.trim.length - 1)
+        }
+      }
+      return 0
     },
     resetInterval () {
       clearInterval(this.interval)
@@ -121,74 +100,9 @@ export default {
       p.pause()
       p.currentTime = 0
     },
-    reset () {
-      this.trimStart = 0
-      this.trimEnd = this.getVideoPlayer().duration
-      this.initRangeSlider()
-      this.sliderDisabled = true
-      this.resetInterval()
-      this.resetVideoPlayer()
-    },
-    dragEnd (slider) {
-      this.trimStart = slider.value[0]
-      this.getVideoPlayer().currentTime = parseInt(slider.value[1])
-      this.autoUpdateRangeSlider()
-    },
-    trimCompleted () {
-      return this.trimStart && this.trimEnd
-    },
-    autoUpdateRangeSlider (player = false) {
-      let p = this.getVideoPlayer(player)
-      this.interval = setInterval(() => {
-        if (this.trimStart && !this.trimEnd) {
-          this.refreshTrimValue(false, p.currentTime)
-        }
-      }, 1000)
-    },
-    trimToggle () {
-      if (!this.trimStart || !this.trimEnd) {
-        if (!this.trimStart) {
-          this.startTrim()
-        } else {
-          this.stopTrim()
-        }
-      }
-    },
-    getSliderValue () {
-      return this.$refs.trimVideoRangeSlider.value
-    },
-    stopTrim () {
-      let player = this.getVideoPlayer()
-      let sValue = this.getSliderValue()
-      this.trimStart = sValue[0]
-      this.trimEnd = player.currentTime
-      this.$emit('VideoTrimmed', sValue)
-      this.sliderDisabled = true
-      this.refreshTrimValue()
-      this.resetInterval()
-      this.pausePlayer()
-    },
-    refreshTrimValue (start = false, end = false) {
-      this.value = [start || this.trimStart, end || this.trimEnd]
-    },
-    startTrim () {
-      let player = this.getVideoPlayer()
-      this.sliderDisabled = false
-      this.trimEnd = 0
-      if (!this.isPlaying()) {
-        player.play()
-        this.trimStart = 0.001
-      } else {
-        this.trimStart = player.currentTime
-      }
-      this.refreshTrimValue()
-    },
     isPlaying () {
       let player = this.getVideoPlayer()
       return player.currentTime > 0 && !player.paused && !player.ended
-    },
-    formatLabels (v) {
-      return this.secondsToHms(v)
     },
     secondsToHms (d) {
       var date = new Date(null)
@@ -197,16 +111,6 @@ export default {
     },
     getVideoPlayer (player = false) {
       return player || document.getElementById(this.videoElementId)
-    },
-    refresh () {
-      /*
-      * produce the delay of 100 miliseconds
-      * so that refresh method is called
-      * when the container is fully visible
-      */
-      setTimeout(() => {
-        this.$refs.trimVideoRangeSlider.refresh()
-      }, 100)
     }
   }
 }

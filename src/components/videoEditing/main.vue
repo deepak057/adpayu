@@ -101,7 +101,6 @@ export default {
     },
     toggleBackMusicControls (otherSection = false) {
       this.$refs.BackgroundMusicComp.toggleBackMusicControls(otherSection)
-      this.$refs.TrimVideoComponent.refresh()
     },
     trackAdded (track) {
       this.editedVideoConfig.backgroundTrack = track
