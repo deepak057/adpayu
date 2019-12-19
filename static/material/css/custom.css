@@ -1409,3 +1409,15 @@ strong{
     width: 90px;
     text-align: center;
 }
+.video-trim-progress-bar {
+	background: #d2d2d2;
+	height: 5px;
+	position: relative;
+}
+.video-trim-progress-bar .vtpb-slice {
+	position: absolute;
+	height: 100%;
+}
+.theme-blue-background-color {
+	background: #1e88e5;
+}

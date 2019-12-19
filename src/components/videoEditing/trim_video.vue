@@ -7,11 +7,19 @@
      video.w-100(controls :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
      .text-center.m-t-20
+       .video-trim-progress-bar.m-b-20
+         <template v-for="t in trim">
+         .vtpb-slice.pointer.theme-blue-background-color(v-if="sliceFilled(t)" :style="getSliceStyle(t)")
+         </template>
        .btn-group
          button.btn.btn-danger.all-caps(@click="toggleTrim()")
            | {{toggleButtonText}}
-       div(v-for = "t in trim" v-if="trim.length")
-         span(v-if="t.length >= 2")
+         button.btn.btn-danger.dropdown-toggle.dropdown-toggle-split(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+           span.sr-only Toggle Dropdown
+         .dropdown-menu
+           a.dropdown-item(href="javascript:void(0)" @click="reset()") Reset
+       // div(v-for = "t in trim" v-if="trim.length")
+         span(v-if="sliceFilled(t)")
            | Trimmed from {{t[0]}} to {{t[1]}}
      </template>
 </template>
@@ -56,6 +64,24 @@ export default {
     }
   },
   methods: {
+    sliceFilled (s) {
+      return s && s.length >= 2
+    },
+    reset () {
+      if (this.canReset()) {
+        this.trim = []
+        this.resetVideoPlayer()
+      }
+    },
+    canReset () {
+      return this.trim.length && this.sliceFilled(this.trim[0])
+    },
+    getSliceStyle (s) {
+      let videoDuration = this.getVideoPlayer().duration
+      let left = (s[0] * 100) / videoDuration
+      let width = ((s[1] - s[0]) * 100) / videoDuration
+      return 'left: ' + left + '%; width: ' + width + '%'
+    },
     toggleTrim () {
       if (!this.isPlaying()) {
         this.getVideoPlayer().play()
