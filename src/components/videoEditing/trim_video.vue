@@ -8,13 +8,13 @@
      <template v-if = "!pageLoader">
      .text-center.m-t-20
        .video-trim-progress-bar.m-b-20
-         <template v-for="t in trim">
-         .vtpb-slice.pointer.theme-blue-background-color(v-if="sliceFilled(t)" :style="getSliceStyle(t)")
+         <template v-for="(t, n) in trim">
+         .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Slice" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
          </template>
        .btn-group
-         button.btn.btn-danger.all-caps(@click="toggleTrim()")
-           | {{toggleButtonText}}
-         button.btn.btn-danger.dropdown-toggle.dropdown-toggle-split(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+         button.btn.all-caps(@click="toggleTrim()" :class="{'btn-danger': trimStarted, 'btn-success': !trimStarted}")
+           | {{trimStarted ? 'Stop' : 'Start'}} Trim
+         button.btn.dropdown-toggle.dropdown-toggle-split(:class="{'btn-danger': trimStarted, 'btn-success': !trimStarted}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
            span.sr-only Toggle Dropdown
          .dropdown-menu
            a.dropdown-item(href="javascript:void(0)" @click="reset()") Reset
@@ -31,7 +31,8 @@ function trimVideoInitialState () {
   return {
     interval: false,
     trim: [],
-    toggleButtonText: 'Start Trim'
+    toggleButtonText: 'Start Trim',
+    trimStarted: false
   }
 }
 
@@ -64,12 +65,21 @@ export default {
     }
   },
   methods: {
+    getPopoverContent (s) {
+      return 'Slice from ' + this.secondsToHms(s[0]) + ' to ' + this.secondsToHms(s[1]) + '. Double click to remove it.'
+    },
     sliceFilled (s) {
       return s && s.length >= 2
     },
+    removeSlice (index_) {
+      this.trim.splice(index_, 1)
+      /* eslint-disable */
+      $('.popover').remove()
+      /* eslint-enable */
+    },
     reset () {
       if (this.canReset()) {
-        this.trim = []
+        Object.assign(this.$data, trimVideoInitialState())
         this.resetVideoPlayer()
       }
     },
@@ -95,11 +105,11 @@ export default {
     startTrim () {
       this.trim[this.getCurrentEmptySlotIndex()] = []
       this.trim[this.getCurrentEmptySlotIndex()][0] = this.getVideoPlayer().currentTime
-      this.toggleButtonText = 'Stop Trim'
+      this.trimStarted = true
     },
     stopTrim () {
       this.trim[this.getCurrentEmptySlotIndex()][1] = this.getVideoPlayer().currentTime
-      this.toggleButtonText = 'Start Trim'
+      this.trimStarted = false
     },
     setSlotIndexValue () {
       this.getCurrentEmptySlotIndex()
