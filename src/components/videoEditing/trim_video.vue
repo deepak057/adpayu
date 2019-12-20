@@ -68,6 +68,9 @@ export default {
     getPopoverContent (s) {
       return 'Slice from ' + this.secondsToHms(s[0]) + ' to ' + this.secondsToHms(s[1]) + '. Double click to remove it.'
     },
+    sendEvent () {
+      this.$emit('trimValueChanged', this.trim)
+    },
     sliceFilled (s) {
       return s && s.length >= 2
     },
@@ -80,6 +83,7 @@ export default {
     reset () {
       if (this.canReset()) {
         Object.assign(this.$data, trimVideoInitialState())
+        this.sendEvent()
         this.resetVideoPlayer()
       }
     },
@@ -110,6 +114,7 @@ export default {
     stopTrim () {
       this.trim[this.getCurrentEmptySlotIndex()][1] = this.getVideoPlayer().currentTime
       this.trimStarted = false
+      this.sendEvent()
     },
     setSlotIndexValue () {
       this.getCurrentEmptySlotIndex()

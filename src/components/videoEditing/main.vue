@@ -20,7 +20,7 @@ div(v-if="triggered")
                     span.tab-label
                       | Trim Video
               .collapse(:id="getSectionId(2)" :aria-labelledby="getSectionId(2, header)", :data-parent="'#'+getSectionId(0)")
-                <trim-video ref="TrimVideoComponent" :videoObj="editedVideoConfig.videoObj"/>
+                <trim-video @trimValueChanged="updateTrim" ref="TrimVideoComponent" :videoObj="editedVideoConfig.videoObj"/>
             // .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
                 h2.mb-0
@@ -67,7 +67,8 @@ export default {
       triggered: false,
       editedVideoConfig: {
         backgroundTrack: false,
-        videoObj: false
+        videoObj: false,
+        trim: []
       }
     }
   },
@@ -106,24 +107,28 @@ export default {
       this.editedVideoConfig.backgroundTrack = track
     },
     canTriggerPreview () {
-      return this.editedVideoConfig.backgroundTrack
+      return this.editedVideoConfig.backgroundTrack || this.editedVideoConfig.trim.length
     },
     trackRemoved () {
       this.editedVideoConfig.backgroundTrack = false
     },
     triggerPreview () {
       if (this.canTriggerPreview()) {
-        this.pauseAllTracks()
+        this.pauseAllMedia()
         this.$refs.PreviewComponent.triggerPopup(this.editedVideoConfig)
       }
     },
     pauseAllTracks () {
       this.$refs.BackgroundMusicComp.pauseAllTracks(this.editedVideoConfig.backgroundTrack)
     },
+    pauseAllMedia () {
+      this.pauseAllTracks()
+      this.$refs.TrimVideoComponent.pausePlayer()
+    },
     saveEditedVideo () {
       this.$refs.PreviewComponent.closePopup()
       this.saving = true
-      this.pauseAllTracks()
+      this.pauseAllMedia()
       this.$options.service.saveEditedVideo(this.editedVideoConfig)
         .then((d) => {
           this.saving = false
@@ -137,6 +142,10 @@ export default {
           this.saving = false
           this.showNotification('Something went wrong while saving the edited video.', 'error')
         })
+    },
+    updateTrim (v) {
+      this.editedVideoConfig.trim = v
+      // alert(this.editedVideoConfig.trim.length)
     },
     getEditedVideoObj () {
       let ts = Math.round((new Date()).getTime() / 1000)

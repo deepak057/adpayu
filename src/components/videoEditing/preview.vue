@@ -11,7 +11,7 @@ div(v-if="triggered")
         .modal-body
           .row
             .col-12
-              video.w-100(:id="videoPlayerId" muted)
+              video.w-100(:id="videoPlayerId" :muted = "muted()")
               i.mdi.mdi-replay.pointer.custom-replay-btn(v-if="playerPaused" title = "Replay" @click="rePlay()")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
@@ -86,6 +86,9 @@ export default {
     saveEditedVideo () {
       this.$emit('triggerSave')
     },
+    muted () {
+      return this.editingConfig.backgroundTrack
+    },
     getVideoPlayer () {
       return document.getElementById(this.videoPlayerId)
     },
@@ -131,9 +134,33 @@ export default {
         this.playerPaused = true
         clearInterval(this.videoBufferingInterval)
       }
-
+      let pauseVideoPlayer = ()=> {
+        videoPlayer.pause()
+        videoPlayer.currentTime = 0
+      }
+      let that = this
+      let trimedVideoCurrentIndex = 0
+      let playTrimmedVideo = () => {
+        if (this.editingConfig.trim.length) {
+          if (this.editingConfig.trim[trimedVideoCurrentIndex]) {
+            let slice = this.editingConfig.trim[trimedVideoCurrentIndex]
+            let currentTime = videoPlayer.currentTime
+            if (currentTime < slice[0]) {
+              videoPlayer.currentTime = slice[0]
+            }
+            if (currentTime > slice[1]) {
+              trimedVideoCurrentIndex ++
+              playTrimmedVideo()
+            }
+          } else {
+            pauseAudio()
+            pauseVideoPlayer()
+          }
+        }
+      }
       function checkBuffering() {
           currentPlayPos = player.currentTime
+          playTrimmedVideo()
 
           // checking offset should be at most the check interval
           // but allow for some margin
