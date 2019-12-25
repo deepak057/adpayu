@@ -134,6 +134,7 @@ export default {
           this.saving = false
           this.showNotification(d.message, 'success')
           this.$refs.BackgroundMusicComp.removeTrack(this.editedVideoConfig.backgroundTrack)
+          this.$refs.TrimVideoComponent.reset()
           this.$emit('VideoEdited', this.getEditedVideoObj())
           this.closePopup()
           this.closeAllModals()

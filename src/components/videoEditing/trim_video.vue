@@ -61,7 +61,10 @@ export default {
     player.onloadedmetadata = () => {
       this.pageLoader = false
     }
-    player.onEnded = () => {
+    player.onended = () => {
+      if (this.trim[this.getCurrentEmptySlotIndex()] !== undefined) {
+        this.stopTrim()
+      }
     }
   },
   methods: {
