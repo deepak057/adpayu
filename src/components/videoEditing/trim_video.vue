@@ -4,7 +4,7 @@
     <preloader/>
   .row
     .col-12
-     video.w-100.edit-videos-max-height(controls :class="{'none': pageLoader}" :id="videoElementId")
+     video.w-100.edit-videos-max-height(controls="controls" :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
      .text-center.m-t-20
        .video-trim-progress-bar.m-b-20
@@ -12,9 +12,9 @@
          .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Slice" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
          </template>
        .btn-group
-         button.btn.all-caps(@click="toggleTrim()" :class="{'btn-danger': trimStarted, 'btn-success': !trimStarted}")
+         button.btn.all-caps(@click="toggleTrim()" :disabled="disabled" :class="{'disabled': disabled, 'btn-danger': trimStarted, 'btn-success': !trimStarted}")
            | {{trimStarted ? 'Stop' : 'Start'}} Trim
-         button.btn.dropdown-toggle.dropdown-toggle-split(:class="{'btn-danger': trimStarted, 'btn-success': !trimStarted}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+         button.btn.dropdown-toggle.dropdown-toggle-split(:disabled="disabled" :class="{'disabled': disabled, 'btn-danger': trimStarted, 'btn-success': !trimStarted}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
            span.sr-only Toggle Dropdown
          .dropdown-menu
            a.dropdown-item(href="javascript:void(0)" @click="reset()") Reset
@@ -33,7 +33,9 @@ function trimVideoInitialState () {
     interval: false,
     trim: [],
     toggleButtonText: 'Start Trim',
-    trimStarted: false
+    trimStarted: false,
+    disabled: false,
+    pageLoader: true
   }
 }
 
@@ -71,6 +73,9 @@ export default {
   methods: {
     getPopoverContent (s) {
       return 'Slice from ' + this.secondsToHms(s[0]) + ' to ' + this.secondsToHms(s[1]) + '. Double click to remove it.'
+    },
+    toggleTrimDisable (action = false) {
+      this.disabled = action
     },
     sendEvent () {
       this.$emit('trimValueChanged', this.trim)

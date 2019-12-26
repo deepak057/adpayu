@@ -40,7 +40,9 @@
                 .col-8.p-0
                   .m-l-10.align-self-center
                     h4.m-b-0.font-light.marquee-container
-                      .c-inherit(:class="{'text-excerpt': !track.playing, 'marquee': track.playing}") {{track.name}}
+                      .c-inherit(:class="{'text-excerpt pointer': !track.playing, 'marquee': track.playing}")
+                        span(@click="playTrack(track)" title="Play Track" :class="{'pointer': !track.playing}")
+                          | {{track.name}}
                     h5.m-t-5.text-muted.m-b-0
                       span
                         span.pointer(@click="addTrack(track)" v-if="!track.trackAdded") Add
@@ -157,7 +159,7 @@ export default {
     attachScrollEvent () {
       let attachEvent = (elem) => {
         elem.onscroll = () => {
-          if (elem.scrollTop >= (elem.scrollHeight - elem.offsetHeight)) {
+          if (elem.scrollTop >= ((elem.scrollHeight - 200) - elem.offsetHeight)) {
             this.trackFilterModel.page++
             this.fetchTracks()
           }

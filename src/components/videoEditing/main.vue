@@ -128,6 +128,7 @@ export default {
     saveEditedVideo () {
       this.$refs.PreviewComponent.closePopup()
       this.saving = true
+      this.$refs.TrimVideoComponent.toggleTrimDisable(this.saving)
       this.pauseAllMedia()
       this.$options.service.saveEditedVideo(this.editedVideoConfig)
         .then((d) => {
@@ -136,12 +137,14 @@ export default {
           this.showNotification(d.message, 'success')
           this.$refs.BackgroundMusicComp.removeTrack(this.editedVideoConfig.backgroundTrack)
           this.$refs.TrimVideoComponent.reset(true)
+          this.$refs.TrimVideoComponent.toggleTrimDisable(this.saving)
           this.$emit('VideoEdited', newVideoObj)
           this.closePopup()
           this.closeAllModals()
         })
         .catch((sErr) => {
           this.saving = false
+          this.$refs.TrimVideoComponent.toggleTrimDisable(this.saving)
           this.showNotification('Something went wrong while saving the edited video.', 'error')
         })
     },
