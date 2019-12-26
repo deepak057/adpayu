@@ -4,7 +4,7 @@
     <preloader/>
   .row
     .col-12
-     video.w-100(controls :class="{'none': pageLoader}" :id="videoElementId")
+     video.w-100.edit-videos-max-height(controls :class="{'none': pageLoader}" :id="videoElementId")
      <template v-if = "!pageLoader">
      .text-center.m-t-20
        .video-trim-progress-bar.m-b-20
@@ -25,6 +25,7 @@
 </template>
 <script>
 import mixin from '../../globals/mixin'
+import EditingMixin from './editingMixin.js'
 import Preloader from '../preloader'
 
 function trimVideoInitialState () {
@@ -41,7 +42,7 @@ export default {
   components: {
     Preloader
   },
-  mixins: [mixin],
+  mixins: [mixin, EditingMixin],
   props: {
     videoObj: {
       type: Object,
@@ -56,7 +57,7 @@ export default {
   },
   mounted () {
     let player = this.getVideoPlayer()
-    player.setAttribute('src', this.getVideoURL(this.videoObj))
+    this.setVideoSrc(player)
     player.preload = 'metadata'
     player.onloadedmetadata = () => {
       this.pageLoader = false
@@ -83,11 +84,11 @@ export default {
       $('.popover').remove()
       /* eslint-enable */
     },
-    reset () {
-      if (this.canReset()) {
+    reset (force = false) {
+      if (this.canReset() || force) {
         Object.assign(this.$data, trimVideoInitialState())
         this.sendEvent()
-        this.resetVideoPlayer()
+        this.resetVideoPlayer(force)
       }
     },
     canReset () {
@@ -133,16 +134,22 @@ export default {
       }
       return 0
     },
+    setVideoSrc (player) {
+      player.setAttribute('src', this.getVideoSrcURL(this.videoObj))
+    },
     resetInterval () {
       clearInterval(this.interval)
     },
     pausePlayer () {
       this.getVideoPlayer().pause()
     },
-    resetVideoPlayer () {
+    resetVideoPlayer (resetSrc = false) {
       let p = this.getVideoPlayer()
       p.pause()
       p.currentTime = 0
+      if (resetSrc) {
+        this.setVideoSrc(p)
+      }
     },
     isPlaying () {
       let player = this.getVideoPlayer()

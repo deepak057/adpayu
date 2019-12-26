@@ -132,10 +132,11 @@ export default {
       this.$options.service.saveEditedVideo(this.editedVideoConfig)
         .then((d) => {
           this.saving = false
+          let newVideoObj = this.getEditedVideoObj()
           this.showNotification(d.message, 'success')
           this.$refs.BackgroundMusicComp.removeTrack(this.editedVideoConfig.backgroundTrack)
-          this.$refs.TrimVideoComponent.reset()
-          this.$emit('VideoEdited', this.getEditedVideoObj())
+          this.$refs.TrimVideoComponent.reset(true)
+          this.$emit('VideoEdited', newVideoObj)
           this.closePopup()
           this.closeAllModals()
         })
@@ -145,8 +146,7 @@ export default {
         })
     },
     updateTrim (v) {
-      this.editedVideoConfig.trim = v
-      // alert(this.editedVideoConfig.trim.length)
+      this.editedVideoConfig.trim = v.slice()
     },
     getEditedVideoObj () {
       let ts = Math.round((new Date()).getTime() / 1000)

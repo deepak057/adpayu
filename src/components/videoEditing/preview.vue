@@ -11,7 +11,7 @@ div(v-if="triggered")
         .modal-body
           .row
             .col-12
-              video.w-100(:id="videoPlayerId" :muted = "muted()")
+              video.w-100.edit-videos-max-height(:id="videoPlayerId" :muted = "muted()")
               i.mdi.mdi-replay.pointer.custom-replay-btn(v-if="playerPaused" title = "Replay" @click="rePlay()")
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
@@ -21,9 +21,9 @@ div(v-if="triggered")
 </template>
 <script>
 import mixin from '../../globals/mixin'
+import EditingMixin from './editingMixin.js'
 import Preloader from '../preloader'
 import Service from './service'
-import auth from '@/auth/helpers'
 
 export default {
   name: 'Preview',
@@ -31,7 +31,7 @@ export default {
   components: {
     Preloader
   },
-  mixins: [mixin],
+  mixins: [mixin, EditingMixin],
   data () {
     return {
       pageLoader: true,
@@ -114,12 +114,6 @@ export default {
       }
       videoPlayer.play()
       this.initVideoPlayerEvents(videoPlayer, audioPlayer)
-    },
-    getVideoSrcURL (videoObj) {
-      if ('pickLocalVideoSrc' in videoObj && videoObj.pickLocalVideoSrc && auth.getLocalVideoURL()) {
-        return auth.getLocalVideoURL()
-      }
-      return this.getVideoURL(this.editingConfig.videoObj)
     },
     initVideoPlayerEvents (videoPlayer, audioPlayer) {
       /*eslint-disable*/
