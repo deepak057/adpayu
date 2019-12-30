@@ -119,7 +119,6 @@
 <script>
 import mixin from '../../globals/mixin.js'
 import AdMixin from './ad-mixin.js'
-import myVideo from 'vue-video'
 import Comments from './comments'
 import AdStats from './ad-stats'
 import ImageGrid from './image-grid'
@@ -134,7 +133,6 @@ export default {
   name: 'Feed',
   service: new Service(),
   components: {
-    myVideo,
     Comments,
     Like,
     ImageGrid,
