@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog.modal-lg
@@ -9,51 +9,48 @@ div
             | Share
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          social-sharing(url='https://svanq.com/c/1602', title='The Progressive JavaScript Framework', description='Intuitive, Fast and Composable MVVM for building interactive interfaces.', quote='Vue is a progressive framework for building user interfaces.', hashtags='vuejs,javascript,framework', twitter-user='vuejs', inline-template='')
-            div
-              network(network='email')
-                i.fa.fa-envelope
-                |  Email
-              network(network='facebook')
+          social-sharing.social-share-wrap(url='https://svanq.com/c/1602', title='The Progressive JavaScript Framework', description='Intuitive, Fast and Composable MVVM for building interactive interfaces.', quote='Vue is a progressive framework for building user interfaces.', hashtags='vuejs,javascript,framework', twitter-user='vuejs', inline-template='')
+            .row
+              network.round.pointer.col-1(network='facebook')
                 i.fa.fa-facebook
                 |  Facebook
-              network(network='googleplus')
+              network.round.pointer.col-1(network='googleplus')
                 i.fa.fa-google-plus
                 |  Google +
-              network(network='line')
+              network.round.pointer.col-1(network='line')
                 i.fa.fa-line
                 |  Line
-              network(network='linkedin')
+              network.round.pointer.col-1(network='linkedin')
                i.fa.fa-linkedin
                |  LinkedIn
-              network(network='odnoklassniki')
+              network.round.pointer.col-1(network='odnoklassniki')
                i.fa.fa-odnoklassniki
                |  Odnoklassniki
-              network(network='pinterest')
+              network.round.pointer.col-1(network='pinterest')
                 i.fa.fa-pinterest
                 |  Pinterest
-              network(network='reddit')
+              network.round.pointer.col-1(network='reddit')
                 i.fa.fa-reddit
                 |  Reddit
-              network(network='skype')
+              network.round.pointer.col-1(network='skype')
                 i.fa.fa-skype
                 |  Skype
-              network(network='sms')
+              network.round.pointer.col-1(network='sms')
                 i.fa.fa-commenting-o
                 |  SMS
-              network(network='telegram')
+              network.round.pointer.col-1(network='telegram')
                 i.fa.fa-telegram
                 |  Telegram
-              network(network='twitter')
+              network.round.pointer.col-1(network='twitter')
                 i.fa.fa-twitter
                 |  Twitter
-              network(network='vk')
+              network.round.pointer.col-1(network='vk')
                 i.fa.fa-vk
                 |  VKontakte
-              network(network='weibo')
+              network.round.pointer.col-1(network='weibo')
                 i.fa.fa-weibo
                 |  Weibo
-              network(network='whatsapp')
+              network.round.pointer.col-1(network='whatsapp')
                 i.fa.fa-whatsapp
                 |  Whatsapp
         .modal-footer
@@ -73,7 +70,8 @@ export default {
   data () {
     return {
       pageLoader: true,
-      id: this.getUniqueId() + '-social-share'
+      id: this.getUniqueId() + '-social-share',
+      triggered: false
     }
   },
   computed: {
@@ -106,7 +104,20 @@ export default {
     },
     triggerPopup () {
       /*eslint-disable*/
-      document.getElementById(this.triggerButtonId).click()
+      this.triggered = true
+      let d = document.getElementById(this.triggerButtonId)
+      if (!d) {
+          let interval = setInterval (()=> {
+          d = document.getElementById(this.triggerButtonId)
+          if (d) {
+            d.click()
+            clearInterval(interval)
+          }
+        }, 100)
+      } else {
+        d.click()
+      }
+      /* eslint-enable */
     }
   }
 }

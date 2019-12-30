@@ -17,8 +17,7 @@ import Notifications from 'vue-notification'
 import VueObserveVisibility from 'vue-observe-visibility'
 import VueMeta from 'vue-meta'
 import VueAnalytics from 'vue-analytics'
-
-// import SocialSharing from 'vue-social-sharing'
+import SocialSharing from 'vue-social-sharing'
 
 Vue.config.productionTip = false
 
@@ -74,7 +73,7 @@ Vue.use(VueAnalytics, {
 })
 
 // include Social Share
-// Vue.use(SocialSharing)
+Vue.use(SocialSharing)
 
 // Styles
 require('./styles/scss/main.scss')

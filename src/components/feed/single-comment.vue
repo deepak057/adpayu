@@ -48,10 +48,10 @@
             a.dropdown-item(@click="triggerVideoEditing()" v-if="isOwner(comment.User.id) && getVideo(comment)" href="javascript:void(0)" title="Edit the video")
               i.ti-pencil-alt.m-r-5
               | Edit Video
-            // a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
+            a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
               i.ti-share.m-r-5
               | Share
-  // <social-share ref="socialShareComp" />
+  <social-share ref="socialShareComp" />
   <video-editing @VideoEdited="refreshVideo" ref="videoEditingComponent"/>
 </template>
 <script>
@@ -62,7 +62,7 @@ import mixin from '../../globals/mixin.js'
 import commentMixin from './comment-mixin.js'
 import auth from '@/auth/helpers'
 import CommentVideoPlayer from './comment-video-player'
-// import SocialShare from '../../components/social-share'
+import SocialShare from '../../components/social-share'
 import VideoEditing from '../videoEditing/main'
 
 export default {
@@ -71,8 +71,8 @@ export default {
   components: {
     Like,
     CommentVideoPlayer,
-    VideoEditing
-    // SocialShare
+    VideoEditing,
+    SocialShare
   },
   mixins: [mixin, commentMixin],
   props: {
