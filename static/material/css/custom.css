@@ -1427,3 +1427,8 @@ strong{
 .social-share-wrap .round {
 	font-size: 20px;
 }
+.trim-help-trigger {
+	position: absolute;
+	bottom: -11px;
+	right: 3px;
+}

@@ -18,9 +18,9 @@ div(v-if="triggered")
                   button.btn(type='button')
                     i.fa.fa-cut.m-r-10
                     span.tab-label
-                      | Trim Video
+                      | Cut Video
               .collapse(:id="getSectionId(2)" :aria-labelledby="getSectionId(2, header)", :data-parent="'#'+getSectionId(0)")
-                <trim-video @trimValueChanged="updateTrim" ref="TrimVideoComponent" :videoObj="editedVideoConfig.videoObj"/>
+                <trim-video @triggerPreview="triggerPreview()" @trimValueChanged="updateTrim" ref="TrimVideoComponent" :videoObj="editedVideoConfig.videoObj"/>
             // .card
               .card-header(@click="toggleBackMusicControls(true)" :id="getSectionId(3, 'header')" data-toggle='collapse', :data-target="'#'+getSectionId(3)", aria-expanded='true', :aria-controls='getSectionId(3)')
                 h2.mb-0

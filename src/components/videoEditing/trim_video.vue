@@ -9,40 +9,44 @@
      .text-center.m-t-20
        .video-trim-progress-bar.m-b-20
          <template v-for="(t, n) in trim">
-         .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Slice" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
+         .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Cuts" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
          </template>
        .btn-group
          button.btn.all-caps(@click="toggleTrim()" :disabled="disabled" :class="{'disabled': disabled, 'btn-danger': trimStarted, 'btn-success': !trimStarted}")
-           | {{trimStarted ? 'Stop' : 'Start'}} Trim
+           | {{trimStarted ? 'Stop' : 'Start'}} Cut
          button.btn.dropdown-toggle.dropdown-toggle-split(:disabled="disabled" :class="{'disabled': disabled, 'btn-danger': trimStarted, 'btn-success': !trimStarted}" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
            span.sr-only Toggle Dropdown
          .dropdown-menu
-           a.dropdown-item(href="javascript:void(0)" @click="reset()") Reset
+           a.dropdown-item(href="javascript:void(0)" @click="reset()") Delete all cuts
+           a.dropdown-item(href="javascript:void(0)" @click="triggerPreview()") Preview
        // div(v-for = "t in trim" v-if="trim.length")
          span(v-if="sliceFilled(t)")
            | Trimmed from {{t[0]}} to {{t[1]}}
+       i.fa.fa-question-circle.pointer.trim-help-trigger(@click="triggerHelp()" title = "Learn to use this tool")
      </template>
+  <trim-help ref="TrimHelpComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import EditingMixin from './editingMixin.js'
 import Preloader from '../preloader'
+import TrimHelp from './help'
 
 function trimVideoInitialState () {
   return {
     interval: false,
     trim: [],
-    toggleButtonText: 'Start Trim',
     trimStarted: false,
     disabled: false,
-    pageLoader: true
+    pageLoader: false
   }
 }
 
 export default {
   name: 'TrimVideo',
   components: {
-    Preloader
+    Preloader,
+    TrimHelp
   },
   mixins: [mixin, EditingMixin],
   props: {
@@ -59,6 +63,7 @@ export default {
   },
   mounted () {
     let player = this.getVideoPlayer()
+    this.pageLoader = true
     this.setVideoSrc(player)
     player.preload = 'metadata'
     player.onloadedmetadata = () => {
@@ -71,8 +76,14 @@ export default {
     }
   },
   methods: {
+    triggerHelp () {
+      this.$refs.TrimHelpComp.triggerPopup()
+    },
     getPopoverContent (s) {
-      return 'Slice from ' + this.secondsToHms(s[0]) + ' to ' + this.secondsToHms(s[1]) + '. Double click to remove it.'
+      return 'Video cut from ' + this.secondsToHms(s[0]) + ' to ' + this.secondsToHms(s[1]) + '. Double click to remove it.'
+    },
+    triggerPreview () {
+      this.$emit('triggerPreview')
     },
     toggleTrimDisable (action = false) {
       this.disabled = action
