@@ -101,6 +101,7 @@ export default {
     },
     removeSlice (index_) {
       this.trim.splice(index_, 1)
+      this.sendEvent()
       /* eslint-disable */
       $('.popover').remove()
       /* eslint-enable */
