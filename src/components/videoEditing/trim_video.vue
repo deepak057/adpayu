@@ -9,7 +9,7 @@
      .text-center.m-t-20
        .video-trim-progress-bar.m-b-20
          <template v-for="(t, n) in trim">
-         .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Cuts" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
+         .vtpb-slice.pointer.theme-blue-background-color(data-container="body" title="Video Cuts" data-toggle="popover" data-placement="right" :data-content="getPopoverContent(t)" v-longclick="() => removeSlice(n)" @dblclick="removeSlice(n)" v-if="sliceFilled(t)" :style="getSliceStyle(t)")
          </template>
        .btn-group
          button.btn.all-caps(@click="toggleTrim()" :disabled="disabled" :class="{'disabled': disabled, 'btn-danger': trimStarted, 'btn-success': !trimStarted}")
@@ -31,6 +31,8 @@ import mixin from '../../globals/mixin'
 import EditingMixin from './editingMixin.js'
 import Preloader from '../preloader'
 import TrimHelp from './help'
+import { longClickDirective } from 'vue-long-click'
+const longClickInstance = longClickDirective({delay: 400, interval: 50})
 
 function trimVideoInitialState () {
   return {
@@ -47,6 +49,9 @@ export default {
   components: {
     Preloader,
     TrimHelp
+  },
+  directives: {
+    'longclick': longClickInstance
   },
   mixins: [mixin, EditingMixin],
   props: {

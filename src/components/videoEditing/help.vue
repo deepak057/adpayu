@@ -7,7 +7,7 @@ div(v-if="triggered")
         .modal-header
           h4.modal-title
             i.fa.fa-question-outline.m-r-5
-            | Help - how to cut video
+            | Help - how to cut video ?
           button.close(:id="closeButtonId" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           p
@@ -17,7 +17,7 @@ div(v-if="triggered")
           p
             strong
               | 2. Delete the cuts:
-            |  Double click/tap any video cut (blue line) to delete it. Single click/tap on a cut (blue line) to see more info about about it.
+            |  Double click/tap or long click/tap on any video cut (blue line) to delete it. Single click/tap on a cut (blue line) to see more info about about it.
           p
             strong
               | 3. Preview:
