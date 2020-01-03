@@ -48,7 +48,7 @@
             a.dropdown-item(@click="triggerVideoEditing()" v-if="isOwner(comment.User.id) && getVideo(comment)" href="javascript:void(0)" title="Edit the video")
               i.ti-pencil-alt.m-r-5
               | Edit Video
-            // a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
+            a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
               i.ti-share.m-r-5
               | Share
   <social-share ref="socialShareComp" />

@@ -1426,9 +1426,63 @@ strong{
 }
 .social-share-wrap .round {
 	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 40px;
+	height: 40px;
+	background: #fff;
 }
 .trim-help-trigger {
 	position: absolute;
 	bottom: -11px;
 	right: 3px;
+}
+.facebook-color {
+	color: #3b5998;
+}
+.facebook-border {
+	border: 1px solid #3b5998;	
+}
+.google-plus-color {
+	color: #db4a39;
+}
+.google-plus-border {
+	border: 1px solid #db4a39;
+}
+.linkedin-color {
+	color: #0e76a8;
+}
+.linkedin-border {
+	border: 1px solid #0e76a8;	
+}
+.pinterest-color {
+	color: #c8232c;
+}
+.pinterest-border {
+	border: 1px solid #c8232c;
+}
+.skype-color {
+	color: #00aff0;
+}
+.skype-border {
+	border: 1px solid #00aff0;
+}
+.twitter-color {
+	color: #00acee;
+}
+.twitter-border {
+	border: 1px solid #00acee;
+}
+.watsapp-color {
+	color: #4FCE5D;
+}
+.watsapp-border {
+	border: 1px solid #4FCE5D
+}
+.reddit-color {
+	color: #FF4301;
+}
+.reddit-border {
+	border: 1px solid #FF4301;
 }
