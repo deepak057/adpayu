@@ -9,20 +9,21 @@ div(v-if="triggered")
             | Share
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
+          <template v-if="!loader">
           p
-            a(href="#")
-              |  Rick's response on show us how flexible you are?
-            i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy the link")
-            i.mdi.mdi-pencil.m-l-10.pointer(title="Edit sharing title")
+            <router-link :to="shareObject.url">
+              |  {{shareObject.title}}
+            </router-link>
+            i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy the link" @click="copyURLToClipboard()")
+            input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="shareObject.url")
+            // i.mdi.mdi-pencil.m-l-10.pointer(title="Edit sharing title")
           hr
           h5.text-muted.m-b-0.all-caps
             | Share this post on:
-          social-sharing.social-share-wrap(url='https://svanq.com/c/1602', title='The Progressive JavaScript Framework', description='Intuitive, Fast and Composable MVVM for building interactive interfaces.', quote='Vue is a progressive framework for building user interfaces.', hashtags='vuejs,javascript,framework', twitter-user='vuejs', inline-template='')
+          social-sharing.social-share-wrap(v-if="shareObject.title && shareObject.url" :url='shareObject.url' :title='shareObject.title', :description='shareObject.title' :quote='shareObject.title' twitter-user='svanq', inline-template='')
             .row
               network.round.pointer.m-l-10.m-t-10.facebook-border(title="Share on Facebook" network='facebook')
                 i.fa.fa-facebook.facebook-color
-              network.round.pointer.m-l-10.m-t-10.google-plus-border(title="Share on Google +" network='googleplus')
-                i.fa.fa-google-plus.google-plus-color
               network.round.pointer.m-l-10.m-t-10.linkedin-border(title="Share on LinkedIn" network='linkedin')
                i.fa.fa-linkedin.linkedin-color
               network.round.pointer.m-l-10.m-t-10.pinterest-border(title="Share on Pinterest" network='pinterest')
@@ -31,19 +32,22 @@ div(v-if="triggered")
                 i.fa.fa-reddit.reddit-color
               network.round.pointer.m-l-10.m-t-10.skype-border(title="Share on Skype" network='skype')
                 i.fa.fa-skype.skype-color
-              network.round.pointer.m-l-10.m-t-10(title="SMS" network='sms')
-                i.fa.fa-commenting-o
+              network.round.pointer.m-l-10.m-t-10.sms-border(title="SMS" network='sms')
+                i.fa.fa-commenting-o.sms-color
               network.round.pointer.m-l-10.m-t-10.twitter-border(title="Share on Twitter" network='twitter')
                 i.fa.fa-twitter.twitter-color
               network.round.pointer.m-l-10.m-t-10.watsapp-border(network='whatsapp')
                 i.fa.fa-whatsapp.watsapp-color
+          </template>
+          .text-center.m-t-20(v-if="loader")
+            <preloader />
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
 </template>
 <script>
 import mixin from '../globals/mixin'
 import Preloader from './preloader'
-// import auth from '@/auth/helpers'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'SocialShare',
@@ -55,7 +59,13 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-social-share',
-      triggered: false
+      triggered: false,
+      shareObject: {
+        url: false,
+        title: false
+      },
+      loader: true,
+      URLCopied: false
     }
   },
   computed: {
@@ -67,6 +77,11 @@ export default {
     triggerButtonId: {
       get () {
         return this.id + '-social-sharing'
+      }
+    },
+    copyTextElementId: {
+      get () {
+        return this.id + '-social-share-copy-text-field'
       }
     },
     modalId: {
@@ -86,7 +101,53 @@ export default {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
-    triggerPopup () {
+    copyURLToClipboard () {
+      this.URLCopied = true
+      let copyElem = document.getElementById(this.copyTextElementId)
+      copyElem.select()
+      // copyElem.setSelectionRange(0, 99999)
+      try {
+        document.execCommand('copy')
+        this.showNotification('Link copied.', 'success')
+        this.URLCopied = false
+      } catch (err) {
+        this.showNotification('Failed to copy URL', 'error')
+      }
+    },
+    prepareShareObject (post, comment = false) {
+      let getURL = (url) => {
+        return 'https://' + this.getDomainName() + '/' + url
+      }
+      if (post && comment) {
+        this.shareObject.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)
+        this.shareObject.url = getURL(this.getCommentLink(comment.id))
+      } else {
+        this.shareObject.title = this.getPostTitle(post)
+        this.shareObject.url = getURL(this.getPostLink(post.id))
+      }
+    },
+    fetchDetails (shareObject) {
+      if (this.loader) {
+        if (this.isComment(shareObject)) {
+          auth.getComment(shareObject.id)
+            .then((d) => {
+              this.loader = false
+              this.prepareShareObject(d.post, d.comment)
+            })
+            .catch((pErr) => {
+              alert(pErr)
+              this.showNotification('Something went wrong, please try again later', 'error')
+            })
+        } else {
+          this.loader = false
+          this.prepareShareObject(shareObject)
+        }
+      }
+    },
+    isComment (shareObject) {
+      return 'videoPath' in shareObject
+    },
+    triggerPopup (shareObject) {
       /*eslint-disable*/
       this.triggered = true
       let d = document.getElementById(this.triggerButtonId)
@@ -96,10 +157,12 @@ export default {
           if (d) {
             d.click()
             clearInterval(interval)
+            this.fetchDetails(shareObject)
           }
         }, 100)
       } else {
         d.click()
+        this.fetchDetails(shareObject)
       }
       /* eslint-enable */
     }

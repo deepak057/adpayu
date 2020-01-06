@@ -122,7 +122,7 @@ export default {
       this.$refs.videoEditingComponent.triggerPopup(this.comment)
     },
     triggerSharing () {
-      this.$refs.socialShareComp.triggerPopup()
+      this.$refs.socialShareComp.triggerPopup(this.comment)
     },
     videoAnswerHasContent () {
       return this.isQuestion() && this.comment.comment

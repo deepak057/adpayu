@@ -126,7 +126,18 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-
+  getComment (commentId) {
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/getComment/' + commentId
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
   deleteComment (commentId) {
     return Vue.http({
       method: 'delete',

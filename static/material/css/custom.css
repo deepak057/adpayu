@@ -1462,6 +1462,12 @@ strong{
 .pinterest-border {
 	border: 1px solid #c8232c;
 }
+.sms-color {
+	color: blue;
+}
+.sms-border {
+	border: 1px solid blue;
+}
 .skype-color {
 	color: #00aff0;
 }
@@ -1485,4 +1491,9 @@ strong{
 }
 .reddit-border {
 	border: 1px solid #FF4301;
+}
+.hidden-from-view {
+	position: fixed;
+	top: -10000px;
+	left: -10000px
 }

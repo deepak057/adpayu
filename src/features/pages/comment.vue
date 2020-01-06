@@ -29,7 +29,6 @@ import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import mixin from '../../globals/mixin.js'
 import PageTitle from './../../components/page-title'
-import Service from './service'
 import SingleComment from '../../components/feed/single-comment'
 import commentMixin from '../../components/feed/comment-mixin'
 import { router } from '@/http'
@@ -41,7 +40,6 @@ export default {
       title: 'Comment'
     }
   },
-  service: new Service(),
   components: {
     Preloader,
     PageTitle,
@@ -72,7 +70,7 @@ export default {
   mounted () {
     try {
       this.scrollToTop()
-      this.$options.service.getComment(this.id)
+      auth.getComment(this.id)
         .then((data) => {
           this.pageLoading = false
           this.comment = data.comment
