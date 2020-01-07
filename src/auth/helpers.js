@@ -129,7 +129,7 @@ export default {
   getComment (commentId) {
     return Vue.http({
       method: 'get',
-      url: constants.API_BASE_URL + '/getComment/' + commentId
+      url: constants.API_BASE_URL + '/comments/getComment/' + commentId
     })
       .then((response) => {
         return new Promise((resolve) => { resolve(response.data) })

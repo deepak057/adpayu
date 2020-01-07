@@ -122,6 +122,22 @@ const routes = [
     isPublic: true
   },
   {
+    name: 'publicPost',
+    path: '/content/post/:id',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/publicContent/main.vue'),
+    title: getPageTitle('Post'),
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
+    name: 'publicComment',
+    path: '/content/response/:id',
+    component: () => import(/* webpackChunkName: "dashboard" */ '@/features/landing/publicContent/main.vue'),
+    title: getPageTitle('Response'),
+    layout: 'PublicLayout',
+    isPublic: true
+  },
+  {
     name: 'c',
     path: '/c/:id',
     component: () => import(/* webpackChunkName: "dashboard" */ '@/features/pages/comment.vue'),
