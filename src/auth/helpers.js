@@ -126,10 +126,10 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-  getComment (commentId) {
+  getComment (commentId, publicURL = false) {
     return Vue.http({
       method: 'get',
-      url: constants.API_BASE_URL + '/comments/getComment/' + commentId
+      url: constants.API_BASE_URL + '/comments' + (publicURL ? '/public' : '') + '/getComment/' + commentId
     })
       .then((response) => {
         return new Promise((resolve) => { resolve(response.data) })
@@ -195,11 +195,10 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-
-  getPost (postId, checkOwner = false) {
+  getPost (postId, checkOwner = false, publicURL = false) {
     return Vue.http({
       method: 'get',
-      url: constants.API_BASE_URL + '/post/' + postId,
+      url: constants.API_BASE_URL + '/post/' + (publicURL ? 'public/' : '') + postId,
       params: {checkOwner: checkOwner}
     })
       .then((response) => {
@@ -209,7 +208,6 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-
   updateUserState (user) {
     store.state.auth.user = user
     store.dispatch('auth/update', store.state.auth)
