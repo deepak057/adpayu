@@ -7,7 +7,7 @@ div(v-if="triggered")
         .modal-header
           h4.modal-title
             | Edit Video
-            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Video Editing" data-toggle="popover" data-placement="right" data-content="Make videos more engaging by adding background music. More editing features are coming soon")
+            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Video Editing" data-toggle="popover" data-placement="right" data-content="Make videos more engaging by adding background music or cutting out video parts. More editing features are coming soon")
           button.close(:id="closeButtonId" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           .accordion.accordion-blue(:id="getSectionId(0)")

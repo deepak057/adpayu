@@ -9,7 +9,13 @@
 	.video-js .vjs-big-play-button{
         width: 2em
     }
-    
+    .pc-user-info-container img {
+    	width: 100px !important;
+    }
+    .pc-user-info-container {
+		background: #eee;
+		padding: 10px;
+	}
 }
 
 /* On screens that are 500px or less */
@@ -39,4 +45,8 @@
 }
 .m-b-15 {
 	margin-bottom: 15px;
+}
+.pc-user-info-container img {
+	border-radius: 50%;
+	width: 150px;
 }

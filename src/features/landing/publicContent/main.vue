@@ -38,25 +38,37 @@
                   span(v-if = "content.commentsCount && content.commentsCount > 1")
                     | s
               </router-link>
-        .col-md-4.col-sm-12
+        .col-md-4.col-sm-12.pc-user-info-container.text-center(:class="{'m-t-100': !isMobile(), 'm-t-20': isMobile()}")
           h4
-            | Uploaded by
+            span.all-caps
+              | Uploaded by
             .m-t-10
-              img.rounded(:src = "getUserProfileImage(content.user.pic)")
-            <router-link :to="userProfileLink(content.user.id)">
+          <router-link :to="userProfileLink(content.user.id)">
+            img.rounded(:src = "getUserProfileImage(content.user.pic)")
+          </router-link>
+          h4
+            <router-link :to="userProfileLink(content.user.id)" class="m-t-10">
               |  {{userName(content.user)}}
             </router-link>
+          p
+            | {{content.user.tagline}}
       .row
         .col-md-12.m-t-50
-          h5
+          h5(v-if="!isLoggedIn()")
             <router-link :to = "content.url">
-              | Log in
+              | Log In
             </router-link>
             |  Or
             <router-link to="/signup">
               |  Sign Up
             </router-link>
             |  To See More
+          h5(v-if="isLoggedIn()")
+            | Go to your
+            <router-link to="/dashboard">
+              |  Dashboard
+            </router-link>
+            |  to see more
       </template>
 </template>
 <script>
