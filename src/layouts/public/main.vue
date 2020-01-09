@@ -17,7 +17,7 @@ main
     // link(href='static/titan-master/assets/lib/simple-text-rotator/simpletextrotator.css', rel='stylesheet')
     // Main stylesheet and color file
     link(href='static/titan-master/assets/css/style.min.css', rel='stylesheet')
-    // link(href='static/titan-master/assets/css/custom.css', rel='stylesheet')
+    link(href='static/titan-master/assets/css/custom.css', rel='stylesheet')
     // link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
     nav.navbar.navbar-custom.navbar-fixed-top.one-page(role='navigation' :class="{'navbar-transparent make-transparent': ifHomePage()}")
         .container
