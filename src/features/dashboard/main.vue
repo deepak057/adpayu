@@ -230,7 +230,11 @@ export default {
     },
     afterFeedLoad (data) {
       this.feed = this.feed.concat(data.posts)
-      this.currentPage++
+      if ('nextPage' in data && data.nextPage) {
+        this.currentPage = data.nextPage
+      } else {
+        this.currentPage++
+      }
       this.preloader = false
       this.loadMorePreloader = false
       if (!data.posts.length) {
