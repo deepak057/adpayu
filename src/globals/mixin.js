@@ -34,6 +34,9 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    postAnswerPageLink () {
+      return '/search/questions?k=&uncommented=true'
+    },
     capitalizeString (value) {
       if (!value) return ''
       value = value.toString()
@@ -80,8 +83,11 @@ export default {
       let validImageTypes = this.getValidImageTypes()
       return validImageTypes.indexOf(file['type']) !== -1
     },
-    getPostLink (postId) {
-      return '/p/' + postId
+    getPublicContentBaseURL () {
+      return this.getDomainName() + '/content'
+    },
+    getPostLink (postId, publicLink = false) {
+      return !publicLink ? '/p/' + postId : this.getPublicContentBaseURL() + '/post/' + postId
     },
     leavePage () {
       this.$emit('closeModal')
@@ -240,8 +246,8 @@ export default {
       }
     },
     /* eslint-disable */
-    getCommentLink (commentId) {
-      return '/c/' + commentId
+    getCommentLink (commentId, publicLink = false) {
+      return !publicLink ? '/c/' + commentId : this.getPublicContentBaseURL() + '/response/' + commentId
     },
     getPostTitle (postObj) {
       if ('Question' in postObj && postObj.Question) {

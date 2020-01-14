@@ -11,15 +11,17 @@ div(v-if="triggered")
         .modal-body
           <template v-if="!loader">
           p
-            <router-link :to="shareObject.url">
+            // <router-link :to="shareObject.url">
               |  {{shareObject.title}}
             </router-link>
+            a(:href="shareObject.url" target="_blank")
+              |  {{shareObject.title}}
             i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy the link" @click="copyURLToClipboard()")
             input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="shareObject.url")
             // i.mdi.mdi-pencil.m-l-10.pointer(title="Edit sharing title")
           hr
           h5.text-muted.m-b-0.all-caps
-            | Share this post on:
+            | Share this on:
           social-sharing.social-share-wrap(v-if="shareObject.title && shareObject.url" :url='shareObject.url' :title='shareObject.title', :description='shareObject.title' :quote='shareObject.title' twitter-user='svanq', inline-template='')
             .row
               network.round.pointer.m-l-10.m-t-10.facebook-border(title="Share on Facebook" network='facebook')
@@ -116,17 +118,19 @@ export default {
     },
     prepareShareObject (post, comment = false) {
       let getURL = (url) => {
-        return 'https://' + this.getDomainName() + '/' + url
+        // return 'https://' + this.getDomainName() + '/' + url
+        return 'https://' + url
       }
       if (post && comment) {
         this.shareObject.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)
-        this.shareObject.url = getURL(this.getCommentLink(comment.id))
+        this.shareObject.url = getURL(this.getCommentLink(comment.id, true))
       } else {
         this.shareObject.title = this.getPostTitle(post)
-        this.shareObject.url = getURL(this.getPostLink(post.id))
+        this.shareObject.url = getURL(this.getPostLink(post.id, true))
       }
     },
     fetchDetails (shareObject) {
+      this.loader = true
       if (this.loader) {
         if (this.isComment(shareObject)) {
           auth.getComment(shareObject.id)

@@ -21,7 +21,7 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
                 |  Follow Tags
             </router-link>
           li.add-topics-wrap
-            <router-link tag="a" to="/search/questions?k=&uncommented=true" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
+            <router-link tag="a" :to="postAnswerPageLink()" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
               i.mdi.mdi-comment-plus-outline
               span.hide-menu
                 |  Add Answer

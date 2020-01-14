@@ -11,19 +11,29 @@
         .col-md-8.col-sm-12
           .row
             .col-md-12.col-sm-12
-              h4(v-if="isMobile()")
+              h4(v-if="isMobile() && content.title")
                 <router-link :to = "content.url">
                   | {{content.title}}
                 </router-link>
-              h3.m-t-0.m-b-15(v-if="!isMobile()")
+              h3.m-t-0.m-b-15(v-if="!isMobile() && content.title")
                 <router-link :to = "content.url">
                   | {{content.title}}
                 </router-link>
+              .m-t-10.m-b-10.w-s-pre(v-if="content.content" v-html="content.content")
               p.text-muted(v-html="content.description" v-if = "content.description")
-          .row
+          .row(v-if="content.video")
             .col-10.col-md-10.col-sm-12
                <video-player class="vjs-3-4" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
                .small.text-muted(v-html="content.commentDescription" v-if="content.commentDescription")
+          .row.multi-columns-row(v-if="content.images.length")
+            .col-sm-6.col-md-4.col-lg-4(v-for="image in content.images")
+              .gallery-item
+                .gallery-image
+                  a.gallery(:href='getMedia(image.path)')
+                    img(:src='getMedia(image.path)')
+                    .gallery-caption
+                      .gallery-icon
+                        span.icon-magnifying-glass
           .row
             .col-md-12.m-t-10
               <router-link :to = "content.url" title="Log in to like it">
@@ -34,17 +44,17 @@
               <router-link v-if="isPost" class="m-l-10" :to = "content.url" title="Log in to leave your response">
                 span.m-r-5(v-if = "content.commentsCount")
                   | {{content.commentsCount}}
-                  | Comment
-                  span(v-if = "content.commentsCount && content.commentsCount > 1")
-                    | s
+                |  Comment
+                span(v-if = "content.commentsCount && content.commentsCount > 1")
+                  | s
               </router-link>
         .col-md-4.col-sm-12.pc-user-info-container.text-center(:class="{'m-t-100': !isMobile(), 'm-t-20': isMobile()}")
           h4
             span.all-caps
-              | Uploaded by
+              | Created by
             .m-t-10
           <router-link :to="userProfileLink(content.user.id)">
-            img.rounded(:src = "getUserProfileImage(content.user.pic)")
+            img.rounded(:src = "getUserProfileImage(content.user.pic, false)")
           </router-link>
           h4
             <router-link :to="userProfileLink(content.user.id)" class="m-t-10">
@@ -77,6 +87,7 @@ import { videoPlayer } from 'vue-video-player'
 import mixin from '../../../globals/mixin'
 import Preloader from '../../../components/preloader'
 import auth from '@/auth/helpers'
+import { router } from '@/http'
 
 export default {
   name: 'PublicContent',
@@ -91,19 +102,21 @@ export default {
       content: {
         title: false,
         description: false,
+        content: false,
         video: false,
         likesCount: false,
         commentsCount: false,
         comment: false,
         commentDescription: false,
         url: false,
-        user: false
+        user: false,
+        images: []
       }
     }
   },
   metaInfo () {
     return {
-      title: this.getPageTitle(this.content.title)
+      title: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
     }
   },
   computed: {
@@ -115,7 +128,12 @@ export default {
     }
   },
   mounted () {
-    this.fetchData()
+    if (!this.isLoggedIn()) {
+      this.fetchData()
+    } else {
+      let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)
+      router.push(url)
+    }
   },
   methods: {
     fetchData () {
@@ -139,14 +157,19 @@ export default {
       }
     },
     prepareContentObject (post, comment = false) {
+      let getPostDescription = () => {
+        return post.Video && post.Video.description ? post.Video.description : (post.Question && post.Question.description ? post.Question.description : false)
+      }
       if (this.isPost) {
         this.content.url = this.getPostLink(post.id)
-        this.content.title = this.getPostTitle(post)
+        this.content.title = post.type !== 'text' ? this.getPostTitle(post) : false
         this.content.video = post.Video || false
-        this.content.description = post.Video && post.Video.description ? post.Video.description : false
+        this.content.description = getPostDescription()
         this.content.likesCount = post.LikesCount
         this.content.commentsCount = post.CommentsCount
         this.content.user = post.User
+        this.content.content = post.content || false
+        this.content.images = post.Images && post.Images.length ? post.Images : []
       } else {
         this.content.url = this.getCommentLink(comment.id)
         this.content.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)

@@ -95,10 +95,11 @@
         .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
           a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="f['LikesCount']" :hasLiked="f['HasLiked']" :postId="f['id']"></like>
-          .btn-group(v-if="f.UserId===currentUser.id")
+          .btn-group
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
+              <template v-if="f.UserId===currentUser.id">
               a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats(f)")
                 i.mdi.mdi-chart-areaspline.m-r-5
                 | See Ad Stats
@@ -108,12 +109,17 @@
               a.dropdown-item(href='javascript:void(0)' @click="deletePost(f, k)")
                 i.mdi.mdi-delete.m-r-5
                 | Delete
+              </template>
+              a.dropdown-item(href='javascript:void(0)' @click="triggerSharing(f)")
+                i.mdi.mdi-share.m-r-5
+                | Share
           .pull-right.text-muted.show-on-mobile
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
     <comments :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
+  <social-share ref="socialShareComp" />
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>
 </template>
 <script>
@@ -128,6 +134,7 @@ import auth from '@/auth/helpers'
 import Service from './service'
 import FeedVideoPlayer from './feed-video-player'
 import EditPost from './edit'
+import SocialShare from '../../components/social-share'
 
 export default {
   name: 'Feed',
@@ -139,7 +146,8 @@ export default {
     SearchField,
     FeedVideoPlayer,
     AdStats,
-    EditPost
+    EditPost,
+    SocialShare
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -199,6 +207,9 @@ export default {
     }
   },
   methods: {
+    triggerSharing (f) {
+      this.$refs.socialShareComp.triggerPopup(f)
+    },
     showFullDescription (f) {
       if (typeof f.enableFullDescription === 'undefined') {
         this.$set(f, 'enableFullDescription', false)

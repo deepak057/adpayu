@@ -12,9 +12,12 @@ div
         .modal-body
           <template v-if="!isAccountStatusPending()">
           p
-            | Dear user, before being able to withdraw money, please upload any document that verifies your identity.
+            | Dear user, before being able to withdraw money, please upload any
+            strong
+              |  2 documents
+            |  that verify your identity.
           p
-            | You can upload an image of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
+            | You can upload images of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
           p
             | Once your identity is verified, you'd be able to withdraw money instantly to your Bank, Paytm or other accounts.
           .text-center
@@ -36,7 +39,9 @@ div
                 i.mdi.mdi-check-circle.m-r-2
                 | Thank you for uploading your documents.
             p
-              | Your documents are currently under review. You will get an email from us as soon as the review is completed.
+              | Your documents are currently under review. You will get an email and a notification from us as soon as the review is completed.
+            p.text-muted.small
+              | Note- We will also try to reach you through your registered email address during the review process if needed.
           </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close

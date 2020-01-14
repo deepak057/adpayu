@@ -17,7 +17,7 @@ div(v-if="triggered")
           p
             strong
               | 2. Delete the cuts:
-            |  Double click/tap or long click/tap on any video cut (blue line) to delete it. Single click/tap on a cut (blue line) to see more info about about it.
+            |  Double click or long click on any video cut (blue line) to delete it. Single click on a cut (blue line) to see more info about it.
           p
             strong
               | 3. Preview:

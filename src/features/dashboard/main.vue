@@ -48,11 +48,16 @@
           .btn-group.btn-add-feed
             button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
-              | Post Something
+              span.hide-on-mobile
+                | Post Something
             .dropdown-menu(x-placement='bottom-start')
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")
                 | {{pOpt.label}}
+              <router-link tag="a" :to="postAnswerPageLink()" class="dropdown-item">
+                i.mdi.mdi-comment-plus-outline
+                |  Video Answer
+              </router-link>
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
           <feed v-if="!preloader" :feed="feed" :userFeed="true"></feed>

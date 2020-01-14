@@ -50,3 +50,6 @@
 	border-radius: 50%;
 	width: 150px;
 }
+.w-s-pre {
+	white-space: pre-line;
+}
