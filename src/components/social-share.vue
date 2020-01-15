@@ -15,16 +15,18 @@ div(v-if="triggered")
               |  {{shareObject.title}}
             </router-link>
             a(:href="shareObject.url" target="_blank")
-              |  {{shareObject.title}}
+              .w-s-pre(v-if="originalObject.type === 'text'" v-html = "shareObject.title")
+              span(v-if="originalObject.type !== 'text'")
+                |  {{shareObject.title}}
             i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy the link" @click="copyURLToClipboard()")
             input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="shareObject.url")
             // i.mdi.mdi-pencil.m-l-10.pointer(title="Edit sharing title")
           hr
           h5.text-muted.m-b-0.all-caps
             | Share this on:
-          social-sharing.social-share-wrap(v-if="shareObject.title && shareObject.url" :url='shareObject.url' :title='shareObject.title', :description='shareObject.title' :quote='shareObject.title' twitter-user='svanq', inline-template='')
+          social-sharing.social-share-wrap(v-if="shareObject.title && shareObject.url" :url='shareObject.url' :title='shareObject.title', :description='shareObject.title' :quote='shareObject.title' twitter-user='svanq', inline-template='' @open="trackSharing")
             .row
-              network.round.pointer.m-l-10.m-t-10.facebook-border(title="Share on Facebook" network='facebook')
+              // network.round.pointer.m-l-10.m-t-10.facebook-border(title="Share on Facebook" network='facebook')
                 i.fa.fa-facebook.facebook-color
               network.round.pointer.m-l-10.m-t-10.linkedin-border(title="Share on LinkedIn" network='linkedin')
                i.fa.fa-linkedin.linkedin-color
@@ -50,9 +52,11 @@ div(v-if="triggered")
 import mixin from '../globals/mixin'
 import Preloader from './preloader'
 import auth from '@/auth/helpers'
+import Service from './service'
 
 export default {
   name: 'SocialShare',
+  service: new Service(),
   components: {
     Preloader
   },
@@ -67,7 +71,8 @@ export default {
         title: false
       },
       loader: true,
-      URLCopied: false
+      URLCopied: false,
+      originalObject: false
     }
   },
   computed: {
@@ -100,6 +105,20 @@ export default {
   mounted () {
   },
   methods: {
+    trackSharing (network, url) {
+      let data = {
+        network: network,
+        shareObj: this.shareObject,
+        commentId: this.isComment(this.originalObject) ? this.originalObject.id : '',
+        postId: !this.isComment(this.originalObject) ? this.originalObject.id : ''
+      }
+      this.$options.service.trackSocialSharing(data)
+        .then((d) => {
+        })
+        .catch((pErr) => {
+          this.showNotification('Something went wrong, please try sharing again.', 'error')
+        })
+    },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
     },
@@ -131,6 +150,7 @@ export default {
     },
     fetchDetails (shareObject) {
       this.loader = true
+      this.originalObject = shareObject
       if (this.loader) {
         if (this.isComment(shareObject)) {
           auth.getComment(shareObject.id)

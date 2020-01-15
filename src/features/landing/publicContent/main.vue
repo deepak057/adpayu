@@ -131,11 +131,18 @@ export default {
     if (!this.isLoggedIn()) {
       this.fetchData()
     } else {
-      let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)
-      router.push(url)
+      this.redirectToRealPage()
     }
   },
   methods: {
+    redirectToRealPage () {
+      let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)
+      router.push(url)
+    },
+    redirectWithError () {
+      this.showNotification('This page might be available after log in', 'error')
+      this.redirectToRealPage()
+    },
     fetchData () {
       try {
         this.loader = true
@@ -145,11 +152,17 @@ export default {
               this.loader = false
               this.prepareContentObject(d)
             })
+            .catch((sErr) => {
+              this.redirectWithError()
+            })
         } else {
           auth.getComment(this.contentId, true)
             .then((d) => {
               this.loader = false
               this.prepareContentObject(d.post, d.comment)
+            })
+            .catch((sErr) => {
+              this.redirectWithError()
             })
         }
       } catch (e) {
