@@ -6,6 +6,7 @@ const defaults = {
     name: '',
     id: ''
   },
+  guestId: false,
   userTags: [],
   post: {},
   options: {},

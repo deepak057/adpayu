@@ -23,7 +23,7 @@
               p.text-muted(v-html="content.description" v-if = "content.description")
           .row(v-if="content.video")
             .col-10.col-md-10.col-sm-12
-               <video-player class="vjs-3-4" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
+               <video-player class="vjs-3-4" @play="onPlay" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
                .small.text-muted(v-html="content.commentDescription" v-if="content.commentDescription")
           .row.multi-columns-row(v-if="content.images.length")
             .col-sm-6.col-md-4.col-lg-4(v-for="image in content.images")
@@ -135,6 +135,9 @@ export default {
     }
   },
   methods: {
+    onPlay () {
+      alert(auth.getGuestId())
+    },
     redirectToRealPage () {
       let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)
       router.push(url)

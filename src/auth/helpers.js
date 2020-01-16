@@ -89,6 +89,16 @@ export default {
   getLocalVideoURL () {
     return store.state.auth.localVideoURL
   },
+  setGuestId () {
+    store.state.auth.guestId = (new Date()).getTime() + Math.floor(Math.random() * (10000000000000 - 1 + 1) + 1)
+    store.dispatch('auth/update', store.state.auth)
+  },
+  getGuestId () {
+    if (!store.state.auth.guestId) {
+      this.setGuestId()
+    }
+    return store.state.auth.guestId
+  },
   setLocalVideoURL (file = false) {
     if (!file) {
       if (this.getLocalVideoURL()) {
