@@ -80,17 +80,20 @@ export default {
         return errorMessage */
       })
   },
-
   logout () {
+    let guestUserId = this.getGuestId()
     store.dispatch('common/clear')
+    if (guestUserId) {
+      this.setGuestId(guestUserId)
+    }
     router.push({ name: 'home' })
     window.location = '/'
   },
   getLocalVideoURL () {
     return store.state.auth.localVideoURL
   },
-  setGuestId () {
-    store.state.auth.guestId = (new Date()).getTime() + Math.floor(Math.random() * (10000000000000 - 1 + 1) + 1)
+  setGuestId (id = false) {
+    store.state.auth.guestId = id || ((new Date()).getTime() + Math.floor(Math.random() * (10000000000000 - 1 + 1) + 1))
     store.dispatch('auth/update', store.state.auth)
   },
   getGuestId () {
@@ -128,6 +131,26 @@ export default {
         page: page,
         autoMarkSeen: autoMarkSeen
       }
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+  markEntityAsViewed (id, entityType = 'comment', guestUserId = false) {
+    let data = {
+      entityType: entityType,
+      id: id
+    }
+    if (guestUserId) {
+      data.guestUserId = guestUserId
+    }
+    return Vue.http({
+      method: 'put',
+      url: constants.API_BASE_URL + '/users/' + (guestUserId ? 'public/' : '') + 'markAsViewed',
+      data: data
     })
       .then((response) => {
         return new Promise((resolve) => { resolve(response.data) })
@@ -330,9 +353,13 @@ export default {
       })
   },
   getCurrentUserRevenue () {
+    let guestUserId = this.getGuestId()
     return Vue.http({
       method: 'post',
-      url: constants.API_BASE_URL + '/users/getUserRevenue'
+      url: constants.API_BASE_URL + '/users/getUserRevenue',
+      data: {
+        guestUserId: guestUserId
+      }
     })
       .then((response) => {
         return new Promise((resolve) => {

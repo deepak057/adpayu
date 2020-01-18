@@ -53,3 +53,9 @@
 .w-s-pre {
 	white-space: pre-line;
 }
+.m-b-40 {
+  margin-bottom: 40px;
+}
+.public-content-wrap {
+  min-height: 670px;
+}

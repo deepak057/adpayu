@@ -95,18 +95,4 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-
-  markEntityAsViewed (id, entityType = 'comment') {
-    let data = {
-      entityType: entityType,
-      id: id
-    }
-    return auth.put('/users/markAsViewed', data)
-      .then((response) => {
-        return new Promise((resolve) => { resolve(response) })
-      })
-      .catch((error) => {
-        return new Promise((resolve, reject) => { reject(error) })
-      })
-  }
 }

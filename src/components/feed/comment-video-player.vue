@@ -6,11 +6,10 @@
 import 'video.js/dist/video-js.css'
 import { videoPlayer } from 'vue-video-player'
 import mixin from '../../globals/mixin.js'
-import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'CommentVideoPlayer',
-  service: new Service(),
   components: {
     videoPlayer
   },
@@ -26,7 +25,7 @@ export default {
       try {
         this.pauseAllOtherVideos(e)
         if (!c.HasViewed) {
-          this.$options.service.markEntityAsViewed(c.id, 'comment')
+          auth.markEntityAsViewed(c.id, 'comment')
             .then((d) => {
               c.HasViewed = 1
             })

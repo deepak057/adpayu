@@ -1,5 +1,5 @@
 <template lang="pug">
-.main.vh-95.public-content-wrap
+.main.public-content-wrap
   section.module(:class="{'p-0': !loader, 'p-40': loader}")
     .container
       .row(v-if="loader")
@@ -63,7 +63,7 @@
           p
             | {{content.user.tagline}}
       .row
-        .col-md-12.m-t-50
+        .col-md-12.m-t-50.m-b-40
           h5(v-if="!isLoggedIn()")
             <router-link :to = "content.url">
               | Log In
@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     onPlay () {
-      alert(auth.getGuestId())
+      auth.markEntityAsViewed(this.contentId, (this.isPost ? 'post' : 'comment'), auth.getGuestId())
     },
     redirectToRealPage () {
       let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)
