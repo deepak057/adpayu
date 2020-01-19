@@ -112,6 +112,7 @@ main
 </template>
 <script>
 import mixin from '@/globals/mixin'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'PublicLayout',
@@ -139,6 +140,11 @@ export default {
     for (let i in this.scripts) {
       this.loadScript(this.scripts[i])
     }
+    /*
+    * Set a guest User Id for the visiting user
+    * in local storage of user's browser
+    */
+    auth.getGuestId()
   },
   methods: {
     ifHomePage () {
