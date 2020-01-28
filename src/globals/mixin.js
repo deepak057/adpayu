@@ -204,6 +204,9 @@ export default {
     getVideoPath (videoObj) {
       return 'videoPath' in videoObj ? videoObj.videoPath : videoObj.path
     },
+    isVideoComment (commentObj) {
+      return commentObj.videoPath || false
+    },
     hasQueryString (path) {
       return path.indexOf('?') > -1
     },

@@ -45,14 +45,29 @@
               i.ti-link
               | Comment Page
             </router-link>
-            a.dropdown-item(@click="triggerVideoEditing()" v-if="isOwner(comment.User.id) && getVideo(comment)" href="javascript:void(0)" title="Edit the video")
-              i.ti-pencil-alt.m-r-5
+            <template v-if="isOwner(comment.User.id)">
+            a.dropdown-item(@click="triggerVideoEditing()" v-if="getVideo(comment)" href="javascript:void(0)" title="Edit the video")
+              i.fa.fa-video-camera.m-r-5
               | Edit Video
+            a.dropdown-item(href="javascript:void(0)" @click="triggerCommentEditing()")
+              <template v-if="getVideo(comment)">
+              span(v-if="!comment.comment")
+                i.mdi.mdi-comment-plus-outline
+                |  Add Details
+              span(v-if="comment.comment")
+                i.ti-pencil-alt
+                |  Edit Details
+              </template>
+              span(v-if="!getVideo(comment)")
+                i.ti-pencil-alt
+                |  Edit
+            </template>
             a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
               i.ti-share.m-r-5
               | Share
   <social-share ref="socialShareComp" />
   <video-editing @VideoEdited="refreshVideo" ref="videoEditingComponent"/>
+  <edit-comment ref="editCommentComponent" @CommentEdited="textCommentUpdated"/>
 </template>
 <script>
 import Like from './like'
@@ -64,6 +79,7 @@ import auth from '@/auth/helpers'
 import CommentVideoPlayer from './comment-video-player'
 import SocialShare from '../../components/social-share'
 import VideoEditing from '../videoEditing/main'
+import EditComment from './edit-comment'
 
 export default {
   name: 'SingleComment',
@@ -72,7 +88,8 @@ export default {
     Like,
     CommentVideoPlayer,
     VideoEditing,
-    SocialShare
+    SocialShare,
+    EditComment
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -112,6 +129,9 @@ export default {
     }
   },
   methods: {
+    triggerCommentEditing () {
+      this.$refs.editCommentComponent.triggerPopup(this.comment, this.commentType)
+    },
     refreshVideo (comment) {
       this.comment = comment
     },
@@ -132,6 +152,9 @@ export default {
     },
     toggleVideoCommentDescription () {
       this.commentDescriptionEnabled = !this.commentDescriptionEnabled
+    },
+    textCommentUpdated (commentText) {
+      this.comment.comment = commentText
     }
   }
 }

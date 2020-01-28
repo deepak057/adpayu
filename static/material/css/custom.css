@@ -1497,3 +1497,6 @@ strong{
 	top: -10000px;
 	left: -10000px
 }
+.min-textarea-height {
+	min-height: 85px;
+}
