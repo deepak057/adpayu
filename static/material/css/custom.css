@@ -575,6 +575,9 @@ and (orientation : landscape) {
 .all-caps {
 	text-transform: uppercase;
 }
+.capitalize {
+	text-transform: capitalize;
+}
 .video-js .vjs-big-play-button {
     left: 40%;
     top: 40%;

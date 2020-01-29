@@ -5,14 +5,14 @@ div(v-if="triggered")
     .modal-dialog
       .modal-content
         .modal-header
-          h4.modal-title
+          h4.modal-title.capitalize
             | {{getText()}}
           button.close(:id="closeButtonId" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           form.form(@submit.prevent="saveComment()")
-            .form-group(v-if="!isQuestion()")
+            .form-group(v-if="!enableTextEditor()")
               textarea.form-control.min-textarea-height(v-model.trim="comment" :placeholder = "getText('placeholder')")
-            .form-group(v-if="isQuestion()")
+            .form-group(v-if="enableTextEditor()")
               <vue-editor useCustomImageHandler :placeholder = "getText('placeholder')" @imageAdded="handleImageAdded" v-model.trim="comment"></vue-editor>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Cancel
@@ -69,12 +69,16 @@ export default {
   mounted () {
   },
   methods: {
+    enableTextEditor () {
+      return !this.isVideoComment(this.commentObj) && this.isQuestion()
+    },
     triggerPopup (commentObj, commentType) {
       /*eslint-disable*/
       this.triggered = true
       this.commentObj = this.copyObject(commentObj)
       this.commentType = commentType
-      this.comment = commentObj.comment
+      // remove '<p>' tag from the comment text
+      this.comment = commentObj.comment.replace('<p>', '').replace('</p>', '')
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval (()=> {
