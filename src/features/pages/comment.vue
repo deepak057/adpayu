@@ -93,8 +93,12 @@ export default {
         this.showNotification('Deleting...', 'warn')
         auth.deleteComment(this.comment.id)
           .then((d) => {
-            this.showNotification('Deleted successfully.', 'success')
-            router.push(this.getPostLink(this.post.id))
+            if (d.success) {
+              this.showNotification('Deleted successfully.', 'success')
+              router.push(this.getPostLink(this.post.id))
+            } else {
+              this.showNotification(d.error, 'error')
+            }
           })
           .catch((cErr) => {
             this.showNotification('Soemthing went wrong while trying to delete your comment.', 'error')
