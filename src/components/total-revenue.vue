@@ -8,8 +8,8 @@
       <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
       //i.mdi.mdi-information-outline.m-l-2
   h5.text-muted.m-b-0
-    | Total Revenue
-    i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Revenue" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank or other accounts.")
+    | Total Earnings
+    i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank, Paytm or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
   <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
 </template>

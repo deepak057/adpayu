@@ -14,7 +14,7 @@
             | Home
           </router-link>
         li.breadcrumb-item.active
-          | {{pageTitle() | capitalize}}
+          | {{pageTitle(true) | capitalize}}
           i.mdi.mdi-refresh.cursor-hand.m-l-5(@click="reloadFeed()" title="Refresh the feed to pull newer posts.")
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap.p-0
       label.m-r-5(for='show-feed-option')
@@ -49,7 +49,7 @@
             button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
               span.hide-on-mobile
-                | Post Something
+                | Post
             .dropdown-menu(x-placement='bottom-start')
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
                 i.fa.m-r-5(:class="pOpt.icon")
@@ -268,9 +268,9 @@ export default {
     getTitle () {
       return this.$route.params.cat
     },
-    pageTitle () {
+    pageTitle (breadcrumb = false) {
       var t = this.getTitle()
-      return !t || t === 'all' ? 'Dashboard' : t
+      return !t || t === 'all' ? (breadcrumb ? 'Main Feed' : 'Home') : t
     },
     postStatus (feed) {
       this.feed.unshift(feed)

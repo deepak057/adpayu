@@ -198,11 +198,17 @@ export default {
     },
     deleteComment (index_) {
       if (confirm('Are you sure you want to delete it?')) {
+        let commentCopy = this.comments[index_]
         auth.deleteComment(this.comments[index_].id)
           .then((data) => {
+            if (!data.success) {
+              this.$set(this.comments, index_, commentCopy)
+              this.updateCommentCount('add')
+              this.showNotification(data.error, 'error')
+            }
           })
           .catch((commentError) => {
-            alert('Something went wrong while deleting the comment')
+            this.showNotification('Something went wrong while deleting the comment', 'error')
           })
         this.comments.splice(index_, 1)
         this.updateCommentCount('delete')
