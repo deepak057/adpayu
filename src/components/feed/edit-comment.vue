@@ -70,7 +70,8 @@ export default {
   },
   methods: {
     enableTextEditor () {
-      return !this.isVideoComment(this.commentObj) && this.isQuestion()
+      // return !this.isVideoComment(this.commentObj) && this.isQuestion()
+      return (this.isVideoComment(this.commentObj) && this.isQuestion()) || this.isQuestion()
     },
     triggerPopup (commentObj, commentType) {
       /*eslint-disable*/
@@ -78,7 +79,7 @@ export default {
       this.commentObj = this.copyObject(commentObj)
       this.commentType = commentType
       // remove '<p>' tag from the comment text
-      this.comment = commentObj.comment.replace('<p>', '').replace('</p>', '')
+      this.comment = commentObj.comment
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval (()=> {

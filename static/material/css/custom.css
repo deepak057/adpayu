@@ -1179,7 +1179,9 @@ strong{
 .video-comment-content .excerpt p{
   margin: 0px !important;
 }
-
+.video-comment-content img {
+	width: 100%;
+}
 .video-comment-content .excerpt p strong {
 	font-weight: normal !important;
 }
@@ -1199,6 +1201,10 @@ strong{
 .video-comment-content .excerpt {
 	margin-top: 3px;
 }
+.video-comment-content .excerpt ol, .video-comment-content .excerpt ul, .video-comment-content .excerpt img, .video-comment-content .excerpt a{
+	display: none;
+}
+
 .video-comment-content .excerpt, .video-comment-content .excerpt p{
 	display: inline-block;
     white-space: nowrap;
@@ -1206,6 +1212,11 @@ strong{
     text-overflow: ellipsis;
     width: 77%;
     font-style: italic;
+}
+
+.video-comment-content .excerpt * {
+	color: #000 !important;
+	background-color: transparent !important;
 }
 
 .m-t-1 {
