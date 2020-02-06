@@ -262,7 +262,7 @@ export default {
     filterDuplicatePosts (feed) {
       // first, enable or disable comments in post by default
       feed = this.disableEnableCommentsByDefault(feed)
-      let obj = {}
+      let duplicates = []
       this.initialized = true
       /*
       * Traverse the array from the bottom
@@ -270,13 +270,13 @@ export default {
       * not added to the feed array
       */
       for (let i = (feed.length - 1); i >= 0; i--) {
-        obj[feed[i]['id']] = feed[i]
+        if (duplicates.indexOf(feed[i].id) === -1) {
+          duplicates.push(feed[i].id)
+        } else {
+          feed.splice(i, 1)
+        }
       }
-      feed = []
-      for (let key in obj) {
-        feed.push(obj[key])
-      }
-      return this.sortTheTopPosts(this.sortByDate(feed.reverse()))
+      return this.sortTheTopPosts(this.feed)
     },
     toggleComments (feedItem) {
       // return !feedItem['showComments']
@@ -287,11 +287,11 @@ export default {
       * Sort posts by updatedAt timestamp if
       * user has enabled RecentActivities filter
       */
-      if (this.currentUser.recentActivitiesEnabled) {
+      /* if (this.currentUser.recentActivitiesEnabled) {
         feed.sort(function (a, b) {
           return new Date(b.updatedAt) - new Date(a.updatedAt)
         })
-      }
+      } */
       return feed
     },
     recentActivity (f) {
