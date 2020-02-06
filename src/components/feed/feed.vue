@@ -283,7 +283,7 @@ export default {
       feedItem['showComments'] = !feedItem['showComments']
     },
     sortByDate (feed) {
-      return feed.reverse()
+      return feed
       /*
       * Sort posts by updatedAt timestamp if
       * user has enabled RecentActivities filter
