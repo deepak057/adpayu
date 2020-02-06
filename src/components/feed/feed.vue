@@ -283,17 +283,16 @@ export default {
       feedItem['showComments'] = !feedItem['showComments']
     },
     sortByDate (feed) {
-      return feed
       /*
       * Sort posts by updatedAt timestamp if
       * user has enabled RecentActivities filter
       */
-      /* if (this.currentUser.recentActivitiesEnabled) {
+      if (this.currentUser.recentActivitiesEnabled) {
         feed.sort(function (a, b) {
           return new Date(b.updatedAt) - new Date(a.updatedAt)
         })
       }
-      return feed */
+      return feed
     },
     recentActivity (f) {
       return !this.preview && f['updatedAt'] !== f['createdAt']
