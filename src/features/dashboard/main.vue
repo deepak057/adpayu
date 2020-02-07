@@ -27,11 +27,11 @@
         span
           | Ads
       <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
-      label.m-l-10.m-r-5(for='show-recent-activity-option')
+      // label.m-l-10.m-r-5(for='show-recent-activity-option')
         i.mdi.mdi-clock
         span
           |  Recent
-      <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
+      // <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
     .col-md-2.col-12.align-self-center
       <total-revenue/>
     <title-collapse />
@@ -48,7 +48,7 @@
           .btn-group.btn-add-feed
             button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
-              span.hide-on-mobile
+              span
                 | Post
             .dropdown-menu(x-placement='bottom-start')
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
