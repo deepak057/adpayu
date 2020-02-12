@@ -1217,6 +1217,10 @@ strong{
 .video-comment-content .excerpt * {
 	color: #000 !important;
 	background-color: transparent !important;
+	font-size: 12px;
+	line-height: normal !important;
+	font-weight: normal !important;
+	display: inline-block;
 }
 
 .m-t-1 {

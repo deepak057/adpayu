@@ -233,8 +233,28 @@ export default {
       this.setDocumentTitle(newCat)
       this.getFeed()
     },
+    getPostsIds () {
+      let arr = []
+      for (let i in this.feed) {
+        arr.push(this.feed[i].id)
+      }
+      return arr
+    },
+    preventDuplicates (posts) {
+      if (this.feed.length) {
+        let uniquePosts = []
+        let postIds = this.getPostsIds()
+        for (let i in posts) {
+          if (postIds.indexOf(posts[i].id) === -1) {
+            uniquePosts.push(posts[i])
+          }
+        }
+        return uniquePosts
+      }
+      return posts
+    },
     afterFeedLoad (data) {
-      this.feed = this.feed.concat(data.posts)
+      this.feed = this.feed.concat(this.preventDuplicates(data.posts))
       if ('nextPage' in data && data.nextPage) {
         this.currentPage = data.nextPage
       } else {
