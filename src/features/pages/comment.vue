@@ -6,7 +6,7 @@
   // ==============================================================
   // Row
   .row
-    .col-12
+    .col-12.p-0
       .card
         .card-body.min-h-400.comment-response-container
           .m-t-20.text-center(v-show="pageLoading")
