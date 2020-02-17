@@ -51,6 +51,7 @@
             a.font-dark(href="javascript:void(0)" v-if="preview")
               | {{f['Question'].question | capitalize}}
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
+              i.mdi.mdi-video.m-r-2(v-if="isVideoComment(f)")
               | {{f['Question'].question | capitalize}}
             </router-link>
             //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
@@ -230,7 +231,7 @@ export default {
     },
     getLastComment (f) {
       // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
-      return f.defaultComment
+      return 'defaultComment' in f ? f.defaultComment : false
     },
     descriptionExcerpt (text) {
       return text.substring(0, this.descriptionExcerptCharsCount) + '...'
@@ -314,12 +315,15 @@ export default {
       }
       return final
     },
+    isVideoComment (f) {
+      let c = this.getLastComment(f)
+      return c ? c.videoPath : false
+    },
     getRecentActivityText (f) {
       if (f.type === 'text') {
         return ' Recent activity on the status update of '
       } else if (this.isQuestion(f)) {
-        let comment = this.getLastComment(f)
-        let action = comment.videoPath ? 'left' : 'wrote'
+        let action = this.isVideoComment(f) ? 'left' : 'wrote'
         return ' ' + action + ' an answer on '
       } else {
         return ' Recent activity on the ' + f.type + ' that '

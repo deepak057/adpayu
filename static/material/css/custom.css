@@ -1213,7 +1213,9 @@ strong{
     width: 77%;
     font-style: italic;
 }
-
+.video-comment-content .excerpt h1, .video-comment-content .excerpt h2, .video-comment-content .excerpt h3, .video-comment-content .excerpt h4, .video-comment-content .excerpt h5, .video-comment-content .excerpt h6 {
+	margin-right: 5px;
+}
 .video-comment-content .excerpt * {
 	color: #000 !important;
 	background-color: transparent !important;
@@ -1221,6 +1223,7 @@ strong{
 	line-height: normal !important;
 	font-weight: normal !important;
 	display: inline-block;
+	vertical-align: top;
 }
 
 .m-t-1 {
