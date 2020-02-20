@@ -19,14 +19,19 @@
     .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap.p-0
       label.m-r-5(for='show-feed-option')
         i.mdi.mdi-newspaper
-        span
+        span(title = "Enable or disable feed")
           |  Feed
-      <toggle-button v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
+      <toggle-button title = "Enable or disable feed" v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
       label.m-l-10(for='show-ads-option')
         i.mdi.mdi-currency-usd
-        span
+        span(title = "Enable or disable Ads")
           | Ads
-      <toggle-button v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+      <toggle-button title = "Enable or disable Ads" v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+      label.m-l-10.m-r-5
+        i.mdi.mdi-comment-question-outline
+        span(title = "Enable or disable unanswered questions")
+          |  No Ans
+      <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
       // label.m-l-10.m-r-5(for='show-recent-activity-option')
         i.mdi.mdi-clock
         span
@@ -167,6 +172,9 @@ export default {
       this.updateFeedPreference()
     },
     'currentUser.recentActivitiesEnabled' () {
+      this.updateFeedPreference()
+    },
+    'currentUser.unCommentedEnabled' () {
       this.updateFeedPreference()
     },
     '$store.state.auth.user' (user) {
