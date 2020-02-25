@@ -30,7 +30,7 @@
       label.m-l-10.m-r-5
         i.mdi.mdi-comment-question-outline
         span(title = "Enable or disable unanswered questions")
-          |  No Ans
+          |  Questions
       <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
       // label.m-l-10.m-r-5(for='show-recent-activity-option')
         i.mdi.mdi-clock

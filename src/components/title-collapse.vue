@@ -1,6 +1,6 @@
 <template lang="pug">
 .page-title-collapse-control-wrap
-  i.mdi(title="Show or hide more options" :class="{'mdi-menu-down': currentUser.pageTitleCollapsed, 'mdi-menu-up': !currentUser.pageTitleCollapsed}" @click="toggleCollapse()")
+  i.mdi.mdi-tune(title="Show or hide more options" @click="toggleCollapse()")
 </template>
 <script>
 import auth from '@/auth/helpers'
