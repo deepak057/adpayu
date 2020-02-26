@@ -100,7 +100,7 @@
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
-              <template v-if="f.UserId===currentUser.id">
+              <template v-if="f.UserId===currentUser.id || isAdmin()">
               a.dropdown-item(href='javascript:void(0)' v-if="isAd(f)" @click="showAdStats(f)")
                 i.mdi.mdi-chart-areaspline.m-r-5
                 | See Ad Stats

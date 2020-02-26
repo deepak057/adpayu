@@ -45,7 +45,7 @@
               i.ti-link
               | Comment Page
             </router-link>
-            <template v-if="isOwner(comment.User.id)">
+            <template v-if="isOwner(comment.User.id) || isAdmin()">
             a.dropdown-item(@click="triggerVideoEditing()" v-if="getVideo(comment)" href="javascript:void(0)" title="Edit the video")
               i.fa.fa-video-camera.m-r-5
               | Edit Video

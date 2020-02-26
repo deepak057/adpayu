@@ -34,6 +34,9 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    isAdmin () {
+      return store.state.auth.user.isAdmin
+    },
     postAnswerPageLink () {
       return '/search/questions?k=&uncommented=true'
     },
