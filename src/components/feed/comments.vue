@@ -152,7 +152,7 @@ export default {
       return true
     },
     loadComments () {
-      this.$options.service.loadComments(this.postId)
+      this.$options.service.loadComments(this.postId, this.userFeed)
         .then((d) => {
           this.pageLoader = false
           this.comments = d.comments

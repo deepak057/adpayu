@@ -34,7 +34,7 @@
       span.action-icons.visible
         //a(href='javascript:void(0)')
           //i.ti-pencil-alt
-        a.m-r-10.comment-padding-0(href='javascript:void(0)' @click='deleteComment()' title="Delete this comment" v-if="isOwner(comment.User.id)")
+        a.m-r-10.comment-padding-0(href='javascript:void(0)' @click='deleteComment()' title="Delete this comment" v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
         <like :likesCount="comment.CommentsLikesCount" :hasLiked="comment.HasLiked" :commentId="comment.id"></like>
         .btn-group()

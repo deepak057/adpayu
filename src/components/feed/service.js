@@ -76,8 +76,8 @@ export default class Service {
       })
   }
 
-  loadComments (postId) {
-    return auth.get('/comments/' + postId)
+  loadComments (postId, userFeed = false) {
+    return auth.get('/comments/' + postId + '?userFeed=' + userFeed)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
