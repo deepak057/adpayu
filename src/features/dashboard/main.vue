@@ -83,6 +83,7 @@
   // ==============================================================
   // End Right sidebar
   // ==============================================================
+  <overlay-view :feed="feed" ref="overlayViewComp"/>
 </template>
 
 <script>
@@ -94,6 +95,7 @@ import Feed from './../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
 import TitleCollapse from '../../components/title-collapse'
+import OverlayView from './overlay-view'
 
 export default {
   name: 'Dashboard',
@@ -103,13 +105,14 @@ export default {
     Feed,
     Preloader,
     TotalRevenue,
-    TitleCollapse
+    TitleCollapse,
+    OverlayView
   },
   mixins: [mixin],
   props: {
     cat: {
       type: String,
-      default: 'Dashboard'
+      default: 'Home'
     }
   },
   data () {
@@ -199,6 +202,7 @@ export default {
   },
   mounted () {
     this.getFeed()
+    this.$refs.overlayViewComp.triggerPopup()
   },
   methods: {
     updateFeedPreference () {
