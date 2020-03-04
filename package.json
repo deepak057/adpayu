@@ -48,6 +48,7 @@
     "vue-video-player": "^5.0.2",
     "vue-wysiwyg": "^1.7.2",
     "vue2-editor": "^2.6.6",
+    "vue2-touch-events": "^2.2.1",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {

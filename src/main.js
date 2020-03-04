@@ -18,6 +18,7 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import VueMeta from 'vue-meta'
 import VueAnalytics from 'vue-analytics'
 import SocialSharing from 'vue-social-sharing'
+import Vue2TouchEvents from 'vue2-touch-events'
 
 Vue.config.productionTip = false
 
@@ -74,6 +75,9 @@ Vue.use(VueAnalytics, {
 
 // include Social Share
 Vue.use(SocialSharing)
+
+// include Mobile Touch events
+Vue.use(Vue2TouchEvents)
 
 // Styles
 require('./styles/scss/main.scss')

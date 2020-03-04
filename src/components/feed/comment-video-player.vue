@@ -1,5 +1,5 @@
 <template lang="pug">
-<video-player class="vjs-3-4" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}" @play="onPlay($event, comment)" />
+<video-player class="vjs-3-4" :class="getCommentVideoPlayerClass(comment)" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}" @play="onPlay($event, comment)" />
 </template>
 <script>
 // require styles

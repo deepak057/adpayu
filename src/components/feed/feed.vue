@@ -229,10 +229,6 @@ export default {
       }
       return f.User
     },
-    getLastComment (f) {
-      // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
-      return 'defaultComment' in f ? f.defaultComment : false
-    },
     descriptionExcerpt (text) {
       return text.substring(0, this.descriptionExcerptCharsCount) + '...'
     },

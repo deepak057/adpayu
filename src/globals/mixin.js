@@ -34,6 +34,10 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    getLastComment (f) {
+      // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
+      return 'defaultComment' in f ? f.defaultComment : false
+    },
     isAdmin () {
       return store.state.auth.user.isAdmin
     },
@@ -226,6 +230,12 @@ export default {
         }
       }
       return baseURL + '/' + (subDir ? subDir + '/' : '') + path
+    },
+    getCommentVideoPlayerClass (c) {
+      return 'video-comment-' + c.id
+    },
+    getPostVideoPlayerClass (p) {
+      return 'post-video-' + p.id
     },
     getVideoSources (videoObj) {
       let src = this.getVideoURL(videoObj)

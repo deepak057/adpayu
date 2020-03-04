@@ -83,7 +83,7 @@
   // ==============================================================
   // End Right sidebar
   // ==============================================================
-  <overlay-view :feed="feed" ref="overlayViewComp"/>
+  <overlay-view :feed="feed" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
 </template>
 
 <script>
@@ -320,9 +320,11 @@ export default {
       this.postOptionsDefault = postOptions
     },
     loadMoreFeed () {
-      this.loadMorePreloader = true
-      this.disableLoadMore = true
-      this.getFeed()
+      if (!this.noMoreFeed) {
+        this.loadMorePreloader = true
+        this.disableLoadMore = true
+        this.getFeed()
+      }
     }
   }
 }
