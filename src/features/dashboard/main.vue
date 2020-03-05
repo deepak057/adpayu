@@ -65,7 +65,7 @@
               </router-link>
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
-          <feed v-if="!preloader" :feed="feed" :userFeed="true"></feed>
+          <feed @CommentVideoPlayed = "CommentVideoPlayed" v-if="!preloader" :feed="feed" :userFeed="true"></feed>
           .nothing-to-show(v-show="feed.length && !newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
@@ -217,6 +217,9 @@ export default {
         .catch((pErr) => {
           this.showNotification('Soemthing went wrong while updating your preferences', 'error')
         })
+    },
+    CommentVideoPlayed (obj) {
+      this.$refs.overlayViewComp.triggerPopup(obj)
     },
     reloadFeed () {
       this.resetFeed()

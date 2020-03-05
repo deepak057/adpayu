@@ -117,7 +117,7 @@
           .pull-right.text-muted.show-on-mobile
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
-    <comments :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
+    <comments @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
@@ -222,6 +222,9 @@ export default {
   methods: {
     triggerSharing (f) {
       this.$refs.socialShareComp.triggerPopup(f)
+    },
+    CommentVideoPlayed (obj) {
+      this.$emit('CommentVideoPlayed', obj)
     },
     showFullDescription (f) {
       if (typeof f.enableFullDescription === 'undefined') {

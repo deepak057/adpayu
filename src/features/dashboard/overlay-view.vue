@@ -70,9 +70,9 @@ export default {
   },
   watch: {
     feed (newV) {
-      /* if (newV.length) {
-        this.feed = this.manipulateFeed(newV)
-      } */
+      if (newV.length && !this.currentPost) {
+        this.autuPlayVideo()
+      }
     }
   },
   methods: {
@@ -123,22 +123,22 @@ export default {
       } else {
         this.showNotification('Sorry, no more feed.', 'info')
       }
-      setTimeout(() => {
-        this.autuPlayVideo()
-      }, 100)
+      this.autuPlayVideo()
     },
     autuPlayVideo () {
-      let currentPost = this.getCurrentPost()
-      let defaultComment = this.getLastComment(currentPost)
-      let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
-      if (videoContanierClass) {
-        let modal = document.getElementById(this.modalId)
-        let container = modal.getElementsByClassName(videoContanierClass)[0]
-        let player = container.getElementsByClassName('vjs-big-play-button')[0]
-        if (player) {
-          player.click()
+      setTimeout(() => {
+        let currentPost = this.getCurrentPost()
+        let defaultComment = this.getLastComment(currentPost)
+        let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
+        if (videoContanierClass) {
+          let modal = document.getElementById(this.modalId)
+          let container = modal.getElementsByClassName(videoContanierClass)[0]
+          let player = container.getElementsByClassName('vjs-big-play-button')[0]
+          if (player) {
+            player.click()
+          }
         }
-      }
+      }, 100)
     },
     prev () {
       if (this.currentPost > 0) {
@@ -146,10 +146,28 @@ export default {
       } else {
         this.showNotification('Sorry, there is no previous post, please go to next one.', 'info')
       }
+      this.autuPlayVideo()
     },
-    triggerPopup () {
+    getPostIndexById (postId) {
+      for (let i in this.feed) {
+        if (this.feed[i].id === postId) {
+          return i
+        }
+      }
+    },
+    setCustomDefaultPost (obj) {
+      if (obj) {
+        if ('postId' in obj) {
+          this.currentPost = this.getPostIndexById(obj.postId)
+        }
+        if ('comment' in obj) {
+        }
+      }
+    },
+    triggerPopup (obj = false) {
       /*eslint-disable*/
       this.triggered = true
+      this.setCustomDefaultPost(obj)
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {

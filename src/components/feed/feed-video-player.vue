@@ -39,6 +39,9 @@ export default {
     onPlay (e, f) {
       try {
         this.pauseAllOtherVideos(e)
+        if (!this.autoReplay) {
+          this.$emit('VideoPlayed')
+        }
         if (!f.HasViewed) {
           auth.markEntityAsViewed(f.id, 'post')
             .then((d) => {

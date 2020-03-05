@@ -30,6 +30,10 @@ export default {
     onPlay (e, c) {
       try {
         this.pauseAllOtherVideos(e)
+        if (!this.autoReplay) {
+          e.pause()
+          this.$emit('CommentVideoPlayed', c)
+        }
         if (!c.HasViewed) {
           auth.markEntityAsViewed(c.id, 'comment')
             .then((d) => {

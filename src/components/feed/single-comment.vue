@@ -18,7 +18,7 @@
     .row.m-0
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
       .comments.video-container.col-lg-6.col-md-8.p-0.m-t-5(:class="videoWrapColClass")
-        <comment-video-player ref="videoCommentComp" :autoReplay = "autoReplay" :comment="comment"/>
+        <comment-video-player ref="videoCommentComp" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay = "autoReplay" :comment="comment"/>
     </template>
     div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion() && !isVideoAnswer() && comment.comment")
     <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
@@ -140,6 +140,9 @@ export default {
     },
     refreshVideo (comment) {
       this.comment = comment
+    },
+    CommentVideoPlayed () {
+      this.$emit('CommentVideoPlayed', this.comment)
     },
     deleteComment () {
       this.$emit('deleteComment', this.index)
