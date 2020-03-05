@@ -7,7 +7,7 @@
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
-  <single-comment :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
+  <single-comment :autoReplay= "autoReplay" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
@@ -53,7 +53,7 @@ function postCommentInitialState () {
     currentUser: auth.getUser(),
     videoPath: '',
     comments: [],
-    pageLoader: true,
+    pageLoader: false,
     commentsEnabled: false
   }
 }
@@ -75,6 +75,12 @@ export default {
     commentType: {
       type: String,
       required: true
+    },
+    autoReplay: {
+      type: Boolean,
+      default () {
+        return false
+      }
     },
     postId: {
       type: Number,
@@ -103,6 +109,12 @@ export default {
       default () {
         return ''
       }
+    },
+    defaultComments: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   data () {
@@ -112,7 +124,11 @@ export default {
     if (this.isAnswer() && this.manipulativePage()) {
       this.defaultCommentsCount = 1
     }
-    this.loadComments()
+    if (!this.defaultComments.length) {
+      this.loadComments()
+    } else {
+      this.comments = this.defaultComments
+    }
   },
   methods: {
     isAnswer () {
@@ -152,6 +168,7 @@ export default {
       return true
     },
     loadComments () {
+      this.pageLoader = true
       this.$options.service.loadComments(this.postId, this.userFeed)
         .then((d) => {
           this.pageLoader = false
@@ -159,6 +176,7 @@ export default {
           this.updateCommentCount()
         })
         .catch((cErr) => {
+          this.pageLoader = false
           this.showNotification('Something went wrong while fetching the comments/answers', 'error')
         })
     },

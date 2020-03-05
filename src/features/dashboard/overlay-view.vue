@@ -12,7 +12,7 @@ div(v-if="triggered")
               | Next
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0()
-          <feed :userFeed = true :feed="[feed[currentPost]]"/>
+          <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
@@ -41,7 +41,9 @@ export default {
       triggered: false,
       id: this.getUniqueId() + '-overlay-view-modal',
       loader: true,
-      currentPost: 0
+      currentPost: 0,
+      autoReplay: true,
+      useDefaultComment: true
     }
   },
   computed: {
@@ -68,15 +70,22 @@ export default {
   },
   watch: {
     feed (newV) {
-      if (newV.length) {
-        // this.currentPost = [newV[0]]
-        // alert(Array.isArray(this.currentPost))
-      }
+      /* if (newV.length) {
+        this.feed = this.manipulateFeed(newV)
+      } */
     }
   },
   methods: {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
+    },
+    manipulateFeed (feed) {
+      for (let i in feed) {
+        if (feed[i].type === 'question' && 'defaultComment' in feed[i]) {
+          // eed[i].showComments = true
+        }
+      }
+      return feed
     },
     onSwipe (direction) {
       switch (direction) {
@@ -114,7 +123,9 @@ export default {
       } else {
         this.showNotification('Sorry, no more feed.', 'info')
       }
-      this.autuPlayVideo()
+      setTimeout(() => {
+        this.autuPlayVideo()
+      }, 100)
     },
     autuPlayVideo () {
       let currentPost = this.getCurrentPost()
@@ -122,11 +133,10 @@ export default {
       let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
       if (videoContanierClass) {
         let modal = document.getElementById(this.modalId)
-        let container = modal.getElementsByClassName(videoContanierClass)
-        alert(container.length)
-        let player = container.getElementsByTagName('video')[0]
+        let container = modal.getElementsByClassName(videoContanierClass)[0]
+        let player = container.getElementsByClassName('vjs-big-play-button')[0]
         if (player) {
-          player.play()
+          player.click()
         }
       }
     },
