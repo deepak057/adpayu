@@ -36,7 +36,7 @@ export default {
     },
     getLastComment (f) {
       // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
-      return 'defaultComment' in f ? f.defaultComment : false
+      return f && 'defaultComment' in f ? f.defaultComment : false
     },
     isAdmin () {
       return store.state.auth.user.isAdmin

@@ -208,8 +208,14 @@ export default {
     }
   },
   watch: {
-    feed (feed) {
+    /* feed (feed) {
       this.feedArr = this.filterDuplicatePosts(feed)
+    } */
+    feed: {
+      handler (feed) {
+        this.feedArr = this.filterDuplicatePosts(feed)
+      },
+      deep: true
     }
   },
   mounted () {

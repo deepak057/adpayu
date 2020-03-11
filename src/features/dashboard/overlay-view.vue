@@ -12,7 +12,7 @@ div(v-if="triggered")
               | Next
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0()
-          <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+          <feed @CommentVideoPlayed = "CommentVideoPlayed" :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
@@ -31,7 +31,7 @@ export default {
   },
   mixins: [mixin],
   props: {
-    feed: {
+    popupFeed: {
       type: Array,
       required: true
     }
@@ -43,7 +43,8 @@ export default {
       loader: true,
       currentPost: 0,
       autoReplay: true,
-      useDefaultComment: true
+      useDefaultComment: true,
+      feed: []
     }
   },
   computed: {
@@ -69,7 +70,8 @@ export default {
     }
   },
   watch: {
-    feed (newV) {
+    popupFeed (newV) {
+      this.feed = this.copyObject(newV)
       if (newV.length && !this.currentPost) {
         this.autuPlayVideo()
       }
@@ -161,6 +163,8 @@ export default {
           this.currentPost = this.getPostIndexById(obj.postId)
         }
         if ('comment' in obj) {
+          // this.$set(this.feed[this.currentPost], 'defaultComment', obj.comment)
+          this.feed[this.currentPost].defaultComment = obj.comment
         }
       }
     },
@@ -174,11 +178,13 @@ export default {
           d = document.getElementById(this.triggerButtonId)
           if (d) {
             d.click()
+            this.autuPlayVideo()
             clearInterval(interval)
           }
         }, 100)
       } else {
         d.click()
+        this.autuPlayVideo()
       }
     }
   }
