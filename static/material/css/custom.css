@@ -1533,3 +1533,6 @@ strong{
 	border: none;
 	border-radius: none;
 }
+.video-overlay-view .app-logo {
+	width: 22px;
+}

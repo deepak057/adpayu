@@ -5,11 +5,16 @@ div(v-if="triggered")
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
         .modal-header
-          h4.modal-title
-            a.m-l-5(href="javascript:void(0)" @click="prev()")
-              | Prev
-            a.m-l-5(href="javascript:void(0)" @click="next()")
-              | Next
+          .row.w-100
+            .col-2
+              img.app-logo.pointer(:src='staticImageUrl("logo.png")' @click="closePopup()")
+            .col-8.text-center(v-if="!isMobile()")
+              a.m-l-5(href="javascript:void(0)" @click="prev()")
+                i.mdi.m-r-5(:class="{'mdi-arrow-left': !isMobile(), 'mdi-gesture-swipe-down': isMobile()}")
+                | Prev
+              a.m-l-5(href="javascript:void(0)" @click="next()")
+                | Next
+                i.mdi.m-l-5(:class="{'mdi-arrow-right': !isMobile(), 'mdi-gesture-swipe-up': isMobile()}")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0()
           <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
