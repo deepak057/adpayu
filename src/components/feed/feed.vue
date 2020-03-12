@@ -78,7 +78,7 @@
           //p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-lg-6.col-md-8.video-container.p-b-0
-            <feed-video-player :autoReplay = "autoReplay" :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
+            <feed-video-player @PostVideoPlayed = "postVideoPlayed" :triggerPopupView = "triggerPopupView" :autoReplay = "autoReplay" :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
           .col-lg-6.col-md-4.col-sm-12.p-0(v-if="enableAdOption(f, 'view')")
             span.hidden-sm-down.m-l-10
             span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" :data-content="getText(f, 'view')") + $ {{f['AdOption'].cpv}}
@@ -117,7 +117,7 @@
           .pull-right.text-muted.show-on-mobile
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
-    <comments @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
+    <comments :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
@@ -157,6 +157,12 @@ export default {
       required: true
     },
     autoReplay: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
+    triggerPopupView: {
       type: Boolean,
       default () {
         return false
@@ -208,14 +214,8 @@ export default {
     }
   },
   watch: {
-    /* feed (feed) {
+    feed (feed) {
       this.feedArr = this.filterDuplicatePosts(feed)
-    } */
-    feed: {
-      handler (feed) {
-        this.feedArr = this.filterDuplicatePosts(feed)
-      },
-      deep: true
     }
   },
   mounted () {
@@ -230,7 +230,12 @@ export default {
       this.$refs.socialShareComp.triggerPopup(f)
     },
     CommentVideoPlayed (obj) {
-      this.$emit('CommentVideoPlayed', obj)
+      this.$emit('VideoPlayed', obj)
+    },
+    postVideoPlayed (f) {
+      this.$emit('VideoPlayed', {
+        postId: f.id
+      })
     },
     showFullDescription (f) {
       if (typeof f.enableFullDescription === 'undefined') {

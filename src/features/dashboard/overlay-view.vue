@@ -12,7 +12,7 @@ div(v-if="triggered")
               | Next
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0()
-          <feed @CommentVideoPlayed = "CommentVideoPlayed" :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+          <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
@@ -166,6 +166,7 @@ export default {
           // this.$set(this.feed[this.currentPost], 'defaultComment', obj.comment)
           this.feed[this.currentPost].defaultComment = obj.comment
         }
+        this.autuPlayVideo()
       }
     },
     triggerPopup (obj = false) {

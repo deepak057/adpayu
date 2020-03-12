@@ -7,7 +7,7 @@
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
-  <single-comment @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay= "autoReplay" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
+  <single-comment :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay= "autoReplay" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
@@ -82,6 +82,12 @@ export default {
         return false
       }
     },
+    triggerPopupView: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
     postId: {
       type: Number,
       required: true
@@ -120,17 +126,27 @@ export default {
   data () {
     return postCommentInitialState()
   },
+  watch: {
+    defaultComments (newV) {
+      if (newV.length) {
+        this.bootUp()
+      }
+    }
+  },
   mounted () {
     if (this.isAnswer() && this.manipulativePage()) {
       this.defaultCommentsCount = 1
     }
-    if (!this.defaultComments.length) {
-      this.loadComments()
-    } else {
-      this.comments = this.defaultComments
-    }
+    this.bootUp()
   },
   methods: {
+    bootUp () {
+      if (!this.defaultComments.length) {
+        this.loadComments()
+      } else {
+        this.comments = this.defaultComments
+      }
+    },
     isAnswer () {
       return this.getCommentType() === 'answer'
     },

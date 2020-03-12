@@ -24,6 +24,12 @@ export default {
       default () {
         return false
       }
+    },
+    triggerPopupView: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   methods: {
@@ -39,8 +45,9 @@ export default {
     onPlay (e, f) {
       try {
         this.pauseAllOtherVideos(e)
-        if (!this.autoReplay) {
-          this.$emit('VideoPlayed')
+        if (this.triggerPopupView) {
+          e.pause()
+          this.$emit('PostVideoPlayed', f)
         }
         if (!f.HasViewed) {
           auth.markEntityAsViewed(f.id, 'post')

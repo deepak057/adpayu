@@ -24,13 +24,19 @@ export default {
       default () {
         return false
       }
+    },
+    triggerPopupView: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   methods: {
     onPlay (e, c) {
       try {
         this.pauseAllOtherVideos(e)
-        if (!this.autoReplay) {
+        if (this.triggerPopupView) {
           e.pause()
           this.$emit('CommentVideoPlayed', c)
         }
