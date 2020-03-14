@@ -2,7 +2,7 @@
 .card-body.min-h-400.profile-page-timeline
   .text-center.m-t-20(v-show="pageLoader")
     <preloader></preloader>
-  <feed :feed="feed" :feedPage="feedPage" v-show="!pageLoader" :profileUserId="profileUser.id"></feed>
+  <feed :feed="feed" :feedPage="feedPage" v-show="!pageLoader" :profileUserId="String(profileUser.id)"></feed>
   div.load-more-posts.text-center(v-infinite-scroll="loadMoreFeed" infinite-scroll-disabled="disableLoadMore" infinite-scroll-distance="300")
     <preloader v-show="loadMorePreloader"></preloader>
     span(v-show="noMoreFeed")

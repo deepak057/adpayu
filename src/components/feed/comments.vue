@@ -17,7 +17,7 @@
         i.fa.fa-plus
   .row.m-t-10.leave-comment-wrap
     div
-      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent" @OnPlayerPlay="onVideoPlay"/>
+      <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
     .col-11.submit-comment-textwrap
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>

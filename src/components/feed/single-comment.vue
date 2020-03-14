@@ -36,7 +36,7 @@
           //i.ti-pencil-alt
         a.m-r-10.comment-padding-0(href='javascript:void(0)' @click='deleteComment()' title="Delete this comment" v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
-        <like :likesCount="comment.CommentsLikesCount" :hasLiked="comment.HasLiked" :commentId="comment.id"></like>
+        <like :likesCount="comment.CommentsLikesCount" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
         .btn-group()
           button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list

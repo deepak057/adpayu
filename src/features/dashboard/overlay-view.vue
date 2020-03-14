@@ -85,8 +85,8 @@ export default {
   watch: {
     popupFeed (newV) {
       this.feed = this.copyObject(newV)
-      if (newV.length && !this.currentPost) {
-        this.autuPlayVideo()
+      if (this.triggered && newV.length && !this.currentPost) {
+        this.autoPlayVideo()
       }
     }
   },
@@ -135,34 +135,38 @@ export default {
       }
       if (this.currentPost < (this.feed.length - 1)) {
         this.currentPost++
+        this.autoPlayVideo()
       } else {
         this.showNotification('Sorry, no more feed.', 'info')
       }
-      this.autuPlayVideo()
     },
-    autuPlayVideo () {
+    autoPlayVideo () {
       let currentPost = this.getCurrentPost()
       let defaultComment = this.getLastComment(currentPost)
       let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
       if (videoContanierClass) {
         let modal = document.getElementById(this.modalId)
-        let interval = setInterval(() => {
-          let container = modal.getElementsByClassName(videoContanierClass)[0]
-          let player = container.getElementsByClassName('vjs-big-play-button')[0]
-          if (player) {
-            player.click()
-            clearInterval(interval)
-          }
-        }, 100)
+        if (modal) {
+          let interval = setInterval(() => {
+            let container = modal.getElementsByClassName(videoContanierClass)[0]
+            let player = container.getElementsByClassName('vjs-big-play-button')[0]
+            if (player) {
+              clearInterval(interval)
+              setTimeout(() => {
+                player.click()
+              }, 50)
+            }
+          }, 50)
+        }
       }
     },
     prev () {
       if (this.currentPost > 0) {
         this.currentPost--
+        this.autoPlayVideo()
       } else {
         this.showNotification('Sorry, there is no previous post, please go to next one.', 'info')
       }
-      this.autuPlayVideo()
     },
     getPostIndexById (postId) {
       for (let i in this.feed) {
@@ -180,7 +184,7 @@ export default {
           // this.$set(this.feed[this.currentPost], 'defaultComment', obj.comment)
           this.feed[this.currentPost].defaultComment = obj.comment
         }
-        this.autuPlayVideo()
+        // this.autoPlayVideo()
       }
     },
     triggerPopup (obj = false) {
@@ -193,13 +197,13 @@ export default {
           d = document.getElementById(this.triggerButtonId)
           if (d) {
             d.click()
-            this.autuPlayVideo()
             clearInterval(interval)
+            this.autoPlayVideo()
           }
         }, 100)
       } else {
         d.click()
-        this.autuPlayVideo()
+        this.autoPlayVideo()
       }
     }
   }

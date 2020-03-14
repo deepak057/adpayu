@@ -1536,3 +1536,7 @@ strong{
 .video-overlay-view .app-logo, .video-overlay-view .img-icon {
 	width: 22px;
 }
+
+.video-overlay-view .vjs-big-play-button {
+	visibility: hidden;
+}

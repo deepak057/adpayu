@@ -81,7 +81,7 @@ export default {
     return {
       searchType: '',
       k: '',
-      additionalParams: false
+      additionalParams: {}
     }
   },
   watch: {
@@ -109,7 +109,7 @@ export default {
           uncommented: uncommented
         }
       }
-      return false
+      return {}
     },
     checkSearchType (sType) {
       return sType === this.searchType
