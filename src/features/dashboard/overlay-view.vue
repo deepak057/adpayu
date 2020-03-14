@@ -8,13 +8,21 @@ div(v-if="triggered")
           .row.w-100
             .col-2
               img.app-logo.pointer(:src='staticImageUrl("logo.png")' @click="closePopup()")
-            .col-8.text-center(v-if="!isMobile()")
+            .col-9.text-center
               a.m-l-5(href="javascript:void(0)" @click="prev()")
-                i.mdi.m-r-5(:class="{'mdi-arrow-left': !isMobile(), 'mdi-gesture-swipe-down': isMobile()}")
-                | Prev
+                i.mdi.mdi-arrow-left.m-r-5
+                // img.img-icon.m-r-5(:src= "staticImageUrl('swipeDown.svg')" v-if="isMobile()")
+                span(v-if="!isMobile()")
+                  | Prev
+                span.small(v-if="isMobile()")
+                  | Swipe Down
               a.m-l-5(href="javascript:void(0)" @click="next()")
-                | Next
-                i.mdi.m-l-5(:class="{'mdi-arrow-right': !isMobile(), 'mdi-gesture-swipe-up': isMobile()}")
+                span(v-if="!isMobile()")
+                  | Next
+                span.small.m-l-5(v-if="isMobile()")
+                  | Swipe Up
+                i.mdi.mdi-arrow-right.m-l-5
+                // img.img-icon.m-l-5(:src= "staticImageUrl('swipeUp.svg')" v-if="isMobile()")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body.p-b-0()
           <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
@@ -133,19 +141,20 @@ export default {
       this.autuPlayVideo()
     },
     autuPlayVideo () {
-      setTimeout(() => {
-        let currentPost = this.getCurrentPost()
-        let defaultComment = this.getLastComment(currentPost)
-        let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
-        if (videoContanierClass) {
-          let modal = document.getElementById(this.modalId)
+      let currentPost = this.getCurrentPost()
+      let defaultComment = this.getLastComment(currentPost)
+      let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
+      if (videoContanierClass) {
+        let modal = document.getElementById(this.modalId)
+        let interval = setInterval(() => {
           let container = modal.getElementsByClassName(videoContanierClass)[0]
           let player = container.getElementsByClassName('vjs-big-play-button')[0]
           if (player) {
             player.click()
+            clearInterval(interval)
           }
-        }
-      }, 100)
+        }, 100)
+      }
     },
     prev () {
       if (this.currentPost > 0) {

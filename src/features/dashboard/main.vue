@@ -202,7 +202,6 @@ export default {
   },
   mounted () {
     this.getFeed()
-    this.$refs.overlayViewComp.triggerPopup()
   },
   methods: {
     updateFeedPreference () {
@@ -268,8 +267,19 @@ export default {
       }
       return posts
     },
+    autoTriggerOverlayView () {
+      let key = 'overlayViewTriggered'
+      let overlayViewTriggered = sessionStorage.getItem(key)
+      if (overlayViewTriggered === null) {
+        this.$refs.overlayViewComp.triggerPopup()
+        sessionStorage.setItem(key, true)
+      }
+    },
     afterFeedLoad (data) {
       this.feed = this.feed.concat(this.preventDuplicates(data.posts))
+      if (this.currentPage === 1) {
+        this.autoTriggerOverlayView()
+      }
       if ('nextPage' in data && data.nextPage) {
         this.currentPage = data.nextPage
       } else {
