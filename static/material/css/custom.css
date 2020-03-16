@@ -1548,12 +1548,31 @@ strong{
 	top: 50%;
 	transform: translate(0%, -50%);
 	right: 0px;
-	padding: 10px;
+	padding: 5px;
 }
 .video-overlay-view .modal-content {
 	background: #000;
 	color: #fff;
 }
-.video-overlay-view .modal-content a, .video-overlay-view .modal-content .excerpt{
+.video-overlay-view .modal-content a, .video-overlay-view .modal-content .excerpt, .video-overlay-view .modal-content .upload-video-comment-wrap{
 	color: #fff;
+}
+
+.video-overlay-view .modal-content .dropdown-menu a {
+	color: #455a64;
+}
+
+.video-overlay-view .comment-footer .action-icons {
+	margin-left: 5px;
+}
+.video-overlay-view .like-comm {
+	margin-left: 5px;
+}
+.fixed-br {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+.video-overlay-view .video-comment-content .excerpt * {
+	color: #d2d2d2 !important;
 }

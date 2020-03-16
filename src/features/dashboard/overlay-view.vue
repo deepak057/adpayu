@@ -4,12 +4,11 @@ div(v-if="triggered")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
-        .modal-header
+        .modal-header.no-border(v-if="!isMobile()")
           .row.w-100
             .col-2
-              i.mdi.mdi-24px.mdi-arrow-left
-              //img.app-logo.pointer(:src='staticImageUrl("logo.png")' @click="closePopup()")
-            //.col-9.text-center
+              img.img-icon.pointer(src= "static/assets/images/logo-light-icon.png" @click="closePopup()")
+            .col-8.text-center
               a.m-l-5(href="javascript:void(0)" @click="prev()")
                 i.mdi.mdi-arrow-left.m-r-5
                 // img.img-icon.m-r-5(:src= "staticImageUrl('swipeDown.svg')" v-if="isMobile()")
@@ -24,10 +23,17 @@ div(v-if="triggered")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
                 // img.img-icon.m-l-5(:src= "staticImageUrl('swipeUp.svg')" v-if="isMobile()")
-          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          // button.close(type='button', )
+          i.mdi.mdi-close.close.pointer.c-white(title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0()
+          .row.w-100(v-if="isMobile()")
+            .col-2
+              i.mdi.mdi-24px.mdi-arrow-left.pointer(title="Back" :id="closeButtonId" data-dismiss='modal')
+            // .col-10.text-right
+              img.img-icon(src= "static/assets/images/logo-light-icon.png")
           <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
-        .modal-footer
+          i.mdi.mdi-18px.mdi-information-outline.pointer.fixed-br(v-if="isMobile()" data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+        //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
 </template>
@@ -85,7 +91,7 @@ export default {
   },
   watch: {
     popupFeed (newV) {
-      this.feed = this.copyObject(newV)
+      this.feed = this.manipulateFeed(this.copyObject(newV))
       if (this.triggered && newV.length && !this.currentPost) {
         this.autoPlayVideo()
       }
@@ -96,12 +102,19 @@ export default {
       document.getElementById(this.closeButtonId).click()
     },
     manipulateFeed (feed) {
+      let arr = []
       for (let i in feed) {
-        if (feed[i].type === 'question' && 'defaultComment' in feed[i]) {
-          // eed[i].showComments = true
+        if ((feed[i].type === 'question' && 'defaultComment' in feed[i]) || feed[i].type === 'video' || feed[i].AdOptionId) {
+          arr.push(feed[i])
         }
       }
-      return feed
+      return arr
+    },
+    getInfoTitle () {
+      return 'Controls'
+    },
+    getInfoContent () {
+      return 'Swipe Up = Next Video, Swipe Down = Previous Video, Swipe Right = User Profile, Swipe Left = Close'
     },
     onSwipe (direction) {
       switch (direction) {
