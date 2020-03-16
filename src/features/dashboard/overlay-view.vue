@@ -7,8 +7,9 @@ div(v-if="triggered")
         .modal-header
           .row.w-100
             .col-2
-              img.app-logo.pointer(:src='staticImageUrl("logo.png")' @click="closePopup()")
-            .col-9.text-center
+              i.mdi.mdi-24px.mdi-arrow-left
+              //img.app-logo.pointer(:src='staticImageUrl("logo.png")' @click="closePopup()")
+            //.col-9.text-center
               a.m-l-5(href="javascript:void(0)" @click="prev()")
                 i.mdi.mdi-arrow-left.m-r-5
                 // img.img-icon.m-r-5(:src= "staticImageUrl('swipeDown.svg')" v-if="isMobile()")
