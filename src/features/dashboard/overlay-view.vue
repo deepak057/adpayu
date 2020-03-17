@@ -104,7 +104,7 @@ export default {
     manipulateFeed (feed) {
       let arr = []
       for (let i in feed) {
-        if ((feed[i].type === 'question' && 'defaultComment' in feed[i]) || feed[i].type === 'video' || feed[i].AdOptionId) {
+        if ((feed[i].type === 'question' && 'defaultComment' in feed[i] && feed[i].defaultComment) || feed[i].type === 'video' || feed[i].AdOptionId) {
           arr.push(feed[i])
         }
       }
