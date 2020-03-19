@@ -11,7 +11,6 @@ div(v-if="triggered")
             .col-8.text-center
               a.m-l-5(href="javascript:void(0)" @click="prev()")
                 i.mdi.mdi-arrow-left.m-r-5
-                // img.img-icon.m-r-5(:src= "staticImageUrl('swipeDown.svg')" v-if="isMobile()")
                 span(v-if="!isMobile()")
                   | Prev
                 span.small(v-if="isMobile()")
@@ -22,16 +21,20 @@ div(v-if="triggered")
                 span.small.m-l-5(v-if="isMobile()")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
-                // img.img-icon.m-l-5(:src= "staticImageUrl('swipeUp.svg')" v-if="isMobile()")
-          // button.close(type='button', )
           i.mdi.mdi-close.close.pointer.c-white(title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0()
           .row.w-100(v-if="isMobile()")
             .col-2
               i.mdi.mdi-24px.mdi-arrow-left.pointer(title="Back" :id="closeButtonId" data-dismiss='modal')
-            // .col-10.text-right
-              img.img-icon(src= "static/assets/images/logo-light-icon.png")
+          .text-center.video-controls-nav-wrap.up(:class="{'animation white': animation.up}" v-if="isMobile() && currentPost < (feed.length -1 )")
+            img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
+            .nav-text
+              | Swipe up for next video
           <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+          .text-center.video-controls-nav-wrap.down(:class="{'animation white': animation.down}" v-if="isMobile() && currentPost > 0")
+            .nav-text
+             | Swipe down for previous video
+            img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
           i.mdi.mdi-18px.mdi-information-outline.pointer.fixed-br(v-if="isMobile()" data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
         //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
@@ -64,7 +67,11 @@ export default {
       currentPost: 0,
       autoReplay: true,
       useDefaultComment: true,
-      feed: []
+      feed: [],
+      animation: {
+        up: false,
+        down: false
+      }
     }
   },
   computed: {
@@ -94,6 +101,7 @@ export default {
       this.feed = this.manipulateFeed(this.copyObject(newV))
       if (this.triggered && newV.length && !this.currentPost) {
         this.autoPlayVideo()
+        this.handleTutorial()
       }
     }
   },
@@ -143,6 +151,7 @@ export default {
       router.push(this.userProfileLink(uid))
     },
     next () {
+      this.animation.up = false
       let threshholdPostNumber = 3
       if (this.currentPost === (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
@@ -152,6 +161,15 @@ export default {
         this.autoPlayVideo()
       } else {
         this.showNotification('Sorry, no more feed.', 'info')
+      }
+    },
+    handleTutorial () {
+      let key = 'overlayViewTutorial'
+      let overlayViewTutorial = sessionStorage.getItem(key)
+      if (overlayViewTutorial === null) {
+        this.animation.up = true
+        this.animation.down = true
+        sessionStorage.setItem(key, true)
       }
     },
     autoPlayVideo () {
@@ -175,6 +193,7 @@ export default {
       }
     },
     prev () {
+      this.animation.down = false
       if (this.currentPost > 0) {
         this.currentPost--
         this.autoPlayVideo()
@@ -213,11 +232,13 @@ export default {
             d.click()
             clearInterval(interval)
             this.autoPlayVideo()
+            this.handleTutorial()
           }
         }, 100)
       } else {
         d.click()
         this.autoPlayVideo()
+        this.handleTutorial()
       }
     }
   }

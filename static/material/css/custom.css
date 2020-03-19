@@ -1576,3 +1576,68 @@ strong{
 .video-overlay-view .video-comment-content .excerpt * {
 	color: #d2d2d2 !important;
 }
+
+.video-overlay-view .video-controls-nav-wrap{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.video-overlay-view .video-controls-nav-wrap img {
+	width: 25px;
+}
+
+@keyframes MoveUpDownForArrowUp {
+  0%, 100% {
+    top: 10;
+  }
+  50% {
+    top: 80px;
+  }
+}
+@keyframes MoveUpDownForArrowDown {
+  0%, 100% {
+    bottom: 80px;
+  }
+  50% {
+    bottom:  10px;
+  }
+}
+.video-overlay-view .video-controls-nav-wrap.animation img{
+	position: absolute;
+}
+.video-overlay-view .video-controls-nav-wrap.up.animation img{
+	top: 0px;
+	animation: MoveUpDownForArrowUp 1s linear infinite;
+}
+.video-overlay-view .video-controls-nav-wrap .nav-text {
+	display: none;
+}
+.video-overlay-view .video-controls-nav-wrap.animation .nav-text{
+	position: absolute;
+	display: block;
+	left: 0px;
+	right: 0px;
+}
+.video-overlay-view .video-controls-nav-wrap.up.animation .nav-text{
+	top: 100px;
+}
+.video-overlay-view .video-controls-nav-wrap.down.animation .nav-text{
+	bottom: 100px;
+}
+.video-overlay-view .video-controls-nav-wrap.up.white img{
+	content: url('/static/assets/images/arrow-up.png')
+}
+.video-overlay-view .video-controls-nav-wrap.down.white img{
+	content: url('/static/assets/images/arrow-down.png')
+}
+.video-overlay-view .video-controls-nav-wrap.down.animation img{
+	bottom: 0px;
+	animation: MoveUpDownForArrowDown 1s linear infinite;
+}
+.video-overlay-view .video-controls-nav-wrap.up{
+	top: 20px;
+}
+.video-overlay-view .video-controls-nav-wrap.down{
+	bottom: 20px;
+}
