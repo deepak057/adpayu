@@ -1625,11 +1625,11 @@ strong{
 .video-overlay-view .video-controls-nav-wrap.down.animation .nav-text{
 	bottom: 100px;
 }
-.video-overlay-view .video-controls-nav-wrap.up.white img{
-	content: url('/static/assets/images/arrow-up.png')
+.video-overlay-view .video-controls-nav-wrap.up.white-arrow img{
+	content: url('/static/images/arrow-up.png') !important;
 }
-.video-overlay-view .video-controls-nav-wrap.down.white img{
-	content: url('/static/assets/images/arrow-down.png')
+.video-overlay-view .video-controls-nav-wrap.down.white-arrow img{
+	content: url('/static/images/arrow-down.png') !important;
 }
 .video-overlay-view .video-controls-nav-wrap.down.animation img{
 	bottom: 0px;
@@ -1640,4 +1640,8 @@ strong{
 }
 .video-overlay-view .video-controls-nav-wrap.down{
 	bottom: 20px;
+}
+.video-overlay-view .mobile-back-icon {
+	position: absolute;
+	z-index: 1;
 }

@@ -23,15 +23,13 @@ div(v-if="triggered")
                 i.mdi.mdi-arrow-right.m-l-5
           i.mdi.mdi-close.close.pointer.c-white(title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0()
-          .row.w-100(v-if="isMobile()")
-            .col-2
-              i.mdi.mdi-24px.mdi-arrow-left.pointer(title="Back" :id="closeButtonId" data-dismiss='modal')
-          .text-center.video-controls-nav-wrap.up(:class="{'animation white': animation.up}" v-if="isMobile() && currentPost < (feed.length -1 )")
+          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(title="Back" :id="closeButtonId" data-dismiss='modal')
+          .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
               | Swipe up for next video
           <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
-          .text-center.video-controls-nav-wrap.down(:class="{'animation white': animation.down}" v-if="isMobile() && currentPost > 0")
+          .text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
             .nav-text
              | Swipe down for previous video
             img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
@@ -71,7 +69,9 @@ export default {
       animation: {
         up: false,
         down: false
-      }
+      },
+      nextCommandInvoked: false,
+      prevCommandInvoked: false
     }
   },
   computed: {
@@ -108,6 +108,20 @@ export default {
   methods: {
     closePopup () {
       document.getElementById(this.closeButtonId).click()
+    },
+    highlightArrow (action = 'next') {
+      let highlightDuration = 500
+      if (action === 'next') {
+        this.nextCommandInvoked = true
+        setTimeout(() => {
+          this.nextCommandInvoked = false
+        }, highlightDuration)
+      } else {
+        this.prevCommandInvoked = true
+        setTimeout(() => {
+          this.prevCommandInvoked = false
+        }, highlightDuration)
+      }
     },
     manipulateFeed (feed) {
       let arr = []
@@ -152,6 +166,7 @@ export default {
     },
     next () {
       this.animation.up = false
+      this.highlightArrow('next')
       let threshholdPostNumber = 3
       if (this.currentPost === (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
@@ -194,6 +209,7 @@ export default {
     },
     prev () {
       this.animation.down = false
+      this.highlightArrow('prev')
       if (this.currentPost > 0) {
         this.currentPost--
         this.autoPlayVideo()
