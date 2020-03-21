@@ -43,6 +43,7 @@ import mixin from '../../globals/mixin.js'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 import { router } from '@/http'
+import store from '@/store'
 
 export default {
   name: 'OverlayView',
@@ -180,11 +181,16 @@ export default {
     },
     handleTutorial () {
       let key = 'overlayViewTutorial'
+      let maxTutorialAttempts = 4
       let overlayViewTutorial = sessionStorage.getItem(key)
-      if (overlayViewTutorial === null) {
+      if ((overlayViewTutorial === null || overlayViewTutorial <= maxTutorialAttempts) && !store.state.auth.overlayViewTutorialDisabled) {
         this.animation.up = true
         this.animation.down = true
-        sessionStorage.setItem(key, true)
+        let newV = overlayViewTutorial ? ++overlayViewTutorial : 1
+        sessionStorage.setItem(key, newV)
+      } else {
+        store.state.auth.overlayViewTutorialDisabled = true
+        store.dispatch('auth/update', store.state.auth)
       }
     },
     autoPlayVideo () {

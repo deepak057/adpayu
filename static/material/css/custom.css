@@ -1592,12 +1592,12 @@ strong{
     top: 10;
   }
   50% {
-    top: 80px;
+    top: 30px;
   }
 }
 @keyframes MoveUpDownForArrowDown {
   0%, 100% {
-    bottom: 80px;
+    bottom: 30px;
   }
   50% {
     bottom:  10px;
@@ -1605,6 +1605,7 @@ strong{
 }
 .video-overlay-view .video-controls-nav-wrap.animation img{
 	position: absolute;
+	left: 45%;
 }
 .video-overlay-view .video-controls-nav-wrap.up.animation img{
 	top: 0px;
@@ -1618,12 +1619,13 @@ strong{
 	display: block;
 	left: 0px;
 	right: 0px;
+	font-size: 12px;
 }
 .video-overlay-view .video-controls-nav-wrap.up.animation .nav-text{
-	top: 100px;
+	top: 50px;
 }
 .video-overlay-view .video-controls-nav-wrap.down.animation .nav-text{
-	bottom: 100px;
+	bottom: 50px;
 }
 .video-overlay-view .video-controls-nav-wrap.up.white-arrow img{
 	content: url('/static/images/arrow-up.png') !important;
