@@ -83,6 +83,7 @@ export default {
   logout () {
     let guestUserId = this.getGuestId()
     store.dispatch('common/clear')
+    sessionStorage.clear()
     if (guestUserId) {
       this.setGuestId(guestUserId)
     }

@@ -7,6 +7,7 @@ const defaults = {
     id: ''
   },
   guestId: false,
+  overlayViewTutorialDisabled: false,
   userTags: [],
   post: {},
   options: {},
