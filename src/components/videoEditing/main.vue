@@ -169,6 +169,7 @@ export default {
       return this.id + '-' + type_ + '-' + index
     },
     triggerPopup (videoObj) {
+      this.closeAllModals()
       /*eslint-disable*/
       this.triggered = true
       this.editedVideoConfig.videoObj = videoObj
