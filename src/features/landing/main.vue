@@ -1,6 +1,24 @@
 <template lang="pug">
 div
-    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
+    section.hpv-contanier.text-center(:class="{'full-height': isMobile()}")
+        .header-wrap
+            h2.all-caps
+                | Show us what is too common these days?
+        .body-wrap.m-t-10
+            video(:class="{'w-100': isMobile()}" src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4" autoplay loop)
+            //.video-overlay(v-if="!isMobile()")
+            .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
+                <router-link to="/signup" class="btn btn-info btn-round color-white">
+                  | Sign Up
+                </router-link>
+                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
+                  | Log In
+                </router-link>
+    //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
+        .hpv-container
+            video.home-page-full-video(autoplay loop id="home-page-video")
+                source(src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4")
+            //.hp-overlay
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
@@ -629,6 +647,12 @@ export default {
   },
   mounted () {
     this.scrollToTop()
+  },
+  methods: {
+    playHomeVideo () {
+      /* eslint-disable */
+      document.getElementById('home=page-video').play()
+    }
   }
 }
 </script>

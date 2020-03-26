@@ -59,3 +59,44 @@
 .public-content-wrap {
   min-height: 670px;
 }
+.home-page-full-video {
+  object-fit: cover;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+}
+.full-height {
+  height: 100vh;
+}
+.hpv-contanier .header-wrap{
+  margin-top: 100px;
+}
+.all-caps {
+  text-transform: uppercase;
+}
+.hpv-contanier video {
+  /*width: 100%;*/
+}
+.hpv-contanier .body-wrap {
+  position: relative;
+}
+.hpv-contanier .body-wrap .video-overlay{
+  position: absolute;
+  top: 0px;
+  opacity: .5;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+.hpv-contanier .body-wrap .btns-wrap.btn-center {
+    position: absolute;
+    top: 30%;
+    transform: translate(0%, -50%);
+    left: 0px;
+    right: 0px;
+}
+.w-100 {
+  width: 100%;
+}
