@@ -1,11 +1,23 @@
 <template lang="pug">
 div
-    section.hpv-contanier.text-center(:class="{'full-height': isMobile()}")
+    section.hpv-contanier.text-center.full-height(:class="{'full-height': isMobile(), 'd-table': siteIntro.enable}")
+        <template v-if="siteIntro.enable">
+        .hp-site-intro-wrap.all-caps(:class="{'fade-out': siteIntro.animationOn}")
+            .font-alt.mb-30.titan-title-size-1
+                | A content network
+            .font-alt.mb-40.titan-title-size-4
+                | {{slogan}}
+            .font-alt.mb-10.titan-title-size-1
+                | See how >>
+            .font-alt.mb-30.titan-title-size-1
+                <preloader v-if="loader" class="w-15px"/>
+        </template>
+        <template v-if="!siteIntro && !loader">
         .header-wrap
             h2.all-caps
                 | Show us what is too common these days?
         .body-wrap.m-t-10
-            video(:class="{'w-100': isMobile()}" src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4" autoplay loop)
+            video(muted :class="{'w-100': isMobile()}" src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4" autoplay loop)
             //.video-overlay(v-if="!isMobile()")
             .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
                 <router-link to="/signup" class="btn btn-info btn-round color-white">
@@ -14,6 +26,7 @@ div
                 <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
                   | Log In
                 </router-link>
+        </template>
     //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .hpv-container
             video.home-page-full-video(autoplay loop id="home-page-video")
@@ -628,6 +641,7 @@ div
 import mixin from '../../globals/mixin'
 import Contact from './contact'
 import * as constants from '@/constants'
+import Preloader from '../../components/preloader'
 
 export default {
   name: 'Landing',
@@ -637,21 +651,40 @@ export default {
     }
   },
   components: {
-    Contact
+    Contact,
+    Preloader
   },
   mixins: [mixin],
   data () {
     return {
-      slogan: constants.SITE_SLOGAN
+      slogan: constants.SITE_SLOGAN,
+      siteIntro: {
+        enable: true,
+        timeout: 6000,
+        animationOn: false
+      },
+      loader: true
     }
   },
   mounted () {
     this.scrollToTop()
+    this.siteIntroInit()
   },
   methods: {
     playHomeVideo () {
       /* eslint-disable */
       document.getElementById('home=page-video').play()
+    },
+    siteIntroInit () {
+      let hideIntro = () => {
+        setTimeout(() => {
+          this.siteIntro.enable = false
+        }, 2000)
+      }
+      setTimeout(() => {
+        this.siteIntro.animationOn = true
+        hideIntro()
+      }, this.siteIntro.timeout)
     }
   }
 }

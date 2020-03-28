@@ -70,14 +70,24 @@
 .full-height {
   height: 100vh;
 }
-.hpv-contanier .header-wrap{
+.hpv-contanier .header-wrap, .hpv-contanier .hp-site-intro-wrap{
   margin-top: 100px;
+}
+.hpv-contanier .hp-site-intro-wrap {
+  display: table-cell;
+  vertical-align: middle;
+}
+.d-table {
+  display: table;
 }
 .all-caps {
   text-transform: uppercase;
 }
 .hpv-contanier video {
   /*width: 100%;*/
+}
+.w-15px {
+  width: 15px;
 }
 .hpv-contanier .body-wrap {
   position: relative;
@@ -99,4 +109,20 @@
 }
 .w-100 {
   width: 100%;
+}
+.fade-out {
+  position: relative;
+  animation: fadeOut 2s linear;
+}
+
+@keyframes fadeOut {
+  0%{
+    top: 0px;
+    opacity: 1;
+  }
+  100% {
+    top: -100px;
+    opacity: .0;
+    display: none;
+  }
 }
