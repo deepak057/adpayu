@@ -10,9 +10,9 @@ div
             .font-alt.mb-10.titan-title-size-1
                 | See how >>
             .font-alt.mb-30.titan-title-size-1
-                <preloader v-if="loader" class="w-15px"/>
+                <preloader class="w-15px"/>
         </template>
-        <template v-if="!siteIntro.enable && !loader">
+        <template v-if="!siteIntro.enable">
         .header-wrap
             .font-alt.all-caps
                 h2
@@ -647,9 +647,11 @@ import mixin from '../../globals/mixin'
 import Contact from './contact'
 import * as constants from '@/constants'
 import Preloader from '../../components/preloader'
+import Service from './service'
 
 export default {
   name: 'Landing',
+  service: new Service(),
   metaInfo () {
     return {
       title: this.getPageTitle(constants.SITE_SLOGAN)
@@ -669,14 +671,27 @@ export default {
         animationOn: false
       },
       loader: true,
-      ques: 'Show us what is too common these days?'
+      ques: 'Show us what is too common these days?',
+      postsPage: 1,
+      posts: [],
+      currentPost: 0
     }
   },
   mounted () {
     this.scrollToTop()
     this.siteIntroInit()
+    this.getPosts()
   },
   methods: {
+    getPosts () {
+      this.$options.service.getPublicFeed(this.postsPage)
+        .then((d) => {
+          if (d.posts.length) {
+            this.loader = false
+            this.posts = this.posts.concat(d.posts)
+          }
+        })
+    },
     playHomeVideo () {
       /* eslint-disable */
       document.getElementById('home=page-video').play()
@@ -685,13 +700,17 @@ export default {
       let hideIntro = () => {
         setTimeout(() => {
           this.siteIntro.enable = false
-          this.loader = false
           this.textAnimationEffect()
         }, 2000)
       }
       setTimeout(() => {
-        this.siteIntro.animationOn = true
-        hideIntro()
+        let t = setInterval (() => {
+          if (!this.loader) {
+            clearInterval(t)
+            this.siteIntro.animationOn = true
+            hideIntro()
+          }
+        }, 500)
       }, this.siteIntro.timeout)
     },
     textAnimationEffect () {
@@ -707,6 +726,13 @@ export default {
         }
       }
       main()
+    },
+    getCurrentPost () {
+      return this.posts[this.currentPosts]
+    },
+    getNextPost () {
+      this.currentPosts++
+      this.getCurrentPost()
     }
   }
 }
