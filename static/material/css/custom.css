@@ -1647,3 +1647,6 @@ strong{
 	position: absolute;
 	z-index: 1;
 }
+.full-width {
+	width: 100vw;
+}

@@ -23,7 +23,7 @@ div(v-if="triggered")
                 i.mdi.mdi-arrow-right.m-l-5
           i.mdi.mdi-close.close.pointer.c-white(title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0()
-          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(title="Back" :id="closeButtonId" data-dismiss='modal')
+          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(title="Back" :id="closeButtonId" data-dismiss='modal' v-if="isMobile()")
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text

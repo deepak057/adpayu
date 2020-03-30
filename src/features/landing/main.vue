@@ -12,10 +12,11 @@ div
             .font-alt.mb-30.titan-title-size-1
                 <preloader v-if="loader" class="w-15px"/>
         </template>
-        <template v-if="!siteIntro && !loader">
+        <template v-if="!siteIntro.enable && !loader">
         .header-wrap
-            h2.all-caps
-                | Show us what is too common these days?
+            .font-alt.all-caps
+                h2
+                    | {{ques}}
         .body-wrap.m-t-10
             video(muted :class="{'w-100': isMobile()}" src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4" autoplay loop)
             //.video-overlay(v-if="!isMobile()")
@@ -26,6 +27,10 @@ div
                 <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
                   | Log In
                 </router-link>
+        .footer-wrap.m-t-10
+            .font-alt.titan-title-size-1
+                i.fa.fa-info-circle.text-muted
+                |  People Ask Questions, Others leave Video Answers
         </template>
     //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .hpv-container
@@ -663,7 +668,8 @@ export default {
         timeout: 6000,
         animationOn: false
       },
-      loader: true
+      loader: true,
+      ques: 'Show us what is too common these days?'
     }
   },
   mounted () {
@@ -679,12 +685,28 @@ export default {
       let hideIntro = () => {
         setTimeout(() => {
           this.siteIntro.enable = false
+          this.loader = false
+          this.textAnimationEffect()
         }, 2000)
       }
       setTimeout(() => {
         this.siteIntro.animationOn = true
         hideIntro()
       }, this.siteIntro.timeout)
+    },
+    textAnimationEffect () {
+      let i = 0
+      let txt = this.ques
+      let speed = 50
+      this.ques = ''
+      let main  = () => {
+        if (i < txt.length) {
+          this.ques += txt.charAt(i)
+          i++
+          setTimeout(main, speed)
+        }
+      }
+      main()
     }
   }
 }

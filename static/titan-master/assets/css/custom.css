@@ -110,6 +110,16 @@
 .w-100 {
   width: 100%;
 }
+.hpv-contanier {
+  width: 100vw;
+}
+.hpv-contanier .footer-wrap {
+  position: absolute;
+  bottom: 0px;
+  background-color: #eee;
+  padding: 10px 0px;
+  width: 100%;
+}
 .fade-out {
   position: relative;
   animation: fadeOut 2s linear;
