@@ -16,9 +16,9 @@ div
         .header-wrap
             .font-alt.all-caps
                 h2
-                    | {{ques}}
+                    | {{currentPost.title}}
         .body-wrap.m-t-10
-            video(muted :class="{'w-100': isMobile()}" src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4" autoplay loop)
+            video(:id="videoPlayerId" muted :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
             //.video-overlay(v-if="!isMobile()")
             .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
                 <router-link to="/signup" class="btn btn-info btn-round color-white">
@@ -28,7 +28,7 @@ div
                   | Log In
                 </router-link>
         .footer-wrap.m-t-10
-            .font-alt.titan-title-size-1
+            .font-alt
                 i.fa.fa-info-circle.text-muted
                 |  People Ask Questions, Others leave Video Answers
         </template>
@@ -674,7 +674,14 @@ export default {
       ques: 'Show us what is too common these days?',
       postsPage: 1,
       posts: [],
-      currentPost: 0
+      currentPostIndex: 0,
+      currentPost: {
+        title: '',
+        videoPath: ''
+      },
+      videoPlayerId: 'hp-video-player',
+      postsThreshold: 3,
+      noMorePosts: false
     }
   },
   mounted () {
@@ -684,11 +691,17 @@ export default {
   },
   methods: {
     getPosts () {
+      if (this.noMorePosts) {
+        return true
+      }
       this.$options.service.getPublicFeed(this.postsPage)
         .then((d) => {
+          this.loader = false
           if (d.posts.length) {
-            this.loader = false
             this.posts = this.posts.concat(d.posts)
+            this.postsPage++
+          } else {
+            this.noMorePosts = true
           }
         })
     },
@@ -701,26 +714,41 @@ export default {
         setTimeout(() => {
           this.siteIntro.enable = false
           this.textAnimationEffect()
+          this.initVideoPlayerEvents()
         }, 2000)
       }
       setTimeout(() => {
         let t = setInterval (() => {
           if (!this.loader) {
             clearInterval(t)
+            this.updateCurrentPostObj()
             this.siteIntro.animationOn = true
             hideIntro()
           }
         }, 500)
       }, this.siteIntro.timeout)
     },
+    initVideoPlayerEvents () {
+      let t = setInterval(() => {
+        let player = document.getElementById(this.videoPlayerId)
+        if (player) {
+          clearInterval(t)
+          player.onended = () => {
+            this.getNextPost()
+            this.updateCurrentPostObj()
+            this.textAnimationEffect()
+          }
+        }
+      }, 50)
+    },
     textAnimationEffect () {
       let i = 0
-      let txt = this.ques
+      let txt = this.currentPost.title
       let speed = 50
-      this.ques = ''
+      this.currentPost.title = ''
       let main  = () => {
         if (i < txt.length) {
-          this.ques += txt.charAt(i)
+          this.currentPost.title += txt.charAt(i)
           i++
           setTimeout(main, speed)
         }
@@ -728,11 +756,49 @@ export default {
       main()
     },
     getCurrentPost () {
-      return this.posts[this.currentPosts]
+      return this.posts[this.currentPostIndex]
+    },
+    updateCurrentPostObj () {
+      let p = this.getCurrentPost()
+      let c = this.getPostVideoPath(p)
+      if (c) {
+        this.currentPost.title = this.getPostTitle(p)
+        this.currentPost.videoPath = c
+      } else {
+        this.getNextPost()
+        this.updateCurrentPostObj()
+      }
+    },
+    getPostVideoPath (p) {
+      if (p.type === 'video') {
+        return this.getVideoURL(p.Video)
+      } else if (p.type === 'question') {
+        let c = this.getDefaultVideoComment(p)
+        return c ? this.getVideoURL(c) : false
+      }
+      return false
+    },
+    getDefaultVideoComment (p) {
+      let comments = p.Comments
+      comments.sort((a, b) => {
+        return a.CommentsLikesCount - b.CommentsLikesCount
+      })
+      for (let i = (comments.length - 1); i >= 0; i--) {
+        if (comments[i].videoPath && !comments[i].disableOnMainFeed) {
+          return comments[i]
+        }
+      }
+      return false
     },
     getNextPost () {
-      this.currentPosts++
+      this.currentPostIndex++
       this.getCurrentPost()
+      if (this.currentPostIndex >= (this.posts.length - this.postsThreshold)) {
+        this.getPosts()
+      }
+      if (this.currentPostIndex >= this.posts.length) {
+        this.currentPostIndex = 0
+      }
     }
   }
 }

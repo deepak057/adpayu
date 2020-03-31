@@ -16,6 +16,9 @@
 		background: #eee;
 		padding: 10px;
 	}
+  .hpv-contanier .body-wrap video {
+    width: 100% !important;
+  }
 }
 
 /* On screens that are 500px or less */
@@ -135,4 +138,7 @@
     opacity: .0;
     display: none;
   }
+}
+.hpv-contanier .body-wrap video {
+  width: 50%;
 }
