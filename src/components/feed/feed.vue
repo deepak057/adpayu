@@ -266,10 +266,10 @@ export default {
     },
     disableEnableCommentsByDefault (feed) {
       for (let i in feed) {
-        if (this.feedPage === 'profile' && !feed[i].defaultComment) {
+        if (this.feedPage === 'profile' && feed[i] && !feed[i].defaultComment) {
           feed[i].showComments = false
         }
-        if (this.manipulativePage() && feed[i].defaultComment && feed[i].Question && feed[i].CommentsCount) {
+        if (this.manipulativePage() && feed[i] && feed[i].defaultComment && feed[i].Question && feed[i].CommentsCount) {
           feed[i].showComments = true
         }
       }

@@ -74,7 +74,7 @@
   height: 100vh;
 }
 .hpv-contanier .header-wrap, .hpv-contanier .hp-site-intro-wrap{
-  margin-top: 100px;
+  /*margin-top: 100px;*/
 }
 .hpv-contanier .hp-site-intro-wrap {
   display: table-cell;
@@ -117,11 +117,21 @@
   width: 100vw;
 }
 .hpv-contanier .footer-wrap {
-  position: absolute;
+  /* position: absolute;
   bottom: 0px;
   background-color: #eee;
   padding: 10px 0px;
+  width: 100%;*/
+  position: relative;
+  top: 80px;
+}
+.top-bar-sticker-nav {
+  background-color: #eee;
+  padding: 10px 0px;
   width: 100%;
+  position: relative;
+  top: 50px;
+  text-align: center;
 }
 .fade-out {
   position: relative;
@@ -141,4 +151,11 @@
 }
 .hpv-contanier .body-wrap video {
   width: 50%;
+}
+.hpv-contanier .video-container-section {
+  display: table-cell;
+  vertical-align: middle;
+}
+.faded-color {
+  color: #999;
 }

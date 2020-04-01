@@ -217,6 +217,29 @@ export default {
     hasQueryString (path) {
       return path.indexOf('?') > -1
     },
+    getIds (arr) {
+      if (arr.length) {
+        let returnArr =[]
+        for (let i in arr) {
+          returnArr.push(arr[i].id)
+        }
+        return returnArr
+      }
+      return arr
+    },
+    removeDuplicates (originalArr, newArr) {
+      if (originalArr.length) {
+        let uniquePosts = []
+        let ids = this.getIds(originalArr)
+        for (let i in newArr) {
+          if (ids.indexOf(newArr[i].id) === -1) {
+            uniquePosts.push(newArr[i])
+          }
+        }
+        return uniquePosts
+      }
+      return newArr
+    },
     getVideoURL (videoObj) {
       let path = this.getVideoPath(videoObj)
       let optimzed = 'optimized' in videoObj ? videoObj.optimized : videoObj.videoOptimized

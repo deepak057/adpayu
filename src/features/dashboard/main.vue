@@ -247,17 +247,17 @@ export default {
       this.setDocumentTitle(newCat)
       this.getFeed()
     },
-    getPostsIds () {
+    /* getPostsIds () {
       let arr = []
       for (let i in this.feed) {
         arr.push(this.feed[i].id)
       }
       return arr
     },
-    preventDuplicates (posts) {
+    removeDuplicates (posts) {
       if (this.feed.length) {
         let uniquePosts = []
-        let postIds = this.getPostsIds()
+        let postIds = this.getIds(this.feed)
         for (let i in posts) {
           if (postIds.indexOf(posts[i].id) === -1) {
             uniquePosts.push(posts[i])
@@ -266,7 +266,7 @@ export default {
         return uniquePosts
       }
       return posts
-    },
+    }, */
     autoTriggerOverlayView () {
       let key = 'overlayViewTriggered'
       let overlayViewTriggered = sessionStorage.getItem(key)
@@ -276,7 +276,7 @@ export default {
       }
     },
     afterFeedLoad (data) {
-      this.feed = this.feed.concat(this.preventDuplicates(data.posts))
+      this.feed = this.feed.concat(this.removeDuplicates(this.feed, data.posts))
       if (this.currentPage === 1) {
         this.autoTriggerOverlayView()
       }

@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-    section.hpv-contanier.text-center.full-height(:class="{'full-height': isMobile(), 'd-table': siteIntro.enable}")
+    .top-bar-sticker-nav(v-if="!siteIntro.enable && !isMobile()")
+        .font-alt
+            i.fa.fa-info-circle.faded-color
+            |  People Ask Questions, Others leave Video Answers
+    section.hpv-contanier.text-center.full-height.d-table.d-table
         <template v-if="siteIntro.enable">
         .hp-site-intro-wrap.all-caps(:class="{'fade-out': siteIntro.animationOn}")
             .font-alt.mb-30.titan-title-size-1
@@ -13,24 +17,25 @@ div
                 <preloader class="w-15px"/>
         </template>
         <template v-if="!siteIntro.enable">
-        .header-wrap
-            .font-alt.all-caps
-                h2
-                    | {{currentPost.title}}
-        .body-wrap.m-t-10
-            video(:id="videoPlayerId" muted :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
-            //.video-overlay(v-if="!isMobile()")
-            .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
-                <router-link to="/signup" class="btn btn-info btn-round color-white">
-                  | Sign Up
-                </router-link>
-                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
-                  | Log In
-                </router-link>
-        .footer-wrap.m-t-10
-            .font-alt
-                i.fa.fa-info-circle.text-muted
-                |  People Ask Questions, Others leave Video Answers
+        .video-container-section
+            .header-wrap
+                .font-alt.all-caps
+                    h2
+                        | {{currentPost.title}}
+            .body-wrap.m-t-10
+                video(:id="videoPlayerId" muted :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
+                //.video-overlay(v-if="!isMobile()")
+                .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
+                    <router-link to="/signup" class="btn btn-info btn-round color-white">
+                      | Sign Up
+                    </router-link>
+                    <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
+                      | Log In
+                    </router-link>
+            .footer-wrap.m-t-10(v-if="isMobile()")
+                .font-alt
+                    i.fa.fa-info-circle.text-muted
+                    |  People Ask Questions, Others leave Video Answers
         </template>
     //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .hpv-container
@@ -648,6 +653,7 @@ import Contact from './contact'
 import * as constants from '@/constants'
 import Preloader from '../../components/preloader'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Landing',
@@ -677,7 +683,9 @@ export default {
       currentPostIndex: 0,
       currentPost: {
         title: '',
-        videoPath: ''
+        videoPath: '',
+        id: '',
+        type: ''
       },
       videoPlayerId: 'hp-video-player',
       postsThreshold: 3,
@@ -698,12 +706,15 @@ export default {
         .then((d) => {
           this.loader = false
           if (d.posts.length) {
-            this.posts = this.posts.concat(d.posts)
+            this.posts = this.posts.concat(this.removeDuplicates(this.posts, d.posts))
             this.postsPage++
           } else {
             this.noMorePosts = true
           }
         })
+    },
+    videoPlayed () {
+      auth.markEntityAsViewed(this.currentPost.id, this.currentPost.type, auth.getGuestId())
     },
     playHomeVideo () {
       /* eslint-disable */
@@ -733,6 +744,9 @@ export default {
         let player = document.getElementById(this.videoPlayerId)
         if (player) {
           clearInterval(t)
+          player.onplay = () => {
+            this.videoPlayed()
+          }
           player.onended = () => {
             this.getNextPost()
             this.updateCurrentPostObj()
@@ -764,9 +778,13 @@ export default {
       if (c) {
         this.currentPost.title = this.getPostTitle(p)
         this.currentPost.videoPath = c
+        this.currentPost.id = this.getDefaultVideoComment(p).id
+        this.type = 'comment'
       } else {
         this.getNextPost()
         this.updateCurrentPostObj()
+        this.currentPost.id = p.id
+        this.type = 'post'
       }
     },
     getPostVideoPath (p) {
