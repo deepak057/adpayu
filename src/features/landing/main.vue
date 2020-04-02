@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-    .top-bar-sticker-nav(v-if="!siteIntro.enable && !isMobile()")
+    .top-bar-sticker-nav(v-if="!siteIntro.enable")
         .font-alt
             i.fa.fa-info-circle.faded-color
             |  People Ask Questions, Others leave Video Answers
@@ -20,7 +20,9 @@ div
         .video-container-section
             .header-wrap
                 .font-alt.all-caps
-                    h2
+                    h2(v-if="!isMobile()")
+                        | {{currentPost.title}}
+                    h3(v-if="isMobile()")
                         | {{currentPost.title}}
             .body-wrap.m-t-10
                 video(:id="videoPlayerId" muted :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
@@ -32,10 +34,10 @@ div
                     <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
                       | Log In
                     </router-link>
-            .footer-wrap.m-t-10(v-if="isMobile()")
+            .footer-wrap.m-t-10()
                 .font-alt
-                    i.fa.fa-info-circle.text-muted
-                    |  People Ask Questions, Others leave Video Answers
+                    // i.fa.fa-info-circle.text-muted
+                    |  {{slogan}}
         </template>
     //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .hpv-container

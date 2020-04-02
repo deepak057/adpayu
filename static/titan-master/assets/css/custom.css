@@ -19,6 +19,12 @@
   .hpv-contanier .body-wrap video {
     width: 100% !important;
   }
+  .hpv-contanier .footer-wrap {
+    bottom: 5px !important; 
+  }
+  .hpv-contanier .header-wrap {
+    margin-top: 60px;
+  }
 }
 
 /* On screens that are 500px or less */
@@ -117,19 +123,22 @@
   width: 100vw;
 }
 .hpv-contanier .footer-wrap {
-  /* position: absolute;
+  /*position: absolute;
   bottom: 0px;
   background-color: #eee;
   padding: 10px 0px;
   width: 100%;*/
-  position: relative;
-  top: 80px;
+  /*position: relative;
+  top: 80px;*/
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
 }
 .top-bar-sticker-nav {
   background-color: #eee;
   padding: 10px 0px;
   width: 100%;
-  position: relative;
+  position: absolute;
   top: 50px;
   text-align: center;
 }
