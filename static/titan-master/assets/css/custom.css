@@ -168,3 +168,9 @@
 .faded-color {
   color: #999;
 }
+.w-100-px {
+  width: 100px;
+}
+.mb-100 {
+  margin-bottom: 100px;
+}

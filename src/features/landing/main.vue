@@ -579,6 +579,11 @@ div
                                         button#subscription-form-submit.btn.btn-g.btn-round(type='submit') Submit
                             #subscription-response.text-center
         <contact/>
+        section.text-center
+            .module-title.font-alt
+                | Download the App
+            a(target="_blank" href="https://play.google.com/store/apps/details?id=com.svanq&hl=en_IN")
+                img.w-100-px.mb-100(:src="staticImageUrl('play_store.png')")
         // section#map-section
             #map
         // .module-small.bg-dark
