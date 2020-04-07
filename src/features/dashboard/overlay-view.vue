@@ -108,8 +108,8 @@ export default {
   },
   methods: {
     closePopup () {
-      document.getElementById(this.closeButtonId).click()
       this.pauseAllOtherVideos()
+      document.getElementById(this.closeButtonId).click()
     },
     highlightArrow (action = 'next') {
       let highlightDuration = 500
