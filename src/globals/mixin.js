@@ -269,10 +269,10 @@ export default {
       ]
     },
     /* eslint-disable */
-    pauseAllOtherVideos (currentPlayer) {
+    pauseAllOtherVideos (currentPlayer = false) {
       if($(".video-js").length) {
         $(".video-js").each(function (index) {
-          if (this.player.poster() !== currentPlayer.poster()) {
+          if (!currentPlayer || this.player.poster() !== currentPlayer.poster()) {
             // this.player.dispose()
             this.player.pause()
             /* reset the src of the video 
