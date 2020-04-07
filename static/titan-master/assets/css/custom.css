@@ -27,6 +27,12 @@
   }
 }
 
+
+/* On screens that are 500px or less */
+@media screen and (max-width: 500px) {
+
+}
+
 /* On screens that are 500px or less */
 @media screen and (max-width: 500px) {
 	.video-js .vjs-big-play-button {
@@ -130,8 +136,10 @@
   width: 100%;*/
   /*position: relative;
   top: 80px;*/
-  position: absolute;
-  bottom: 20px;
+  /*position: absolute;
+  bottom: 20px;*/
+  position: relative;
+  top: 60px;
   width: 100%;
 }
 .top-bar-sticker-nav {
