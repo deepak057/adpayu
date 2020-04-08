@@ -34,6 +34,9 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    isVisible (elem) {
+      return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+    },
     getLastComment (f) {
       // return f.Comments && f.Comments.length ? f.Comments[f.Comments.length - 1] : false
       return f && 'defaultComment' in f ? f.defaultComment : false

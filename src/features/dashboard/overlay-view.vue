@@ -205,10 +205,12 @@ export default {
             let container = modal.getElementsByClassName(videoContanierClass)[0]
             let player = container.getElementsByClassName('vjs-big-play-button')[0]
             if (player) {
+              if (this.isVisible(player)) {
+                setTimeout(() => {
+                  player.click()
+                }, 50)
+              }
               clearInterval(interval)
-              setTimeout(() => {
-                player.click()
-              }, 50)
             }
           }, 50)
         }
