@@ -185,6 +185,7 @@ export default {
       // close all the Bootstrap modals
       /* eslint-disable */
       $('.modal').modal('hide')
+      $('.modal-backdrop').remove()
       /* eslint-enable */
     },
     audioURL (trackObj) {

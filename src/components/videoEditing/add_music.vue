@@ -108,13 +108,13 @@ export default {
   mixins: [mixin],
   props: {
     musicCategories: {
-      type: Object,
+      type: Array,
       default () {
         return []
       }
     },
     myTracksCategoryId: {
-      type: Object,
+      type: Number,
       default () {
         return 0
       }

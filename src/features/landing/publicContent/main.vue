@@ -1,5 +1,5 @@
 <template lang="pug">
-.main.public-content-wrap
+.main.public-content-wrap.font-alt
   section.module(:class="{'p-0': !loader, 'p-40': loader}")
     .container
       .row(v-if="loader")

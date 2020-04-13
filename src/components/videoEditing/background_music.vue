@@ -2,20 +2,20 @@
 .card
   .card-header.background-music-edit-controls-wrap(:class="{'collapsed': !backMusicControlEnabled}" :id="sectionHeaderId" :aria-controls='sectionId')
     .row.controls-label-wrap-container
-      .controls-label-wrap(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId" :class="{'col-5': !isMobile, 'col-1': isMobile}")
+      .controls-label-wrap(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId" :class="{'col-5': !isMobile(), 'col-1': isMobile()}")
         h2.mb-0
           button.btn(type='button')
             i.fa.fa-music.back-music-icon
             span.tab-label.m-l-10.back-music-label
               | Background Music
-      .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile, 'col-11 p-0': isMobile}")
-        select.form-control.custom-select.white-back(v-model="trackFilterModel.genere" :class="{'form-control-sm': isMobile}")
+      .controls-wrap.text-right(:class="{'col-7 p-0 m-0': !isMobile(), 'col-11 p-0': isMobile()}")
+        select.form-control.custom-select.white-back(v-model="trackFilterModel.genere" :class="{'form-control-sm': isMobile()}")
           option(value="" selected="selected" disabled="disabled" hidden="hidden") Type (All)
           <template v-if="musicCategories">
           option(v-for="cat in musicCategories" :value="cat.id") {{cat.label}}
           </template>
-        input.form-control(@keyup.enter="applyFilter()" v-model="trackFilterModel.search" :class="{'m-l-10': !isMobile, 'm-l-5 form-control-sm': isMobile}" type="text" placeholder="Search & Enter...")
-        button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile, 'btn-sm m-l-5 m-r-5': isMobile}")
+        input.form-control(@keyup.enter="applyFilter()" v-model="trackFilterModel.search" :class="{'m-l-10': !isMobile(), 'm-l-5 form-control-sm': isMobile()}" type="text" placeholder="Search & Enter...")
+        button.btn.btn-danger.font-bold.add-music-btn.pr-t--1(@click="triggerAddMusic()" :class="{'m-l-10 m-r-10': !isMobile(), 'btn-sm m-l-5 m-r-5': isMobile()}")
           i.mdi.mdi-plus
     .control-label-wrap-temp(@click="toggleBackMusicControls()" data-toggle='collapse', :data-target="'#'+sectionId")
       h2.mb-0
@@ -97,9 +97,8 @@ export default {
       pageLoader: true,
       fetching: true,
       audioTrack: false,
-      isMobile: this.isMobile(),
       backMusicControlEnabled: false,
-      musicCategories: false,
+      musicCategories: [],
       disableLoadMore: false,
       myTracksCategoryId: 0,
       currentUser: auth.getUser(),
