@@ -20,6 +20,7 @@
 import Timeline from './timeline'
 import FriendList from './friend-list'
 import Settings from './settings'
+import mixin from '../../../globals/mixin.js'
 
 export default {
   name: 'ProfileTabs',
@@ -28,6 +29,7 @@ export default {
     FriendList,
     Settings
   },
+  mixins: [mixin],
   props: {
     profileUser: {
       type: Object,
@@ -50,8 +52,10 @@ export default {
     }
   },
   watch: {
-    profileUser () {
-      document.getElementById('default-tab-up').click()
+    profileUser (newV) {
+      if (newV.id !== this.currentUser.id) {
+        document.getElementById('default-tab-up').click()
+      }
     },
     '$route.query.tab' () {
       this.setDefaultTab()
