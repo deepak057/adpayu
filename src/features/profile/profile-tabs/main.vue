@@ -20,7 +20,6 @@
 import Timeline from './timeline'
 import FriendList from './friend-list'
 import Settings from './settings'
-import mixin from '../../../globals/mixin.js'
 
 export default {
   name: 'ProfileTabs',
@@ -29,7 +28,6 @@ export default {
     FriendList,
     Settings
   },
-  mixins: [mixin],
   props: {
     profileUser: {
       type: Object,
