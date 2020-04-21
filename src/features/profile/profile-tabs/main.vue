@@ -51,9 +51,7 @@ export default {
   },
   watch: {
     profileUser (newV) {
-      if (newV.id !== this.currentUser.id) {
-        document.getElementById('default-tab-up').click()
-      }
+      document.getElementById('default-tab-up').click()
     },
     '$route.query.tab' () {
       this.setDefaultTab()

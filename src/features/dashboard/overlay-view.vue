@@ -28,7 +28,12 @@ div(v-if="triggered")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
               | Swipe up for next video
-          <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+          .overlay-view-content-wrap
+            <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+            .show-more-answer-link( v-if="enableShowMoreAnswerLink()")
+              <router-link class=" text-muted" :to="getPostLink(getCurrentPost().id)" @click.native="closeAllModals()">
+                | See more answers
+              </router-link>
           .text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
             .nav-text
              | Swipe down for previous video
@@ -124,6 +129,10 @@ export default {
           this.prevCommandInvoked = false
         }, highlightDuration)
       }
+    },
+    enableShowMoreAnswerLink () {
+      let f = this.getCurrentPost()
+      return f.type === 'question'
     },
     manipulateFeed (feed) {
       let arr = []

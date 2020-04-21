@@ -21,11 +21,17 @@ div
             .header-wrap
                 .font-alt.all-caps
                     h2(v-if="!isMobile()")
+                        span(title= "Mute or unmute the video" @click="soundToggle()")
+                            img.m-r-10.pointer(v-if="!muted" :src="staticImageUrl('unmute.png')")
+                            img.m-r-5.pointer(v-if="muted" :src="staticImageUrl('mute.png')")
                         | {{currentPost.title}}
                     h3(v-if="isMobile()")
+                        span(title= "Mute or unmute the video" @click="soundToggle()")
+                            img.m-r-10.pointer(v-if="!muted" :src="staticImageUrl('unmute.png')")
+                            img.m-r-5.pointer(v-if="muted" :src="staticImageUrl('mute.png')")
                         | {{currentPost.title}}
             .body-wrap.m-t-10
-                video(:id="videoPlayerId" muted :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
+                video(:muted = "muted" :id="videoPlayerId" :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
                 //.video-overlay(v-if="!isMobile()")
                 .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
                     <router-link to="/signup" class="btn btn-info btn-round color-white">
@@ -696,7 +702,8 @@ export default {
       },
       videoPlayerId: 'hp-video-player',
       postsThreshold: 3,
-      noMorePosts: false
+      noMorePosts: false,
+      muted: true
     }
   },
   mounted () {
@@ -719,6 +726,9 @@ export default {
             this.noMorePosts = true
           }
         })
+    },
+    soundToggle () {
+      this.muted = !this.muted
     },
     videoPlayed () {
       auth.markEntityAsViewed(this.currentPost.id, this.currentPost.type, auth.getGuestId())

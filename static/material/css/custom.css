@@ -1127,6 +1127,9 @@ strong{
 	.background-music-tracks-outer-container {
 		max-height: 376px !important;
 	}
+	.video-overlay-view  .show-more-answer-link {
+		left: 5px !important;
+	}
 
 }
 .hide-comment-user-name {
@@ -1541,7 +1544,7 @@ strong{
 	visibility: hidden;
 }
 
-.video-overlay-view .profiletimeline {
+.video-overlay-view .overlay-view-content-wrap {
 	position: absolute;
 	width: auto;
 	left: 0px;
@@ -1649,4 +1652,8 @@ strong{
 }
 .full-width {
 	width: 100vw;
+}
+.video-overlay-view  .show-more-answer-link {
+	position: relative;
+	left: 74px;
 }
