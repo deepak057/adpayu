@@ -21,12 +21,12 @@ div
             .header-wrap
                 .font-alt.all-caps
                     h2(v-if="!isMobile()")
-                        span(title= "Mute or unmute the video" @click="soundToggle()")
+                        span.mute-unmute-wrap(title= "Mute or unmute the video" @click="soundToggle()")
                             img.m-r-10.pointer(v-if="!muted" :src="staticImageUrl('unmute.png')")
                             img.m-r-5.pointer(v-if="muted" :src="staticImageUrl('mute.png')")
                         | {{currentPost.title}}
                     h3(v-if="isMobile()")
-                        span(title= "Mute or unmute the video" @click="soundToggle()")
+                        span.mute-unmute-wrap(title= "Mute or unmute the video" @click="soundToggle()")
                             img.m-r-10.pointer(v-if="!muted" :src="staticImageUrl('unmute.png')")
                             img.m-r-5.pointer(v-if="muted" :src="staticImageUrl('mute.png')")
                         | {{currentPost.title}}

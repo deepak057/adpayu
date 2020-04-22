@@ -194,3 +194,8 @@
 .dark-color {
   color: #000;
 }
+.video-container-section .mute-unmute-wrap img{
+  width: 22px;
+  position: relative;
+  top: -2px;
+}
