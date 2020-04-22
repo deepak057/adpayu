@@ -41,8 +41,17 @@ export default {
       liked: false
     }
   },
+  watch: {
+    hasLiked (newV) {
+      this.liked = newV
+    }
+  },
   mounted () {
-    this.liked = this.hasLiked
+    if (this.hasLiked && !this.likesCount) {
+      this.liked = false
+    } else {
+      this.liked = this.hasLiked
+    }
   },
   methods: {
     tooltipText () {
