@@ -1,7 +1,7 @@
 <template lang="pug">
 a.link.m-r-10.comment-padding-0(href='javascript:void(0)' @click="likeToggle(likes)" :title="tooltipText()")
   i.text-danger(:class="{'ti-heart pr-t-2': !liked, 'fa fa-heart': liked}")
-  |  {{likesCount}} {{liked? 'Loved': 'Love'}}
+  |  {{count}} {{liked? 'Loved': 'Love'}}
 </template>
 <script>
 import Service from './service'
@@ -42,27 +42,31 @@ export default {
     }
   },
   watch: {
-    hasLiked (newV) {
-      this.liked = newV
+    likesCount (newV) {
+      this.setDefaultLike()
     }
   },
   mounted () {
-    if (this.hasLiked && !this.likesCount) {
-      this.liked = false
-    } else {
-      this.liked = this.hasLiked
-    }
+    this.count = this.likesCount
+    this.setDefaultLike()
   },
   methods: {
+    setDefaultLike () {
+      if (this.hasLiked && !this.likesCount) {
+        this.liked = false
+      } else {
+        this.liked = this.hasLiked
+      }
+    },
     tooltipText () {
       return 'Click to ' + (this.liked ? 'unlike it' : 'like it')
     },
     likeToggle (likes) {
       if (this.liked) {
-        this.likesCount--
+        this.count--
         this.removeLike()
       } else {
-        this.likesCount++
+        this.count++
         this.addLike()
       }
       this.liked = !this.liked
