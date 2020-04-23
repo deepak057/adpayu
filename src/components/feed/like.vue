@@ -43,6 +43,7 @@ export default {
   },
   watch: {
     likesCount (newV) {
+      this.count = newV
       this.setDefaultLike()
     }
   },
