@@ -16,6 +16,16 @@ export default {
   },
 
   signup (creds, redirect, callback) {
+    let d = {
+      email: creds.email,
+      password: creds.password,
+      first: creds.first,
+      last: creds.last,
+      location: creds.location
+    }
+    if (creds.refCode) {
+      d.refCode = creds.refCode
+    }
     return Vue.http({
       method: 'post',
       url: constants.API_BASE_URL + '/users',
@@ -23,13 +33,7 @@ export default {
       //  'Authorization': 'Basic ' + CLIENT_SECRET,
       //  'Content-Type': 'application/x-www-form-urlencoded'
       // },
-      data: this.URLSearchParams({
-        email: creds.email,
-        password: creds.password,
-        first: creds.first,
-        last: creds.last,
-        location: creds.location
-      })
+      data: this.URLSearchParams(d)
     })
       .then((response) => {
         auth.storeToken(response)
@@ -91,6 +95,13 @@ export default {
   },
   getLocalVideoURL () {
     return store.state.auth.localVideoURL
+  },
+  getRefCode () {
+    return store.state.auth.refCode
+  },
+  setRefCode (code) {
+    store.state.auth.refCode = code
+    store.dispatch('auth/update', store.state.auth)
   },
   setGuestId (id = false) {
     store.state.auth.guestId = id || ((new Date()).getTime() + Math.floor(Math.random() * (10000000000000 - 1 + 1) + 1))

@@ -12,7 +12,8 @@ const defaults = {
   options: {},
   totalRevenue: 0,
   orderId: false,
-  localVideoURL: false
+  localVideoURL: false,
+  refCode: false
 }
 
 const auth = {

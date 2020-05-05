@@ -710,6 +710,7 @@ export default {
     this.scrollToTop()
     this.siteIntroInit()
     this.getPosts()
+    this.setRefCode()
   },
   methods: {
     getPosts () {
@@ -726,6 +727,12 @@ export default {
             this.noMorePosts = true
           }
         })
+    },
+    setRefCode () {
+      let refCode = this.$route.query.refCode || false
+      if (refCode) {
+        auth.setRefCode(refCode)
+      }
     },
     soundToggle () {
       this.muted = !this.muted

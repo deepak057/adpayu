@@ -64,20 +64,29 @@
     .form-group
       .col-sm-12
         button.btn.btn-success Update Profile
+    h4 Referrals
+      br
+      small.text-muted Get referral link to track people registered through you
+      .form-group
+        a.btn.btn-secondary.btn-sm.m-t-10(@click="getReferralLink()")
+          i.mdi.mdi-link.m-r-5
+          | Get Referral Link
+        <preloader v-if="gettingReferralLink" class="preloader-next-to-text m-l-5 m-t-5"/>
 </template>
 <script>
 import mixin from '../../../globals/mixin.js'
 import countryList from '../../../globals/countries.js'
 import userRegistrationMixin from '../../../globals/user-register'
 import auth from '@/auth/helpers'
-
-// import Preloader from './../../../components/preloader'
+import Preloader from './../../../components/preloader'
 import Service from './service'
 
 export default {
   name: 'Settings',
   service: new Service(),
-  components: {},
+  components: {
+    Preloader
+  },
   mixins: [mixin, userRegistrationMixin, countryList],
   props: {
     currentUser: {
@@ -94,7 +103,9 @@ export default {
       maxTaglineChars: 100,
       newPassword: '',
       passwordError: false,
-      phoneNumberError: false
+      phoneNumberError: false,
+      gettingReferralLink: false,
+      refCode: false
     }
   },
   watch: {
@@ -103,6 +114,31 @@ export default {
     }
   },
   methods: {
+    getReferralLink () {
+      let getReferralLink = () => {
+        let localRef = this.currentUser.refCode
+        let getRefURL = (code) => {
+          return this.getDomainName() + '?refCode=' + code
+        }
+        if (localRef) {
+          this.refCode = getRefURL(localRef)
+          this.gettingReferralLink = false
+        } else {
+          this.$options.service.getReferralCode()
+            .then((d) => {
+              this.gettingReferralLink = false
+            })
+            .catch((rErr) => {
+              this.gettingReferralLink = false
+              this.showNotification('Something went wrong, please try again', 'error')
+            })
+        }
+      }
+      if (!this.gettingReferralLink) {
+        this.gettingReferralLink = true
+        getReferralLink()
+      }
+    },
     updateProfile () {
       if (this.nameValidate() && this.validateTagLine() && this.PhoneValidate() && this.passwordVaildate()) {
         // this.showNotification('Saving profile, please wait....', 'warn', -1)

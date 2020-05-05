@@ -103,7 +103,7 @@ export default {
         this.preloader = false
       })
       .catch((Tagserror) => {
-        alert('Soemthing went wrong while getting your tags')
+        // alert('Soemthing went wrong while getting your tags')
       })
   },
   methods: {

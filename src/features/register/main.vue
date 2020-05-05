@@ -102,7 +102,8 @@ export default {
           password: this.password,
           first: this.first,
           last: this.last,
-          location: this.location
+          location: this.location,
+          refCode: auth.getRefCode()
         }
         auth.signup(data, this.getRedirectPath(), ({isSuccess, data, errorMessage}) => {
         })
