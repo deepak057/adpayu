@@ -68,10 +68,19 @@
       br
       small.text-muted Get referral link to track people registered through you
       .form-group
+        <template v-if="!refCode">
         a.btn.btn-secondary.btn-sm.m-t-10(@click="getReferralLink()")
           i.mdi.mdi-link.m-r-5
           | Get Referral Link
         <preloader v-if="gettingReferralLink" class="preloader-next-to-text m-l-5 m-t-5"/>
+        </template>
+        <template v-if="refCode">
+          .m-t-10.small
+            a(:href="refCode" target="_blank")
+              | {{refCode}}
+            input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="refCode")
+            i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy Link" @click="copyURLToClipboard()")
+        </template>
 </template>
 <script>
 import mixin from '../../../globals/mixin.js'
@@ -98,6 +107,7 @@ export default {
     return {
       user: Object.assign({}, this.currentUser),
       name: this.userName(this.currentUser, false),
+      id: this.getUniqueId() + '-ref-link',
       nameError: false,
       taglineError: false,
       maxTaglineChars: 100,
@@ -105,7 +115,15 @@ export default {
       passwordError: false,
       phoneNumberError: false,
       gettingReferralLink: false,
-      refCode: false
+      refCode: false,
+      URLCopied: false
+    }
+  },
+  computed: {
+    copyTextElementId: {
+      get () {
+        return this.id + '-referral-link-copy-text-field'
+      }
     }
   },
   watch: {
@@ -114,6 +132,19 @@ export default {
     }
   },
   methods: {
+    copyURLToClipboard () {
+      this.URLCopied = true
+      let copyElem = document.getElementById(this.copyTextElementId)
+      copyElem.select()
+      // copyElem.setSelectionRange(0, 99999)
+      try {
+        document.execCommand('copy')
+        this.showNotification('Link copied.', 'success')
+        this.URLCopied = false
+      } catch (err) {
+        this.showNotification('Failed to copy URL', 'error')
+      }
+    },
     getReferralLink () {
       let getReferralLink = () => {
         let localRef = this.currentUser.refCode
@@ -121,12 +152,13 @@ export default {
           return this.getDomainName() + '?refCode=' + code
         }
         if (localRef) {
-          this.refCode = getRefURL(localRef)
           this.gettingReferralLink = false
+          this.refCode = getRefURL(localRef)
         } else {
           this.$options.service.getReferralCode()
             .then((d) => {
               this.gettingReferralLink = false
+              this.refCode = getRefURL(d.code)
             })
             .catch((rErr) => {
               this.gettingReferralLink = false

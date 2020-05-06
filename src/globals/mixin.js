@@ -119,7 +119,10 @@ export default {
       return (new Date()).getTime()
     },
     getDomainName () {
-      return window.location.hostname
+      // return window.location.hostname
+      let url = window.location.href
+      let arr = url.split('/')
+      return arr[0] + '//' + arr[2]
     },
     isEmptyObject (obj) {
       if (obj === null || typeof obj !== 'object') {
