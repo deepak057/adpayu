@@ -37,6 +37,9 @@
         a.m-r-10.comment-padding-0(href='javascript:void(0)' @click='deleteComment()' title="Delete this comment" v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
         <like :likesCount="comment.CommentsLikesCount" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
+        i.mdi.mdi-comment-processing-outline.m-r-5
+        span.m-r-5.pointer(@click="triggerReaction()")
+          | 23.3k
         .btn-group()
           button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list
@@ -68,6 +71,7 @@
   <social-share ref="socialShareComp" />
   <video-editing @VideoEdited="refreshVideo" ref="videoEditingComponent"/>
   <edit-comment ref="editCommentComponent" @CommentEdited="textCommentUpdated"/>
+  <reaction ref="reactionComponent" />
 </template>
 <script>
 import Like from './like'
@@ -80,6 +84,7 @@ import CommentVideoPlayer from './comment-video-player'
 import SocialShare from '../../components/social-share'
 import VideoEditing from '../videoEditing/main'
 import EditComment from './edit-comment'
+import Reaction from './reaction'
 
 export default {
   name: 'SingleComment',
@@ -89,7 +94,8 @@ export default {
     CommentVideoPlayer,
     VideoEditing,
     SocialShare,
-    EditComment
+    EditComment,
+    Reaction
   },
   mixins: [mixin, commentMixin],
   props: {
@@ -146,6 +152,9 @@ export default {
     }
   },
   methods: {
+    triggerReaction () {
+      this.$refs.reactionComponent.trigger(this.comment)
+    },
     triggerCommentEditing () {
       this.$refs.editCommentComponent.triggerPopup(this.comment, this.commentType)
     },
