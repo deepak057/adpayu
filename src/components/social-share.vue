@@ -138,7 +138,7 @@ export default {
     prepareShareObject (post, comment = false) {
       let getURL = (url) => {
         // return 'https://' + this.getDomainName() + '/' + url
-        return 'https://' + url
+        return url
       }
       if (post && comment) {
         this.shareObject.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)
