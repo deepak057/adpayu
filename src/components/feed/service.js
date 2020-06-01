@@ -104,4 +104,13 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
+  loadReactions (commentId, page = 1) {
+    return auth.get('/reactions/' + commentId + '?page=' + page)
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
 }

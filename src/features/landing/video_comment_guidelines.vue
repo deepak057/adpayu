@@ -30,7 +30,7 @@
         | If any video answer you have uploaded on {{siteName}} is found on another platform, we might take some strict actions against as you as that would be a violation of {{siteName}}’s User Uploaded Conetent policies. In which case, you will be liable to pay a heavy fine.
     h4.m-l-10.all-caps Payment for Video Answers
     p
-      | By default, you will get paid 10 INR for your video answer once it's approved. But if you feel you should be paid higher, don't hesitate to
+      | To know more about how you will get paid, please
       a(href="/#contact")
         |  contact us
       | . We will be very happy to appreciate your efforts, creativity and value that you put in your content.

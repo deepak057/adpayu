@@ -10,6 +10,21 @@ div(v-if="triggered")
     .reaction-modal-body
       .hv-align(v-if="loading")
         <preloader class="loader-medium" />
+      .chat-box(v-if="!loading")
+        // chat Row
+        ul.chat-list
+          li(v-for="reaction in reactions")
+            .chat-img
+              <router-link :to="userProfileLink(reaction.User.id)">
+                img(:src='getUserProfileImage(reaction.User.pic, "blue")', alt='user')
+              </router-link>
+            .chat-content
+              h5
+                <router-link class="pointer" tag="span" :to="userProfileLink(reaction.User.id)">
+                  | {{userName(reaction.User)}}
+                </router-link>
+              .box {{reaction.text}}
+            .chat-time 10:56 am
     .reaction-footer
     .row
       .col-10
@@ -30,12 +45,20 @@ export default {
     Preloader
   },
   mixins: [mixin],
+  props: {
+    comment: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       id: this.getUniqueId() + '-reaction-wrap',
       triggered: false,
       shown: false,
-      loading: true
+      loading: true,
+      page: 1,
+      reactions: []
     }
   },
   computed: {
@@ -49,6 +72,19 @@ export default {
     trigger () {
       this.triggered = true
       this.shown = true
+      this.loadReactions()
+    },
+    loadReactions () {
+      this.$options.service.loadReactions(this.comment.id, this.page)
+        .then((d) => {
+          this.loading = false
+          if (d.reactions.length) {
+            this.reactions = this.reactions.concat(d.reactions)
+          }
+        })
+        .catch((rErr) => {
+          this.showNotification('Something went wrong, please try again', 'error')
+        })
     }
   }
 }
