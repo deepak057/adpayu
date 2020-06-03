@@ -1130,10 +1130,10 @@ strong{
 	.video-overlay-view  .show-more-answer-link {
 		left: 5px !important;
 	}
-	.post-reaction-btn {
+	/*.post-reaction-btn {
 		bottom: 0px !important;
-		right: 5px !important;
-	}
+		right: 0px !important;
+	}*/
 }
 .hide-comment-user-name {
 	padding: 0px !important;
@@ -1694,8 +1694,19 @@ strong{
 	height: 80%;
 	overflow-y: scroll;
 }
+.reaction-wrap .reaction-modal-header {
+}
+.reaction-wrap .reaction-modal-footer {
+	border-top: 1px solid #d2d2d2;
+}
 .post-reaction-btn {
 	position: relative;
-	right: 30px;
-	bottom: 20px;
+	
+}
+.reaction-wrap .reaction-modal-body .box {
+	padding: 0px;
+	word-break: break-word;
+}
+.reaction-wrap .reaction-modal-body .chat-list li {
+	margin-top: 10px;
 }
