@@ -34,12 +34,13 @@
       span.action-icons.visible
         //a(href='javascript:void(0)')
           //i.ti-pencil-alt
-        a.m-r-10.comment-padding-0(href='javascript:void(0)' @click='deleteComment()' title="Delete this comment" v-if="isOwner(comment.User.id) || isAdmin()")
+        // a.m-r-10.comment-padding-0(href='javascript:void(0)'  v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
         <like :likesCount="comment.CommentsLikesCount" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
-        i.mdi.mdi-comment-processing-outline.m-r-5
-        span.m-r-5.pointer(@click="triggerReaction()")
-          | 23.3k
+        span.pointer.reactions-count-wrap(title="Comments or Reactions" @click="triggerReaction()")
+          i.mdi.mdi-comment-processing-outline.m-r-5
+          span.m-r-5
+            | {{ (comment.ReactionsCount ? comment.ReactionsCount: '') }}
         .btn-group()
           button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list
@@ -64,6 +65,9 @@
               span(v-if="!getVideo(comment)")
                 i.ti-pencil-alt
                 |  Edit
+            a.dropdown-item(href="javascript:void(0)" @click='deleteComment()' title="Delete this comment")
+              i.ti-trash.m-r-5
+              | Delete
             </template>
             a.dropdown-item(@click="triggerSharing()" href="javascript:void(0)" title="Share it on other social networks")
               i.ti-share.m-r-5

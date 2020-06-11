@@ -681,7 +681,7 @@ img.preloader-h-10 {
   display: none;
   bottom: 7px;
   right: 7px;
-  z-index: 999;
+  z-index: 49;
 }
 .scroll-up a {
     background: #ccc;
@@ -1709,4 +1709,8 @@ strong{
 }
 .reaction-wrap .reaction-modal-body .chat-list li {
 	margin-top: 10px;
+}
+.reactions-count-wrap i {
+	position: relative;
+	top: 0.7px;
 }

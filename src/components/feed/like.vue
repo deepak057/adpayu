@@ -1,7 +1,7 @@
 <template lang="pug">
 a.link.m-r-10.comment-padding-0(href='javascript:void(0)' @click="likeToggle(likes)" :title="tooltipText()")
   i.text-danger(:class="{'ti-heart pr-t-2': !liked, 'fa fa-heart': liked}")
-  |  {{count}} {{liked? 'Loved': 'Love'}}
+  |  {{count ? count : ''}}
 </template>
 <script>
 import Service from './service'
