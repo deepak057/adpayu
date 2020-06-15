@@ -75,7 +75,7 @@
   <social-share ref="socialShareComp" />
   <video-editing @VideoEdited="refreshVideo" ref="videoEditingComponent"/>
   <edit-comment ref="editCommentComponent" @CommentEdited="textCommentUpdated"/>
-  <reaction :comment="comment" ref="reactionComponent" />
+  <reaction :comment="comment" ref="reactionComponent" @ReactionCountUpdated="updateReactionsCount"/>
 </template>
 <script>
 import Like from './like'
@@ -156,6 +156,16 @@ export default {
     }
   },
   methods: {
+    updateReactionsCount (action) {
+      let c = this.comment.ReactionsCount ? parseInt(this.comment.ReactionsCount) : 0
+      if (action === 'add') {
+        this.comment.ReactionsCount = c ? ++c : 1
+      } else {
+        if (c > 0) {
+          this.comment.ReactionsCount = --c
+        }
+      }
+    },
     triggerReaction () {
       this.$refs.reactionComponent.trigger(this.comment)
     },

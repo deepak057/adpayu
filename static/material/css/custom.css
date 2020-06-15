@@ -1714,3 +1714,6 @@ strong{
 	position: relative;
 	top: 0.7px;
 }
+.comment-row .like-component .love-icon{
+	top: 0.7px !important;
+}

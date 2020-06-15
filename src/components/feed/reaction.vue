@@ -27,6 +27,8 @@ div(v-if="triggered" :id="id")
                 </router-link>
               .box
                 | {{reaction.text}}
+                span.pointer.m-l-10.p-r-t-1(@click = "deleteReaction(reaction.id)" title="Delete this" v-if="isOwner(reaction.UserId)")
+                  i.ti-trash
                 .small.text-muted.m-t-10
                   <timeago :datetime="reaction.createdAt" :auto-update="60" :title="reaction.createdAt | date"></timeago>
             // .chat-time
@@ -41,13 +43,15 @@ div(v-if="triggered" :id="id")
         .col-10.p-0
           textarea.form-control.b-0(@keyup.enter="saveReaction()" v-model.trim = "reaction" placeholder='Type your message here')
         .col-2.text-right.p-0
-          button.btn.btn-default.btn-circle.post-reaction-btn(@click="saveReaction()"  type='button')
+          <preloader class="loader-medium m-t-10" v-if="posting"/>
+          button.btn.btn-default.btn-circle.post-reaction-btn(v-if="!posting" @click="saveReaction()"  type='button')
             i.fa.fa-paper-plane-o
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Preloader from '../preloader'
 import Service from './service'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'Reaction',
@@ -65,6 +69,7 @@ export default {
   data () {
     return {
       id: this.getUniqueId() + '-reaction-wrap',
+      currentUser: auth.getUser(),
       triggered: false,
       shown: false,
       loading: true,
@@ -72,7 +77,8 @@ export default {
       reactions: [],
       reaction: '',
       loadMoreReactions: false,
-      noMoreReactions: false
+      noMoreReactions: false,
+      posting: false
     }
   },
   computed: {
@@ -94,16 +100,39 @@ export default {
       this.loadReactions()
     },
     saveReaction () {
-      if (this.reaction) {
+      if (this.reaction && !this.posting) {
+        this.posting = true
         this.$options.service.saveReaction(this.comment.id, this.reaction)
           .then((d) => {
+            this.posting = false
             this.reaction = ''
             this.reactions.unshift(d.reaction)
             this.getCommentBodyElement().scrollTop = 0
+            this.$emit('ReactionCountUpdated', 'add')
           })
           .catch((rErr) => {
+            this.posting = false
             this.showNotification('Something went wrong, please try later', 'error')
           })
+      }
+    },
+    isOwner (rUID) {
+      return this.currentUser.id === rUID
+    },
+    deleteReaction (rId) {
+      if (confirm('Delete this reaction?')) {
+        for (let i in this.reactions) {
+          if (this.reactions[i].id === rId) {
+            this.reactions.splice(i, 1)
+            this.$options.service.removeReaction(rId)
+              .then((d) => {
+                this.$emit('ReactionCountUpdated', 'delete')
+              })
+              .catch((rErr) => {
+                this.showNotification('Something went wrong, please try later', 'error')
+              })
+          }
+        }
       }
     },
     loadReactions () {
