@@ -189,6 +189,17 @@ export default {
       /* eslint-disable */
       $('.modal').modal('hide')
       $('.modal-backdrop').remove()
+      this.closeReactions()
+      
+      /* eslint-enable */
+    },
+    closeReactions () {
+      // A hacky way that uses jQuery directly to
+      // close all the Reactions popups
+      /* eslint-disable */
+      if ($('.reaction-popup').length) {
+        $('.reaction-popup').remove()
+      }
       /* eslint-enable */
     },
     audioURL (trackObj) {

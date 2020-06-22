@@ -167,7 +167,7 @@ export default {
       }
     },
     triggerReaction () {
-      this.$refs.reactionComponent.trigger(this.comment)
+      this.$refs.reactionComponent.trigger()
     },
     triggerCommentEditing () {
       this.$refs.editCommentComponent.triggerPopup(this.comment, this.commentType)

@@ -114,6 +114,7 @@ export default {
   methods: {
     closePopup () {
       this.pauseAllOtherVideos()
+      this.closeReactions()
       document.getElementById(this.closeButtonId).click()
     },
     highlightArrow (action = 'next') {
@@ -159,6 +160,7 @@ export default {
           break
         case 'left':
           this.closePopup()
+          this.closeAllModals()
           break
         default:
           this.redirectToProfile()
@@ -173,9 +175,11 @@ export default {
       let defaultComment = this.getLastComment(currentPost)
       let uid = defaultComment ? defaultComment.User.id : currentPost.User.id
       this.closePopup()
+      this.closeAllModals()
       router.push(this.userProfileLink(uid))
     },
     next () {
+      this.closeReactions()
       this.animation.up = false
       this.highlightArrow('next')
       let threshholdPostNumber = 3
@@ -226,6 +230,7 @@ export default {
       }
     },
     prev () {
+      this.closeReactions()
       this.animation.down = false
       this.highlightArrow('prev')
       if (this.currentPost > 0) {

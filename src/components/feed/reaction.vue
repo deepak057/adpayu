@@ -1,5 +1,5 @@
 <template lang="pug">
-div(v-if="triggered" :id="id")
+.reaction-popup(v-if="triggered" :id="id")
   .reaction-wrap(:class="{'block': shown, 'none': !shown}")
     .reaction-modal-header
       .text-center
@@ -17,12 +17,12 @@ div(v-if="triggered" :id="id")
         ul.chat-list
           li(v-for="reaction in reactions")
             .chat-img
-              <router-link :to="userProfileLink(reaction.User.id)">
+              <router-link @click.native="closeReactionsPopup()" :to="userProfileLink(reaction.User.id)">
                 img(:src='getUserProfileImage(reaction.User.pic, "blue")', alt='user')
               </router-link>
             .chat-content
               h5
-                <router-link class="pointer" tag="span" :to="userProfileLink(reaction.User.id)">
+                <router-link @click.native="closeReactionsPopup()" class="pointer" tag="span" :to="userProfileLink(reaction.User.id)">
                   | {{userName(reaction.User)}}
                 </router-link>
               .box
@@ -53,6 +53,22 @@ import Preloader from '../preloader'
 import Service from './service'
 import auth from '@/auth/helpers'
 
+function ReactionsInitialState (id) {
+  return {
+    id: id,
+    currentUser: auth.getUser(),
+    triggered: false,
+    shown: false,
+    loading: true,
+    page: 1,
+    reactions: [],
+    reaction: '',
+    loadMoreReactions: false,
+    noMoreReactions: false,
+    posting: false
+  }
+}
+
 export default {
   name: 'Reaction',
   service: new Service(),
@@ -67,19 +83,7 @@ export default {
     }
   },
   data () {
-    return {
-      id: this.getUniqueId() + '-reaction-wrap',
-      currentUser: auth.getUser(),
-      triggered: false,
-      shown: false,
-      loading: true,
-      page: 1,
-      reactions: [],
-      reaction: '',
-      loadMoreReactions: false,
-      noMoreReactions: false,
-      posting: false
-    }
+    return ReactionsInitialState(this.getUniqueId() + '-reaction-wrap')
   },
   computed: {
     bodyId: {
@@ -88,16 +92,40 @@ export default {
       }
     }
   },
+  watch: {
+    comment (newV) {
+      this.closeReactions()
+      this.reset()
+    }
+  },
   mounted () {
   },
   methods: {
     close () {
       this.shown = false
     },
+    reset () {
+      Object.assign(this.$data, ReactionsInitialState(this.getUniqueId() + '-reaction-wrap'))
+    },
     trigger () {
+      this.closeReactions()
       this.triggered = true
       this.shown = true
       this.loadReactions()
+      this.appendToBody()
+    },
+    /*
+    * append Reactions popup to body
+    * to avoid CSS conflicts with Overlay View
+    * if reactions are triggerd in Overlay View
+    */
+    appendToBody () {
+      const component = this.$mount()
+      document.querySelector('body').appendChild(component.$el)
+    },
+    closeReactionsPopup () {
+      this.triggered = false
+      this.closeAllModals()
     },
     saveReaction () {
       if (this.reaction && !this.posting) {
