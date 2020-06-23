@@ -21,9 +21,9 @@ div(v-if="triggered")
                 span.small.m-l-5(v-if="isMobile()")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
-          i.mdi.mdi-close.close.pointer.c-white(@click="pauseAllOtherVideos()" title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
+          i.mdi.mdi-close.close.pointer.c-white(@click="closePopup()" title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0()
-          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="pauseAllOtherVideos()" title="Back" :id="closeButtonId" data-dismiss='modal' v-if="isMobile()")
+          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal' v-if="isMobile()")
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
@@ -116,6 +116,7 @@ export default {
       this.pauseAllOtherVideos()
       this.closeReactions()
       document.getElementById(this.closeButtonId).click()
+      this.closeAllModals()
     },
     highlightArrow (action = 'next') {
       let highlightDuration = 500
@@ -261,6 +262,7 @@ export default {
     },
     triggerPopup (obj = false) {
       /*eslint-disable*/
+      this.closeReactions()
       this.triggered = true
       this.setCustomDefaultPost(obj)
       let d = document.getElementById(this.triggerButtonId)
