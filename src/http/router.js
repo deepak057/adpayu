@@ -6,6 +6,33 @@ import store from '@/store'
 Vue.use(Router)
 
 /**
+ * Custom function that takes care of
+ * application level's custom actions
+ * on every route change
+**/
+
+function globalAction () {
+  /**
+   * A hacky way to close Boostrap Modals and
+   * Reactions popups
+  **/
+  let closePopups = () => {
+    if (window.jQuery) {
+      /* eslint-disable */
+      if ($('.modal').length) {
+        $('.modal').modal('hide')
+        $('.modal-backdrop').remove()  
+      }
+      if ($('.reaction-popup').length) {
+        $('.reaction-popup').remove()
+      }
+      /* eslint-enable */
+    }
+  }
+  closePopups()
+}
+
+/**
  * Guard the route from unauthorized users.
  *
  * @param  {Route}    to   The route we want to access.
@@ -43,6 +70,7 @@ const router = new Router({
     component: route.component,
     children: route.children,
     beforeEnter: (to, from, next) => {
+      globalAction()
       // Setup some per-page stuff.
       document.title = route.title
       store.dispatch('common/updateTitle', route.title)
@@ -50,7 +78,6 @@ const router = new Router({
 
       // Auth navigation guard.
       if (!route.isPublic) return guardRoute(to, from, next)
-
       next()
     }
   }))
