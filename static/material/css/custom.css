@@ -1130,6 +1130,9 @@ strong{
 	.video-overlay-view  .show-more-answer-link {
 		left: 5px !important;
 	}
+	.reaction-wrap:focus-within {
+		bottom: 20px !important;
+	}
 	/*.post-reaction-btn {
 		bottom: 0px !important;
 		right: 0px !important;

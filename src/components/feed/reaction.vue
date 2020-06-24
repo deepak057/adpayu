@@ -44,7 +44,7 @@
           textarea.form-control.b-0(@keyup.enter="saveReaction()" v-model.trim = "reaction" placeholder='Type your message here')
         .col-2.text-right.p-0
           <preloader class="loader-medium m-t-10" v-if="posting"/>
-          button.btn.btn-default.btn-circle.post-reaction-btn(v-if="!posting" @click="saveReaction()"  type='button')
+          button.btn.btn-default.btn-circle.post-reaction-btn(v-if="!posting" @click="saveReaction()")
             i.fa.fa-paper-plane-o
 </template>
 <script>
