@@ -1131,7 +1131,7 @@ strong{
 		left: 5px !important;
 	}
 	.reaction-wrap:focus-within {
-		bottom: 20px !important;
+		height: 85% !important;
 	}
 	/*.post-reaction-btn {
 		bottom: 0px !important;
@@ -1719,10 +1719,4 @@ strong{
 }
 .comment-row .like-component .love-icon{
 	top: 0.7px !important;
-}
-.reaction-wrap .reaction-modal-footer textarea {
-	padding: 10px 0px 0px 0px !important;
-	min-height: auto !important; 
-	touch-action: auto;
-	height: 100%;
 }
