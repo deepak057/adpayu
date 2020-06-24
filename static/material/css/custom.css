@@ -1130,7 +1130,7 @@ strong{
 	.video-overlay-view  .show-more-answer-link {
 		left: 5px !important;
 	}
-	.reaction-wrap:focus-within {
+	/*.reaction-wrap:focus-within {
 		bottom: 20px !important;
 	}
 	/*.post-reaction-btn {
@@ -1719,4 +1719,8 @@ strong{
 }
 .comment-row .like-component .love-icon{
 	top: 0.7px !important;
+}
+.reaction-wrap .reaction-modal-footer textarea {
+	padding: 10px 0px 0px 0px !important;
+	min-height: auto !important; 
 }
