@@ -205,12 +205,15 @@ export default {
     audioURL (trackObj) {
       return this.getStaticContentURL() + '/audio/' + trackObj.path
     },
-    videoPlayerOptions (videoObj) {
+    getVideoPoster (videoObj) {
       let path = this.getVideoPath(videoObj)
+      return this.getMedia(path, 'videoPoster')
+    },
+    videoPlayerOptions (videoObj) {
       let r = {
         sources: this.getVideoSources(videoObj),
         responsive: true,
-        poster: this.getMedia(path, 'videoPoster'),
+        poster: this.getVideoPoster(videoObj),
         dataSetup: {'fluid': true},
         aspectRatio: '16:9',
         preload: 'none'

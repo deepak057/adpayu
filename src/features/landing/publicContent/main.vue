@@ -116,7 +116,21 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
+      title: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response')),
+      meta: [
+        {
+          property: 'og:title',
+          content: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
+        },
+        {
+          property: 'og:image',
+          content: this.content.video ? this.getVideoPoster(this.content.video) : ''
+        },
+        {
+          property: 'og:site_name',
+          content: this.siteName
+        }
+      ]
     }
   },
   computed: {
