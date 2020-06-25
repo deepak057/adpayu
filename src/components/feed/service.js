@@ -114,7 +114,7 @@ export default class Service {
       })
   }
   saveReaction (commentId, reaction) {
-    return auth.post('/reactions/' + commentId, {reaction: reaction})
+    return auth.post('/reactions/add/' + commentId, {reaction: reaction})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
