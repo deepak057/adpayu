@@ -124,11 +124,28 @@ export default {
         },
         {
           property: 'og:image',
-          content: this.content.video ? this.getVideoPoster(this.content.video) : ''
+          content: this.content.video ? this.getVideoPoster(this.content.video) : '',
+          itemprop: 'image'
         },
         {
           property: 'og:site_name',
           content: this.siteName
+        },
+        {
+          property: 'og:url',
+          content: window.location.href
+        },
+        {
+          property: 'og:description',
+          content: 'Watch amazing videos'
+        },
+        {
+          property: 'og:video',
+          content: this.content.video ? this.getVideoURL(this.content.video) : ''
+        },
+        {
+          property: 'og:type',
+          content: 'website'
         }
       ]
     }
