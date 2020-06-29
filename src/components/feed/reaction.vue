@@ -15,7 +15,7 @@
         .text-center.m-t-10(v-if="!reactions.length")
           | No Reactions
         ul.chat-list
-          li(v-for="reaction in reactions")
+          li(v-for="reaction in reactions" :key="reaction.id")
             .chat-img
               <router-link @click.native="closeReactionsPopup()" :to="userProfileLink(reaction.User.id)">
                 img(:src='getUserProfileImage(reaction.User.pic, "blue")', alt='user')

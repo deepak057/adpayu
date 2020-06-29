@@ -128,7 +128,7 @@ export default {
       noMoreFeed: false,
       currentUser: auth.getUser(),
       truncateFeedConf: {
-        enable: true,
+        enable: false,
         maxPostsCount: 100,
         postsToRemove: 50
       },
