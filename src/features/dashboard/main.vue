@@ -127,6 +127,11 @@ export default {
       currentPage: 1,
       noMoreFeed: false,
       currentUser: auth.getUser(),
+      truncateFeedConf: {
+        enable: true,
+        maxPostsCount: 100,
+        postsToRemove: 50
+      },
       postOptions: [
         {
           type: 'text',
@@ -275,8 +280,23 @@ export default {
         sessionStorage.setItem(key, true)
       }
     },
+    /*
+    * method to remove last n posts
+    * if posts count reaches a predfined limit
+    * this is to keep the Posts count low enough
+    * to prevent web pages from hanging if post
+    * count gets too high
+    */
+    truncateFeed () {
+      if (this.truncateFeedConf.enable && this.feed.length >= this.truncateFeedConf.maxPostsCount) {
+        alert(this.feed.length)
+        this.feed.splice(0, this.truncateFeedConf.postsToRemove)
+        alert(this.feed.length)
+      }
+    },
     afterFeedLoad (data) {
       this.feed = this.feed.concat(this.removeDuplicates(this.feed, data.posts))
+      this.truncateFeed()
       if (this.currentPage === 1) {
         this.autoTriggerOverlayView()
       }
