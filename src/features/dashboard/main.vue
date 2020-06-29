@@ -128,7 +128,7 @@ export default {
       noMoreFeed: false,
       currentUser: auth.getUser(),
       truncateFeedConf: {
-        enable: true,
+        enable: false,
         maxPostsCount: 100,
         postsToRemove: 50
       },
@@ -289,9 +289,7 @@ export default {
     */
     truncateFeed () {
       if (this.truncateFeedConf.enable && this.feed.length >= this.truncateFeedConf.maxPostsCount) {
-        alert(this.feed.length)
         this.feed.splice(0, this.truncateFeedConf.postsToRemove)
-        alert(this.feed.length)
       }
     },
     afterFeedLoad (data) {
