@@ -104,11 +104,18 @@ export default {
   },
   watch: {
     popupFeed (newV) {
+      let currentPostObj = false
+      if (this.feed.length && this.currentPost) {
+        currentPostObj = this.getCurrentPost()
+      }
       this.feed = this.manipulateFeed(this.copyObject(newV))
-      if (this.triggered && newV.length && !this.currentPost) {
+      if (currentPostObj && newV.length) {
+        this.currentPost = this.getPostIndexById(currentPostObj.id)
+      }
+      /* if (this.triggered && newV.length && !this.currentPost) {
         this.autoPlayVideo()
         this.handleTutorial()
-      }
+      } */
     }
   },
   methods: {
