@@ -104,6 +104,13 @@ export default {
   },
   watch: {
     popupFeed (newV) {
+      /*
+      * if the feed Array changes, before
+      * updating component's internall feed array
+      * keep the copy of currentPost and after
+      * updating the internal array, set the current post
+      * counter to the current post's index in the array
+      */
       let currentPostObj = false
       if (this.feed.length && this.currentPost) {
         currentPostObj = this.getCurrentPost()
