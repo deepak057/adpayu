@@ -83,7 +83,7 @@
   // ==============================================================
   // End Right sidebar
   // ==============================================================
-  <overlay-view :popupFeed="feed" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
+  <overlay-view :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
 </template>
 
 <script>

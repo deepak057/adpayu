@@ -22,8 +22,11 @@ div(v-if="triggered")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
           i.mdi.mdi-close.close.pointer.c-white(@click="closePopup()" title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
-        .modal-body.p-b-0()
-          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal' v-if="isMobile()")
+        .modal-body.p-b-0
+          <template v-if="isMobile()">
+          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal')
+          i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
+          </template>
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
@@ -126,6 +129,11 @@ export default {
     }
   },
   methods: {
+    refreshFeed () {
+      this.closePopup()
+      this.scrollToTop()
+      this.$emit('ReloadFeed')
+    },
     closePopup () {
       this.pauseAllOtherVideos()
       this.closeReactions()
