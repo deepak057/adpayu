@@ -21,7 +21,8 @@ div(v-if="triggered")
                 span.small.m-l-5(v-if="isMobile()")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
-          i.mdi.mdi-close.close.pointer.c-white(@click="closePopup()" title="Close" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
+          i.mdi.mdi-refresh.mdi-24px.pointer.c-white(@click="refreshFeed()" title="Refresh the feed")
+          span(@click="closePopup()" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal')
