@@ -157,7 +157,7 @@ export default {
     },
     enableShowMoreAnswerLink () {
       let f = this.getCurrentPost()
-      return f.type === 'question'
+      return f && f.type === 'question'
     },
     manipulateFeed (feed) {
       let arr = []
