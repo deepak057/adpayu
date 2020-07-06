@@ -26,7 +26,8 @@ div(v-if="triggered")
         .modal-body.p-b-0
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal')
-          i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
+          i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+          // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
           </template>
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
@@ -42,7 +43,7 @@ div(v-if="triggered")
             .nav-text
              | Swipe down for previous video
             img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
-          i.mdi.mdi-18px.mdi-information-outline.pointer.fixed-br(v-if="isMobile()" data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+          i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed")
         //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
