@@ -21,7 +21,7 @@ div(v-if="triggered")
                 span.small.m-l-5(v-if="isMobile()")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
-          i.mdi.mdi-refresh.mdi-24px.pointer.c-white(@click="refreshFeed()" title="Refresh the feed")
+          i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
           span(@click="closePopup()" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
           <template v-if="isMobile()">
@@ -43,7 +43,7 @@ div(v-if="triggered")
             .nav-text
              | Swipe down for previous video
             img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
-          i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed")
+          i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed" :class="{'spin': spinRefreshIcon}")
         //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
@@ -82,7 +82,8 @@ export default {
         down: false
       },
       nextCommandInvoked: false,
-      prevCommandInvoked: false
+      prevCommandInvoked: false,
+      spinRefreshIcon: false
     }
   },
   computed: {
@@ -132,6 +133,7 @@ export default {
   },
   methods: {
     refreshFeed () {
+      this.spinRefreshIcon = true
       this.closePopup()
       this.scrollToTop()
       this.$emit('ReloadFeed')
@@ -288,6 +290,7 @@ export default {
       /*eslint-disable*/
       this.closeReactions()
       this.triggered = true
+      this.spinRefreshIcon = false
       this.setCustomDefaultPost(obj)
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
