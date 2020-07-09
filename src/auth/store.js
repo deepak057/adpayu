@@ -13,7 +13,8 @@ const defaults = {
   totalRevenue: 0,
   orderId: false,
   localVideoURL: false,
-  refCode: false
+  refCode: false,
+  forex: false
 }
 
 const auth = {

@@ -1,7 +1,7 @@
 <template lang="pug">
 .total-revenue-wrap
   h3.m-b-0.font-light
-    | ${{totalRevenue || 0}}
+    span(v-html = "showAmount(totalRevenue) || 0")
     span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="syncUser()")
       i.fa.fa-sign-out.m-r-2
       | Withdraw
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     updateTotal (newV) {
-      this.totalRevenue = this.roundToDecimalPlaces(newV || auth.getLocalRevenue())
+      this.totalRevenue = newV || auth.getLocalRevenue()
     },
     withdrawTrigger () {
       if (this.accountVerified()) {

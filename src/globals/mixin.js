@@ -6,7 +6,8 @@ import { router } from '@/http'
 export default {
   data () {
     return {
-      siteName: constants.SITE_NAME
+      siteName: constants.SITE_NAME,
+      defaultCurrency: 'USD'
     }
   },
   filters: {
@@ -33,6 +34,11 @@ export default {
   methods: {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
+    },
+    showAmount (USDAmount, user = false) {
+      user = user || auth.getUser()
+      let defaultCurrency = user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency
+      return defaultCurrency === 'INR' ? '&#x20B9;' + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + this.roundToDecimalPlaces(USDAmount)
     },
     isVisible (elem) {
       return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)

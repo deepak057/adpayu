@@ -99,6 +99,13 @@ export default {
   getRefCode () {
     return store.state.auth.refCode
   },
+  setforex (forex) {
+    store.state.auth.forex = forex
+    store.dispatch('auth/update', store.state.auth)
+  },
+  getForex () {
+    return store.state.auth.forex
+  },
   setRefCode (code) {
     store.state.auth.refCode = code
     store.dispatch('auth/update', store.state.auth)
@@ -393,6 +400,9 @@ export default {
         return new Promise((resolve) => {
           if (uid === currentUser.id) {
             this.updateUserState(response.data.user)
+            if (response.data.forex) {
+              this.setforex(response.data.forex)
+            }
           }
           resolve(response.data)
         })
