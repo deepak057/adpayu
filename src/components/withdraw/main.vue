@@ -44,7 +44,8 @@ div
              #headingOne-revenue-breakdown.card-header(role='tab')
                h5.mb-0
                  a.d-block(data-toggle='collapse', data-parent='#accordion-revenue-breakdown', href='#collapseOne-revenue-breakdown', aria-expanded='false', aria-controls='collapseOne-revenue-breakdown')
-                   | Total Payable: ${{data.transactionDetails.totalUSD}} ({{data.transactionDetails.totalINR}} INR)
+                   | Total Payable:
+                   span.m-l-5(v-html="showAmount(data.transactionDetails.totalUSD)")
                    i.mdi.mdi-information-outline.m-l-5
              #collapseOne-revenue-breakdown.collapse(role='tabpanel', aria-label.smallledby='headingOne-revenue-breakdown', style='')
                .card-body
@@ -54,34 +55,34 @@ div
                        thead
                          tr
                            th.text-left Remarks
-                           th Amount in USD
-                           th Amount in INR
+                           th.text-center Amount
+                           // th Amount in INR
                        tr
                          td.text-left
                            | Money Accumulated
                            i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Money Accumulated" data-toggle="popover" data-placement="right" data-content="Total amount of money that you have made by seeing and watching the ads.")
-                         td ${{data.transactionDetails.amountAccumulatedUSD}}
-                         td {{data.transactionDetails.amountAccumulatedINR}} INR
+                         td(v-html="showAmount(data.transactionDetails.amountAccumulatedUSD)")
+                         //td {{data.transactionDetails.amountAccumulatedINR}} INR
                        tr
                          td.text-left
                            | {{data.transactionDetails.siteFeePercentage}}% Site Fee
                            i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Site Fee" data-toggle="popover" data-placement="right" :data-content="getSiteFeeText()")
-                         td.text-danger ${{data.transactionDetails.siteFeeUSD}}
-                         td.text-danger {{data.transactionDetails.siteFeeINR}} INR
+                         td.text-danger(v-html="showAmount(data.transactionDetails.siteFeeUSD)")
+                         //td.text-danger {{data.transactionDetails.siteFeeINR}} INR
                        tr
                          td.text-left
                            | {{data.transfermodeDetails.mode | capitalize}} Transfer Fee
                            i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Payment Transfer Charges" data-toggle="popover" data-placement="right" data-content="This amount of money is charged by our Payment Gateway partner in order to transfer money to your account instantly. You can choose manual transfer mode which will charge less but money will be transferred to your account within 24 hours.")
-                         td.text-danger $ {{data.transactionDetails.paymentGatewayChargeUSD}}
-                         td.text-danger {{data.transactionDetails.paymentGatewayChargeINR}} INR
+                         td.text-danger(v-html ="showAmount(data.transactionDetails.paymentGatewayChargeUSD)")
+                         //td.text-danger {{data.transactionDetails.paymentGatewayChargeINR}} INR
                        tr
                          td.text-left
                            h6
                              | Total Payable
                              i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Total Payable Money" data-toggle="popover" data-placement="right" data-content="This is the amount of money that is payable to you after deducting the Site Fee and money transfer charges from the total accumulated amount.")
                          td
-                           h6.text-success ${{data.transactionDetails.totalUSD}}
-                         td
+                           h6.text-success(v-html="showAmount(data.transactionDetails.totalUSD)")
+                         // td
                            h6.text-success {{data.transactionDetails.totalINR}} INR
           .payment-withdrawl-details-form-wrap
             .pwo-selected-option-wrap

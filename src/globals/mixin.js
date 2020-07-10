@@ -35,9 +35,13 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    getUserCurrency (user = false) {
+      user = user || auth.getUser()
+      return user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency
+    },
     showAmount (USDAmount, user = false) {
       user = user || auth.getUser()
-      let defaultCurrency = user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency
+      let defaultCurrency = this.getUserCurrency(user)
       return defaultCurrency === 'INR' ? '&#x20B9;' + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + this.roundToDecimalPlaces(USDAmount)
     },
     isVisible (elem) {
