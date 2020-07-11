@@ -39,10 +39,11 @@ export default {
       user = user || auth.getUser()
       return user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency
     },
-    showAmount (USDAmount, user = false) {
+    showAmount (USDAmount, user = false, spacing = false) {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
-      return defaultCurrency === 'INR' ? '&#x20B9;' + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + this.roundToDecimalPlaces(USDAmount)
+      let space = spacing ? ' ' : ''
+      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + space + this.roundToDecimalPlaces(USDAmount)
     },
     isVisible (elem) {
       return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)

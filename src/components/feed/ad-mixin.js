@@ -30,7 +30,7 @@ export default {
           dynamic = 'You have got'
         }
       }
-      return dynamic + ' $ ' + price + ' for ' + actionText + ' this ad'
+      return dynamic + ' ' + this.showAmount(price) + ' for ' + actionText + ' this ad'
     },
     getAdConfig (post) {
       return post.AdOption
