@@ -43,7 +43,7 @@ export default {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
       let space = spacing ? ' ' : ''
-      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + space + this.roundToDecimalPlaces(USDAmount)
+      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + space + (spacing ? USDAmount : this.roundToDecimalPlaces(USDAmount))
     },
     isVisible (elem) {
       return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)

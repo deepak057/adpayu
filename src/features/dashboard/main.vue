@@ -227,7 +227,7 @@ export default {
     },
     VideoPlayed (obj) {
       this.$refs.overlayViewComp.triggerPopup(obj)
-      this.$refs.AdPopupComp.triggerPopup()
+      // this.$refs.AdPopupComp.triggerPopup()
     },
     reloadFeed () {
       this.resetFeed()
@@ -239,7 +239,7 @@ export default {
       this.currentPage = 1
     },
     getFeed () {
-      this.$refs.AdPopupComp.triggerPopup()
+      // this.$refs.AdPopupComp.triggerPopup()
       if (this.currentPage === 1) {
         this.preloader = true
       }
@@ -282,7 +282,7 @@ export default {
       let overlayViewTriggered = sessionStorage.getItem(key)
       if (overlayViewTriggered === null) {
         this.$refs.overlayViewComp.triggerPopup()
-        this.$refs.AdPopupComp.triggerPopup()
+        // this.$refs.AdPopupComp.triggerPopup()
         sessionStorage.setItem(key, true)
       }
     },
