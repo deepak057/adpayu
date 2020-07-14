@@ -8,20 +8,35 @@ div(v-if="triggered")
           h4.modal-title Hold on
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
+          <template v-if ="!step2">
+          <template v-if ="!pageLoader">
           h4
-            | 5000 real people have made more than $50000
+            | {{totalUsers}} real people have made
+            span.m-l-5.m-r-5(v-html="showAmount(totalMoney)")
+            | so far
           p
             | Would you also like to make some real and quick money?
+          </template>
+          <template v-if ="pageLoader">
+          .text-center
+            <preloader class="m-t-10"/>
+          </template>
+          </template>
+          <template v-if ="step2">
+          .text-center
+            h3
+              | Watch ads everyday in between videos and collect money everyday
+          </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
             | No
-          button.btn.btn-danger(type='button')
+          button.btn.btn-danger(type='button' @click="enableStep2()")
             | Yes
 </template>
 <script>
 import mixin from '../../../../globals/mixin'
 import Preloader from '../../../../components/preloader'
-import Service from '../../service'
+import Service from './service'
 // import auth from '@/auth/helpers'
 
 export default {
@@ -35,7 +50,10 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-ad-system-popup-',
-      triggered: false
+      triggered: false,
+      totalUsers: 0,
+      totalMoney: 0,
+      step2: false
     }
   },
   computed: {
@@ -63,9 +81,25 @@ export default {
   mounted () {
   },
   methods: {
+    enableStep2 () {
+      this.step2 = true
+    },
+    getStats () {
+      this.pageLoader = true
+      this.$options.service.getStats()
+        .then((d) => {
+          this.pageLoader = false
+          this.totalUsers = this.formatNumber(d.stats.totalUsers)
+          this.totalMoney = d.stats.totalMoneyMadeUSD
+        })
+        .catch((sErr) => {
+          this.showNotification('Something went wrong while getting withdrawal stats', 'danger')
+        })
+    },
     triggerPopup () {
       /*eslint-disable*/
       this.triggered = true
+      this.step2 = false
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {
@@ -73,10 +107,12 @@ export default {
           if (d) {
             d.click()
             clearInterval(interval)
+            this.getStats()
           }
         }, 100)
       } else {
         d.click()
+        this.getStats()
       }
     },
     closePopup () {

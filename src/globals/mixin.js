@@ -43,7 +43,19 @@ export default {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
       let space = spacing ? ' ' : ''
-      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.roundToDecimalPlaces(USDAmount * auth.getForex()) : '$' + space + (spacing ? USDAmount : this.roundToDecimalPlaces(USDAmount))
+      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.formatNumber(USDAmount * auth.getForex()) : '$' + space + (spacing ? USDAmount : this.formatNumber(USDAmount))
+    },
+    formatNumber (labelValue) {
+      // Nine Zeroes for Billions
+      return Math.abs(Number(labelValue)) >= 1.0e+9
+        ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+9) + 'B'
+        // Six Zeroes for Millions
+        : Math.abs(Number(labelValue)) >= 1.0e+6
+          ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+6) + 'M'
+          // Three Zeroes for Thousands
+          : Math.abs(Number(labelValue)) >= 1.0e+3
+            ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+3) + 'K'
+            : this.roundToDecimalPlaces(Math.abs(Number(labelValue)))
     },
     isVisible (elem) {
       return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
