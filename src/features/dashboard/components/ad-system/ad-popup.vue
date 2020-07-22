@@ -2,7 +2,7 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
-    .modal-dialog
+    .modal-dialog.modal-lg
       .modal-content
         .modal-header
           h4.modal-title Hold on
@@ -25,7 +25,9 @@ div(v-if="triggered")
           <template v-if ="step2">
           .text-center
             h3
-              | Watch ads everyday in between videos and collect money everyday
+              | Watch ads in between videos and collect money everyday
+          .m-t-20
+            <feed :feed = "feed" :userFeed = "true"/>
           </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
@@ -37,13 +39,15 @@ div(v-if="triggered")
 import mixin from '../../../../globals/mixin'
 import Preloader from '../../../../components/preloader'
 import Service from './service'
+import Feed from './../../../../components/feed/feed'
 // import auth from '@/auth/helpers'
 
 export default {
   name: 'AdPopup',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    Feed
   },
   mixins: [mixin],
   data () {
@@ -53,7 +57,8 @@ export default {
       triggered: false,
       totalUsers: 0,
       totalMoney: 0,
-      step2: false
+      step2: false,
+      feed: []
     }
   },
   computed: {
@@ -83,6 +88,17 @@ export default {
   methods: {
     enableStep2 () {
       this.step2 = true
+      this.$options.service.getAds()
+        .then((d) => {
+          if (d.ads && d.ads.length) {
+            this.feed = [d.ads[0]]
+          } else {
+            alert('No Ad')
+          }
+        })
+        .catch((e) => {
+          this.showNotification('Something went wrong', 'error')
+        })
     },
     getStats () {
       this.pageLoader = true
@@ -93,7 +109,7 @@ export default {
           this.totalMoney = d.stats.totalMoneyMadeUSD
         })
         .catch((sErr) => {
-          this.showNotification('Something went wrong while getting withdrawal stats', 'danger')
+          this.showNotification('Something went wrong while getting withdrawal stats', 'error')
         })
     },
     triggerPopup () {
