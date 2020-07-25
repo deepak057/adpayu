@@ -2,37 +2,40 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
-    .modal-dialog.modal-lg
+    .modal-dialog(:class="{'modal-lg': steps.step2.enable}")
       .modal-content
         .modal-header
           h4.modal-title Hold on
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
-          <template v-if ="!step2">
-          <template v-if ="!pageLoader">
-          h4
-            | {{totalUsers}} real people have made
-            span.m-l-5.m-r-5(v-html="showAmount(totalMoney)")
-            | so far
-          p
-            | Would you also like to make some real and quick money?
+          <template v-if ="steps.step1.enable">
+          <template v-if ="!steps.step1.loader">
+          h3
+            span(v-if="steps.step1.text1")
+              | {{steps.step1.text1}}
+            span(v-if="steps.step1.text2" v-html="showAmount(steps.step1.totalMoney)")
+            | {{steps.step1.text2}}
+          p(v-if="steps.step1.text3")
+            | {{steps.step1.text3}}
+          .m-t-20
+            img.w-100(:src="staticImageUrl('money-banner.jpg')")
           </template>
-          <template v-if ="pageLoader">
+          <template v-if ="steps.step1.loader">
           .text-center
             <preloader class="m-t-10"/>
           </template>
           </template>
-          <template v-if ="step2">
+          <template v-if ="steps.step2.enable">
           .text-center
             h3
-              | Watch ads in between videos and collect money everyday
-          .m-t-20
-            <feed :feed = "feed" :userFeed = "true"/>
+              | {{step2Title}}
+          .m-t-20(v-if="feed.length")
+            <feed :feed = "feed" :config="feedConfig" :userFeed = "true"/>
           </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
             | No
-          button.btn.btn-danger(type='button' @click="enableStep2()")
+          button.btn.btn-danger(type='button' @click="enableStep(2)")
             | Yes
 </template>
 <script>
@@ -41,6 +44,31 @@ import Preloader from '../../../../components/preloader'
 import Service from './service'
 import Feed from './../../../../components/feed/feed'
 // import auth from '@/auth/helpers'
+
+function adSystemInitialState () {
+  return {
+    step1: {
+      enable: true,
+      totalUsers: 0,
+      totalMoney: 0,
+      loader: true,
+      text1: '',
+      text2: '',
+      text3: ''
+    },
+    step2: {
+      enable: false,
+      title: 'Watch ads in between videos and collect money everyday'
+    },
+    ad: {
+      loader: true,
+      feed: [],
+      feedConfig: {
+        colWidth: 9
+      }
+    }
+  }
+}
 
 export default {
   name: 'AdPopup',
@@ -55,10 +83,7 @@ export default {
       pageLoader: true,
       id: this.getUniqueId() + '-ad-system-popup-',
       triggered: false,
-      totalUsers: 0,
-      totalMoney: 0,
-      step2: false,
-      feed: []
+      steps: adSystemInitialState()
     }
   },
   computed: {
@@ -86,8 +111,39 @@ export default {
   mounted () {
   },
   methods: {
-    enableStep2 () {
-      this.step2 = true
+    enableStep1 () {
+      let showAnimationText = () => {
+        this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
+        this.textAnimationEffect('text1')
+          .then((d) => {
+            this.steps.step1.text2 = ' so far'
+            this.textAnimationEffect('text2')
+              .then((d1) => {
+                this.steps.step1.text3 = 'Would you also like to make some real quick money?'
+                this.textAnimationEffect('text3')
+              })
+          })
+      }
+      this.steps.step1.enable = true
+      if (this.steps.step1.loader) {
+        this.$options.service.getStats()
+          .then((d) => {
+            this.steps.step1.loader = false
+            this.steps.step1.totalUsers = this.formatNumber(d.stats.totalUsers)
+            this.steps.step1.totalMoney = d.stats.totalMoneyMadeUSD
+            showAnimationText()
+          })
+          .catch((sErr) => {
+            this.showNotification('Something went wrong while getting withdrawal stats', 'error')
+          })
+      }
+    },
+    enableStep (step) {
+      if (step === 1) {
+        this.enableStep1()
+      }
+    },
+    fetchAd () {
       this.$options.service.getAds()
         .then((d) => {
           if (d.ads && d.ads.length) {
@@ -100,22 +156,9 @@ export default {
           this.showNotification('Something went wrong', 'error')
         })
     },
-    getStats () {
-      this.pageLoader = true
-      this.$options.service.getStats()
-        .then((d) => {
-          this.pageLoader = false
-          this.totalUsers = this.formatNumber(d.stats.totalUsers)
-          this.totalMoney = d.stats.totalMoneyMadeUSD
-        })
-        .catch((sErr) => {
-          this.showNotification('Something went wrong while getting withdrawal stats', 'error')
-        })
-    },
     triggerPopup () {
       /*eslint-disable*/
       this.triggered = true
-      this.step2 = false
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {
@@ -123,13 +166,31 @@ export default {
           if (d) {
             d.click()
             clearInterval(interval)
-            this.getStats()
+            this.enableStep(1)
           }
         }, 100)
       } else {
         d.click()
-        this.getStats()
+        this.enableStep(1)
       }
+    },
+    textAnimationEffect (text, speed_ = 70) {
+      return new Promise((resolve, reject) => {
+        let i = 0
+        let txt = this.steps.step1[text]
+        let speed = speed_
+        this.steps.step1[text] = ''
+        let main  = () => {
+          if (i < txt.length) {
+            this.steps.step1[text] += txt.charAt(i)
+            i++
+            setTimeout(main, speed)
+          } else {
+            resolve(this.steps.step1[text])
+          }
+        }
+        main()
+      })
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
