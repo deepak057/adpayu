@@ -5,25 +5,26 @@ div(v-if="triggered")
     .modal-dialog(:class="{'modal-lg': steps.step2.enable}")
       .modal-content
         .modal-header
-          h4.modal-title Hold on
+          h4.modal-title Make Money
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <template v-if ="steps.step1.enable">
           <template v-if ="!steps.step1.loader">
-          h3
-            span(v-if="steps.step1.text1")
-              | {{steps.step1.text1}}
-            span(v-if="steps.step1.text2" v-html="showAmount(steps.step1.totalMoney)")
-            | {{steps.step1.text2}}
-          p(v-if="steps.step1.text3")
-            | {{steps.step1.text3}}
-          .m-t-20
-            img.w-100(:src="staticImageUrl('money-banner.jpg')")
-          </template>
-          <template v-if ="steps.step1.loader">
           .text-center
-            <preloader class="m-t-10"/>
+            h3.bold
+              span(v-if="steps.step1.text1")
+                | {{steps.step1.text1}}
+              span(v-if="steps.step1.text2" v-html="showAmount(steps.step1.totalMoney)")
+              | {{steps.step1.text2}}
+            .m-t-5(v-if="steps.step1.enableImage")
+              img.w-100.fadeIn(:src="staticImageUrl('money-banner.jpg')")
+            h4.m-t-10.bold(v-if="steps.step1.text3")
+              | {{steps.step1.text3}}
           </template>
+            <template v-if ="steps.step1.loader">
+            .text-center
+              <preloader class="m-t-10"/>
+            </template>
           </template>
           <template v-if ="steps.step2.enable">
           .text-center
@@ -54,7 +55,8 @@ function adSystemInitialState () {
       loader: true,
       text1: '',
       text2: '',
-      text3: ''
+      text3: '',
+      enableImage: false
     },
     step2: {
       enable: false,
@@ -116,11 +118,16 @@ export default {
         this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
         this.textAnimationEffect('text1')
           .then((d) => {
-            this.steps.step1.text2 = ' so far'
+            this.steps.step1.text2 = ' so far !!'
             this.textAnimationEffect('text2')
               .then((d1) => {
                 this.steps.step1.text3 = 'Would you also like to make some real quick money?'
                 this.textAnimationEffect('text3')
+                  .then((d2) => {
+                    setTimeout(() => {
+                      this.steps.step1.enableImage = true
+                    }, 1000)
+                  })
               })
           })
       }
