@@ -2,7 +2,7 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
-    .modal-dialog(:class="{'modal-lg': steps.step2.enable}")
+    .modal-dialog(:class="{'modal-lg': steps.step3.enable && steps.step3.ad.feed.length}")
       .modal-content
         .modal-header
           h4.modal-title Make Money
@@ -18,7 +18,7 @@ div(v-if="triggered")
               | {{steps.step1.text2}}
             .m-t-5(v-if="steps.step1.enableImage")
               img.w-100.fadeIn(:src="staticImageUrl('money-banner.jpg')")
-            h4.m-t-10.bold(v-if="steps.step1.text3")
+            h4.m-t-10(v-if="steps.step1.text3")
               | {{steps.step1.text3}}
           </template>
             <template v-if ="steps.step1.loader">
@@ -28,15 +28,25 @@ div(v-if="triggered")
           </template>
           <template v-if ="steps.step2.enable">
           .text-center
-            h3
-              | {{step2Title}}
-          .m-t-20(v-if="feed.length")
-            <feed :feed = "feed" :config="feedConfig" :userFeed = "true"/>
+            h3.bold
+              | {{steps.step2.text1}}
+            .m-t-5(v-if="steps.step2.enableImage")
+              img.w-100.fadeIn(:src="staticImageUrl('money-banner-3.jpg')")
+            h4.m-t-10(v-if="steps.step2.text2")
+              | {{steps.step2.text2}}
+          </template>
+          <template v-if ="steps.step3.enable">
+          h3.text-center
+            | {{steps.step3.text1}}
+          .text-center.m-t-20(v-if="steps.step3.loader")
+            <preloader />
+          .m-t-20(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
+            <feed :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
           </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
             | No
-          button.btn.btn-danger(type='button' @click="enableStep(2)")
+          button.btn.btn-danger(type='button' @click="enableNextStep()")
             | Yes
 </template>
 <script>
@@ -60,13 +70,20 @@ function adSystemInitialState () {
     },
     step2: {
       enable: false,
-      title: 'Watch ads in between videos and collect money everyday'
+      text1: 'Watch beautiful ads in your feed and collect money everyday',
+      text2: '',
+      enableImage: false
     },
-    ad: {
+    step3: {
+      enable: false,
+      text1: 'You are watching your first ad now',
       loader: true,
-      feed: [],
-      feedConfig: {
-        colWidth: 9
+      ad: {
+        loader: true,
+        feed: [],
+        feedConfig: {
+          colWidth: 9
+        }
       }
     }
   }
@@ -145,23 +162,64 @@ export default {
           })
       }
     },
+    enableStep2 () {
+      this.steps.step2.enable = true
+      this.textAnimationEffect('text1', 'step2')
+        .then((d) => {
+          this.steps.step2.enableImage = true
+          setTimeout(() => {
+            this.steps.step2.text2 = 'So do you want to watch your first ad and make money now?'
+            this.textAnimationEffect('text2', 'step2')
+              .then((d1) => {
+              })
+          }, 2000)
+        })
+    },
+    enableStep3 () {
+      let fetchAd = () => {
+        this.$options.service.getAds()
+          .then((d) => {
+            if (d.ads && d.ads.length) {
+              this.steps.step3.loader = false
+              this.steps.step3.ad.feed = [d.ads[0]]
+            } else {
+              this.showNotification('Sorry, there is currently no ad for you, please try again later ', 'error')
+              this.closePopup()
+            }
+          })
+          .catch((e) => {
+            this.showNotification('Something went wrong', 'error')
+          })
+      }
+      this.steps.step3.enable = true
+      this.textAnimationEffect('text1', 'step3')
+        .then((a) => {
+          fetchAd()
+        })
+    },
+    resetSteps () {
+      this.steps.step1.enable = false
+      this.steps.step2.enable = false
+      this.steps.step3.enable = false
+    },
     enableStep (step) {
+      this.resetSteps()
       if (step === 1) {
         this.enableStep1()
       }
+      if (step === 2) {
+        this.enableStep2()
+      }
+      if (step === 3) {
+        this.enableStep3()
+      }
     },
-    fetchAd () {
-      this.$options.service.getAds()
-        .then((d) => {
-          if (d.ads && d.ads.length) {
-            this.feed = [d.ads[0]]
-          } else {
-            alert('No Ad')
-          }
-        })
-        .catch((e) => {
-          this.showNotification('Something went wrong', 'error')
-        })
+    enableNextStep () {
+      if (this.steps.step1.enable) {
+        this.enableStep(2)
+      } else if (this.steps.step2.enable) {
+        this.enableStep(3)
+      }
     },
     triggerPopup () {
       /*eslint-disable*/
@@ -181,19 +239,19 @@ export default {
         this.enableStep(1)
       }
     },
-    textAnimationEffect (text, speed_ = 70) {
+    textAnimationEffect (text, step = 'step1', speed_ = 70) {
       return new Promise((resolve, reject) => {
         let i = 0
-        let txt = this.steps.step1[text]
+        let txt = this.steps[step][text]
         let speed = speed_
-        this.steps.step1[text] = ''
+        this.steps[step][text] = ''
         let main  = () => {
           if (i < txt.length) {
-            this.steps.step1[text] += txt.charAt(i)
+            this.steps[step][text] += txt.charAt(i)
             i++
             setTimeout(main, speed)
           } else {
-            resolve(this.steps.step1[text])
+            resolve(this.steps[step][text])
           }
         }
         main()
