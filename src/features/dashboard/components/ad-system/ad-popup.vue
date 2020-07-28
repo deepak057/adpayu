@@ -1,6 +1,6 @@
 <template lang="pug">
 div(v-if="triggered")
-  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
+  span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
     .modal-dialog(:class="{'modal-lg': steps.step3.enable && steps.step3.ad.feed.length}")
       .modal-content
@@ -125,6 +125,11 @@ export default {
       get () {
         return this.id + '-ad-system-popup-buton-close'
       }
+    },
+    canvasAnimationId: {
+      get () {
+        return this.id + 'ad-system-popup-canvas'
+      }
     }
   },
   mounted () {
@@ -203,6 +208,7 @@ export default {
       this.steps.step3.enable = false
     },
     enableStep (step) {
+      this.gimmick()
       this.resetSteps()
       if (step === 1) {
         this.enableStep1()
@@ -224,6 +230,7 @@ export default {
     triggerPopup () {
       /*eslint-disable*/
       this.triggered = true
+      this.gimmick(5000)
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {

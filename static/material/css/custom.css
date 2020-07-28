@@ -18,3 +18,12 @@
 .bold {
 	font-weight: bold;
 }
+
+#gimmick {
+    display:block;
+    pointer-events:none;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 99999;
+}

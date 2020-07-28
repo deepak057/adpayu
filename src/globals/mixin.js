@@ -417,8 +417,86 @@ export default {
     staticImageUrl (img) {
       return '/static/images/' + img
     },
+    getAsset(path) {
+      return '/static/assets/' + path
+    },
     getValidImageTypes () {
       return ['image/gif', 'image/jpeg', 'image/png']
+    },
+    gimmick(expire = 4000, el = 'body', ) {
+      let canvasId = 'gimmick'
+      var exists = document.getElementById(canvasId)
+      if (exists) {
+          exists.parentNode.removeChild(exists);
+          return false;
+      }
+
+      var element = document.querySelector(el);
+      var canvas = document.createElement('canvas'),
+          ctx = canvas.getContext('2d'),
+          focused = false;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.id = canvasId
+
+      var coin = new Image();
+      coin.src = this.staticImageUrl('coins.png')
+      // 440 wide, 40 high, 10 states
+      coin.onload = function () {
+          element.appendChild(canvas)
+          focused = true;
+          drawloop()
+          setTimeout(() => {
+            focused = false
+          }, expire)
+      }
+      /*let audio = document.createElement('AUDIO')
+      audio.id = 'audiod'
+      audio.loop = true
+      audio.src = this.getAsset('audio/coins.mp3')
+      element.appendChild(audio)
+      document.getElementById('audiod').play()
+      audio.onload = () => {
+
+        //audio.play()
+      }*/
+      var coins = []
+      var animationId = false
+      function drawloop() {
+          if (focused) {
+              animationId = requestAnimationFrame(drawloop);
+          } else {
+            cancelAnimationFrame(animationId)
+            document.getElementById(canvasId).remove()
+          }
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          if (Math.random() < .3) {
+              coins.push({
+                  x: Math.random() * canvas.width | 0,
+                  y: -50,
+                  dy: 3,
+                  s: 0.5 + Math.random(),
+                  state: Math.random() * 10 | 0
+              })
+          }
+          var i = coins.length
+          while (i--) {
+              var x = coins[i].x
+              var y = coins[i].y
+              var s = coins[i].s
+              var state = coins[i].state
+              coins[i].state = (state > 9) ? 0 : state + 0.1
+              coins[i].dy += 0.3
+              coins[i].y += coins[i].dy
+              ctx.drawImage(coin, 44 * Math.floor(state), 0, 44, 40, x, y, 44 * s, 40 * s)
+              if (y > canvas.height) {
+                  coins.splice(i, 1);
+              }
+          }
     }
+
+}
+
   }
 }
