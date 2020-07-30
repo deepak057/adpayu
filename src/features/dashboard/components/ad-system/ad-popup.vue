@@ -38,10 +38,13 @@ div(v-if="triggered")
           <template v-if ="steps.step3.enable">
           h3.text-center
             | {{steps.step3.text1}}
+          .pyro(v-if="steps.step3.ad.adSeen")
+            .before
+            .after
           .text-center.m-t-20(v-if="steps.step3.loader")
             <preloader />
           .m-t-20(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
-            <feed :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
+            <feed @adConsumed="adConsumed" :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
           </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
@@ -81,6 +84,7 @@ function adSystemInitialState () {
       ad: {
         loader: true,
         feed: [],
+        adSeen: false,
         feedConfig: {
           colWidth: 9
         }
@@ -208,7 +212,6 @@ export default {
       this.steps.step3.enable = false
     },
     enableStep (step) {
-      this.gimmick()
       this.resetSteps()
       if (step === 1) {
         this.enableStep1()
@@ -225,6 +228,11 @@ export default {
         this.enableStep(2)
       } else if (this.steps.step2.enable) {
         this.enableStep(3)
+      }
+    },
+    adConsumed (action) {
+      if (action === 'impression') {
+        this.steps.step3.ad.adSeen = true
       }
     },
     triggerPopup () {
@@ -246,7 +254,7 @@ export default {
         this.enableStep(1)
       }
     },
-    textAnimationEffect (text, step = 'step1', speed_ = 70) {
+    textAnimationEffect (text, step = 'step1', speed_ = 50) {
       return new Promise((resolve, reject) => {
         let i = 0
         let txt = this.steps[step][text]

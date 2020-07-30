@@ -443,12 +443,23 @@ export default {
       var coin = new Image();
       coin.src = this.staticImageUrl('coins.png')
       // 440 wide, 40 high, 10 states
+
+      let removeCanvas = () => {
+        let can = document.getElementById(canvasId)
+        if (can) {
+          can.parentNode.removeChild(can)
+          //can.remove()
+        }
+      }
+
       coin.onload = function () {
           element.appendChild(canvas)
-          focused = true;
+          focused = true
           drawloop()
           setTimeout(() => {
+            removeCanvas()
             focused = false
+            //ctx = null
           }, expire)
       }
       /*let audio = document.createElement('AUDIO')
@@ -468,8 +479,9 @@ export default {
               animationId = requestAnimationFrame(drawloop);
           } else {
             cancelAnimationFrame(animationId)
-            document.getElementById(canvasId).remove()
+            removeCanvas()
           }
+          ctx.beginPath()
           ctx.clearRect(0, 0, canvas.width, canvas.height)
           if (Math.random() < .3) {
               coins.push({
