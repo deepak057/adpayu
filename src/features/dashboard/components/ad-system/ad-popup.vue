@@ -38,9 +38,15 @@ div(v-if="triggered")
           <template v-if ="steps.step3.enable">
           h3.text-center
             | {{steps.step3.text1}}
-          .pyro(v-if="steps.step3.ad.adSeen")
-            .before
-            .after
+          .first-ad-seen-wrap(:class="{'fade-out': !steps.step3.ad.animation.enable}" v-if="steps.step3.ad.adSeen")
+            .text-wrap.text-center(:class="{'zoom-in': steps.step3.ad.animation.text1}")
+              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}")
+                | {{steps.step3.ad.animation.text1}}
+              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
+                | {{steps.step3.ad.animation.text2}}
+            .pyro
+              .before
+              .after
           .text-center.m-t-20(v-if="steps.step3.loader")
             <preloader />
           .m-t-20(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
@@ -84,6 +90,11 @@ function adSystemInitialState () {
       ad: {
         loader: true,
         feed: [],
+        animation: {
+          text1: '',
+          text2: '',
+          enable: true
+        },
         adSeen: false,
         feedConfig: {
           colWidth: 9
@@ -188,12 +199,13 @@ export default {
       let fetchAd = () => {
         this.$options.service.getAds()
           .then((d) => {
+            this.steps.step3.loader = false
+            this.adConsumed('impression')
             if (d.ads && d.ads.length) {
-              this.steps.step3.loader = false
               this.steps.step3.ad.feed = [d.ads[0]]
             } else {
               this.showNotification('Sorry, there is currently no ad for you, please try again later ', 'error')
-              this.closePopup()
+              // this.closePopup()
             }
           })
           .catch((e) => {
@@ -231,8 +243,20 @@ export default {
       }
     },
     adConsumed (action) {
+      let animate = () => {
+        this.steps.step3.ad.animation.text1 = 'Congratulations !!'
+      }
       if (action === 'impression') {
         this.steps.step3.ad.adSeen = true
+        setTimeout(() => {
+          animate()
+          setTimeout(() => {
+            this.steps.step3.ad.animation.text2 = 'You just saw your first ad'
+            setTimeout(() => {
+              this.steps.step3.ad.animation.enable = false
+            }, 5000)
+          }, 3000)
+        }, 500)
       }
     },
     triggerPopup () {
