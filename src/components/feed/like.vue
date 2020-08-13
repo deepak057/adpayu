@@ -1,5 +1,5 @@
 <template lang="pug">
-a.link.m-r-10.comment-padding-0.like-component(href='javascript:void(0)' @click="likeToggle(likes)" :title="tooltipText()")
+a.link.m-r-10.comment-padding-0.like-component(href='javascript:void(0)' @click="likeToggle()" :title="tooltipText()")
   i.text-danger(:class="{'ti-heart pr-t-2 love-icon': !liked, 'fa fa-heart': liked}")
   |  {{count ? count : ''}}
 </template>
@@ -48,7 +48,7 @@ export default {
     }
   },
   mounted () {
-    this.count = this.likesCount
+    this.count = parseInt(this.likesCount)
     this.setDefaultLike()
   },
   methods: {
@@ -62,7 +62,7 @@ export default {
     tooltipText () {
       return 'Click to ' + (this.liked ? 'unlike it' : 'like it')
     },
-    likeToggle (likes) {
+    likeToggle () {
       if (this.liked) {
         this.count--
         this.removeLike()

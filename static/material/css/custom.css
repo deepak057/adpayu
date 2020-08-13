@@ -42,6 +42,10 @@
   }
 }
 
+.ad-amount-added-animation-wrap {
+	position: relative;
+}
+
 .fade-out {
 	animation:fade-out 2s linear;
     animation-fill-mode: forwards;
@@ -49,6 +53,31 @@
 
 .fadeIn {
 	animation:fadeIn 2s linear;
+}
+
+.ad-amount-added-animation-wrap .amount-container{
+	display: none;
+	font-size: 20px;
+}
+.fadeOutDiagon {
+	position: absolute;
+	display: block !important;
+	width: 80px;
+	animation:fadeOutDiagon 2s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOutDiagon {
+	0% {
+		opacity: 1;
+		top: 0;
+		left: 0;
+	}
+	100% {
+		opacity: 0;
+		top: -100px;
+		left: 100px;
+	}
 }
 
 @keyframes fade-out{

@@ -36,7 +36,7 @@
           //i.ti-pencil-alt
         // a.m-r-10.comment-padding-0(href='javascript:void(0)'  v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
-        <like :likesCount="comment.CommentsLikesCount" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
+        <like :likesCount="parseInt(comment.CommentsLikesCount)" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
         span.pointer.reactions-count-wrap(title="Comments or Reactions" @click="triggerReaction()")
           i.mdi.mdi-comment-processing-outline.m-r-5
           span.m-r-5

@@ -41,7 +41,7 @@ export default {
           if (data.ConsumedAds && data.ConsumedAds.length) {
             postObj.ConsumedAds = data.ConsumedAds
             this.updateUserTotal(data.amountAdded)
-            this.$emit('adConsumed', action)
+            this.adConsumedCallback(postObj, action)
           }
         })
         .catch((aErr) => {
