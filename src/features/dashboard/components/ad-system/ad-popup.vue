@@ -42,8 +42,11 @@ div(v-if="triggered")
             .text-wrap.text-center(:class="{'zoom-in': steps.step3.ad.animation.text1}")
               h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}")
                 | {{steps.step3.ad.animation.text1}}
-              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
+              //h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
                 | {{steps.step3.ad.animation.text2}}
+              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
+                | You just made
+                span.m-l-5(v-html="showAmount(steps.step3.ad.feed[0]['AdOption'].cpi)")
             .pyro
               .before
               .after
@@ -93,6 +96,7 @@ function adSystemInitialState () {
         animation: {
           text1: '',
           text2: '',
+          text3: '',
           enable: true
         },
         adSeen: false,
@@ -200,12 +204,11 @@ export default {
         this.$options.service.getAds()
           .then((d) => {
             this.steps.step3.loader = false
-            this.adConsumed('impression')
             if (d.ads && d.ads.length) {
               this.steps.step3.ad.feed = [d.ads[0]]
             } else {
               this.showNotification('Sorry, there is currently no ad for you, please try again later ', 'error')
-              // this.closePopup()
+              this.closePopup()
             }
           })
           .catch((e) => {
@@ -242,19 +245,22 @@ export default {
         this.enableStep(3)
       }
     },
-    adConsumed (action) {
+    adConsumed (obj) {
       let animate = () => {
         this.steps.step3.ad.animation.text1 = 'Congratulations !!'
       }
-      if (action === 'impression') {
+      if (obj.action === 'impression') {
         this.steps.step3.ad.adSeen = true
         setTimeout(() => {
           animate()
           setTimeout(() => {
             this.steps.step3.ad.animation.text2 = 'You just saw your first ad'
             setTimeout(() => {
-              this.steps.step3.ad.animation.enable = false
-            }, 5000)
+              this.steps.step3.ad.animation.text3 = true
+              setTimeout(() => {
+                this.steps.step3.ad.animation.enable = false
+              }, 5000)
+            }, 3000)
           }, 3000)
         }, 500)
       }
