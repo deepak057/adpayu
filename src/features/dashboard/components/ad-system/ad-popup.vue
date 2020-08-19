@@ -38,18 +38,23 @@ div(v-if="triggered")
           <template v-if ="steps.step3.enable">
           h3.text-center
             | {{steps.step3.text1}}
-          .first-ad-seen-wrap(:class="{'fade-out': !steps.step3.ad.animation.enable}" v-if="steps.step3.ad.adSeen")
-            .text-wrap.text-center(:class="{'zoom-in': steps.step3.ad.animation.text1}")
-              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}")
-                | {{steps.step3.ad.animation.text1}}
+          .first-ad-seen-wrap(:class="{'fade-out': !steps.step3.ad.tour.steps.step1.enable}" v-if="steps.step3.ad.adSeen")
+            .text-wrap.text-center(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}")
+              h2.text-danger(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}")
+                | {{steps.step3.ad.tour.steps.step1.text1}}
               //h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
                 | {{steps.step3.ad.animation.text2}}
-              h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
+              h2.text-danger(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}" v-if="steps.step3.ad.tour.steps.step1.text2")
                 | You just made
                 span.m-l-5(v-html="showAmount(steps.step3.ad.feed[0]['AdOption'].cpi)")
             .pyro
               .before
               .after
+          <template v-if="steps.step3.ad.tour.steps.step2.enable">
+          .ad-tutorial-step-2
+            .arrow-pointer-wrap
+              i.mdi.mdi-arrow-down-bold.text-warning
+          </template>
           .text-center.m-t-20(v-if="steps.step3.loader")
             <preloader />
           .m-t-20(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
@@ -93,11 +98,19 @@ function adSystemInitialState () {
       ad: {
         loader: true,
         feed: [],
-        animation: {
-          text1: '',
-          text2: '',
-          text3: '',
-          enable: true
+        tour: {
+          steps: {
+            step1: {
+              text1: '',
+              text2: '',
+              enable: true
+            },
+            step2: {
+              text1: '',
+              text2: '',
+              enable: false
+            }
+          }
         },
         adSeen: false,
         feedConfig: {
@@ -247,20 +260,21 @@ export default {
     },
     adConsumed (obj) {
       let animate = () => {
-        this.steps.step3.ad.animation.text1 = 'Congratulations !!'
+        this.steps.step3.ad.tour.steps.step1.text1 = 'Congratulations !!'
+      }
+      let enableSecondStep = () => {
+        this.steps.step3.ad.tour.steps.step2.enable = true
       }
       if (obj.action === 'impression') {
         this.steps.step3.ad.adSeen = true
         setTimeout(() => {
           animate()
           setTimeout(() => {
-            this.steps.step3.ad.animation.text2 = 'You just saw your first ad'
+            this.steps.step3.ad.tour.steps.step1.text2 = true
             setTimeout(() => {
-              this.steps.step3.ad.animation.text3 = true
-              setTimeout(() => {
-                this.steps.step3.ad.animation.enable = false
-              }, 5000)
-            }, 3000)
+              this.steps.step3.ad.tour.steps.step1.enable = false
+              enableSecondStep()
+            }, 5000)
           }, 3000)
         }, 500)
       }
