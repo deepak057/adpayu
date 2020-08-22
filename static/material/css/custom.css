@@ -22,21 +22,33 @@
 	line-height: inherit !important;
 
 }
-
-body .ad-tutorial-arrow-pointer-wrap {
-	display: block !important;
-}
 .ad-tutorial-arrow-pointer-wrap{
-	display: none;
 	position: fixed;
 	font-weight: bold;
 	font-size: 80px;
 	z-index: 99999;
 	left: 50%;
 	top: 10px;
+	/*
+	* The below keyframe animation is actually
+	* defined in on-page Style, as it's animation
+	* properties are calculated dynamically, depending
+	* upon the location of Play button in the Tutorial ad
+	*/
 	animation: MoveUpDownForArrowUp1 1s linear infinite;
 }
+.ad-tutorial-step2-description {
+	position: fixed;
+	z-index: 99999;
+	width: 100%;
+}
 
+.shining-text {
+	font-weight: bold;
+	-webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
 
 .zoom-in {
 	/*transform: scale(4);*/
@@ -60,6 +72,7 @@ body .ad-tutorial-arrow-pointer-wrap {
 }
 
 .fade-out {
+	z-index: 9999;
 	animation:fade-out 2s linear;
     animation-fill-mode: forwards;
 }
