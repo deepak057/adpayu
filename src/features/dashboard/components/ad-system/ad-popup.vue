@@ -52,12 +52,12 @@ div(v-if="triggered")
               .after
           <template v-if="steps.step3.ad.tour.steps.step2.enable">
           .ad-tutorial-step-2
-            .arrow-pointer-wrap
+            .ad-tutorial-arrow-pointer-wrap(:id="arrowId" :style="steps.step3.ad.tour.steps.step2.arrowPos")
               i.mdi.mdi-arrow-down-bold.text-warning
           </template>
           .text-center.m-t-20(v-if="steps.step3.loader")
             <preloader />
-          .m-t-20(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
+          .m-t-20.ad-tutorial-feed-wrap(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
             <feed @adConsumed="adConsumed" :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
           </template>
         .modal-footer
@@ -108,7 +108,12 @@ function adSystemInitialState () {
             step2: {
               text1: '',
               text2: '',
-              enable: false
+              enable: false,
+              arrowPos: {
+                left: 0,
+                top: 0
+              },
+              arrowCssAnimationStyle: ''
             }
           }
         },
@@ -161,6 +166,11 @@ export default {
     canvasAnimationId: {
       get () {
         return this.id + 'ad-system-popup-canvas'
+      }
+    },
+    arrowId: {
+      get () {
+        return this.id + 'ad-tutorial-arrow'
       }
     }
   },
@@ -263,7 +273,39 @@ export default {
         this.steps.step3.ad.tour.steps.step1.text1 = 'Congratulations !!'
       }
       let enableSecondStep = () => {
+        let getPlayButton = () => {
+          let wrap = document.getElementsByClassName('ad-tutorial-feed-wrap')[0]
+          let playBtn = wrap.getElementsByClassName('vjs-big-play-button')[0]
+          return this.getElementPosition(playBtn)
+        }
+        let setArrowStyle = (top) => {
+          let styletagId = this.id + 'tour-step2-animation-arrow-style'
+          let styleTag = document.getElementById(styletagId)
+          if (styleTag) {
+            styleTag.parentNode.removeChild(styleTag)
+          }
+          let css = document.createElement('style')
+          css.id = styletagId
+          css.type = 'text/css'
+          let text = '@keyframes MoveUpDownForArrowUp1{0%,100%{top :' + (top - 90) + 'px}50%{top: ' + (top - 180) + 'px}}'
+          if (css.styleSheet) {
+            css.styleSheet.cssText = text
+          } else {
+            css.appendChild(document.createTextNode(text))
+          }
+          document.getElementsByTagName('head')[0].appendChild(css)
+        }
+        let pos = getPlayButton()
+        let obj = {
+          left: pos.left + 'px',
+          top: pos.top + 'px'
+        }
+        setArrowStyle(pos.top)
+        this.steps.step3.ad.tour.steps.step2.arrowPos = obj
         this.steps.step3.ad.tour.steps.step2.enable = true
+        setTimeout(() => {
+          document.body.appendChild(document.getElementById(this.arrowId))
+        }, 500)
       }
       if (obj.action === 'impression') {
         this.steps.step3.ad.adSeen = true

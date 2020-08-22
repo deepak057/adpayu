@@ -35,6 +35,20 @@ export default {
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
+    getElementPosition (elem) {
+      let return_ = {
+        left: 0,
+        top: 0
+      }
+      if (elem) {
+        let rect = elem.getBoundingClientRect()
+        // let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
+        // let scrollTop = window.pageYOffset || document.documentElement.scrollTop
+        return_.top = rect.top
+        return_.left = rect.left
+      }
+      return return_
+    },
     getUserCurrency (user = false) {
       user = user || auth.getUser()
       return user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency

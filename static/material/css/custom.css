@@ -23,18 +23,20 @@
 
 }
 
-.ad-tutorial-step-2 .arrow-pointer-wrap {
-	position: relative;
+body .ad-tutorial-arrow-pointer-wrap {
+	display: block !important;
 }
-.ad-tutorial-step-2 .arrow-pointer-wrap i{
-	position: absolute;
+.ad-tutorial-arrow-pointer-wrap{
+	display: none;
+	position: fixed;
 	font-weight: bold;
 	font-size: 80px;
-	z-index: 1;
+	z-index: 99999;
 	left: 50%;
 	top: 10px;
-	animation: MoveUpDownForArrowUp 1s linear infinite;
+	animation: MoveUpDownForArrowUp1 1s linear infinite;
 }
+
 
 .zoom-in {
 	/*transform: scale(4);*/
