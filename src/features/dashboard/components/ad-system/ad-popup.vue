@@ -38,32 +38,35 @@ div(v-if="triggered")
           <template v-if ="steps.step3.enable">
           h3.text-center
             | {{steps.step3.text1}}
-          .first-ad-seen-wrap(:class="{'fade-out': !steps.step3.ad.tour.steps.step1.enable}" v-if="steps.step3.ad.adSeen")
-            .text-wrap.text-center(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}")
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}")
-                | {{steps.step3.ad.tour.steps.step1.text1}}
-              //h2.text-danger(:class="{'zoom-in': steps.step3.ad.animation.text1}" v-if="steps.step3.ad.animation.text2")
-                | {{steps.step3.ad.animation.text2}}
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.steps.step1.text1}" v-if="steps.step3.ad.tour.steps.step1.text2")
-                | You just made
-                span.m-l-5(v-html="showAmount(steps.step3.ad.feed[0]['AdOption'].cpi)")
+          .first-ad-seen-wrap(:class="{'fade-out': steps.step3.ad.tour.celebration.fadeOut}" v-if="steps.step3.ad.tour.celebration.enable")
+            .text-wrap.text-center
+              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.celebration.text1}")
+                | {{steps.step3.ad.tour.celebration.text1}}
+              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.celebration.text1}" v-if="steps.step3.ad.tour.celebration.text2")
+                | {{steps.step3.ad.tour.celebration.text2}}
+                span.m-l-5(v-html="showAmount(steps.step3.ad.tour.celebration.price)")
             .pyro
               .before
               .after
           <template v-if="steps.step3.ad.tour.steps.step2.enable">
           .ad-tutorial-step-2(:class="{'none': !steps.step3.ad.tour.steps.step2.showArrow}")
-            .text-center.ad-tutorial-step2-description.all-caps(:style = "steps.step3.ad.tour.steps.step2.descriptionPos" :id="steps.step3.ad.tour.steps.step2.descriptionWrapId")
+            .text-center.ad-tutorial-step2-description.all-caps(:style = "steps.step3.ad.tour.steps.step2.descriptionPos" :id="steps.step3.ad.tour.steps.step2.descriptionWrapId" :class="{'none': !steps.step3.ad.tour.steps.step2.enable}")
               h2.text-danger.shining-text.ad-tutorial-pointer-text
+                <template v-if="!steps.step3.ad.tour.steps.step2.adVideoPlayedText">
                 | Play Video to make
                 span.m-r-5.m-l-5(v-html="showAmount(steps.step3.ad.feed[0]['AdOption'].cpv)")
                 | More
-            .ad-tutorial-arrow-pointer-wrap.all-caps(:id="steps.step3.ad.tour.steps.step2.arrowId" :style="steps.step3.ad.tour.steps.step2.arrowPos")
+                </template>
+                <template v-if="steps.step3.ad.tour.steps.step2.adVideoPlayedText">
+                  | {{steps.step3.ad.tour.steps.step2.adVideoPlayedText}}
+                </template>
+            .ad-tutorial-arrow-pointer-wrap(v-if="!steps.step3.ad.tour.steps.step2.adVideoPlayedText && steps.step3.ad.tour.steps.step2.enable" :id="steps.step3.ad.tour.steps.step2.arrowId" :style="steps.step3.ad.tour.steps.step2.arrowPos")
               i.mdi.mdi-arrow-down-bold.text-warning
           </template>
           .text-center.m-t-20(v-if="steps.step3.loader")
             <preloader />
           .m-t-20.ad-tutorial-feed-wrap(v-if="!steps.step3.loader && steps.step3.ad.feed && steps.step3.ad.feed.length")
-            <feed @adConsumed="adConsumed" :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
+            <feed @FeedVideoPlayed = "adVideoPlayed" @adConsumed="adConsumed" :feed = "steps.step3.ad.feed" :config="steps.step3.ad.feedConfig" :userFeed = "true"/>
           </template>
         .modal-footer
           button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
@@ -104,6 +107,13 @@ function adSystemInitialState () {
         loader: true,
         feed: [],
         tour: {
+          celebration: {
+            price: 0,
+            enable: false,
+            text1: '',
+            text2: '',
+            fadeOut: false
+          },
           steps: {
             step1: {
               text1: '',
@@ -121,7 +131,8 @@ function adSystemInitialState () {
               showArrow: false,
               arrowId: '',
               descriptionWrapId: '',
-              descriptionPos: ''
+              descriptionPos: '',
+              adVideoPlayedText: ''
             }
           }
         },
@@ -272,9 +283,6 @@ export default {
       }
     },
     adConsumed (obj) {
-      let animate = () => {
-        this.steps.step3.ad.tour.steps.step1.text1 = 'Congratulations !!'
-      }
       let arrowAnimationSpace = {
         up: 90,
         down: 180
@@ -325,18 +333,50 @@ export default {
         }, 1800)
       }
       if (obj.action === 'impression') {
-        this.steps.step3.ad.adSeen = true
+        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi)
+          .then(() => {
+            enableSecondStep()
+          })
+      }
+      if (obj.action === 'view') {
+        this.steps.step3.ad.tour.steps.step2.enable = false
+        document.getElementById(this.steps.step3.ad.tour.steps.step2.descriptionWrapId).remove()
+        // this.steps.step3.ad.tour.steps.step2.adVideoPlayedText = ''
+        // alert(this.steps.step3.ad.tour.steps.step2.enable)
+        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpv)
+          .then(() => {
+          })
+      }
+    },
+    celebrate (price, priceText = false, mainHeading = false) {
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
-          animate()
+          this.steps.step3.ad.tour.celebration.enable = true
+          this.steps.step3.ad.tour.celebration.text2 = ''
+          this.steps.step3.ad.tour.celebration.fadeOut = false
+          this.steps.step3.ad.tour.celebration.text1 = mainHeading || 'Congratulations !!'
           setTimeout(() => {
-            this.steps.step3.ad.tour.steps.step1.text2 = true
+            this.steps.step3.ad.tour.celebration.price = price
+            this.steps.step3.ad.tour.celebration.text2 = priceText || 'You just made'
             setTimeout(() => {
-              this.steps.step3.ad.tour.steps.step1.enable = false
-              enableSecondStep()
+              this.steps.step3.ad.tour.celebration.fadeOut = true
+              setTimeout(() => {
+                this.steps.step3.ad.tour.celebration.enable = false
+              }, 2000)
+              resolve()
             }, 5000)
           }, 3000)
         }, 2000)
+      })
+    },
+    adVideoPlayed (f) {
+      let wrapper = document.getElementsByClassName('ad-tutorial-feed-wrap')[0]
+      let player = wrapper.getElementsByClassName('video-container')[0]
+      let playerPos = this.getElementPosition(player)
+      this.steps.step3.ad.tour.steps.step2.descriptionPos = {
+        top: (playerPos.top - 50) + 'px'
       }
+      this.steps.step3.ad.tour.steps.step2.adVideoPlayedText = 'Watch the full video'
     },
     triggerPopup () {
       /*eslint-disable*/

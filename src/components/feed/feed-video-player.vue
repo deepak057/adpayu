@@ -48,6 +48,8 @@ export default {
         if (this.triggerPopupView) {
           e.pause()
           this.$emit('PostVideoPlayed', f)
+        } else {
+          this.$emit('FeedVideoPlayed', f)
         }
         if (!f.HasViewed) {
           auth.markEntityAsViewed(f.id, 'post')
