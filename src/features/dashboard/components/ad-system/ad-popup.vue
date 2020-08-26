@@ -55,14 +55,14 @@ div(v-if="triggered")
             .text-center.ad-tutorial-step2-description.all-caps(:style = "steps.step3.ad.tour.steps.step1.descriptionPos" :id="steps.step3.ad.tour.steps.step1.descriptionWrapId" :class="{'none': !steps.step3.ad.tour.steps.step1.enable}")
               h2.text-danger.shining-text.ad-tutorial-pointer-text
                 <template v-if="!steps.step3.ad.tour.steps.step1.adVideoPlayedText">
-                | Play Video to make
-                span.m-r-5.m-l-5(v-html="showAmount(steps.step3.ad.feed[0]['AdOption'].cpv)")
-                | More
+                | {{steps.step3.ad.tour.steps.step1.text1}}
+                span.m-r-5.m-l-5(v-html="showAmount(steps.step3.ad.tour.steps.step1.price)")
+                | {{steps.step3.ad.tour.steps.step1.text2}}
                 </template>
                 <template v-if="steps.step3.ad.tour.steps.step1.adVideoPlayedText">
                   | {{steps.step3.ad.tour.steps.step1.adVideoPlayedText}}
                 </template>
-            .ad-tutorial-arrow-pointer-wrap(v-if="!steps.step3.ad.tour.steps.step1.adVideoPlayedText && steps.step3.ad.tour.steps.step1.enable" :id="steps.step3.ad.tour.steps.step1.arrowId" :style="steps.step3.ad.tour.steps.step1.arrowPos")
+            .ad-tutorial-arrow-pointer-wrap(:class = "{'none': steps.step3.ad.tour.steps.step1.adVideoPlayedText}" :id="steps.step3.ad.tour.steps.step1.arrowId" :style="steps.step3.ad.tour.steps.step1.arrowPos")
               i.mdi.mdi-arrow-down-bold.text-warning
           </template>
           .text-center.m-t-20(v-if="steps.step3.loader")
@@ -119,13 +119,14 @@ function adSystemInitialState () {
           },
           steps: {
             step1: {
-              text1: '',
-              text2: '',
+              text1: 'Play video to make',
+              text2: 'more',
               enable: false,
               arrowPos: {
                 left: 0,
                 top: 0
               },
+              price: '',
               showArrow: false,
               arrowId: '',
               descriptionWrapId: '',
@@ -285,34 +286,35 @@ export default {
         up: 90,
         down: 180
       }
+      let setArrowStyle = (top) => {
+        let styletagId = this.id + 'tour-step2-animation-arrow-style'
+        let styleTag = document.getElementById(styletagId)
+        if (styleTag) {
+          styleTag.parentNode.removeChild(styleTag)
+        }
+        let css = document.createElement('style')
+        css.id = styletagId
+        css.type = 'text/css'
+        let text = '@keyframes MoveUpDownForArrowUp1{0%,100%{top :' + (top - arrowAnimationSpace.up) + 'px}50%{top: ' + (top - arrowAnimationSpace.down) + 'px}}'
+        if (css.styleSheet) {
+          css.styleSheet.cssText = text
+        } else {
+          css.appendChild(document.createTextNode(text))
+        }
+        document.getElementsByTagName('head')[0].appendChild(css)
+      }
+      let setDescriptionStyle = (top, left = false) => {
+        this.steps.step3.ad.tour.steps.step1.descriptionWrapId = this.id + '-ad-tutorial-step-2-description-text'
+        this.steps.step3.ad.tour.steps.step1.descriptionPos = {
+          top: ((top - arrowAnimationSpace.up) - 90) + 'px',
+          left: !left ? '' : left + 'px'
+        }
+      }
       let enableFirstStep = () => {
         let getPlayButton = () => {
           let wrap = document.getElementsByClassName('ad-tutorial-feed-wrap')[0]
           let playBtn = wrap.getElementsByClassName('vjs-big-play-button')[0]
           return this.getElementPosition(playBtn)
-        }
-        let setDescriptionStyle = (top) => {
-          this.steps.step3.ad.tour.steps.step1.descriptionWrapId = this.id + '-ad-tutorial-step-2-description-text'
-          this.steps.step3.ad.tour.steps.step1.descriptionPos = {
-            top: ((top - arrowAnimationSpace.up) - 90) + 'px'
-          }
-        }
-        let setArrowStyle = (top) => {
-          let styletagId = this.id + 'tour-step2-animation-arrow-style'
-          let styleTag = document.getElementById(styletagId)
-          if (styleTag) {
-            styleTag.parentNode.removeChild(styleTag)
-          }
-          let css = document.createElement('style')
-          css.id = styletagId
-          css.type = 'text/css'
-          let text = '@keyframes MoveUpDownForArrowUp1{0%,100%{top :' + (top - arrowAnimationSpace.up) + 'px}50%{top: ' + (top - arrowAnimationSpace.down) + 'px}}'
-          if (css.styleSheet) {
-            css.styleSheet.cssText = text
-          } else {
-            css.appendChild(document.createTextNode(text))
-          }
-          document.getElementsByTagName('head')[0].appendChild(css)
         }
         let pos = getPlayButton()
         let obj = {
@@ -322,6 +324,7 @@ export default {
         this.steps.step3.ad.tour.steps.step1.arrowId = this.id + 'ad-tutorial-step-2-arrow'
         setArrowStyle(pos.top)
         setDescriptionStyle(pos.top)
+        this.steps.step3.ad.tour.steps.step1.price = this.steps.step3.ad.feed[0]['AdOption'].cpv
         this.steps.step3.ad.tour.steps.step1.arrowPos = obj
         this.steps.step3.ad.tour.steps.step1.enable = true
         setTimeout(() => {
@@ -331,6 +334,23 @@ export default {
         }, 1800)
       }
       let enableSecondStep = () => {
+        let getLinkPos = () => {
+          let wrap = document.getElementsByClassName('ad-tutorial-feed-wrap')[0]
+          let link = wrap.getElementsByClassName('post-ad-link')[0]
+          return this.getElementPosition(link)
+        }
+        let pos = getLinkPos()
+        let obj = {
+          top: pos.top + 'px',
+          left: (pos.left - 20) + 'px'
+        }
+        setArrowStyle(pos.top)
+        setDescriptionStyle(pos.top, (pos.left - 20))
+        this.steps.step3.ad.tour.steps.step1.text1 = 'Click this link to make'
+        this.steps.step3.ad.tour.steps.step1.price = this.steps.step3.ad.feed[0]['AdOption'].cpc
+        this.steps.step3.ad.tour.steps.step1.adVideoPlayedText = ''
+        this.steps.step3.ad.tour.steps.step1.arrowPos = obj
+        document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.remove('none', 'text-center')
       }
       if (obj.action === 'impression') {
         this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi)
@@ -339,11 +359,18 @@ export default {
           })
       }
       if (obj.action === 'view') {
-        this.steps.step3.ad.tour.steps.step1.enable = false
-        document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
+        document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none', 'text-left')
         this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpv, 'You made', false, 'more')
           .then(() => {
             enableSecondStep()
+          })
+      }
+      if (obj.action === 'click') {
+        document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
+        document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
+        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
+          .then(() => {
+            this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv, '', 'You made total', ' watching this ad')
           })
       }
     },
