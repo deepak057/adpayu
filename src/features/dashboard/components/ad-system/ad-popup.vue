@@ -353,7 +353,7 @@ export default {
         document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.remove('none', 'text-center')
       }
       if (obj.action === 'impression') {
-        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi)
+        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi, 'You just made')
           .then(() => {
             enableFirstStep()
           })
@@ -368,9 +368,10 @@ export default {
       if (obj.action === 'click') {
         document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
         document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
+        this.gimmick(3000)
         this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
           .then(() => {
-            this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv, '', 'You made total', ' watching this ad')
+            this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv, ' ', 'All done !! you made total', ' through this ad')
           })
       }
     },
@@ -383,7 +384,7 @@ export default {
           this.steps.step3.ad.tour.celebration.text1 = mainHeading || 'Congratulations !!'
           setTimeout(() => {
             this.steps.step3.ad.tour.celebration.price = price
-            this.steps.step3.ad.tour.celebration.text2 = priceText || 'You just made'
+            this.steps.step3.ad.tour.celebration.text2 = priceText
             this.steps.step3.ad.tour.celebration.text3 = extra || ''
             setTimeout(() => {
               this.steps.step3.ad.tour.celebration.fadeOut = true
