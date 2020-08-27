@@ -81,6 +81,10 @@
 	animation:fadeIn 2s linear;
 }
 
+.h-150 {
+	height: 150px;
+}
+
 .ad-amount-added-animation-wrap .amount-container{
 	display: none;
 	font-size: 20px;
