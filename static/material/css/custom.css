@@ -25,6 +25,7 @@
 .ad-tutorial-arrow-pointer-wrap{
 	position: fixed;
 	font-weight: bold;
+	line-height: 0px;
 	font-size: 80px;
 	z-index: 99999;
 	left: 50%;

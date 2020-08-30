@@ -80,7 +80,7 @@ div(v-if="triggered")
               p.m-t-10.all-caps.bold.text-warning(v-if="steps.step4.text2")
                 | {{steps.step4.text2}}
               .m-t-20.m-b-20(v-if="steps.step4.enableButton")
-                button.btn.btn-success.all-caps
+                button.btn.btn-success.all-caps(@click = "triggerRevenueTutorial()")
                   | Withdraw Your Money
                 // button.btn.btn-secondary
                   | Close
@@ -145,6 +145,7 @@ function adSystemInitialState () {
               showArrow: false,
               arrowId: '',
               descriptionWrapId: '',
+              styletagId: '',
               descriptionPos: '',
               adVideoPlayedText: ''
             }
@@ -296,6 +297,11 @@ export default {
       this.steps.step3.enable = false
       this.steps.step4.enable = false
     },
+    cleanDOM () {
+      document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).remove()
+      document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).remove()
+      document.getElementById(this.steps.step3.ad.tour.steps.step1.styletagId).remove()
+    },
     enableStep (step) {
       this.resetSteps()
       if (step === 1) {
@@ -326,13 +332,13 @@ export default {
         down: 180
       }
       let setArrowStyle = (top) => {
-        let styletagId = this.id + 'tour-step2-animation-arrow-style'
-        let styleTag = document.getElementById(styletagId)
+        this.steps.step3.ad.tour.steps.step1.styletagId = this.id + 'tour-step2-animation-arrow-style'
+        let styleTag = document.getElementById(this.steps.step3.ad.tour.steps.step1.styletagId)
         if (styleTag) {
           styleTag.parentNode.removeChild(styleTag)
         }
         let css = document.createElement('style')
-        css.id = styletagId
+        css.id = this.steps.step3.ad.tour.steps.step1.styletagId
         css.type = 'text/css'
         let text = '@keyframes MoveUpDownForArrowUp1{0%,100%{top :' + (top - arrowAnimationSpace.up) + 'px}50%{top: ' + (top - arrowAnimationSpace.down) + 'px}}'
         if (css.styleSheet) {
@@ -343,7 +349,7 @@ export default {
         document.getElementsByTagName('head')[0].appendChild(css)
       }
       let setDescriptionStyle = (top, left = false) => {
-        this.steps.step3.ad.tour.steps.step1.descriptionWrapId = this.id + '-ad-tutorial-step-2-description-text'
+        this.steps.step3.ad.tour.steps.step1.descriptionWrapId = this.id + '-ad-tutorial-text-description-wrap'
         this.steps.step3.ad.tour.steps.step1.descriptionPos = {
           top: ((top - arrowAnimationSpace.up) - 90) + 'px',
           left: !left ? '' : left + 'px'
@@ -401,20 +407,33 @@ export default {
         document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none', 'text-left')
         this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpv, 'You made', false, 'more')
           .then(() => {
-            enableSecondStep()
+            setTimeout(() => {
+              enableSecondStep()
+            }, 2000)
           })
       }
       if (obj.action === 'click') {
-        document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
-        document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
-        this.gimmick(5000)
-        this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
-          .then(() => {
-            this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
-              .then(() => {
-                this.enableStep(4)
-              })
-          })
+        let init = () => {
+          document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
+          document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
+          this.gimmick(5000)
+          this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
+            .then(() => {
+              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
+                .then(() => {
+                  this.enableStep(4)
+                })
+            })
+        }
+        let checkFocus = () => {
+          let FocusInt = setInterval(() => {
+            if (document.hasFocus()) {
+              clearInterval(FocusInt)
+              init()
+            }
+          }, 200)
+        }
+        checkFocus()
       }
     },
     getTotalMoney () {
@@ -490,6 +509,11 @@ export default {
     },
     closePopup () {
       document.getElementById(this.closeButtonId).click()
+      this.cleanDOM()
+      this.triggered = false
+    },
+    triggerRevenueTutorial () {
+      this.closePopup()
     }
   }
 }

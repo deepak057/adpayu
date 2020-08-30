@@ -92,7 +92,7 @@
         .row.m-l-0(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
         .m-t-15.m-b-20(v-if="f['AdOption'] && f['AdOption'].clickTarget")
-          a.m-r-5.post-ad-link(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f)") {{f['AdOption'].adLinkLabel}}
+          a.m-r-5.post-ad-link(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f, $event)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'click')" )
             span(v-html=" '+ ' + showAmount(f['AdOption'].cpc, false, true)")
             span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'click')")
@@ -437,9 +437,13 @@ export default {
         this.triggerAdConsumption(postObj, 'impression')
       }
     },
-    adLinkclicked (postObj) {
-      if (this.triggerAdActions()) {
-        this.triggerAdConsumption(postObj, 'click')
+    adLinkclicked (postObj, event) {
+      if (confirm('This link will open in a different browser tab, so please come back to this ' + this.siteName + ' tab afterwards.')) {
+        if (this.triggerAdActions()) {
+          this.triggerAdConsumption(postObj, 'click')
+        }
+      } else {
+        event.preventDefault()
       }
     },
     updateUserTotal (amountToAdd) {
