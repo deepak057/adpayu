@@ -80,8 +80,12 @@ div(v-if="triggered")
               p.m-t-10.all-caps.bold.text-warning(v-if="steps.step4.text2")
                 | {{steps.step4.text2}}
               .m-t-20.m-b-20(v-if="steps.step4.enableButton")
-                button.btn.btn-success.all-caps(@click = "triggerRevenueTutorial()")
-                  | Withdraw Your Money
+                button.btn.btn-success.all-caps(v-if="steps.step1.cashBack && steps.step1.cashBack.enable" @click = "triggerRevenueTutorial()")
+                  | Withdraw your money
+                span.badge.badge-warning.p-a.d-inline.m-l-5.pointer(data-container="body" title="Win Cashback" data-toggle="popover" data-placement="right" data-html="true" :data-content="getCashBackInfoContent(steps.step1.cashBack.priceUSD)")
+                  | +
+                  span.m-l-5.m-r-5(v-html="showAmount(steps.step1.cashBack.priceUSD, false, true)")
+                  i.mdi.mdi-information.m-l-4
                 // button.btn.btn-secondary
                   | Close
           </template>
@@ -104,6 +108,7 @@ function adSystemInitialState () {
       enable: true,
       totalUsers: 0,
       totalMoney: 0,
+      cashBack: false,
       loader: true,
       text1: '',
       text2: '',
@@ -212,6 +217,9 @@ export default {
   mounted () {
   },
   methods: {
+    getCashBackInfoContent (price) {
+      return 'Before being able to withdraw money, you will be asked to complete your KYC. You wiil get ' + this.showAmount(price) + ' cashback for completing your KYC.'
+    },
     enableStep1 () {
       let showAnimationText = () => {
         this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
@@ -237,6 +245,7 @@ export default {
             this.steps.step1.loader = false
             this.steps.step1.totalUsers = this.formatNumber(d.stats.totalUsers)
             this.steps.step1.totalMoney = d.stats.totalMoneyMadeUSD
+            this.steps.step1.cashBack = d.stats.cashBack
             showAnimationText()
           })
           .catch((sErr) => {
@@ -419,7 +428,7 @@ export default {
           this.gimmick(5000)
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
-              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
+              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 700)
                 .then(() => {
                   this.enableStep(4)
                 })
@@ -439,7 +448,7 @@ export default {
     getTotalMoney () {
       return this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv
     },
-    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 5000) {
+    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 500) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           this.steps.step3.ad.tour.celebration.enable = true
@@ -454,11 +463,11 @@ export default {
               this.steps.step3.ad.tour.celebration.fadeOut = true
               setTimeout(() => {
                 this.steps.step3.ad.tour.celebration.enable = false
-              }, 2000)
+              }, 200)
               resolve()
             }, timeout)
-          }, 3000)
-        }, 2000)
+          }, 300)
+        }, 200)
       })
     },
     adVideoPlayed (f) {

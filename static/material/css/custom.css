@@ -3,7 +3,9 @@
 .first-ad-seen-wrap {
 	position: relative;
 }
-
+.p-a {
+	position: absolute;
+}
 .first-ad-seen-wrap .text-wrap {
 	position: absolute;
 	width: 100%;
