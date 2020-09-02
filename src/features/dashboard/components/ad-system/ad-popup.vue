@@ -5,7 +5,11 @@ div(v-if="triggered")
     .modal-dialog(:class="{'modal-lg': steps.step3.enable && steps.step3.ad.feed.length}")
       .modal-content
         .modal-header
-          h4.modal-title Make Money
+          h4.modal-title
+            | {{steps.modalTitle}}
+            br
+            small.text-muted
+              | {{steps.modalSubTitle}}
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <template v-if ="steps.step1.enable">
@@ -35,21 +39,21 @@ div(v-if="triggered")
             h4.m-t-10.all-caps(v-if="steps.step2.text2")
               | {{steps.step2.text2}}
           </template>
-          <template v-if ="steps.step3.enable">
-          h3.text-center
-            | {{steps.step3.text1}}
-          .first-ad-seen-wrap(:class="{'fade-out': steps.step3.ad.tour.celebration.fadeOut}" v-if="steps.step3.ad.tour.celebration.enable")
+          .celebration-wrap(:class="{'fade-out': steps.celebration.fadeOut}" v-if="steps.celebration.enable")
             .text-wrap.text-center
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.celebration.text1}")
-                | {{steps.step3.ad.tour.celebration.text1}}
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.step3.ad.tour.celebration.text1}" v-if="steps.step3.ad.tour.celebration.text2")
-                | {{steps.step3.ad.tour.celebration.text2}}
-                span.m-l-5(v-html="showAmount(steps.step3.ad.tour.celebration.price)")
-                span.m-l-5(v-if = "steps.step3.ad.tour.celebration.text3")
-                  | {{steps.step3.ad.tour.celebration.text3}}
+              h2.text-danger.all-caps(:class="{'zoom-in': steps.celebration.text1}")
+                | {{steps.celebration.text1}}
+              h2.text-danger.all-caps(:class="{'zoom-in': steps.celebration.text1}" v-if="steps.celebration.text2")
+                | {{steps.celebration.text2}}
+                span.m-l-5(v-html="showAmount(steps.celebration.price)")
+                span.m-l-5(v-if = "steps.celebration.text3")
+                  | {{steps.celebration.text3}}
             .pyro
               .before
               .after
+          <template v-if ="steps.step3.enable">
+          h3.text-center
+            | {{steps.step3.text1}}
           <template v-if="steps.step3.ad.tour.steps.step1.enable">
           .ad-tutorial-step-2(:class="{'none': !steps.step3.ad.tour.steps.step1.showArrow}")
             .text-center.ad-tutorial-step2-description.all-caps(:style = "steps.step3.ad.tour.steps.step1.descriptionPos" :id="steps.step3.ad.tour.steps.step1.descriptionWrapId" :class="{'none': !steps.step3.ad.tour.steps.step1.enable}")
@@ -80,9 +84,9 @@ div(v-if="triggered")
               p.m-t-10.all-caps.bold.text-warning(v-if="steps.step4.text2")
                 | {{steps.step4.text2}}
               .m-t-20.m-b-20(v-if="steps.step4.enableButton")
-                button.btn.btn-success.all-caps(v-if="steps.step1.cashBack && steps.step1.cashBack.enable" @click = "triggerRevenueTutorial()")
+                button.btn.btn-success.all-caps(data-dismiss='modal' @click = "triggerRevenueTutorial()")
                   | Withdraw your money
-                span.badge.badge-warning.p-a.d-inline.m-l-5.pointer(data-container="body" title="Win Cashback" data-toggle="popover" data-placement="right" data-html="true" :data-content="getCashBackInfoContent(steps.step1.cashBack.priceUSD)")
+                span.badge.badge-warning.p-a.d-inline.m-l-5.pointer(v-if="steps.step1.cashBack && steps.step1.cashBack.enable" data-container="body" title="Win Cashback" data-toggle="popover" data-placement="right" data-html="true" :data-content="getCashBackInfoContent(steps.step1.cashBack.priceUSD)")
                   | +
                   span.m-l-5.m-r-5(v-html="showAmount(steps.step1.cashBack.priceUSD, false, true)")
                   i.mdi.mdi-information.m-l-4
@@ -104,6 +108,16 @@ import Feed from './../../../../components/feed/feed'
 
 function adSystemInitialState () {
   return {
+    modalTitle: 'Make Money',
+    modalSubTitle: '',
+    celebration: {
+      price: 0,
+      enable: false,
+      text1: '',
+      text2: '',
+      text3: '',
+      fadeOut: false
+    },
     step1: {
       enable: true,
       totalUsers: 0,
@@ -283,6 +297,7 @@ export default {
           })
       }
       this.steps.step3.enable = true
+      this.steps.modalTitle = 'Ad Tutorial'
       this.textAnimationEffect('text1', 'step3')
         .then((a) => {
           fetchAd()
@@ -293,10 +308,17 @@ export default {
       this.steps.step4.text1 = 'Wow !! You have made'
       this.textAnimationEffect('text1', 'step4')
         .then((d) => {
-          this.steps.step4.text2 = 'Remember, you will get only 2 ads in your feed everyday so come back everyday and keep making money'
+          this.steps.step4.text2 = 'Remember, you will get limited ads in your feed everyday so come back everyday and unlock more ads'
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
-              this.steps.step4.enableButton = true
+              if (this.steps.step1.cashBack.enable) {
+                this.celebrate(this.steps.step1.cashBack.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 8000)
+                  .then((d2) => {
+                    this.steps.step4.enableButton = true
+                  })
+              } else {
+                this.steps.step4.enableButton = true
+              }
             })
         })
     },
@@ -407,6 +429,8 @@ export default {
         document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.remove('none', 'text-center')
       }
       if (obj.action === 'impression') {
+        this.steps.step3.text1 = ''
+        this.steps.modalSubTitle = 'You are watching your first ad'
         this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpi, 'You just made')
           .then(() => {
             enableFirstStep()
@@ -428,9 +452,11 @@ export default {
           this.gimmick(5000)
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
-              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 700)
+              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
                 .then(() => {
-                  this.enableStep(4)
+                  setTimeout(() => {
+                    this.enableStep(4)
+                  }, 2000)
                 })
             })
         }
@@ -448,26 +474,26 @@ export default {
     getTotalMoney () {
       return this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv
     },
-    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 500) {
+    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 5000) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          this.steps.step3.ad.tour.celebration.enable = true
-          this.steps.step3.ad.tour.celebration.text2 = ''
-          this.steps.step3.ad.tour.celebration.fadeOut = false
-          this.steps.step3.ad.tour.celebration.text1 = mainHeading || 'Congratulations !!'
+          this.steps.celebration.enable = true
+          this.steps.celebration.text2 = ''
+          this.steps.celebration.fadeOut = false
+          this.steps.celebration.text1 = mainHeading || 'Congratulations !!'
           setTimeout(() => {
-            this.steps.step3.ad.tour.celebration.price = price
-            this.steps.step3.ad.tour.celebration.text2 = priceText
-            this.steps.step3.ad.tour.celebration.text3 = extra || ''
+            this.steps.celebration.price = price
+            this.steps.celebration.text2 = priceText
+            this.steps.celebration.text3 = extra || ''
             setTimeout(() => {
-              this.steps.step3.ad.tour.celebration.fadeOut = true
+              this.steps.celebration.fadeOut = true
               setTimeout(() => {
-                this.steps.step3.ad.tour.celebration.enable = false
-              }, 200)
+                this.steps.celebration.enable = false
+              }, 2000)
               resolve()
             }, timeout)
-          }, 300)
-        }, 200)
+          }, 3000)
+        }, 2000)
       })
     },
     adVideoPlayed (f) {
@@ -517,11 +543,15 @@ export default {
       })
     },
     closePopup () {
-      document.getElementById(this.closeButtonId).click()
+      let closeBtn = document.getElementById(this.closeButtonId)
+      if (closeBtn) {
+        closeBtn.click()
+      }
       this.cleanDOM()
       this.triggered = false
     },
     triggerRevenueTutorial () {
+      this.closeAllModals()
       this.closePopup()
     }
   }
