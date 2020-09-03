@@ -93,7 +93,7 @@ export default {
           }
         })
         .catch((tagsErr) => {
-          alert('Something went wrong file getting tags')
+          this.showNotification('Something went wrong while getting the tags', 'error')
         })
     }
   }

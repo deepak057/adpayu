@@ -9,18 +9,11 @@ export default {
   name: 'TitleCollapes',
   data () {
     return {
-      currentUser: auth.getUser()
     }
   },
   methods: {
     toggleCollapse () {
-      // always get the fresh User object
-      // as it might have been updated by
-      // some other component, also, we can
-      // watch for the change in User state
-      this.currentUser = auth.getUser()
-      this.currentUser.pageTitleCollapsed = !this.currentUser.pageTitleCollapsed
-      auth.updateCurrentUser(this.currentUser)
+      auth.togglePageTitle()
     }
   }
 }

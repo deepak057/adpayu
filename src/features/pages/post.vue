@@ -66,7 +66,7 @@ export default {
         })
         .catch((postErr) => {
           this.pageLoading = false
-          alert('Something went wrong while getting the data, please try again later.')
+          this.showNotification('Something went wrong while getting the data, please try again later.', 'error')
         })
     },
     getPageTitle (post) {

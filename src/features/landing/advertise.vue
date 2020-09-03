@@ -136,7 +136,7 @@ export default {
         this.pricing = data.options
       })
       .catch((pErr) => {
-        alert('Something went wrong while loading the page.')
+        this.showNotification('Something went wrong while loading the page.', 'error')
       })
   }
 }

@@ -79,7 +79,7 @@ div(v-if="triggered")
               h3.bold.all-caps(v-if="steps.step4.text1")
                 | {{steps.step4.text1}}
                 span.m-l-5(v-html="showAmount(getTotalMoney())")
-              .m-t-20
+              .m-t-20(:class="{'v-hidden': steps.celebration.enable}")
                 img.h-150(:src="staticImageUrl('success.png')")
               p.m-t-10.all-caps.bold.text-warning(v-if="steps.step4.text2")
                 | {{steps.step4.text2}}
@@ -310,13 +310,13 @@ export default {
       this.steps.modalSubTitle = ''
       this.textAnimationEffect('text1', 'step4')
         .then((d) => {
-          this.steps.step4.text2 = 'Remember, you will get limited ads in your feed everyday so come back everyday and unlock more ads'
+          this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 8000)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 10000)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true
@@ -399,7 +399,7 @@ export default {
         }
         let pos = getPlayButton()
         let obj = {
-          left: pos.left + 'px',
+          left: (pos.left - (this.isMobile() ? 15 : 0)) + 'px',
           top: pos.top + 'px'
         }
         this.steps.step3.ad.tour.steps.step1.arrowId = this.id + 'ad-tutorial-step-2-arrow'
@@ -558,6 +558,7 @@ export default {
     triggerRevenueTutorial () {
       this.closeAllModals()
       this.closePopup()
+      this.$emit('TriggerRevenueTour')
     }
   }
 }

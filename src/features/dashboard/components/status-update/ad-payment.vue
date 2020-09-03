@@ -90,7 +90,7 @@ export default {
           /* eslint-enable */
         })
         .catch((pErr) => {
-          alert('Something went wrong while initializing the payment, please try again later')
+          this.showNotification('Something went wrong while initializing the payment, please try again later', 'error')
         })
     },
     checkIfScriptExists () {

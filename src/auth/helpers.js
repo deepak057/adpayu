@@ -141,6 +141,14 @@ export default {
     store.state.auth.orderId = orderId
     store.dispatch('auth/update', store.state.auth)
   },
+  togglePageTitle (expand = false) {
+    let user = store.state.auth.user
+    if (expand && !user.pageTitleCollapsed) {
+      return
+    }
+    user.pageTitleCollapsed = !user.pageTitleCollapsed
+    this.updateCurrentUser(user)
+  },
   getNotifications (page = 1, autoMarkSeen = false) {
     return Vue.http({
       method: 'get',

@@ -84,7 +84,8 @@
   // End Right sidebar
   // ==============================================================
   <overlay-view :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
-  <ad-popup ref="AdPopupComp"/>
+  <ad-popup @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
+  <revenue-tour ref="TourRevenueComp"/>
 </template>
 
 <script>
@@ -98,6 +99,7 @@ import auth from '@/auth/helpers'
 import TitleCollapse from '../../components/title-collapse'
 import OverlayView from './overlay-view'
 import AdPopup from './components/ad-system/ad-popup'
+import RevenueTour from './components/ad-system/revenue-tour'
 
 export default {
   name: 'Dashboard',
@@ -109,7 +111,8 @@ export default {
     TotalRevenue,
     TitleCollapse,
     OverlayView,
-    AdPopup
+    AdPopup,
+    RevenueTour
   },
   mixins: [mixin],
   props: {
@@ -212,6 +215,9 @@ export default {
     this.getFeed()
   },
   methods: {
+    triggerRevenueTour () {
+      this.$refs.TourRevenueComp.trigger()
+    },
     updateFeedPreference () {
       this.noMoreFeed = false
       // this.showHideFeed()
@@ -248,7 +254,7 @@ export default {
           that.afterFeedLoad(data)
         })
         .catch((feedError) => {
-          alert('Something went wrong file fetching the feed under this tag.')
+          this.showNotification('Something went wrong file fetching the feed under this tag.', 'error')
         })
     },
     categoryChanged (newCat) {

@@ -98,7 +98,7 @@ export default {
           this.setDocumentTitle(this.userName(this.user, false))
         })
         .catch((profileErr) => {
-          alert('Something went wrong while fetching the user profile')
+          this.showNotification('Something went wrong while fetching the user profile', 'error')
         })
     },
     uidCheck () {
