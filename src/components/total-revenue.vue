@@ -1,8 +1,8 @@
 <template lang="pug">
 .total-revenue-wrap
   h3.m-b-0.font-light
-    span(v-html = "showAmount(totalRevenue) || 0")
-    span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="syncUser()")
+    span(v-html = "showAmount(totalRevenue) || 0" :id="tour.revenueAmountId")
+    span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="syncUser()" :id="tour.revenueWithdrawId")
       i.fa.fa-sign-out.m-r-2
       | Withdraw
       <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
@@ -12,6 +12,7 @@
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank, Paytm or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
   <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
+  <v-tour name="myTour" v-if="tour.tourSteps.length" :callbacks = "tour.tourCallbacks" :steps="tour.tourSteps"></v-tour>
 </template>
 <script>
 import auth from '@/auth/helpers'
@@ -33,7 +34,15 @@ export default {
       totalRevenue: auth.getLocalRevenue(),
       currentUser: auth.getUser(),
       loader: false,
-      revenueUpdateInterval: 30000
+      revenueUpdateInterval: 30000,
+      tour: {
+        tourSteps: [],
+        revenueAmountId: 'total-revenue-header-amount',
+        revenueWithdrawId: 'total-revenue-header-withdraw',
+        tourCallbacks: {
+          onStart: this.tourStarted
+        }
+      }
     }
   },
   watch: {
@@ -84,6 +93,29 @@ export default {
     },
     accountVerified () {
       return this.currentUser.accountStatus === 'verified'
+    },
+    triggerTour () {
+      let updateSteps = () => {
+        this.tour.tourSteps = [
+          {
+            target: '#' + this.tour.revenueAmountId,
+            content: 'This is the total amount of money you have made'
+          },
+          {
+            target: '#' + this.tour.revenueWithdrawId,
+            content: 'Click this button to withdraw money to your Paytm or bank account'
+          }
+        ]
+      }
+      updateSteps()
+      auth.togglePageTitle(true)
+      setTimeout(() => {
+        this.$tours['myTour'].start()
+        this.scrollToTop()
+      }, 200)
+    },
+    tourStarted (currentStep) {
+      this.scrollToTop()
     }
   }
 }

@@ -19,6 +19,8 @@ import VueMeta from 'vue-meta'
 import VueAnalytics from 'vue-analytics'
 import SocialSharing from 'vue-social-sharing'
 import Vue2TouchEvents from 'vue2-touch-events'
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
 
 Vue.config.productionTip = false
 
@@ -78,6 +80,9 @@ Vue.use(SocialSharing)
 
 // include Mobile Touch events
 Vue.use(Vue2TouchEvents)
+
+// include Vue Tour
+Vue.use(VueTour)
 
 // Styles
 require('./styles/scss/main.scss')

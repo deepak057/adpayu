@@ -38,7 +38,7 @@
           |  Recent
       // <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
     .col-md-2.col-12.align-self-center
-      <total-revenue/>
+      <total-revenue ref="TotalRevenue"/>
     <title-collapse />
   // ==============================================================
   // End Bread crumb and right sidebar toggle
@@ -85,7 +85,6 @@
   // ==============================================================
   <overlay-view :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
   <ad-popup @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
-  <revenue-tour ref="TourRevenueComp"/>
 </template>
 
 <script>
@@ -99,7 +98,6 @@ import auth from '@/auth/helpers'
 import TitleCollapse from '../../components/title-collapse'
 import OverlayView from './overlay-view'
 import AdPopup from './components/ad-system/ad-popup'
-import RevenueTour from './components/ad-system/revenue-tour'
 
 export default {
   name: 'Dashboard',
@@ -111,8 +109,7 @@ export default {
     TotalRevenue,
     TitleCollapse,
     OverlayView,
-    AdPopup,
-    RevenueTour
+    AdPopup
   },
   mixins: [mixin],
   props: {
@@ -216,7 +213,7 @@ export default {
   },
   methods: {
     triggerRevenueTour () {
-      this.$refs.TourRevenueComp.trigger()
+      this.$refs.TotalRevenue.triggerTour()
     },
     updateFeedPreference () {
       this.noMoreFeed = false
