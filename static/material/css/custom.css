@@ -103,6 +103,14 @@
 .v-hidden {
 	visibility: hidden;
 }
+.v-tour .v-step {
+	background: #1e88e5;
+	font-weight: 400;
+	font-size: 13px;
+}
+.v-tour__target--highlighted {
+  box-shadow: 0 0 0 99999px rgba(0,0,0,.4);
+}
 
 @keyframes fadeOutDiagon {
 	0% {

@@ -316,7 +316,7 @@ export default {
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 100)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 10000)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true
@@ -479,7 +479,7 @@ export default {
     getTotalMoney () {
       return this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv + (this.steps.step4.enableButton && this.steps.step1.cashBack.FirstAd.enable ? this.steps.step1.cashBack.FirstAd.priceUSD : 0)
     },
-    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 500) {
+    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 5000) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           this.steps.celebration.enable = true
@@ -494,11 +494,11 @@ export default {
               this.steps.celebration.fadeOut = true
               setTimeout(() => {
                 this.steps.celebration.enable = false
-              }, 200)
+              }, 2000)
               resolve()
             }, timeout)
-          }, 300)
-        }, 200)
+          }, 3000)
+        }, 2000)
       })
     },
     adVideoPlayed (f) {

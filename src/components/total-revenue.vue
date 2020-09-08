@@ -12,7 +12,7 @@
     i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank, Paytm or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
   <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
-  <v-tour name="myTour" v-if="tour.tourSteps.length" :callbacks = "tour.tourCallbacks" :steps="tour.tourSteps"></v-tour>
+  <v-tour name="myTour" v-if="tour.tourSteps.length" :steps="tour.tourSteps" :options="tour.options"></v-tour>
 </template>
 <script>
 import auth from '@/auth/helpers'
@@ -39,8 +39,13 @@ export default {
         tourSteps: [],
         revenueAmountId: 'total-revenue-header-amount',
         revenueWithdrawId: 'total-revenue-header-withdraw',
-        tourCallbacks: {
-          onStart: this.tourStarted
+        options: {
+          labels: {
+            buttonSkip: 'Skip',
+            buttonPrevious: 'Previous',
+            buttonNext: 'Next',
+            buttonStop: 'Finish'
+          }
         }
       }
     }
@@ -76,6 +81,7 @@ export default {
       }, this.revenueUpdateInterval)
     },
     syncUser () {
+      this.stopTour()
       if (this.loader) {
         return
       }
@@ -99,11 +105,19 @@ export default {
         this.tour.tourSteps = [
           {
             target: '#' + this.tour.revenueAmountId,
-            content: 'This is the total amount of money you have made'
+            content: 'This is the total amount of money you have made',
+            params: {
+              highlight: true,
+              enableScrolling: false
+            }
           },
           {
             target: '#' + this.tour.revenueWithdrawId,
-            content: 'Click this button to withdraw money to your Paytm or bank account'
+            content: 'Click this button to withdraw money to your Paytm or Bank account',
+            params: {
+              highlight: true,
+              enableScrolling: false
+            }
           }
         ]
       }
@@ -111,11 +125,12 @@ export default {
       auth.togglePageTitle(true)
       setTimeout(() => {
         this.$tours['myTour'].start()
-        this.scrollToTop()
       }, 200)
     },
-    tourStarted (currentStep) {
-      this.scrollToTop()
+    stopTour () {
+      if (this.$tours['myTour']) {
+        this.$tours['myTour'].stop()
+      }
     }
   }
 }
