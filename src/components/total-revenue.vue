@@ -121,6 +121,7 @@ export default {
           }
         ]
       }
+      this.scrollToTop()
       updateSteps()
       auth.togglePageTitle(true)
       setTimeout(() => {

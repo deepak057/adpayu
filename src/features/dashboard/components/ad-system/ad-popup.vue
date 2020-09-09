@@ -105,6 +105,7 @@ import Preloader from '../../../../components/preloader'
 import Service from './service'
 import Feed from './../../../../components/feed/feed'
 // import auth from '@/auth/helpers'
+import auth from '@/auth/helpers'
 
 function adSystemInitialState () {
   return {
@@ -197,6 +198,7 @@ export default {
     return {
       pageLoader: true,
       id: this.getUniqueId() + '-ad-system-popup-',
+      currentUser: auth.getUser(),
       triggered: false,
       steps: adSystemInitialState()
     }
@@ -308,15 +310,23 @@ export default {
       this.steps.step4.text1 = 'Wow !! You have made'
       this.steps.modalTitle = 'You are making money'
       this.steps.modalSubTitle = ''
+      let setUserCashback = () => {
+        this.$options.service.setCashback(this.currentUser.id, this.steps.step1.cashBack.FirstAd.id, this.steps.step3.ad.feed[0].id)
+          .then((d) => {})
+          .catch((cErr) => {
+            this.showNotification('Something went wrong while giving you the cashback', 'error')
+          })
+      }
       this.textAnimationEffect('text1', 'step4')
         .then((d) => {
           this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
+          setUserCashback()
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 10000)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 100)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true
@@ -479,7 +489,7 @@ export default {
     getTotalMoney () {
       return this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv + (this.steps.step4.enableButton && this.steps.step1.cashBack.FirstAd.enable ? this.steps.step1.cashBack.FirstAd.priceUSD : 0)
     },
-    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 5000) {
+    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 500) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           this.steps.celebration.enable = true
@@ -494,11 +504,11 @@ export default {
               this.steps.celebration.fadeOut = true
               setTimeout(() => {
                 this.steps.celebration.enable = false
-              }, 2000)
+              }, 200)
               resolve()
             }, timeout)
-          }, 3000)
-        }, 2000)
+          }, 300)
+        }, 200)
       })
     },
     adVideoPlayed (f) {
