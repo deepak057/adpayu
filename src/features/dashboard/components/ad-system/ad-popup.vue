@@ -320,10 +320,10 @@ export default {
       this.textAnimationEffect('text1', 'step4')
         .then((d) => {
           this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
-          setUserCashback()
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
               if (this.steps.step1.cashBack.FirstAd.enable) {
+                setUserCashback()
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
                 this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 100)
