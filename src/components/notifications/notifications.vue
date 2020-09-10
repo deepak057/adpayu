@@ -20,7 +20,8 @@
               | Your <u>{{noti.linkObject0.label}}</u>
             </router-link>
           </template>
-          | {{noti.text}}
+          span(v-html="noti.text")
+          //| {{noti.text}}
           span.m-l-5.pointer(v-if="getPostId(noti) && !noti.linkObject" @click="triggerPostPopup(noti)")
             | <u>{{getPostType(noti)}}</u>
           span.m-l-5.pointer(v-if="noti.linkObject")
@@ -112,7 +113,7 @@ export default {
           case 'VIDEO_COMMENT_ACCEPTED':
             this.notificationData[i].heading = 'Video comment approved'
             meta = this.getNotiMeta(this.notificationData[i])
-            this.notificationData[i].text = '$' + meta.amountUSD + ' (' + meta.amountINR + ' INR) added to your account for your'
+            this.notificationData[i].text = this.showAmount(meta.amountUSD) + ' added to your account for your'
             linkObj = {
               label: 'comment',
               url: this.getCommentLink(meta.commentId)
@@ -136,12 +137,16 @@ export default {
             this.$set(this.notificationData[i], 'linkObject0', linkObj0)
             break
           case 'IDENTITY_DOCS_APPROVED':
-            this.notificationData[i].heading = 'Your Identity Verified'
+            this.notificationData[i].heading = 'Your KYC completed'
             meta = this.getNotiMeta(this.notificationData[i])
-            this.notificationData[i].text = 'Your verification is successful. You can now withdraw money.'
+            let text = 'Your verification is successful.'
+            if (meta && meta.cashback && meta.amountUSD) {
+              text = 'You got cashback of ' + this.showAmount(meta.amountUSD) + '.'
+            }
+            this.notificationData[i].text = text + ' You can now withdraw money.'
             break
           case 'IDENTITY_DOCS_REJECTED':
-            this.notificationData[i].heading = 'Identity Verification Failed'
+            this.notificationData[i].heading = 'Your KYC Failed'
             meta = this.getNotiMeta(this.notificationData[i])
             this.notificationData[i].text = 'Sorry, there was a problem. Please check your mail for more details.'
             break

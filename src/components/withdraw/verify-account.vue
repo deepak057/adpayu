@@ -6,7 +6,7 @@ div
       .modal-content
         .modal-header
           h4.modal-title
-            | Verify Your Indentity
+            | KYC - Verify Your Indentity
             i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Identity Verification" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
