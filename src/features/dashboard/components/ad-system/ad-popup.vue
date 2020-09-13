@@ -256,7 +256,7 @@ export default {
       }
       this.steps.step1.enable = true
       if (this.steps.step1.loader) {
-        this.$options.service.getStats()
+        auth.getWithdrawlStats()
           .then((d) => {
             this.steps.step1.loader = false
             this.steps.step1.totalUsers = this.formatNumber(d.stats.totalUsers)

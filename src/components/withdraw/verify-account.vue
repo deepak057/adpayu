@@ -10,6 +10,11 @@ div
             i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Identity Verification" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
+          <template v-if="data.loader">
+          .text-center.m-t-20
+            <preloader />
+          </template>
+          <template v-if="!data.loader">
           <template v-if="!isAccountStatusPending()">
           p
             | Dear user, before being able to withdraw money, please upload any
@@ -25,6 +30,9 @@ div
               button.btn.btn-info.btn-lg.m-t-10(@click="triggerFileSelection()")
                 | Upload*
               input.none(type="file" @change="filesChange($event.target.name, $event.target.files)" :id="fileInputId" multiple :accept="validFileTypesString()")
+              span.badge.badge-warning.p-a.d-inline.m-l-5.pointer.m-t-10( v-if = "data.CBKYC" data-container="body" title="Win Cashback" data-toggle="popover"  data-html="true" :data-content="cashbackPopoverDetails()")
+                span(v-html="'+ ' + showAmount(data.CBKYC, false, true)")
+                i.mdi.mdi-information.m-l-4
             p.m-b-0
               span(v-if="!data.uploadInProgress")
                 | (Max {{data.maxFileSize}} MB)
@@ -43,6 +51,7 @@ div
             p.text-muted.small
               | Note- We will also try to reach you through your registered email address during the review process if needed.
           </template>
+          </template>
         .modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
 </template>
@@ -55,6 +64,7 @@ import Service from './service'
 function verifyAccountInitialState () {
   return {
     pageLoader: true,
+    loader: false,
     maxFileCount: 2,
     maxFileSize: 5,
     uploadInProgress: false,
@@ -62,7 +72,8 @@ function verifyAccountInitialState () {
     uploadPercentage: 0,
     allowedFileTypes: ['application/pdf', 'image/x-eps'],
     success: false,
-    currentUser: auth.getUser()
+    currentUser: auth.getUser(),
+    CBKYC: false
   }
 }
 
@@ -107,7 +118,29 @@ export default {
   methods: {
     triggerPopup () {
       this.reset()
+      this.getCashbackPrice()
       document.getElementById(this.triggerButtonId).click()
+    },
+    cashbackPopoverDetails () {
+      return 'Get cashback of ' + this.showAmount(this.data.CBKYC) + ' for completing your KYC.'
+    },
+    isAccountStatusUnverified () {
+      return this.data.currentUser.accountStatus === 'unverified'
+    },
+    getCashbackPrice () {
+      if (this.isAccountStatusUnverified()) {
+        this.data.loader = true
+        auth.getWithdrawlStats()
+          .then((d) => {
+            this.data.loader = false
+            if (d.stats.cashBack.KYC.enable) {
+              this.data.CBKYC = d.stats.cashBack.KYC.priceUSD
+            }
+          })
+          .catch((vErr) => {
+            this.showNotification('Something went wrong', 'error')
+          })
+      }
     },
     isAccountStatusPending () {
       return this.data.currentUser.accountStatus === 'pending'

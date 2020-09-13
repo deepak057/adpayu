@@ -396,7 +396,20 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-
+  getWithdrawlStats () {
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/withdraw/withdrawalStats'
+    })
+      .then((response) => {
+        return new Promise((resolve) => {
+          resolve(response.data)
+        })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
   syncUser (uid = false) {
     let currentUser = this.getUser()
     uid = uid || currentUser.id
