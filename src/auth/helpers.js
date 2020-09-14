@@ -96,6 +96,63 @@ export default {
   getLocalVideoURL () {
     return store.state.auth.localVideoURL
   },
+  watchedVideoCount () {
+    const cipher = salt => {
+      const textToChars = text => text.split('').map(c => c.charCodeAt(0))
+      const byteHex = n => ('0' + Number(n).toString(16)).substr(-2)
+      const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code)
+      return text => text.split('')
+        .map(textToChars)
+        .map(applySaltToChar)
+        .map(byteHex)
+        .join('')
+    }
+    const decipher = salt => {
+      const textToChars = text => text.split('').map(c => c.charCodeAt(0))
+      const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code)
+      return encoded => encoded.match(/.{1,2}/g)
+        .map(hex => parseInt(hex, 16))
+        .map(applySaltToChar)
+        .map(charCode => String.fromCharCode(charCode))
+        .join('')
+    }
+    let key = 'TVWIS' // stands for Total Videos Watched In Session, making it short form to make it ambiguous
+    // set a random passphrase
+    let pP = '@-.rh%Kr4-=nh2y['
+    let getUpdatedArray = (arrStr = false, id, type_) => {
+      let watched = {}
+      if (!arrStr) {
+        watched = {
+          post: [],
+          comment: []
+        }
+      } else {
+        const myDecipher = decipher(pP)
+        watched = JSON.parse(myDecipher(arrStr))
+      }
+      if (watched[type_].indexOf(id) === -1) {
+        watched[type_].push(id)
+      }
+      const myCipher = cipher(pP)
+      return myCipher(JSON.stringify(watched))
+    }
+    let updateCount = (id, type_) => {
+      if (!store.state.auth.adTutorialTaken) {
+        let tutorialTriggered = sessionStorage.getItem(key)
+        sessionStorage.setItem(key, getUpdatedArray(tutorialTriggered, id, type_))
+      }
+    }
+    return {
+      updateCount: function (id, type_) {
+        return updateCount(id, type_)
+      },
+      getCount: function () {
+        const myDecipher = decipher(pP)
+        let watched = JSON.parse(myDecipher(sessionStorage.getItem(key)))
+        return watched.post.length + watched.comment.length
+      }
+    }
+  },
   getRefCode () {
     return store.state.auth.refCode
   },

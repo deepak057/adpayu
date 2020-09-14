@@ -46,6 +46,7 @@ export default {
               c.HasViewed = 1
             })
         }
+        auth.watchedVideoCount().updateCount(c.id, 'comment')
       } catch (e) {
         console.log(e)
       }
