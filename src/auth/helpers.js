@@ -116,7 +116,7 @@ export default {
         .map(charCode => String.fromCharCode(charCode))
         .join('')
     }
-    let key = 'TVWIS' // stands for Total Videos Watched In Session, making it short form to make it ambiguous
+    // let key = 'TVWIS' // stands for Total Videos Watched In Session, making it short form to make it ambiguous
     // set a random passphrase
     let pP = '@-.rh%Kr4-=nh2y['
     let getUpdatedArray = (arrStr = false, id, type_) => {
@@ -137,9 +137,10 @@ export default {
       return myCipher(JSON.stringify(watched))
     }
     let updateCount = (id, type_) => {
-      if (!store.state.auth.adTutorialTaken) {
-        let tutorialTriggered = sessionStorage.getItem(key)
-        sessionStorage.setItem(key, getUpdatedArray(tutorialTriggered, id, type_))
+      if (!store.state.auth.user.adTutorialTaken) {
+        // let tutorialTriggered = store.state.auth.WVC
+        store.state.auth.WVC = getUpdatedArray(store.state.auth.WVC, id, type_)
+        store.dispatch('auth/update', store.state.auth.WVC)
       }
     }
     return {
@@ -148,8 +149,12 @@ export default {
       },
       getCount: function () {
         const myDecipher = decipher(pP)
-        let watched = JSON.parse(myDecipher(sessionStorage.getItem(key)))
+        let watched = JSON.parse(myDecipher(store.state.auth.WVC))
         return watched.post.length + watched.comment.length
+      },
+      reset: function () {
+        store.state.auth.WVC = false
+        store.dispatch('auth/update', store.state.auth.WVC)
       }
     }
   },

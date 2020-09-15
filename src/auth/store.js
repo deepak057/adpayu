@@ -14,7 +14,9 @@ const defaults = {
   orderId: false,
   localVideoURL: false,
   refCode: false,
-  forex: false
+  forex: false,
+  // Watched videos count
+  WVC: false
 }
 
 const auth = {

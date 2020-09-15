@@ -135,6 +135,7 @@ export default {
         maxPostsCount: 70,
         postsToRemove: 35
       },
+      videosWatchedForAdTutorial: 9,
       postOptions: [
         {
           type: 'text',
@@ -197,6 +198,12 @@ export default {
     '$route.params.cat' (newCat) {
       this.scrollToTop()
       this.categoryChanged(newCat)
+    },
+    '$store.state.auth.WVC' (newV) {
+      if (newV && auth.watchedVideoCount().getCount() >= this.videosWatchedForAdTutorial) {
+        auth.watchedVideoCount().reset()
+        this.$refs.AdPopupComp.triggerPopup()
+      }
     }
   },
   metaInfo () {
@@ -230,7 +237,6 @@ export default {
     },
     VideoPlayed (obj) {
       this.$refs.overlayViewComp.triggerPopup(obj)
-      this.$refs.AdPopupComp.triggerPopup()
     },
     reloadFeed () {
       this.resetFeed()

@@ -10,7 +10,7 @@ div(v-if="triggered")
             br
             small.text-muted
               | {{steps.modalSubTitle}}
-          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          button.close(@click="closePopup" type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <template v-if ="steps.step1.enable">
           <template v-if ="!steps.step1.loader">
@@ -94,7 +94,7 @@ div(v-if="triggered")
                   | Close
           </template>
         .modal-footer(v-if="!steps.step3.enable && !steps.step4.enable")
-          button.btn.btn-secondary(data-dismiss='modal' :id="closeButtonId")
+          button.btn.btn-secondary(@click="closePopup" data-dismiss='modal' :id="closeButtonId")
             | No
           button.btn.btn-danger(type='button' @click="enableNextStep()")
             | Yes
@@ -322,11 +322,12 @@ export default {
           this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
+              this.disableAdTutorial()
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 setUserCashback()
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 100)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 10000)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true
@@ -337,6 +338,11 @@ export default {
             })
         })
     },
+    disableAdTutorial () {
+      let user = auth.getUser()
+      user.adTutorialTaken = true
+      auth.updateCurrentUser(user)
+    },
     resetSteps () {
       this.steps.step1.enable = false
       this.steps.step2.enable = false
@@ -344,9 +350,18 @@ export default {
       this.steps.step4.enable = false
     },
     cleanDOM () {
-      document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).remove()
-      document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).remove()
-      document.getElementById(this.steps.step3.ad.tour.steps.step1.styletagId).remove()
+      let arrowElm = document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId)
+      if (arrowElm) {
+        arrowElm.remove()
+      }
+      let descriptionWrapElm = document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId)
+      if (descriptionWrapElm) {
+        descriptionWrapElm.remove()
+      }
+      let styletagElm = document.getElementById(this.steps.step3.ad.tour.steps.step1.styletagId)
+      if (styletagElm) {
+        styletagElm.remove()
+      }
     },
     enableStep (step) {
       this.resetSteps()
@@ -489,7 +504,7 @@ export default {
     getTotalMoney () {
       return this.steps.step3.ad.feed[0]['AdOption'].cpi + this.steps.step3.ad.feed[0]['AdOption'].cpc + this.steps.step3.ad.feed[0]['AdOption'].cpv + (this.steps.step4.enableButton && this.steps.step1.cashBack.FirstAd.enable ? this.steps.step1.cashBack.FirstAd.priceUSD : 0)
     },
-    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 500) {
+    celebrate (price, priceText = false, mainHeading = false, extra = false, timeout = 5000) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           this.steps.celebration.enable = true
@@ -504,11 +519,11 @@ export default {
               this.steps.celebration.fadeOut = true
               setTimeout(() => {
                 this.steps.celebration.enable = false
-              }, 200)
+              }, 2000)
               resolve()
             }, timeout)
-          }, 300)
-        }, 200)
+          }, 3000)
+        }, 2000)
       })
     },
     adVideoPlayed (f) {
@@ -522,6 +537,7 @@ export default {
     },
     triggerPopup () {
       /*eslint-disable*/
+      this.pauseAllOtherVideos()
       this.triggered = true
       this.gimmick(5000)
       let d = document.getElementById(this.triggerButtonId)
@@ -558,6 +574,7 @@ export default {
       })
     },
     closePopup () {
+      this.disableAdTutorial()
       let closeBtn = document.getElementById(this.closeButtonId)
       if (closeBtn) {
         closeBtn.click()
