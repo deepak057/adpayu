@@ -48,7 +48,7 @@ div(v-if="triggered")
                 span.m-l-5(v-html="showAmount(steps.celebration.price)")
                 span.m-l-5(v-if = "steps.celebration.text3")
                   | {{steps.celebration.text3}}
-            .pyro
+            .pyro(v-if="!isMobile()")
               .before
               .after
           <template v-if ="steps.step3.enable">
