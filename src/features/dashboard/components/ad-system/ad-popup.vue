@@ -482,7 +482,9 @@ export default {
         let init = () => {
           document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
           document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
-          this.gimmick(5000)
+          if (!this.isMobile()) {
+            this.gimmick(5000)
+          }
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
               this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
@@ -542,7 +544,9 @@ export default {
       /*eslint-disable*/
       this.pauseAllOtherVideos()
       this.triggered = true
-      this.gimmick(5000)
+      if (!this.isMobile()) {
+        this.gimmick(5000)
+      }
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {
