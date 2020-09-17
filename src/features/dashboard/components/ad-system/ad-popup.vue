@@ -322,7 +322,7 @@ export default {
           this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
-              this.disableAdTutorial()
+              this.disableAdTutorial(true)
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 setUserCashback()
                 let temp = this.steps.step4.text1
@@ -338,9 +338,12 @@ export default {
             })
         })
     },
-    disableAdTutorial () {
+    disableAdTutorial (enableAds = false) {
       let user = auth.getUser()
       user.adTutorialTaken = true
+      if (enableAds) {
+        user.adsEnabled = true
+      }
       auth.updateCurrentUser(user)
     },
     resetSteps () {
