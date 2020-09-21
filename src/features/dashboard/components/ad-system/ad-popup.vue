@@ -48,7 +48,7 @@ div(v-if="triggered")
                 span.m-l-5(v-html="showAmount(steps.celebration.price)")
                 span.m-l-5(v-if = "steps.celebration.text3")
                   | {{steps.celebration.text3}}
-            .pyro(v-if="!isMobile()")
+            .pyro
               .before
               .after
           <template v-if ="steps.step3.enable">
@@ -482,9 +482,7 @@ export default {
         let init = () => {
           document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
           document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
-          if (!this.isMobile()) {
-            this.gimmick(5000)
-          }
+          this.gimmick(5000)
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
               this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
@@ -544,9 +542,7 @@ export default {
       /*eslint-disable*/
       this.pauseAllOtherVideos()
       this.triggered = true
-      if (!this.isMobile()) {
-        this.gimmick(5000)
-      }
+      this.gimmick(5000)
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {
