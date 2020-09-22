@@ -41,9 +41,9 @@ div(v-if="triggered")
           </template>
           .celebration-wrap(:class="{'fade-out': steps.celebration.fadeOut}" v-if="steps.celebration.enable")
             .text-wrap.text-center
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.celebration.text1}")
+              h2.text-danger.all-caps(:class="{'zoom-in shining-text': steps.celebration.text1}")
                 | {{steps.celebration.text1}}
-              h2.text-danger.all-caps(:class="{'zoom-in': steps.celebration.text1}" v-if="steps.celebration.text2")
+              h2.text-danger.all-caps(:class="{'zoom-in shining-text': steps.celebration.text1}" v-if="steps.celebration.text2")
                 | {{steps.celebration.text2}}
                 span.m-l-5(v-html="showAmount(steps.celebration.price)")
                 span.m-l-5(v-if = "steps.celebration.text3")
