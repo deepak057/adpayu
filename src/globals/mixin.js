@@ -60,6 +60,9 @@ export default {
       return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.formatNumber(USDAmount * auth.getForex()) : '$' + space + (spacing ? USDAmount : this.formatNumber(USDAmount))
     },
     formatNumber (labelValue) {
+      if (!labelValue) {
+        return 0
+      }
       // Nine Zeroes for Billions
       return Math.abs(Number(labelValue)) >= 1.0e+9
         ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+9) + 'B'

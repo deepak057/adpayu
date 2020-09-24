@@ -173,7 +173,15 @@ export default {
     store.dispatch('auth/update', store.state.auth)
   },
   setGuestId (id = false) {
+    /*
+    * Commenting this logic as in this case, it was very likely that more users can get the same ID because of
+    * huge vairation in random number that gets added to the current timestamp
     store.state.auth.guestId = id || ((new Date()).getTime() + Math.floor(Math.random() * (10000000000000 - 1 + 1) + 1))
+    */
+    /*
+    * get the current timestamp in milliseconds and add a random number between 1-10
+    */
+    store.state.auth.guestId = id || ((new Date()).getTime() + Math.floor(Math.random() * (10 - 1 + 1) + 1))
     store.dispatch('auth/update', store.state.auth)
   },
   getGuestId () {
