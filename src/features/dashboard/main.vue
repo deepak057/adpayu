@@ -217,8 +217,23 @@ export default {
   },
   mounted () {
     this.getFeed()
+    this.adReminder()
   },
   methods: {
+    adReminder () {
+      let interval = setInterval(() => {
+        let user = auth.getUser()
+        if (user.adsEnabled) {
+          this.$options.service.getAdReminderStats()
+            .then((d) => {
+              if (d.clearInterval) {
+                clearInterval(interval)
+              } else {
+              }
+            })
+        }
+      }, 30000)
+    },
     triggerRevenueTour () {
       this.$refs.TotalRevenue.triggerTour()
     },
