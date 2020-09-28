@@ -130,6 +130,7 @@ export default {
       currentPage: 1,
       noMoreFeed: false,
       currentUser: auth.getUser(),
+      adReminderInterval: false,
       truncateFeedConf: {
         enable: true,
         maxPostsCount: 70,
@@ -179,6 +180,7 @@ export default {
   watch: {
     'currentUser.adsEnabled' () {
       this.updateFeedPreference()
+      this.adReminder()
     },
     'currentUser.feedEnabled' () {
       this.updateFeedPreference()
@@ -221,13 +223,14 @@ export default {
   },
   methods: {
     adReminder () {
-      let interval = setInterval(() => {
+      clearInterval(this.adReminderInterval)
+      this.adReminderInterval = setInterval(() => {
         let user = auth.getUser()
         if (user.adsEnabled) {
           this.$options.service.getAdReminderStats()
             .then((d) => {
-              if (d.clearInterval) {
-                clearInterval(interval)
+              if (d.stats.clearInterval) {
+                clearInterval(this.adReminderInterval)
               } else {
               }
             })
@@ -243,7 +246,7 @@ export default {
       // this.showNotification('Updating, please wait...', 'warn')
       auth.updateCurrentUser(this.currentUser)
         .then((data) => {
-          this.showNotification('Preferences updated successfully.', 'success')
+          this.showNotification('Preferences updated', 'success')
           this.reloadFeed()
         })
         .catch((pErr) => {
