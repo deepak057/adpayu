@@ -3,6 +3,7 @@
     component(:is="component")
       slot
     <notifications group="appNotifications" position="top center"/>
+    <notifications group="tips" position="bottom right"/>
 </template>
 
 <script>

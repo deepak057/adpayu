@@ -223,6 +223,27 @@ export default {
   },
   methods: {
     adReminder () {
+      let showMessage = (stats) => {
+        let text = ''
+        let tip = 'Tip'
+        if (stats.newAdsRemaining) {
+          if (stats.videosToWatch) {
+            if (stats.videosToWatch >= 9) {
+              text = 'Watch videos to unlock today\'s ads'
+            } else if (stats.videosToWatch >= 5 && stats.videosToWatch < 9) {
+              tip = 'Keep watching videos'
+              text = 'New ad is unlocking very soon'
+            } else if (stats.videosToWatch >= 1 && stats.videosToWatch < 5) {
+              tip = 'Almost there'
+              text = 'New ad will unlock anytime now, keep watching'
+            }
+            this.showNotification(text, 'info', 5000, {
+              title: tip,
+              ignoreDuplicates: true
+            }, 'tips')
+          }
+        }
+      }
       clearInterval(this.adReminderInterval)
       this.adReminderInterval = setInterval(() => {
         let user = auth.getUser()
@@ -232,6 +253,7 @@ export default {
               if (d.stats.clearInterval) {
                 clearInterval(this.adReminderInterval)
               } else {
+                showMessage(d.stats)
               }
             })
         }

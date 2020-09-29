@@ -207,18 +207,18 @@ export default {
         }
       }
     },
-    showNotification (content, classType, duration = 3000) {
+    showNotification (content, classType, duration = 3000, options = {}, group = 'appNotifications') {
       this.$notify({
-        group: 'appNotifications',
+        group: group,
         clean: true
       })
-      this.$notify({
-        group: 'appNotifications',
-        title: '',
+      let config = {
+        group: group,
         text: content,
         type: classType,
         duration: duration
-      })
+      }
+      this.$notify(Object.assign(config, options))
     },
     roundToDecimalPlaces (number) {
       return Math.round(number * 100) / 100
