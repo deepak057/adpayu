@@ -71,14 +71,24 @@ export default {
       }
     },
     updateTotalRevenue () {
-      setInterval(() => {
+      /*
+      * using session storage for referencing the Timer variable
+      * as multiple instances of this component create multipe
+      * instance of below time-interval
+      */
+      let key = 'RI'
+      let interval = sessionStorage.getItem(key)
+      if (interval) {
+        clearInterval(interval)
+      }
+      sessionStorage.setItem(key, setInterval(() => {
         auth.getCurrentUserRevenue()
           .then((d) => {
             if (d) {
               auth.saveLocalRevenue(d.totalRevenue)
             }
           })
-      }, this.revenueUpdateInterval)
+      }, this.revenueUpdateInterval))
     },
     syncUser () {
       this.stopTour()

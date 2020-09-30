@@ -221,6 +221,10 @@ export default {
     this.getFeed()
     this.adReminder()
   },
+  beforeRouteLeave (to, from, next) {
+    clearInterval(this.adReminderInterval)
+    next()
+  },
   methods: {
     adReminder () {
       let showMessage = (stats) => {
@@ -229,7 +233,7 @@ export default {
         if (stats.newAdsRemaining) {
           if (stats.videosToWatch) {
             if (stats.videosToWatch >= 9) {
-              text = 'Watch videos to unlock today\'s ads'
+              text = 'Watch videos to unlock ads'
             } else if (stats.videosToWatch >= 5 && stats.videosToWatch < 9) {
               tip = 'Keep watching videos'
               text = 'New ad is unlocking very soon'
@@ -241,12 +245,19 @@ export default {
             tip = 'Ad unlocked'
             text = 'It will show up anytime now, keep watching'
           }
-          this.showNotification(text, 'info', 5000, {
-            title: tip,
-            ignoreDuplicates: true
-          }, 'tips')
+          showTip(text, tip)
         }
       }
+      let showTip = (text, title, time = 5000) => {
+        this.showNotification(text, 'info', time, {
+          title: title,
+          ignoreDuplicates: true
+        }, 'tips')
+      }
+      /* let enableDisableTip = () => {
+        let key = 'STIP'
+        let tip = localStorage.getItem(key)
+      } */
       clearInterval(this.adReminderInterval)
       this.adReminderInterval = setInterval(() => {
         let user = auth.getUser()
@@ -255,6 +266,7 @@ export default {
             .then((d) => {
               if (d.stats.clearInterval) {
                 clearInterval(this.adReminderInterval)
+                showTip('You can keep watching the videos and enjoy', 'More ads will unlock tommorrow', 7000)
               } else {
                 showMessage(d.stats)
               }

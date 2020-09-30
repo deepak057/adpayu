@@ -16,7 +16,8 @@ const defaults = {
   refCode: false,
   forex: false,
   // Watched videos count
-  WVC: false
+  WVC: false,
+  revenueInterval: false
 }
 
 const auth = {
