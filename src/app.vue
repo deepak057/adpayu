@@ -2,8 +2,8 @@
   #app
     component(:is="component")
       slot
-    <notifications group="appNotifications" position="top center"/>
-    <notifications group="tips" position="bottom right"/>
+    <notifications group="appNotifications" position="top center" class="top-20"/>
+    <notifications group="tips" position="bottom right" class="bottom-20"/>
 </template>
 
 <script>

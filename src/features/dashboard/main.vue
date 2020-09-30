@@ -237,11 +237,14 @@ export default {
               tip = 'Almost there'
               text = 'New ad will unlock anytime now, keep watching'
             }
-            this.showNotification(text, 'info', 5000, {
-              title: tip,
-              ignoreDuplicates: true
-            }, 'tips')
+          } else {
+            tip = 'Ad unlocked'
+            text = 'It will show up anytime now, keep watching'
           }
+          this.showNotification(text, 'info', 5000, {
+            title: tip,
+            ignoreDuplicates: true
+          }, 'tips')
         }
       }
       clearInterval(this.adReminderInterval)
