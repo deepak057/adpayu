@@ -53,11 +53,17 @@ export default {
       user = user || auth.getUser()
       return user.location && user.location === 'IN' ? 'INR' : this.defaultCurrency
     },
+    getUserCurrencySymbol () {
+      return this.getCurrencySymbol(this.getUserCurrency())
+    },
+    getCurrencySymbol (currency) {
+      return currency === 'INR' ? '&#x20B9;' : '$'
+    },
     showAmount (USDAmount, user = false, spacing = false) {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
       let space = spacing ? ' ' : ''
-      return defaultCurrency === 'INR' ? '&#x20B9;' + space + this.formatNumber(USDAmount * auth.getForex()) : '$' + space + (spacing ? USDAmount : this.formatNumber(USDAmount))
+      return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex()) : this.getCurrencySymbol('USD') + space + (spacing ? USDAmount : this.formatNumber(USDAmount))
     },
     formatNumber (labelValue) {
       if (!labelValue) {

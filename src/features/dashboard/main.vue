@@ -252,7 +252,10 @@ export default {
       let showTip = (text, title, time = 5000) => {
         this.showNotification(text, 'info', time, {
           title: title,
-          ignoreDuplicates: true
+          ignoreDuplicates: true,
+          data: {
+            symbol: this.getUserCurrencySymbol()
+          }
         }, 'tips')
       }
       let toggleTips = () => {

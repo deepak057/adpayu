@@ -3,7 +3,17 @@
     component(:is="component")
       slot
     <notifications group="appNotifications" position="top center" class="top-20"/>
-    <notifications group="tips" position="bottom right" class="bottom-20"/>
+    <notifications group="tips" position="bottom right" class="bottom-20">
+      template(class="vue-notification" slot='body' slot-scope='props')
+        .vue-notifcation.tip-notification-custom-template.bg-info
+          .tip-notification-custom-template-icon(v-html="props.item.data.symbol")
+          .tip-notification-custom-template-content
+            .tip-notification-custom-template-title
+              | {{props.item.title}}
+            .tip-notification-custom-template-text(v-html='props.item.text')
+          .tip-notification-custom-template-close(@click='props.close')
+            i.mdi.mdi-close
+    </notifications>
 </template>
 
 <script>
