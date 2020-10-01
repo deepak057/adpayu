@@ -254,10 +254,20 @@ export default {
           ignoreDuplicates: true
         }, 'tips')
       }
-      /* let enableDisableTip = () => {
+      let toggleTips = () => {
         let key = 'STIP'
-        let tip = localStorage.getItem(key)
-      } */
+        return {
+          set: (action) => {
+            let tip = localStorage.getItem(key)
+            if (!tip) {
+              localStorage.setItem(key, (action === 'enable'))
+            }
+          },
+          get: () => {
+            return localStorage.getItem(key)
+          }
+        }
+      }
       clearInterval(this.adReminderInterval)
       this.adReminderInterval = setInterval(() => {
         let user = auth.getUser()
@@ -266,7 +276,10 @@ export default {
             .then((d) => {
               if (d.stats.clearInterval) {
                 clearInterval(this.adReminderInterval)
-                showTip('You can keep watching the videos and enjoy', 'More ads will unlock tommorrow', 7000)
+                if (!toggleTips().get()) {
+                  showTip('You can keep watching the videos and enjoy', 'More ads will unlock tommorrow', 7000)
+                  toggleTips().set('disable')
+                }
               } else {
                 showMessage(d.stats)
               }

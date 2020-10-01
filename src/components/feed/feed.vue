@@ -328,7 +328,7 @@ export default {
       * not added to the feed array
       */
       for (let i = (feed.length - 1); i >= 0; i--) {
-        if (duplicates.indexOf(feed[i].id) === -1) {
+        if (feed[i] && duplicates.indexOf(feed[i].id) === -1) {
           duplicates.push(feed[i].id)
         } else {
           feed.splice(i, 1)
