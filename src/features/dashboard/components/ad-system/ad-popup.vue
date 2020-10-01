@@ -327,7 +327,7 @@ export default {
                 setUserCashback()
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 10000)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 8000)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true

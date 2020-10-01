@@ -231,6 +231,7 @@ export default {
         let text = ''
         let tip = 'Tip'
         if (stats.newAdsRemaining) {
+          toggleTips().set('enable')
           if (stats.videosToWatch) {
             if (stats.videosToWatch >= 9) {
               text = 'Watch videos to unlock ads'
@@ -258,13 +259,11 @@ export default {
         let key = 'STIP'
         return {
           set: (action) => {
-            let tip = localStorage.getItem(key)
-            if (!tip) {
-              localStorage.setItem(key, (action === 'enable'))
-            }
+            localStorage.setItem(key, (action === 'enable'))
           },
           get: () => {
-            return localStorage.getItem(key)
+            let item = localStorage.getItem(key)
+            return item && item === 'true'
           }
         }
       }
@@ -276,7 +275,7 @@ export default {
             .then((d) => {
               if (d.stats.clearInterval) {
                 clearInterval(this.adReminderInterval)
-                if (!toggleTips().get()) {
+                if (toggleTips().get()) {
                   showTip('You can keep watching the videos and enjoy', 'More ads will unlock tommorrow', 7000)
                   toggleTips().set('disable')
                 }
