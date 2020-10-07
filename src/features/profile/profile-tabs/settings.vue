@@ -176,7 +176,7 @@ export default {
         // this.showNotification('Saving profile, please wait....', 'warn', -1)
         auth.updateCurrentUser(this.getUserObject())
           .then((data) => {
-            this.showNotification('Profile updated successfully', 'success')
+            this.showNotification('Profile updated', 'success')
             this.reset()
           })
           .catch((errUser) => {
