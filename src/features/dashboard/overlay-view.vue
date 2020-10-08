@@ -243,14 +243,16 @@ export default {
         if (modal) {
           let interval = setInterval(() => {
             let container = modal.getElementsByClassName(videoContanierClass)[0]
-            let player = container.getElementsByClassName('vjs-big-play-button')[0]
-            if (player) {
-              if (this.isVisible(player)) {
-                setTimeout(() => {
-                  player.click()
-                }, 50)
+            if (container) {
+              let player = container.getElementsByClassName('vjs-big-play-button')[0]
+              if (player) {
+                if (this.isVisible(player)) {
+                  setTimeout(() => {
+                    player.click()
+                  }, 50)
+                }
+                clearInterval(interval)
               }
-              clearInterval(interval)
             }
           }, 50)
         }
