@@ -138,9 +138,35 @@ export default {
     }
     let updateCount = (id, type_) => {
       if (!store.state.auth.user.adTutorialTaken) {
-        // let tutorialTriggered = store.state.auth.WVC
-        store.state.auth.WVC = getUpdatedArray(store.state.auth.WVC, id, type_)
-        store.dispatch('auth/update', store.state.auth.WVC)
+        let update = function () {
+          store.state.auth.WVC.d = getUpdatedArray(store.state.auth.WVC.d, id, type_)
+          store.dispatch('auth/update', store.state.auth.WVC)
+        }
+        let canUpdateCount = () => {
+          let minutesSinceLastSeen = function () {
+            return ((new Date().getTime() - store.state.auth.WVC.lS) / 1000) / 60
+          }
+          if (!store.state.auth.WVC.lS && !store.state.auth.WVC.tA) {
+            return true
+          } else {
+            if (store.state.auth.WVC.tA > 3) {
+              return false
+            } else {
+              // if ad tutorial was skipped once, show tutorial again
+              // 24 hours (1440 minutes) since it was shown last time
+              if (store.state.auth.WVC.tA === 1 && minutesSinceLastSeen() >= /* 1440 */ 5) {
+                return true
+              } else if (store.state.auth.WVC.tA === 2 && minutesSinceLastSeen() >= /* 2160 */ 5) {
+                return true
+              } else {
+                return minutesSinceLastSeen() >= /* 2880 */ 5
+              }
+            }
+          }
+        }
+        if (canUpdateCount()) {
+          update()
+        }
       }
     }
     return {
@@ -149,11 +175,17 @@ export default {
       },
       getCount: function () {
         const myDecipher = decipher(pP)
-        let watched = JSON.parse(myDecipher(store.state.auth.WVC))
+        let watched = JSON.parse(myDecipher(store.state.auth.WVC.d))
         return watched.post.length + watched.comment.length
       },
       reset: function () {
-        store.state.auth.WVC = false
+        store.state.auth.WVC.d = false
+        store.dispatch('auth/update', store.state.auth.WVC)
+      },
+      updateLastSeen: function () {
+        store.state.auth.WVC.d = false
+        store.state.auth.WVC.lS = new Date().getTime()
+        ++store.state.auth.WVC.tA
         store.dispatch('auth/update', store.state.auth.WVC)
       }
     }

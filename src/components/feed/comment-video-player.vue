@@ -46,6 +46,7 @@ export default {
               c.HasViewed = 1
             })
         }
+        // track this video play for Ad Tutorial
         auth.watchedVideoCount().updateCount(c.id, 'comment')
       } catch (e) {
         console.log(e)

@@ -16,7 +16,16 @@ const defaults = {
   refCode: false,
   forex: false,
   // Watched videos count
-  WVC: false,
+  // using abbriviating names
+  // to increase ambiguity
+  WVC: {
+    // data
+    d: false,
+    // last seen
+    lS: false,
+    // total Attempts
+    tA: 0
+  },
   revenueInterval: false
 }
 

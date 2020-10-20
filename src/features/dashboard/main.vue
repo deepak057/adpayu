@@ -201,7 +201,7 @@ export default {
       this.scrollToTop()
       this.categoryChanged(newCat)
     },
-    '$store.state.auth.WVC' (newV) {
+    '$store.state.auth.WVC.d' (newV) {
       if (newV && auth.watchedVideoCount().getCount() >= this.videosWatchedForAdTutorial) {
         auth.watchedVideoCount().reset()
         this.$refs.AdPopupComp.triggerPopup()

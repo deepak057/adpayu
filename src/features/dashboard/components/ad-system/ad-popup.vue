@@ -8,9 +8,10 @@ div(v-if="triggered")
           h4.modal-title
             | {{steps.modalTitle}}
             br
-            small.text-muted
+            small
               | {{steps.modalSubTitle}}
-          button.close(@click="closePopup" type='button', data-dismiss='modal', aria-hidden='true') ×
+          span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
+          button.close(@click="closePopup" type='button') ×
         .modal-body
           <template v-if ="steps.step1.enable">
           <template v-if ="!steps.step1.loader">
@@ -94,8 +95,8 @@ div(v-if="triggered")
                   | Close
           </template>
         .modal-footer(v-if="!steps.step3.enable && !steps.step4.enable")
-          button.btn.btn-secondary(@click="closePopup" data-dismiss='modal' :id="closeButtonId")
-            | No
+          button.btn.btn-secondary(@click="closePopup")
+            | Remind Me Later
           button.btn.btn-danger(type='button' @click="enableNextStep()")
             | Yes
 </template>
@@ -340,11 +341,13 @@ export default {
     },
     disableAdTutorial (enableAds = false) {
       let user = auth.getUser()
-      user.adTutorialTaken = true
       if (enableAds) {
+        user.adTutorialTaken = true
         user.adsEnabled = true
+        auth.updateCurrentUser(user)
+      } else {
+        auth.watchedVideoCount().updateLastSeen()
       }
-      auth.updateCurrentUser(user)
     },
     resetSteps () {
       this.steps.step1.enable = false
