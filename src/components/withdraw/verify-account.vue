@@ -39,6 +39,12 @@ div
               span.upload-progress(v-if="data.uploadInProgress")
                 <preloader class="m-r-5"/>
                 | {{uploadProgressText()}}
+            .m-t-20(v-if="data.CBKYC")
+              .alert.alert-warning
+                h4
+                  | You will get cashback of
+                  span.m-l-5.m-r-5(v-html = "showAmount(data.CBKYC)")
+                  | for completing your KYC
           </template>
           <template v-if= "isAccountStatusPending()">
           .text-center

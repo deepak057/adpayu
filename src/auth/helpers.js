@@ -96,6 +96,13 @@ export default {
   getLocalVideoURL () {
     return store.state.auth.localVideoURL
   },
+  /*
+  * method to keep track of ad tutorial
+  * though this method should be part of
+  * ad tutorial but keeping it in a common
+  * shared place here so multiple components
+  * can use it
+  */
   watchedVideoCount () {
     const cipher = salt => {
       const textToChars = text => text.split('').map(c => c.charCodeAt(0))
@@ -154,12 +161,12 @@ export default {
             } else {
               // if ad tutorial was skipped once, show tutorial again
               // 24 hours (1440 minutes) since it was shown last time
-              if (store.state.auth.WVC.tA === 1 && minutesSinceLastSeen() >= /* 1440 */ 5) {
+              if (store.state.auth.WVC.tA === 1 && minutesSinceLastSeen() >= 1440) {
                 return true
-              } else if (store.state.auth.WVC.tA === 2 && minutesSinceLastSeen() >= /* 2160 */ 5) {
+              } else if (store.state.auth.WVC.tA === 2 && minutesSinceLastSeen() >= 2160) {
                 return true
               } else {
-                return minutesSinceLastSeen() >= /* 2880 */ 5
+                return minutesSinceLastSeen() >= 2880
               }
             }
           }

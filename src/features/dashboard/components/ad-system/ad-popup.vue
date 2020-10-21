@@ -341,6 +341,7 @@ export default {
     },
     disableAdTutorial (enableAds = false) {
       let user = auth.getUser()
+      auth.watchedVideoCount().reset()
       if (enableAds) {
         user.adTutorialTaken = true
         user.adsEnabled = true
