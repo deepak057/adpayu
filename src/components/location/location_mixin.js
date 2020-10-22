@@ -12,7 +12,7 @@ export default {
     },
     onUserLocationUpdate (user) {
       this.currentUser = user
-      if (this.map) {
+      if (this.map && this.currentUser.locationCords) {
         this.updateLocationOnMap(JSON.parse(this.currentUser.locationCords))
       }
     },

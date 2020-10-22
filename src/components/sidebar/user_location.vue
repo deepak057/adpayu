@@ -62,7 +62,7 @@ export default {
     '$store.state.auth.user' (user) {
       this.currentUser = user
       this.onUserLocationUpdate(user)
-      if (this.map) {
+      if (this.map && this.currentUser.locationCords) {
         this.map.setCenter(JSON.parse(this.currentUser.locationCords))
       }
     }

@@ -22,7 +22,7 @@ div(v-if="triggered")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
           i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
-          span(@click="closePopup()" data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
+          span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal')
@@ -138,11 +138,13 @@ export default {
       this.scrollToTop()
       this.$emit('ReloadFeed')
     },
-    closePopup () {
+    closePopup (closeAll = true) {
       this.pauseAllOtherVideos()
       this.closeReactions()
       document.getElementById(this.closeButtonId).click()
-      this.closeAllModals()
+      if (closeAll) {
+        this.closeAllModals()
+      }
     },
     highlightArrow (action = 'next') {
       let highlightDuration = 500

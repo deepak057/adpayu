@@ -324,6 +324,7 @@ export default {
           this.textAnimationEffect('text2', 'step4')
             .then((d1) => {
               this.disableAdTutorial(true)
+              this.$emit('AdTutorialTaken')
               if (this.steps.step1.cashBack.FirstAd.enable) {
                 setUserCashback()
                 let temp = this.steps.step4.text1

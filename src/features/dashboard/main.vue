@@ -84,7 +84,7 @@
   // End Right sidebar
   // ==============================================================
   <overlay-view :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
-  <ad-popup @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
+  <ad-popup @AdTutorialTaken = "closeOverlayView" @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
 </template>
 
 <script>
@@ -307,6 +307,9 @@ export default {
     },
     VideoPlayed (obj) {
       this.$refs.overlayViewComp.triggerPopup(obj)
+    },
+    closeOverlayView () {
+      this.$refs.overlayViewComp.closePopup(false)
     },
     reloadFeed () {
       this.resetFeed()
