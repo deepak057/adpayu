@@ -22,10 +22,10 @@ div(v-if="triggered")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
           i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
-          span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
+        span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
           <template v-if="isMobile()">
-          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back" :id="closeButtonId" data-dismiss='modal')
+          i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
           i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
           // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
           </template>
