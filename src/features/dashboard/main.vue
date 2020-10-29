@@ -83,7 +83,7 @@
   // ==============================================================
   // End Right sidebar
   // ==============================================================
-  <overlay-view :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
+  <overlay-view :noMoreFeed = "noMoreFeed" :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
   <ad-popup @AdTutorialTaken = "closeOverlayView" @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
 </template>
 

@@ -24,6 +24,7 @@ div(v-if="triggered")
           i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
         span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
+          <template v-if="!isLastPost() || noMoreFeed">
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
           i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
@@ -44,6 +45,10 @@ div(v-if="triggered")
              | Swipe down for previous video
             img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
           i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed" :class="{'spin': spinRefreshIcon}")
+          </template>
+          <template v-if="isLastPost() && !noMoreFeed">
+          <preloader />
+          </template>
         //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
           //<preloader class="m-l-5 preloader-next-to-text"/>
@@ -66,6 +71,12 @@ export default {
     popupFeed: {
       type: Array,
       required: true
+    },
+    noMoreFeed: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -83,7 +94,8 @@ export default {
       },
       nextCommandInvoked: false,
       prevCommandInvoked: false,
-      spinRefreshIcon: false
+      spinRefreshIcon: false,
+      TextNoMoreFeed: 'Sorry, no more posts.'
     }
   },
   computed: {
@@ -129,6 +141,12 @@ export default {
         this.autoPlayVideo()
         this.handleTutorial()
       } */
+    },
+    noMoreFeed (newV) {
+      if (newV) {
+        this.showNotification(this.TextNoMoreFeed, 'info')
+        this.currentPost = this.feed.length - 1
+      }
     }
   },
   methods: {
@@ -215,12 +233,16 @@ export default {
       if (this.currentPost === (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
       }
-      if (this.currentPost < (this.feed.length - 1)) {
+      if (!this.isLastPost() && !this.noMoreFeed) {
         this.currentPost++
         this.autoPlayVideo()
       } else {
-        this.showNotification('Sorry, no more feed.', 'info')
+        let text = this.noMoreFeed ? this.TextNoMoreFeed : 'Loading more posts...'
+        this.showNotification(text, 'info')
       }
+    },
+    isLastPost () {
+      return this.currentPost > (this.feed.length - 1)
     },
     handleTutorial () {
       let key = 'overlayViewTutorial'
