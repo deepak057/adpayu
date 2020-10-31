@@ -47,7 +47,8 @@ div(v-if="triggered")
           i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed" :class="{'spin': spinRefreshIcon}")
           </template>
           <template v-if="isLastPost() && !noMoreFeed">
-          <preloader />
+          .align-in-middle.text-center
+            <preloader :option="3" class="w-100px"/>
           </template>
         //.modal-footer
           button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
@@ -130,12 +131,19 @@ export default {
       * counter to the current post's index in the array
       */
       let currentPostObj = false
+      // keeping track if this current post is last post
+      let isLastPost = this.isLastPost()
       if (this.feed.length && this.currentPost) {
         currentPostObj = this.getCurrentPost()
       }
       this.feed = this.manipulateFeed(this.copyObject(newV))
       if (currentPostObj && newV.length) {
         this.currentPost = this.getPostIndexById(currentPostObj.id)
+      }
+      // if it was last post before, the feed load
+      // after the feed load, trigger Auto Play video
+      if (isLastPost) {
+        this.autoPlayVideo()
       }
       /* if (this.triggered && newV.length && !this.currentPost) {
         this.autoPlayVideo()
@@ -230,10 +238,10 @@ export default {
       this.animation.up = false
       this.highlightArrow('next')
       let threshholdPostNumber = 3
-      if (this.currentPost === (this.feed.length - threshholdPostNumber)) {
+      if (this.currentPost >= (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
       }
-      if (!this.isLastPost() && !this.noMoreFeed) {
+      if (!this.isLastPost()) {
         this.currentPost++
         this.autoPlayVideo()
       } else {
@@ -242,7 +250,7 @@ export default {
       }
     },
     isLastPost () {
-      return this.currentPost > (this.feed.length - 1)
+      return this.currentPost >= (this.feed.length - 1)
     },
     handleTutorial () {
       let key = 'overlayViewTutorial'
@@ -259,28 +267,38 @@ export default {
       }
     },
     autoPlayVideo () {
-      let currentPost = this.getCurrentPost()
-      let defaultComment = this.getLastComment(currentPost)
-      let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
-      if (videoContanierClass) {
-        let modal = document.getElementById(this.modalId)
-        if (modal) {
-          let interval = setInterval(() => {
-            let container = modal.getElementsByClassName(videoContanierClass)[0]
-            if (container) {
-              let player = container.getElementsByClassName('vjs-big-play-button')[0]
-              if (player) {
-                if (this.isVisible(player)) {
-                  setTimeout(() => {
-                    player.click()
-                  }, 50)
-                }
+      setTimeout(() => {
+        let currentPost = this.getCurrentPost()
+        let defaultComment = this.getLastComment(currentPost)
+        if (!currentPost) {
+          return
+        }
+        let videoContanierClass = currentPost.type === 'video' ? this.getPostVideoPlayerClass(currentPost) : (defaultComment ? this.getCommentVideoPlayerClass(defaultComment) : false)
+        if (videoContanierClass) {
+          let modal = document.getElementById(this.modalId)
+          if (modal) {
+            let attemptsCount = 0
+            let interval = setInterval(() => {
+              if (attemptsCount >= 15) {
                 clearInterval(interval)
               }
-            }
-          }, 50)
+              let container = modal.getElementsByClassName(videoContanierClass)[0]
+              if (container) {
+                let player = container.getElementsByClassName('vjs-big-play-button')[0]
+                if (player) {
+                  if (this.isVisible(player)) {
+                    setTimeout(() => {
+                      player.click()
+                    }, 50)
+                  }
+                  clearInterval(interval)
+                }
+              }
+              attemptsCount++
+            }, 50)
+          }
         }
-      }
+      }, 100)
     },
     prev () {
       this.closeReactions()
