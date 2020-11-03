@@ -24,7 +24,6 @@ div(v-if="triggered")
           i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
         span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
-          <template v-if="!isLastPost() || noMoreFeed">
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
           i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
@@ -34,18 +33,19 @@ div(v-if="triggered")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
               | Swipe up for next video
+          <template v-if="!isLastPost() || noMoreFeed">
           .overlay-view-content-wrap
             <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
             .show-more-answer-link( v-if="enableShowMoreAnswerLink()")
               <router-link class=" text-muted" :to="getPostLink(getCurrentPost().id)" @click.native="closeAllModals()">
                 | See more answers
               </router-link>
+          </template>
           .text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
             .nav-text
              | Swipe down for previous video
             img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
           i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed" :class="{'spin': spinRefreshIcon}")
-          </template>
           <template v-if="isLastPost() && !noMoreFeed">
           .align-in-middle.text-center
             <preloader :option="3" class="w-100px"/>
