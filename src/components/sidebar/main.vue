@@ -9,18 +9,28 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
       // Sidebar navigation
       nav.sidebar-nav.bg-special-2(v-if="!preloader")
         ul#sidebarnav
-          <router-link tag="li" v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
+          li
+            <multiselect :options="menuItems" :searchable="true" :close-on-select="true" :show-labels="true" track-by="name" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Tag">
+              <template slot="option" slot-scope="props">
+                <i :class="'mdi ' +  props.option.icon"></i>
+                <span class="m-l-5">{{props.option.name}}</span>
+              </template>
+              <template slot="noResult">
+                <span>No Results</span>
+              </template>
+            </multiselect>
+          //<router-link v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
             a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
               i.mdi(:class="item.icon")
               span.hide-menu {{ (item.name === 'all' ? 'All Tags' : item.name) | capitalize}}
           </router-link>
-          li.add-topics-wrap
+          li(add-topics-wrap)
             <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
               i.mdi.mdi-tag-plus
               span.hide-menu
                 |  Follow Tags
             </router-link>
-          li.add-topics-wrap
+          li(add-topics-wrap)
             <router-link tag="a" :to="postAnswerPageLink()" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
               i.mdi.mdi-comment-plus-outline
               span.hide-menu
@@ -48,13 +58,15 @@ import mixin from '@/globals/mixin.js'
 import Service from './service'
 import Preloader from '../preloader'
 import UserLocation from './user_location'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'AppSidebar',
   service: new Service(),
   components: {
     Preloader,
-    UserLocation
+    UserLocation,
+    Multiselect
   },
   mixins: [mixin],
   props: {
@@ -113,6 +125,9 @@ export default {
   }
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="stylus">
+.multiselect__option--highlight {
+  background: #1e88e5 !important;
+}
 </style>
