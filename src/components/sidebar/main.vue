@@ -13,7 +13,7 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
             a.p-0.nullify-a-style(hide-menu="false" href="javascript:void(0)")
               span.small.text-muted(:class="{'hide-this-NM': !isMobile()}")
                 | Filter feed by tags
-              <multiselect v-model="selectedTag" :options="menuItems" :searchable="true" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Search your tags">
+              <multiselect v-model="selectedTag" :options="menuItems" :searchable="!isMobile()" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Search your tags">
                 <template slot="singleLabel" slot-scope="props">
                   <i :class="'mdi ' +  props.option.icon"></i>
                   <span class="m-l-5" :class="{'hide-this-NM': !isMobile()}">{{ (props.option.name === 'all' ? 'All Tags' : props.option.name) | capitalize}}</span>
@@ -26,11 +26,6 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
                   <span>No Results</span>
                 </template>
               </multiselect>
-          //<router-link v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
-            a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
-              i.mdi(:class="item.icon")
-              span.hide-menu {{ (item.name === 'all' ? 'All Tags' : item.name) | capitalize}}
-          </router-link>
           li(add-topics-wrap)
             <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
               i.mdi.mdi-tag-plus
@@ -43,20 +38,6 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
               span.hide-menu
                 |  Add Answer
             </router-link>
-      // End Sidebar navigation
-    // End Sidebar scroll
-    // Bottom points
-    // .sidebar-footer
-      // item
-      // a.link(href='', data-toggle='tooltip', title='Settings')
-        // i.ti-settings
-      // item
-      // a.link(href='', data-toggle='tooltip', title='Email')
-        // i.mdi.mdi-gmail
-      // item
-      // a.link(href='', data-toggle='tooltip', title='Logout')
-        // i.mdi.mdi-power
-    // End Bottom points
 </template>
 
 <script>
@@ -133,6 +114,12 @@ export default {
     },
     tagSelected (selectedOption, id) {
       router.push(this.getTagLink(selectedOption.name))
+      if (this.isMobile()) {
+        let elem = document.getElementsByClassName('nav-toggler')[0]
+        if (elem) {
+          elem.click()
+        }
+      }
     }
   }
 }
@@ -141,5 +128,9 @@ export default {
 <style lang="stylus">
 .multiselect__option--highlight {
   background: #1e88e5 !important;
+}
+.multiselect, .multiselect__input, .multiselect__single{
+  color: #607d8b;
+  font-size: 15px !important;
 }
 </style>
