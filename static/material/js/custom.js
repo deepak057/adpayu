@@ -141,7 +141,7 @@ $(function () {
                 }
 
             $(document).on("click", '#sidebarnav li a', function (e) {
-                if(isMobile) {
+                if(isMobile && !$(this)[0].hasAttribute("hide-menu")) {
                     $('.nav-toggler').click()
                 }
             });
@@ -191,6 +191,32 @@ $(function () {
                     $(".modal-backdrop").eq(l-1).css("z-index", (parseInt($(".modal-backdrop").eq(l-2).css("z-index")) + 40) )
                 }
              })
+
+            function showHideSideBarDropdown(action = 'show') {
+                if (!isMobile) { 
+                    let elem = $(".nullify-a-style .hide-this-NM, .multiselect__select")
+                    if (action === 'show') {
+                        elem.show()
+                    } else {
+                        elem.hide()
+                    }
+                }
+            }
+
+
+            $(document).on("mouseover", ".nullify-a-style", function(){
+                if (!isMobile) { 
+                    if ($("body").hasClass("mini-sidebar")) {
+                        showHideSideBarDropdown()    
+                    } /*else {
+                        $(this).find(".hide-this-NM").hide()
+                    }*/
+                }
+            }).on("mouseleave", ".nullify-a-style", function(){
+                if (!isMobile && $('body').hasClass("mini-sidebar")) {
+                    showHideSideBarDropdown('hide')
+                }
+            })
 
             $(document).on("mouseover", ".image-popup-vertical-fit", function(){
 
@@ -247,13 +273,16 @@ $(function () {
                     $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible");
                     $("body").removeClass("mini-sidebar");
                     $('.navbar-brand span').show();
+                    showHideSideBarDropdown()
                     //$(".sidebartoggler i").addClass("ti-menu");
                 }
                 else {
                     $("body").trigger("resize");
                     $(".scroll-sidebar, .slimScrollDiv").css("overflow-x", "visible").parent().css("overflow", "visible");
                     $("body").addClass("mini-sidebar");
-                    $('.navbar-brand span').hide();
+                    $('.navbar-brand span').hide();    
+                    showHideSideBarDropdown('hide')
+
                     //$(".sidebartoggler i").removeClass("ti-menu");
                 }
             });

@@ -10,8 +10,8 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
       nav.sidebar-nav.bg-special-2(v-if="!preloader")
         ul#sidebarnav
           li
-            a.p-0.nullify-a-style(@click.prevent="" href="javascript:void(0)")
-              span.small.text-muted
+            a.p-0.nullify-a-style(hide-menu="false" href="javascript:void(0)")
+              span.small.text-muted(:class="{'hide-this-NM': !isMobile()}")
                 | Filter feed by tags
               <multiselect v-model="selectedTag" :options="menuItems" :searchable="true" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Search your tags">
                 <template slot="singleLabel" slot-scope="props">

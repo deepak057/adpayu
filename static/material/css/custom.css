@@ -14,7 +14,13 @@
 	color: inherit !important;
 	background: inherit !important;
 }
-
 .mini-sidebar .hide-this-NM {
 	display: none;
+}
+.mini-sidebar .multiselect__select {
+	display: none;
+}
+
+.mini-sidebar.mobile-device .multiselect__select {
+	display: inline !important;
 }
