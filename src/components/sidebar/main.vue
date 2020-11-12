@@ -10,15 +10,22 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
       nav.sidebar-nav.bg-special-2(v-if="!preloader")
         ul#sidebarnav
           li
-            <multiselect :options="menuItems" :searchable="true" :close-on-select="true" :show-labels="true" track-by="name" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Tag">
-              <template slot="option" slot-scope="props">
-                <i :class="'mdi ' +  props.option.icon"></i>
-                <span class="m-l-5">{{props.option.name}}</span>
-              </template>
-              <template slot="noResult">
-                <span>No Results</span>
-              </template>
-            </multiselect>
+            a.p-0.nullify-a-style(@click.prevent="" href="javascript:void(0)")
+              span.small.text-muted
+                | Filter feed by tags
+              <multiselect v-model="selectedTag" :options="menuItems" :searchable="true" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Search your tags">
+                <template slot="singleLabel" slot-scope="props">
+                  <i :class="'mdi ' +  props.option.icon"></i>
+                  <span class="m-l-5" :class="{'hide-this-NM': !isMobile()}">{{ (props.option.name === 'all' ? 'All Tags' : props.option.name) | capitalize}}</span>
+                </template>
+                <template slot="option" slot-scope="props">
+                  <i :class="'mdi ' +  props.option.icon"></i>
+                  <span class="m-l-5">{{ (props.option.name === 'all' ? 'All Tags' : props.option.name) | capitalize}}</span>
+                </template>
+                <template slot="noResult">
+                  <span>No Results</span>
+                </template>
+              </multiselect>
           //<router-link v-for="(item, k) in menuItems" :to="getTagLink(item.name)" :key="item.name">
             a.waves-effect.waves-dark.no-ative-anchor(aria-expanded='false')
               i.mdi(:class="item.icon")
@@ -59,6 +66,7 @@ import Service from './service'
 import Preloader from '../preloader'
 import UserLocation from './user_location'
 import Multiselect from 'vue-multiselect'
+import { router } from '@/http'
 
 export default {
   name: 'AppSidebar',
@@ -84,7 +92,8 @@ export default {
         default: true
       },
       user: auth.getUser(),
-      menuItems: []
+      menuItems: [],
+      selectedTag: false
     }
   },
   computed: {
@@ -121,6 +130,9 @@ export default {
   methods: {
     logout () {
       auth.logout()
+    },
+    tagSelected (selectedOption, id) {
+      router.push(this.getTagLink(selectedOption.name))
     }
   }
 }
