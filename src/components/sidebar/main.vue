@@ -13,7 +13,11 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
             a.p-0.nullify-a-style(hide-menu="false" href="javascript:void(0)")
               span.small.text-muted(:class="{'hide-this-NM': !isMobile()}")
                 | Filter feed by tags
-              <multiselect v-model="selectedTag" :options="menuItems" :searchable="!isMobile()" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" :preselectFirst="true" placeholder="Search your tags">
+              <multiselect v-model="selectedTag" :options="menuItems" :searchable="!isMobile()" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" placeholder="All Tags">
+                <template slot="placeholder" slot-scope="props">
+                  <i class="mdi mdi-tag-multiple m-l-10 text-muted"></i>
+                  <span class="m-l-5 text-muted" :class="{'hide-this-NM': !isMobile()}">All Tags</span>
+                </template>
                 <template slot="singleLabel" slot-scope="props">
                   <i :class="'mdi ' +  props.option.icon"></i>
                   <span class="m-l-5" :class="{'hide-this-NM': !isMobile()}">{{ (props.option.name === 'all' ? 'All Tags' : props.option.name) | capitalize}}</span>

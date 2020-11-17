@@ -13,7 +13,25 @@
             .col-md-8
               h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
             .col-md-4.text-right
-              <search-field :searchType="searchType" :searchKeyword="k" :additionalParams="additionalParams"></search-field>
+              .row.m-0.p-0
+                .col-1.text-left.m-0.p-0.search-sort-wrap
+                  // i.mdi.mdi-sort.pointer.v-align-sub.text-muted(title="Sort results")
+                  .btn-group(role="group")
+                    i.mdi.mdi-sort.pointer.v-align-sub.text-muted.search-i(title="Sort results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
+                    .dropdown-menu
+                      a.dropdown-item(href='#') Sort Results
+                      .dropdown-divider
+                      a.dropdown-item(href='#')
+                        i.mdi.mdi-sort-ascending.m-r-5
+                        | New first
+                      a.dropdown-item(href='#')
+                        i.mdi.mdi-sort-descending.m-r-5
+                        | Old first
+                      a.dropdown-item(href='#')
+                        i.mdi.mdi.mdi-sort-variant.m-r-5
+                        | Random
+                .col-11.m-0.p-0
+                  <search-field :searchType="searchType" :searchKeyword="k" :additionalParams="additionalParams"></search-field>
           ul.nav.nav-tabs.customtab(role='tablist')
             li.nav-item
               a.nav-link(data-toggle='tab', href='#sp-content-tab', role='tab', aria-expanded='false' :class="{'active': checkSearchType('content')}" @click="changeTab('content')")
