@@ -19,15 +19,15 @@
                   .btn-group(role="group")
                     i.mdi.mdi-sort.pointer.v-align-sub.text-muted.search-i(title="Sort results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
                     .dropdown-menu
-                      a.dropdown-item(href='#') Sort Results
+                      a.dropdown-item.cursor-auto(href='javascript:void(0)') Sort Results
                       .dropdown-divider
-                      a.dropdown-item(href='#')
+                      a.dropdown-item(:class="{'active': sort === 'NF'}" href='#' @click.stop.prevent="sortResults('NF')")
                         i.mdi.mdi-sort-ascending.m-r-5
                         | New first
-                      a.dropdown-item(href='#')
+                      a.dropdown-item(:class="{'active': sort === 'LF'}" href='#' @click.stop.prevent="sortResults('LF')")
                         i.mdi.mdi-sort-descending.m-r-5
                         | Old first
-                      a.dropdown-item(href='#')
+                      a.dropdown-item(:class="{'active': sort === 'RO'}" href='#' @click.stop.prevent="sortResults('RO')")
                         i.mdi.mdi.mdi-sort-variant.m-r-5
                         | Random
                 .col-11.m-0.p-0
@@ -60,15 +60,15 @@
                 span.hidden-xs-down Tags
           .tab-content
             #sp-content-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('content')}")
-              <content-search :keyword = "k" v-if="checkSearchType('content')"></content-search>
+              <content-search :keyword = "k" v-if="checkSearchType('content')" :sort="sort"></content-search>
             #sp-video-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}")
-              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('video')"></content-search>
+              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('video')" :sort="sort"></content-search>
             #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}")
-              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('questions')"></content-search>
+              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('questions')" :sort="sort"></content-search>
             #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}")
-              <user-search :keyword = "k" v-if="checkSearchType('users')"></user-search>
+              <user-search :keyword = "k" v-if="checkSearchType('users')" :sort="sort"></user-search>
             #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}")
-              <tag-search :keyword = "k" v-if="checkSearchType('tags')"></tag-search>
+              <tag-search :keyword = "k" v-if="checkSearchType('tags')" :sort="sort"></tag-search>
           // h6.card-subtitle About 14,700 result ( 0.10 seconds)
 </template>
 <script>
@@ -99,7 +99,8 @@ export default {
     return {
       searchType: '',
       k: '',
-      additionalParams: {}
+      additionalParams: {},
+      sort: 'NF'
     }
   },
   watch: {
@@ -114,6 +115,9 @@ export default {
     this.init()
   },
   methods: {
+    sortResults (action = 'newFirst') {
+      this.sort = action
+    },
     init () {
       this.searchType = this.$route.params.type || 'content'
       this.k = this.$route.query.k || ''

@@ -46,6 +46,10 @@ export default {
       default () {
         return 'content'
       }
+    },
+    sort: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -54,6 +58,9 @@ export default {
   watch: {
     keyword (newK) {
       this.init(newK)
+    },
+    sort (newV) {
+      this.init()
     }
   },
   mounted () {
@@ -68,7 +75,8 @@ export default {
     },
     loadResults () {
       let otherParams = {
-        uncommented: this.$route.query.uncommented || false
+        uncommented: this.$route.query.uncommented || false,
+        sort: this.sort
       }
       this.$options.service.search(this.searchType, this.k, this.page, otherParams)
         .then((data) => {

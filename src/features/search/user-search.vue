@@ -42,6 +42,10 @@ export default {
       default () {
         return ''
       }
+    },
+    sort: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -50,6 +54,9 @@ export default {
   watch: {
     keyword (newK) {
       this.init(newK)
+    },
+    sort (newV) {
+      this.init()
     }
   },
   mounted () {
@@ -63,7 +70,7 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search('users', this.k, this.page)
+      this.$options.service.search('users', this.k, this.page, {sort: this.sort})
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false
