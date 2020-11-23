@@ -15,6 +15,7 @@ div
 import Service from './service'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
+import mixin from '../../globals/mixin.js'
 
 function initialState () {
   return {
@@ -34,6 +35,7 @@ export default {
     Preloader,
     Feed
   },
+  mixins: [mixin],
   props: {
     keyword: {
       type: String,
@@ -76,7 +78,8 @@ export default {
     loadResults () {
       let otherParams = {
         uncommented: this.$route.query.uncommented || false,
-        sort: this.sort
+        sort: this.sort,
+        lRIds: this.getIds(this.results)
       }
       this.$options.service.search(this.searchType, this.k, this.page, otherParams)
         .then((data) => {

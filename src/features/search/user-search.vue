@@ -15,6 +15,7 @@ div
 import Service from './service'
 import Preloader from './../../components/preloader'
 import UserGrid from './../../components/users/user-grid'
+import mixin from '../../globals/mixin.js'
 import auth from '@/auth/helpers'
 
 function initialState () {
@@ -36,6 +37,7 @@ export default {
     Preloader,
     UserGrid
   },
+  mixins: [mixin],
   props: {
     keyword: {
       type: String,
@@ -70,7 +72,7 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search('users', this.k, this.page, {sort: this.sort})
+      this.$options.service.search('users', this.k, this.page, {sort: this.sort, lRIds: this.getIds(this.results)})
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false

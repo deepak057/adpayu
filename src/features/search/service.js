@@ -20,7 +20,7 @@ export default class Service {
       }
     }
 
-    return auth.get('/search/' + type, paramObj)
+    return auth.post('/search/' + type, paramObj)
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

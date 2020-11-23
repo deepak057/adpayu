@@ -16,6 +16,7 @@ div
 import Service from './service'
 import Preloader from './../../components/preloader'
 import Tag from '../../components/tags/tag'
+import mixin from '../../globals/mixin.js'
 
 function initialState () {
   return {
@@ -35,6 +36,7 @@ export default {
     Preloader,
     Tag
   },
+  mixins: [mixin],
   props: {
     keyword: {
       type: String,
@@ -69,7 +71,7 @@ export default {
       this.loadResults()
     },
     loadResults () {
-      this.$options.service.search('tags', this.k, this.page, {sort: this.sort})
+      this.$options.service.search('tags', this.k, this.page, {sort: this.sort, lRIds: this.getIds(this.results)})
         .then((data) => {
           this.pageLoader = false
           this.loadMorePreloader = false
