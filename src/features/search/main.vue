@@ -14,10 +14,19 @@
               h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
             .col-md-4.text-right
               .row.m-0.p-0
-                .col-1.text-left.m-0.p-0.search-sort-wrap
-                  // i.mdi.mdi-sort.pointer.v-align-sub.text-muted(title="Sort results")
+                .text-left.m-0.p-0.search-sort-wrap(:class="{'col-2': showFilter(), 'col-1': !showFilter()}")
+                  .btn-group.m-r-5(role="group" v-if="showFilter()")
+                    span.pointer(title="Filter results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
+                      i.mdi.mdi-filter.v-align-sub.search-sort-icon.text-muted
+                    .dropdown-menu
+                      a.dropdown-item.cursor-auto(href='javascript:void(0)') Filter Results
+                      .dropdown-divider
+                      a.dropdown-item(href="#" :class="{'active': getUncommentedFilter()}" @click.stop.prevent="toggleFilter()")
+                        i.mdi.mdi-comment-question-outline.m-r-5
+                        | Unanswered
                   .btn-group(role="group")
-                    i.mdi.mdi-sort.pointer.v-align-sub.text-muted.search-i(title="Sort results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
+                    span.pointer(title="Sort results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
+                      i.mdi.mdi-sort.v-align-sub.search-sort-icon.text-muted
                     .dropdown-menu
                       a.dropdown-item.cursor-auto(href='javascript:void(0)') Sort Results
                       .dropdown-divider
@@ -30,7 +39,7 @@
                       a.dropdown-item(:class="{'active': sort === 'RO'}" href='#' @click.stop.prevent="sortResults('RO')")
                         i.mdi.mdi.mdi-sort-variant.m-r-5
                         | Random
-                .col-11.m-0.p-0
+                .m-0.p-0(:class="{'col-10': showFilter(), 'col-11': !showFilter()}")
                   <search-field :searchType="searchType" :searchKeyword="k" :additionalParams="additionalParams"></search-field>
           ul.nav.nav-tabs.customtab(role='tablist')
             li.nav-item
@@ -64,7 +73,7 @@
             #sp-video-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}")
               <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('video')" :sort="sort"></content-search>
             #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}")
-              <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('questions')" :sort="sort"></content-search>
+              <content-search :keyword = "k" :filter="filter" :searchType= "searchType" v-if="checkSearchType('questions')" :sort="sort"></content-search>
             #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}")
               <user-search :keyword = "k" v-if="checkSearchType('users')" :sort="sort"></user-search>
             #sp-tags-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('tags')}")
@@ -100,7 +109,8 @@ export default {
       searchType: '',
       k: '',
       additionalParams: {},
-      sort: 'NF'
+      sort: 'NF',
+      filter: ''
     }
   },
   watch: {
@@ -118,14 +128,33 @@ export default {
     sortResults (action = 'newFirst') {
       this.sort = action
     },
+    toggleFilter () {
+      let queryString = '&uncommented=true'
+      let currentURL = this.$route.fullPath
+      if (this.getUncommentedFilter()) {
+        currentURL = currentURL.replace(queryString, '')
+        this.filter = ''
+      } else {
+        currentURL = currentURL + queryString
+        this.filter = 'uncommented'
+      }
+      router.push(currentURL)
+      this.init()
+    },
+    showFilter () {
+      return this.checkSearchType('questions')
+    },
     init () {
       this.searchType = this.$route.params.type || 'content'
       this.k = this.$route.query.k || ''
       this.additionalParams = this.getAdditionalParameters()
       this.setDocumentTitle('Search for "' + this.k + '"')
     },
+    getUncommentedFilter () {
+      return this.$route.query.uncommented || false
+    },
     getAdditionalParameters () {
-      let uncommented = this.$route.query.uncommented || false
+      let uncommented = this.getUncommentedFilter()
       if (uncommented) {
         return {
           uncommented: uncommented

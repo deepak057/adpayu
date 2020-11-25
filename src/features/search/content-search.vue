@@ -52,6 +52,12 @@ export default {
     sort: {
       type: String,
       required: true
+    },
+    filter: {
+      type: String,
+      default () {
+        return ''
+      }
     }
   },
   data () {
@@ -62,6 +68,9 @@ export default {
       this.init(newK)
     },
     sort (newV) {
+      this.init()
+    },
+    filter (newV) {
       this.init()
     }
   },
