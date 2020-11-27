@@ -69,7 +69,7 @@ export default {
       if (!labelValue) {
         return 0
       }
-      if (ceil) {
+      if (round) {
         labelValue = Math.round(labelValue)
       }
       // Nine Zeroes for Billions
