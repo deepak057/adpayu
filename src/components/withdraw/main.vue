@@ -36,7 +36,14 @@ div
             img.m-b-20(:src="staticImageUrl('error.png')")
             h4
               i.mdi.mdi-alert.m-r-5
+              <template v-if="!data.transaction.notEnoughBalance">
               | {{data.error}}
+              </template>
+              <template v-if="data.transaction.notEnoughBalance">
+              | Sorry, you must make at least
+              span.m-r-5.m-l-5(v-html="showAmount(data.transaction.minRequiredAmountUSD, false, false, true)")
+              | before you can withdraw money.
+              </template>
           </template>
           <template v-if="!data.error && !data.success">
           #accordion-revenue-breakdown.nav-accordion(role='tablist', aria-multiselectable='true')
@@ -255,6 +262,7 @@ export default {
             }
           } else {
             this.data.error = data.transaction.message
+            this.data.transaction = data.transaction
           }
         })
         .catch((tErr) => {
