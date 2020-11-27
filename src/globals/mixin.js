@@ -59,11 +59,11 @@ export default {
     getCurrencySymbol (currency) {
       return currency === 'INR' ? '&#x20B9;' : '$'
     },
-    showAmount (USDAmount, user = false, spacing = false, round = false) {
+    showAmount (USDAmount, user = false, spacing = false, round = false, trim = true) {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
       let space = spacing ? ' ' : ''
-      return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex(), round) : this.getCurrencySymbol('USD') + space + (spacing ? USDAmount : this.formatNumber(USDAmount, round))
+      return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex(), round) : this.getCurrencySymbol('USD') + space + (!trim ? USDAmount : this.formatNumber(USDAmount, round))
     },
     formatNumber (labelValue, round = false) {
       if (!labelValue) {

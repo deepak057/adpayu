@@ -16,9 +16,9 @@
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
   .sl-item.feed-block(v-for="(f, k) in feedArr" :key="f.id" :class="{'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999 ad-consumed': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'impression')") Sponsored +
-       span.m-l-5(v-html="showAmount(f['AdOption'].cpi, false, true)")
+       span.m-l-5(v-html="showAmount(f['AdOption'].cpi, false, true, false, false)")
        span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'impression')")
-        span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['impression']}" v-html="'+' + showAmount(f['AdOption'].cpi, false, true)")
+        span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['impression']}" v-html="'+' + showAmount(f['AdOption'].cpi, false, true, false, false)")
        i.mdi.mdi-information.m-l-5.cursor-hand
     .sl-left
       <router-link @click.native = "closeAllModals()" :to="userProfileLink(getPostUser(f).id)" class="hidden-xs-down">
@@ -85,18 +85,18 @@
           .col-md-4.col-sm-12.p-0(:class="'col-lg-'+(12-config.colWidth)" v-if="enableAdOption(f, 'view')")
             span.hidden-sm-down.m-l-10
             span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'view')")
-              span(v-html="'+ ' + showAmount(f['AdOption'].cpv, false, true)")
+              span(v-html="'+ ' + showAmount(f['AdOption'].cpv, false, true, false, false)")
               span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'view')")
-                span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['view']}" v-html="'+' + showAmount(f['AdOption'].cpv, false, true)")
+                span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['view']}" v-html="'+' + showAmount(f['AdOption'].cpv, false, true, false, false)")
               i.mdi.mdi-information.m-l-4.cursor-hand
         .row.m-l-0(v-if="f['Images'].length")
           <image-grid :images="f['Images']"></image-grid>
         .m-t-15.m-b-20(v-if="f['AdOption'] && f['AdOption'].clickTarget")
           a.m-r-5.post-ad-link(:href="getLink(f['AdOption'].adLink)" target="_blank" @click="adLinkclicked(f, $event)") {{f['AdOption'].adLinkLabel}}
           span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand(v-if="enableAdOption(f, 'click')" :class="{'bg-999': !preview && adConsumed(f, 'click')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'click')" )
-            span(v-html=" '+ ' + showAmount(f['AdOption'].cpc, false, true)")
+            span(v-html=" '+ ' + showAmount(f['AdOption'].cpc, false, true, false, false)")
             span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'click')")
-              span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['click']}" v-html="'+' + showAmount(f['AdOption'].cpc, false, true)")
+              span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['click']}" v-html="'+' + showAmount(f['AdOption'].cpc, false, true, false, false)")
             i.mdi.mdi-information.m-l-4
         .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!manipulativePage())")
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
