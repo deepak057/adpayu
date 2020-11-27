@@ -59,18 +59,18 @@ export default {
     getCurrencySymbol (currency) {
       return currency === 'INR' ? '&#x20B9;' : '$'
     },
-    showAmount (USDAmount, user = false, spacing = false, ceil = false) {
+    showAmount (USDAmount, user = false, spacing = false, round = false) {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
       let space = spacing ? ' ' : ''
-      return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex(), ceil) : this.getCurrencySymbol('USD') + space + (spacing ? USDAmount : this.formatNumber(USDAmount, ceil))
+      return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex(), round) : this.getCurrencySymbol('USD') + space + (spacing ? USDAmount : this.formatNumber(USDAmount, round))
     },
-    formatNumber (labelValue, ceil = false) {
+    formatNumber (labelValue, round = false) {
       if (!labelValue) {
         return 0
       }
       if (ceil) {
-        labelValue = Math.ceil(labelValue)
+        labelValue = Math.round(labelValue)
       }
       // Nine Zeroes for Billions
       return Math.abs(Number(labelValue)) >= 1.0e+9
