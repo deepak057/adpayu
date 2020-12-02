@@ -7,7 +7,7 @@ div
         .modal-header
           h4.modal-title
             | KYC - Verify Your Indentity
-            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Identity Verification" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
+            i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Why this KYC is needed?" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <template v-if="data.loader">
@@ -16,15 +16,16 @@ div
           </template>
           <template v-if="!data.loader">
           <template v-if="!isAccountStatusPending()">
-          p
-            | Dear user, before being able to withdraw money, please upload any
-            strong
-              |  2 documents
-            |  that verify your identity.
-          p
-            | You can upload images of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
-          p
-            | Once your identity is verified, you'd be able to withdraw money instantly to your Bank, Paytm or other accounts.
+          ul
+            li.m-b-10
+              | Please upload any
+              strong
+                |  2 documents
+              |  that verify your identity.
+            li.m-b-10
+              | You can upload images of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
+            li.m-b-10
+              | After successfull KYC, you'd be able to withdraw money instantly to your Bank, Paytm or other accounts.
           .text-center
             p
               button.btn.btn-info.btn-lg.m-t-10(@click="triggerFileSelection()")
@@ -45,6 +46,8 @@ div
                   | You will get cashback of
                   span.m-l-5.m-r-5(v-html = "showAmount(data.CBKYC)")
                   | for completing your KYC
+              a.m-t-10(href="javascript:void(0)" data-container="body" title="Why this KYC is needed?" data-toggle="popover" data-placement="right" data-content="To prevent people from abusing the system by creating multiple fake accounts for withdrawing the money, we require you to confirm your identity to prove that yours is a genuine account.")
+                | Why this KYC is needed?
           </template>
           <template v-if= "isAccountStatusPending()">
           .text-center
@@ -54,8 +57,8 @@ div
                 | Thank you for uploading your documents.
             p
               | Your documents are currently under review. You will get an email and a notification from us as soon as the review is completed.
-            p.text-muted.small
-              | Note- We will also try to reach you through your registered email address during the review process if needed.
+            .alert.alert-info.small
+              | Note - We will also try to reach you through your registered email address during the review process if needed.
           </template>
           </template>
         .modal-footer

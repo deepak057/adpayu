@@ -85,7 +85,7 @@ export default {
           }
         })
         .catch((searchErr) => {
-          alert('Something went wrong while fetching the results, please try again later')
+          this.showNotification('Something went wrong while fetching the results, please try again later', 'error')
         })
     },
     loadMoreResults () {
