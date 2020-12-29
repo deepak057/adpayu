@@ -279,7 +279,7 @@ export default {
       return f.type === 'question'
     },
     getDefaultComments (f) {
-      return this.useDefaultComment ? [this.getLastComment(f)] : []
+      return this.useDefaultComment && this.isQuestion(f) ? [this.getLastComment(f)] : []
     },
     getPostUser (f) {
       if (this.isQuestion(f) && this.manipulatePostDescriptionText(f)) {

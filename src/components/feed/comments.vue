@@ -169,7 +169,7 @@ export default {
     },
     manipulativePage () {
       // return this.userFeed || this.feedPage === 'profile'
-      return this.userFeed || (this.feedPage === 'profile' && this.postHasDefaultComment())
+      return (this.userFeed && this.isQuestion()) || (this.feedPage === 'profile' && this.postHasDefaultComment())
     },
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled
@@ -179,7 +179,7 @@ export default {
         return index_ >= (this.comments.length - this.defaultCommentsCount)
       }
       if (this.enableLoadPreviousComments) {
-        if (this.userFeed && this.feedPage !== 'profile') {
+        if (this.userFeed && this.isQuestion() && this.feedPage !== 'profile') {
           return this.comments.length > 1 ? comment.setDefault : true
         } else if (this.feedPage === 'profile') {
           return this.postObj.defaultComment ? comment.UserId === this.profileUserId : defaultCondition()
