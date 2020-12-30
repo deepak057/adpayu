@@ -316,6 +316,13 @@ $(function () {
             });
         })
 
+    $(document).on("scroll", ".video-overlay-view .comment-widgets", function(e){
+        if(!$(this).hasClass('question-on-user-feed')) {
+            alert('d')
+        }   
+    })
+    
+
     $('body').on('click', function (e) {
         $('[data-toggle=popover]').each(function () {
             // hide any open popovers when the anywhere else in the body is clicked
