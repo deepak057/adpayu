@@ -156,9 +156,9 @@ export default {
     }
   },
   methods: {
-    updateReactionsCount (action) {
+    updateReactionsCount (obj) {
       let c = this.comment.ReactionsCount ? parseInt(this.comment.ReactionsCount) : 0
-      if (action === 'add') {
+      if (obj.action === 'add') {
         this.comment.ReactionsCount = c ? ++c : 1
       } else {
         if (c > 0) {

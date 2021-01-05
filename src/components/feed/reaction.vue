@@ -79,7 +79,15 @@ export default {
   props: {
     comment: {
       type: Object,
-      required: true
+      default () {
+        return {}
+      }
+    },
+    post: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data () {
@@ -107,7 +115,15 @@ export default {
     reset () {
       Object.assign(this.$data, ReactionsInitialState(this.getUniqueId() + '-reaction-wrap'))
     },
-    trigger () {
+    trigger (obj = false, type = false) {
+      this.reset()
+      if (type && obj) {
+        if (type === 'comment') {
+          this.comment = obj
+        } else {
+          this.post = obj
+        }
+      }
       this.closeReactions()
       this.triggered = true
       this.shown = true
@@ -130,13 +146,16 @@ export default {
     saveReaction () {
       if (this.reaction && !this.posting) {
         this.posting = true
-        this.$options.service.saveReaction(this.comment.id, this.reaction)
+        this.$options.service.saveReaction(this.getObjectInfo(), this.reaction)
           .then((d) => {
             this.posting = false
             this.reaction = ''
             this.reactions.unshift(d.reaction)
             this.getCommentBodyElement().scrollTop = 0
-            this.$emit('ReactionCountUpdated', 'add')
+            this.$emit('ReactionCountUpdated', {
+              action: 'add',
+              obj: this.getObjectInfo()
+            })
           })
           .catch((rErr) => {
             this.posting = false
@@ -154,7 +173,10 @@ export default {
             this.reactions.splice(i, 1)
             this.$options.service.removeReaction(rId)
               .then((d) => {
-                this.$emit('ReactionCountUpdated', 'delete')
+                this.$emit('ReactionCountUpdated', {
+                  action: 'delete',
+                  obj: this.getObjectInfo()
+                })
               })
               .catch((rErr) => {
                 this.showNotification('Something went wrong, please try later', 'error')
@@ -163,12 +185,18 @@ export default {
         }
       }
     },
+    getObjectInfo () {
+      return {
+        id: !this.isEmptyObject(this.post) ? this.post.id : this.comment.id,
+        type: !this.isEmptyObject(this.post) ? 'post' : 'comment'
+      }
+    },
     loadReactions () {
       if (this.noMoreReactions) {
         return false
       }
       if (this.loading || this.loadMoreReactions) {
-        this.$options.service.loadReactions(this.comment.id, this.page)
+        this.$options.service.loadReactions(this.getObjectInfo(), this.page)
           .then((d) => {
             this.loading = false
             this.loadMoreReactions = false

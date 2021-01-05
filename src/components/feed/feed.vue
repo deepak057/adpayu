@@ -103,7 +103,11 @@
             | &#x23;{{tag.name}}
           </router-link>
         .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
-          a.link.m-r-10(href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
+          a.link.m-r-10(v-if="isQuestion(f)" href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
+          span.pointer.reactions-count-wrap.pointer(v-if="!isQuestion(f)" title="Comments or Reactions" @click="toggleComments(f)")
+            i.mdi.mdi-comment-processing-outline.m-r-5
+            span.m-r-5
+              | {{ (f['ReactionsCount'] ? f['ReactionsCount']: '') }}
           <like :likesCount="parseInt(f['LikesCount'])" :hasLiked="!!f['HasLiked']" :postId="f['id']"></like>
           .btn-group
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
@@ -131,6 +135,7 @@
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>
+  <reaction ref="reactionComponent" @ReactionCountUpdated="updateReactionsCount"/>
 </template>
 <script>
 import mixin from '../../globals/mixin.js'
@@ -145,6 +150,7 @@ import Service from './service'
 import FeedVideoPlayer from './feed-video-player'
 import EditPost from './edit'
 import SocialShare from '../../components/social-share'
+import Reaction from './reaction'
 
 export default {
   name: 'Feed',
@@ -157,7 +163,8 @@ export default {
     FeedVideoPlayer,
     AdStats,
     EditPost,
-    SocialShare
+    SocialShare,
+    Reaction
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -243,6 +250,24 @@ export default {
     }
   },
   methods: {
+    updateReactionsCount (obj) {
+      let getFeedItem = (fId) => {
+        for (let i in this.feed) {
+          if (this.feed[i].id === fId) {
+            return this.feed[i]
+          }
+        }
+      }
+      let f = getFeedItem(obj.obj.id)
+      let c = f.ReactionsCount ? parseInt(f.ReactionsCount) : 0
+      if (obj.action === 'add') {
+        f.ReactionsCount = c ? ++c : 1
+      } else {
+        if (c > 0) {
+          f.ReactionsCount = --c
+        }
+      }
+    },
     adConsumedCallback (post, action) {
       for (let i in this.feed) {
         if (this.feed[i].id === post.id && this.feed[i].AdOptionId) {
@@ -338,7 +363,11 @@ export default {
     },
     toggleComments (feedItem) {
       // return !feedItem['showComments']
-      feedItem['showComments'] = !feedItem['showComments']
+      if (this.isQuestion(feedItem)) {
+        feedItem['showComments'] = !feedItem['showComments']
+      } else {
+        this.$refs.reactionComponent.trigger(feedItem, 'post')
+      }
     },
     sortByDate (feed) {
       /*

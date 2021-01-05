@@ -104,8 +104,8 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-  loadReactions (commentId, page = 1) {
-    return auth.get('/reactions/' + commentId + '?page=' + page)
+  loadReactions (obj, page = 1) {
+    return auth.post('/reactions/', {obj: obj, page: page})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
@@ -113,8 +113,8 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-  saveReaction (commentId, reaction) {
-    return auth.post('/reactions/add/' + commentId, {reaction: reaction})
+  saveReaction (obj, reaction) {
+    return auth.post('/reactions/add/', {obj: obj, reaction: reaction})
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })
