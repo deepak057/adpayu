@@ -1,5 +1,5 @@
 <template lang="pug">
-.comment-widgets
+.comment-widgets(v-if="isQuestion()")
   .text-center.m-t-10(v-if="pageLoader")
     <preloader class="preloader-h-20"/>
   <template v-if="!pageLoader">
