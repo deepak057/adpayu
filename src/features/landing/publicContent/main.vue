@@ -37,14 +37,14 @@
           .row
             .col-md-12.m-t-10
               <router-link :to = "content.url" title="Log in to like it">
-                span(v-if = "content.likesCount")
+                span(v-if = "parseInt(content.likesCount)")
                   | {{content.likesCount}}
                 i.fa.fa-heart.m-l-5.text-danger
               </router-link>
-              <router-link v-if="isPost" class="m-l-10" :to = "content.url" title="Log in to leave your response">
-                span.m-r-5(v-if = "content.commentsCount")
+              <router-link class="m-l-5" :to = "content.url" title="Log in to leave your response">
+                span(v-if = "content.commentsCount")
                   | {{content.commentsCount}}
-                |  Comment
+                |  {{content.commentLabel}}
                 span(v-if = "content.commentsCount && content.commentsCount > 1")
                   | s
               </router-link>
@@ -213,7 +213,8 @@ export default {
         this.content.video = post.Video || false
         this.content.description = getPostDescription()
         this.content.likesCount = post.LikesCount
-        this.content.commentsCount = post.CommentsCount
+        this.content.commentLabel = post.type === 'question' ? 'Answer' : 'Comment'
+        this.content.commentsCount = post.type === 'question' ? post.CommentsCount : post.ReactionsCount
         this.content.user = post.User
         this.content.content = post.content || false
         this.content.images = post.Images && post.Images.length ? post.Images : []
@@ -223,6 +224,8 @@ export default {
         this.content.video = comment.videoPath ? comment : false
         this.content.commentDescription = comment.comment || false
         this.content.likesCount = comment.CommentsLikesCount
+        this.content.commentsCount = comment.ReactionsCount
+        this.content.commentLabel = 'Comment'
         this.content.user = comment.User
       }
     }
