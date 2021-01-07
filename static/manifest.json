@@ -1,7 +1,6 @@
 {
   "name": "vue-pizza",
   "short_name": "Vue Pizza",
-  "description": "A content and social media platform where, you get paid for spending time on social media. As time is money.",
   "icons": [
     {
       "src": "/app/static/img/icons/android-chrome-192x192.png",
