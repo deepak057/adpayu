@@ -92,8 +92,16 @@ app.post('/order/check', function(req, res) {
     console.log('Receiving response from the payment Gateway...');
     res.redirect('https://' + req.get('host') + req.originalUrl+'&response='+ JSON.stringify(req.query));
 });
-
 /*ends*/
+
+/*
+* A hacky way --- serve static file and add Service Worker Allowed header
+* to extend the scope of service worker file to include the app root directory
+*/
+app.get('/dist/service-worker.js', (req, res) => {
+    res.setHeader('Service-Worker-Allowed', '/')
+    res.sendFile(path.join(__dirname, "../dist/", "service-worker.js"));
+})
 
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
