@@ -32,6 +32,21 @@ export default {
     this.toHome()
   },
   methods: {
+    registerSW () {
+      /* Method to register service worker
+      * for making the app PWA and installable
+      * in Chromium based browsers
+      */
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js', {
+          scope: '/'
+        }).then(function (registration) {
+          console.log('SW registration succeeded with scope:', registration.scope)
+        }).catch(function (e) {
+          console.log('SW registration failed with error:', e)
+        })
+      }
+    },
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },
