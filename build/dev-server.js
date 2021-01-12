@@ -94,15 +94,6 @@ app.post('/order/check', function(req, res) {
 });
 /*ends*/
 
-/*
-* A hacky way --- serve static file and add Service Worker Allowed header
-* to extend the scope of service worker file to include the app root directory
-*/
-app.get('/dist/service-worker.js', (req, res) => {
-    res.setHeader('Service-Worker-Allowed', '/')
-    res.sendFile(path.join(__dirname, "../dist/", "service-worker.js"));
-})
-
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
