@@ -378,10 +378,20 @@ export default {
         this.feed.splice(0, this.truncateFeedConf.postsToRemove)
       }
     },
+    feedHasVideo () {
+      if (this.feed.length) {
+        for (let i in this.feed) {
+          if (this.feed[i].type === 'video' || this.feed[i].defaultComment) {
+            return true
+          }
+        }
+      }
+      return false
+    },
     afterFeedLoad (data) {
       this.feed = this.feed.concat(this.removeDuplicates(this.feed, data.posts))
       this.truncateFeed()
-      if (this.currentPage === 1) {
+      if (this.currentPage === 1 && this.feedHasVideo()) {
         this.autoTriggerOverlayView()
       }
       if ('nextPage' in data && data.nextPage) {
