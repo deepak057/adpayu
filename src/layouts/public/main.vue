@@ -145,7 +145,6 @@ export default {
     * in local storage of user's browser
     */
     auth.getGuestId()
-    this.registerSW()
   },
   methods: {
     ifHomePage () {
