@@ -7,7 +7,7 @@ div(v-if="triggered")
         .modal-header.no-border(v-if="!isMobile()")
           .row.w-100
             .col-2
-              img.img-icon.pointer(src= "static/assets/images/logo-light-icon.png" @click="closePopup()")
+              img.img-icon.pointer(:src= "getAsset('images/logo-light-icon.png')" @click="closePopup()")
             .col-8.text-center
               a.m-l-5(href="javascript:void(0)" @click="prev()")
                 i.mdi.mdi-arrow-left.m-r-5

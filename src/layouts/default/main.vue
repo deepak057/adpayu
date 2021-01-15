@@ -3,15 +3,15 @@
   .preloader(style="width: 100%;height: 100%;top: 0px;position: fixed;z-index: 99999;background: #fff;")
     svg.circular(viewBox='25 25 50 50')
       circle.path(cx='50', cy='50', r='20', fill='none', stroke-width='2', stroke-miterlimit='10')
-  link(href='static/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+  link(href='/static/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet')
   // Popup CSS
-  link(href='static/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css', rel='stylesheet')
+  link(href='/static/assets/plugins/Magnific-Popup-master/dist/magnific-popup.css', rel='stylesheet')
   // Custom CSS
-  link(href='static/material/css/style.css', rel='stylesheet')
+  link(href='/static/material/css/style.css', rel='stylesheet')
   // You can change the theme colors from here
-  link#theme(href='static/material/css/colors/blue.css', rel='stylesheet')
+  link#theme(href='/static/material/css/colors/blue.css', rel='stylesheet')
   // Custom CSS  outside of theme
-  link(href='static/material/css/custom.css', rel='stylesheet')
+  link(href='/static/material/css/custom.css', rel='stylesheet')
   <app-bar/>
   <app-sidebar :cat="cat"/>
   .page-wrapper
@@ -48,8 +48,8 @@ export default {
         'static/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js',
         'static/assets/plugins/sparkline/jquery.sparkline.min.js',
         'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', */
-        'static/material/js/all-plugins-compressed.js',
-        'static/material/js/custom.js'
+        '/static/material/js/all-plugins-compressed.js',
+        '/static/material/js/custom.js'
       ]
     }
   },

@@ -2,8 +2,10 @@
 img(:src="getImage()")
 </template>
 <script>
+import mixin from '../globals/mixin'
 export default {
   name: 'Preloader',
+  mixins: [mixin],
   props: {
     option: {
       type: Number,
@@ -12,7 +14,7 @@ export default {
   },
   methods: {
     getImage () {
-      return 'static/img/' + this.option + '.gif'
+      return this.staticImageUrl(this.option + '.gif')
     }
   }
 }

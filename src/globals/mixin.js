@@ -117,12 +117,11 @@ export default {
           return base + path
         }
       } else {
-        return 'static/img/no-profile-pic.png'
+        return this.staticImageUrl('no-profile-pic.png')
       }
     },
     getUserProfileImage (path = false, defaultPic = 'white') {
-      let staticPath = 'static/img/'
-      return path ? this.getMedia(path) : staticPath + (defaultPic === 'white' ? 'no-profile-pic-white-thumb.png' : 'no-profile-pic.png')
+      return path ? this.getMedia(path) : this.staticImageUrl((defaultPic === 'white' ? 'no-profile-pic-white-thumb.png' : 'no-profile-pic.png'))
     },
     userProfileLink (uid) {
       return '/profile/' + (uid || '')
