@@ -1,9 +1,11 @@
 <template  lang="pug">
-.container-fluid
+.container-fluid.fix-it
   // ==============================================================
   // Bread crumb and right sidebar toggle
   // ==============================================================
-  .row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
+  h4
+    | {{pageTitle(true) | capitalize}}
+  //.row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
     .col-md-4.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0
         | {{pageTitle() | capitalize}}
@@ -51,9 +53,9 @@
       .card
         .card-body.bg-special-1
           .btn-group.btn-add-feed
-            button.btn.waves-effect.waves-light.btn-info.dropdown-toggle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+            button.btn.waves-effect.waves-light.btn-info.dropdown-toggle.btn-circle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
               i.fa.fa-plus.m-r-5
-              span
+              //span
                 | Post
             .dropdown-menu(x-placement='bottom-start')
               a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")

@@ -1,5 +1,5 @@
 <template lang="pug">
-.profiletimeline(:class="{'m-0': emptyFeed()}")
+.profiletimeline.p-l-10.p-r-10(:class="{'m-0': emptyFeed()}")
   .nothing-to-show(v-if="emptyFeed()")
     .jumbotron.white-back.text-center
       h1.display-3 Nothing Here!
@@ -131,7 +131,7 @@
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
     <comments :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
-    hr
+    //hr
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>
