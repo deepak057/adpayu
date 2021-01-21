@@ -102,15 +102,15 @@
           <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
             | &#x23;{{tag.name}}
           </router-link>
-        .like-comm(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
-          a.link.m-r-10(v-if="isQuestion(f)" href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
+        .like-comm.f-s-16(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
+          a.link.m-r-10.f-s-16(v-if="isQuestion(f)" href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="parseInt(f['LikesCount'])" :hasLiked="!!f['HasLiked']" :postId="f['id']"></like>
-          span.pointer.reactions-count-wrap.pointer(v-if="!isQuestion(f)" title="Comments or Reactions" @click="toggleComments(f)")
+          span.pointer.reactions-count-wrap.pointer.f-s-17(v-if="!isQuestion(f)" title="Comments or Reactions" @click="toggleComments(f)")
             i.mdi.mdi-comment-processing-outline.m-r-5
             span.m-r-5
               | {{ (f['ReactionsCount'] ? f['ReactionsCount']: '') }}
           .btn-group
-            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list
             .dropdown-menu
               <template v-if="f.UserId===currentUser.id || isAdmin()">

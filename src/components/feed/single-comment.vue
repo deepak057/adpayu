@@ -37,12 +37,12 @@
         // a.m-r-10.comment-padding-0(href='javascript:void(0)'  v-if="isOwner(comment.User.id) || isAdmin()")
           i.ti-trash
         <like :likesCount="parseInt(comment.CommentsLikesCount)" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
-        span.pointer.reactions-count-wrap(title="Comments or Reactions" @click="triggerReaction()")
+        span.pointer.reactions-count-wrap.f-s-17(title="Comments or Reactions" @click="triggerReaction()")
           i.mdi.mdi-comment-processing-outline.m-r-5
           span.m-r-5
             | {{ (comment.ReactionsCount ? comment.ReactionsCount: '') }}
         .btn-group()
-          button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+          button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
            i.fa.fa-list
           .dropdown-menu
             <router-link @click.native = "closeAllModals()" class="dropdown-item" title="Go to its own separate page" :to="getCommentLink(comment.id)">
