@@ -38,7 +38,7 @@
           i.ti-trash
         <like :likesCount="parseInt(comment.CommentsLikesCount)" :hasLiked="!!comment.HasLiked" :commentId="comment.id"></like>
         span.pointer.reactions-count-wrap.f-s-17(title="Comments or Reactions" @click="triggerReaction()")
-          i.mdi.mdi-comment-processing-outline.m-r-5
+          i.mdi.mdi-comment-outline.m-r-5
           span.m-r-5
             | {{ (comment.ReactionsCount ? comment.ReactionsCount: '') }}
         .btn-group()

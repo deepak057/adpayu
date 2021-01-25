@@ -3,8 +3,28 @@
   // ==============================================================
   // Bread crumb and right sidebar toggle
   // ==============================================================
-  h4
-    | {{pageTitle(true) | capitalize}}
+  .row(:class="{'page-header-custom-web': !isMobile()}")
+    .col-6.text-left.left-section
+      h3.m-0(v-if="!isMobile()")
+        | {{pageTitle(true) | capitalize}}
+        i.mdi.mdi-refresh.cursor-hand.m-l-5.p-r-t-1(@click="reloadFeed()" title="Refresh the feed to pull newer posts.")
+      h4.m-0(v-if="isMobile()")
+        | {{pageTitle(true) | capitalize}}
+        i.mdi.mdi-refresh.cursor-hand.m-l-5.p-r-t-1(@click="reloadFeed()" title="Refresh the feed to pull newer posts.")
+    .col-6.text-right
+      .btn-group.btn-add-feed
+        button.btn.waves-effect.waves-light.btn-info.dropdown-toggle.btn-circle.f-s-17(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' :class="{'btn-sm': isMobile()}")
+          i.fa.fa-plus
+          //span
+            | Post
+        .dropdown-menu(x-placement='bottom-start')
+          a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
+            i.fa.m-r-5(:class="pOpt.icon")
+            | {{pOpt.label}}
+          <router-link tag="a" :to="postAnswerPageLink()" class="dropdown-item">
+            i.mdi.mdi-comment-plus-outline
+            |  Video Answer
+          </router-link>
   //.row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
     .col-md-4.col-12.align-self-center
       h3.text-themecolor.m-b-0.m-t-0
@@ -52,19 +72,6 @@
     .col-12.feed-container-col
       .card
         .card-body.bg-special-1
-          .btn-group.btn-add-feed
-            button.btn.waves-effect.waves-light.btn-info.dropdown-toggle.btn-circle(type="button"  data-placement="left" title="Click to post something" data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-              i.fa.fa-plus.m-r-5
-              //span
-                | Post
-            .dropdown-menu(x-placement='bottom-start')
-              a.dropdown-item(href='javascript:void(0)' v-for="pOpt in postOptions" @click="triggerPostPopup(pOpt)")
-                i.fa.m-r-5(:class="pOpt.icon")
-                | {{pOpt.label}}
-              <router-link tag="a" :to="postAnswerPageLink()" class="dropdown-item">
-                i.mdi.mdi-comment-plus-outline
-                |  Video Answer
-              </router-link>
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
           <feed @VideoPlayed = "VideoPlayed" :triggerPopupView = "true" v-if="!preloader" :feed="feed" :userFeed="true"></feed>

@@ -106,7 +106,7 @@
           a.link.m-r-10.f-s-16(v-if="isQuestion(f)" href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="parseInt(f['LikesCount'])" :hasLiked="!!f['HasLiked']" :postId="f['id']"></like>
           span.pointer.reactions-count-wrap.pointer.f-s-17(v-if="!isQuestion(f)" title="Comments or Reactions" @click="toggleComments(f)")
-            i.mdi.mdi-comment-processing-outline.m-r-5
+            i.mdi.mdi-comment-outline.m-r-5
             span.m-r-5
               | {{ (f['ReactionsCount'] ? f['ReactionsCount']: '') }}
           .btn-group
