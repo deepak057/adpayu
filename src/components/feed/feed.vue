@@ -14,7 +14,7 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="(f, k) in feedArr" :key="f.id" :class="{'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
+  .sl-item.feed-block(v-for="(f, k) in feedArr" :key="f.id" :class="{'p-10': userFeed, 'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
     .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999 ad-consumed': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'impression')") Sponsored +
        span.m-l-5(v-html="showAmount(f['AdOption'].cpi, false, true, false, false)")
        span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'impression')")
@@ -131,7 +131,7 @@
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
     <comments :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
-    //hr
+    hr(v-if="!userFeed")
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
   <edit-post ref="editPostComponent" @PostUpdated="updatePost"/>

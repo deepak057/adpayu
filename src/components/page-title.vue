@@ -1,19 +1,16 @@
 <template lang="pug">
-// ==============================================================
-// Bread crumb and right sidebar toggle
-// ==============================================================
-.row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
-  .col-md-4.col-12.align-self-center
-    h3.text-themecolor.m-b-0.m-t-0 {{head}}
-    ol.breadcrumb
+.row.page-titles.bg-special-2
+  .col-12.align-self-center
+    h3.m-b-0.m-t-10 {{head}}
+    //ol.breadcrumb
       li.breadcrumb-item
        <router-link :to="getTagLink('all')">
         | Home
         </router-link>
       li.breadcrumb-item.active {{subHead}}
-  .col-md-8.col-12.align-self-center.text-right.small-screen-text-left
+  //.col-md-8.col-12.align-self-center.text-right.small-screen-text-left
     <total-revenue class="m-r-50"/>
-  <title-collapse />
+  //<title-collapse />
 // ==============================================================
 // End Bread crumb and right sidebar toggle
 // ==============================================================

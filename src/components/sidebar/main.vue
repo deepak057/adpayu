@@ -16,7 +16,7 @@ aside.left-sidebar.bg-special-2(style='overflow: visible;')
               <multiselect v-model="selectedTag" :options="menuItems" :searchable="!isMobile()" :close-on-select="true" :show-labels="true" track-by="name" @select="tagSelected" label="name" tagPlaceholder="" :showLabels="false" placeholder="All Tags">
                 <template slot="placeholder" slot-scope="props">
                   <i class="mdi mdi-tag-multiple m-l-10 text-muted"></i>
-                  <span class="m-l-5 text-muted" :class="{'hide-this-NM': !isMobile()}">All Tags</span>
+                  <span class="m-l-5" :class="{'hide-this-NM': !isMobile()}">All Tags</span>
                 </template>
                 <template slot="singleLabel" slot-scope="props">
                   <i :class="'mdi ' +  props.option.icon"></i>
@@ -130,11 +130,4 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="stylus">
-.multiselect__option--highlight {
-  background: #1e88e5 !important;
-}
-.multiselect, .multiselect__input, .multiselect__single{
-  color: #607d8b;
-  font-size: 15px !important;
-}
 </style>

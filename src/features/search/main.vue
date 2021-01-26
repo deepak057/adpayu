@@ -72,7 +72,7 @@
               <content-search :keyword = "k" v-if="checkSearchType('content')" :sort="sort"></content-search>
             #sp-video-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='false' :class="{'active': checkSearchType('videos')}")
               <content-search :keyword = "k" :searchType= "searchType" v-if="checkSearchType('video')" :sort="sort"></content-search>
-            #sp-questions-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}")
+            #sp-questions-tab.tab-pane.p-t-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('questions')}")
               <content-search :keyword = "k" :filter="filter" :searchType= "searchType" v-if="checkSearchType('questions')" :sort="sort"></content-search>
             #sp-users-tab.tab-pane.p-20(role='tabpanel', aria-expanded='true' :class="{'active': checkSearchType('users')}")
               <user-search :keyword = "k" v-if="checkSearchType('users')" :sort="sort"></user-search>
