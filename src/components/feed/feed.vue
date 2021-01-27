@@ -14,8 +14,8 @@
         | .
       .row.content-center
         <search-field :searchType="'content'" :placeholder="'Or search video, questions, users, tags...'"></search-field>
-  .sl-item.feed-block(v-for="(f, k) in feedArr" :key="f.id" :class="[{'p-10': userFeed, 'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}, customClasses]" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
-    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand(:class="{'bg-999 ad-consumed': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'impression')") Sponsored +
+  .sl-item.feed-block(v-for="(f, k) in feedArr" :key="f.id" :class="[{'ad-preview': preview, 'ribbon-wrapper ad-post': f['AdOption']}, customClasses]" v-observe-visibility="{throttle: 1000, intersection: { threshold: 0.5}, callback: (isVisible, entry) => postVisibilityChanged(isVisible, entry, f) }")
+    .ribbon.ribbon-bookmark.ribbon-warning.f-w-400.cursor-hand.sponsored-ribbon(:class="{'bg-999 ad-consumed': !preview && adConsumed(f, 'impression')}" v-if="f['AdOption']" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'impression')") Sponsored +
        span.m-l-5(v-html="showAmount(f['AdOption'].cpi, false, true, false, false)")
        span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'impression')")
         span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['impression']}" v-html="'+' + showAmount(f['AdOption'].cpi, false, true, false, false)")

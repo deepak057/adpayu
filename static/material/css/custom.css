@@ -171,3 +171,31 @@
 .hide-hr hr {
 	display: none;
 }
+.dashboard-feed-view .sponsored-ribbon {
+	top: 0px !important;
+	left: 0px;
+	border-top-left-radius: 15px;
+}
+
+.sponsored-ribbon {
+	top: 4px;
+}
+.single-post-page .profiletimeline .sl-item.ad-post{
+	padding-top: 64px !important;
+}
+.single-post-page .profiletimeline .sl-item.ad-post .sponsored-ribbon {
+	top: 15px;
+	left: 0px !important;
+}
+.video-overlay-view .sl-item {
+	background: #000;
+}
+.overlay-view-content-wrap .profiletimeline {
+	padding: 0px !important;
+}
+.p-10-ns {
+	padding: 10px;
+}
+.ribbon-wrapper, .ribbon-wrapper-reverse, .ribbon-wrapper-bottom, .ribbon-wrapper-right-bottom{
+	padding: 50px 15px 15px 15px;
+}

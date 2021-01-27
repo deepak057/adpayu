@@ -1,11 +1,7 @@
 <template lang="pug">
 .container-fluid
   <page-title heading="Post" :subHeading="breadcrumbSubHead | capitalize"/>
-  // ==============================================================
-  // Start Page Content
-  // ==============================================================
-  // Row
-  .row
+  .row.single-post-page
     .col-12.feed-container-col
       .card
         .card-body.p-0(:class="{'min-h-400': pageLoading}")

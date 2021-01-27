@@ -74,7 +74,7 @@
         .card-body.bg-special-1
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
-          <feed @VideoPlayed = "VideoPlayed" :triggerPopupView = "true" v-if="!preloader" :feed="feed" :userFeed="true"></feed>
+          <feed @VideoPlayed = "VideoPlayed" :triggerPopupView = "true" v-if="!preloader" :feed="feed" :userFeed="true" :customClasses="'p-10-ns'"></feed>
           .nothing-to-show(v-show="feed.length && !newsFeedEnabled && !adEnabled")
             .jumbotron.white-back.text-center
               h1.display-3 Dead End!
