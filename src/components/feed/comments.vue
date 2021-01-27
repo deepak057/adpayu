@@ -4,7 +4,7 @@
     <preloader class="preloader-h-20"/>
   <template v-if="!pageLoader">
   .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed && (feedPage !=='profile' || !postHasDefaultComment())")
-    a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
+    a(href="javascript:void(0)" @click="showAllComments()" :class="{'m-t-20 m-b-10': isMobile(), 'm-t-10': !isMobile()}" )
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
   <single-comment :key="comment.id" :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay= "autoReplay" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>

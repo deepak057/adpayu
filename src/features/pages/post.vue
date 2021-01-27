@@ -8,10 +8,10 @@
   .row
     .col-12.feed-container-col
       .card
-        .card-body.min-h-400
+        .card-body.p-0(:class="{'min-h-400': pageLoading}")
           div.m-t-20.text-center(v-show="pageLoading")
             <preloader></preloader>
-          <feed :feed="feed" v-show="!pageLoading"></feed>
+          <feed :feed="feed" class="hide-hr" v-show="!pageLoading" :customClasses="'p-t-10'"></feed>
 </template>
 <script>
 import auth from '@/auth/helpers'

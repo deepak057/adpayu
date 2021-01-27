@@ -8,7 +8,7 @@
   .row
     .col-12.p-0
       .card
-        .card-body.min-h-400.comment-response-container
+        .card-body.comment-response-container.hide-hr(:class="{'p-ab-5': isMobile(), 'min-h-400': pageLoading}")
           .m-t-20.text-center(v-show="pageLoading")
             <preloader></preloader>
           <template v-if="!pageLoading">

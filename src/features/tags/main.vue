@@ -5,15 +5,15 @@
   // ==============================================================
   .row.page-titles.bg-special-2
     .col-md-8.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0 Tags
-      ol.breadcrumb
+      h3.m-b-0.m-t-10 Tags
+      //ol.breadcrumb
         li.breadcrumb-item
           <router-link :to="getTagLink('all')">
             | Home
           </router-link>
         li.breadcrumb-item.active Tags
-    .col-md-4.col-12.align-self-center.text-right
-      <search-field :searchType="'tags'" class="m-m-t-10"></search-field>
+    .col-md-4.col-12.align-self-center.text-right(:class="{'m-t-10': !isMobile()}")
+      <search-field :searchType="'tags'" class="m-t-10"></search-field>
   // ==============================================================
   // End Bread crumb and right sidebar toggle
   // ==============================================================

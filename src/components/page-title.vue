@@ -1,7 +1,8 @@
 <template lang="pug">
 .row.page-titles.bg-special-2
   .col-12.align-self-center
-    h3.m-b-0.m-t-10 {{head}}
+    h3.m-b-0.m-t-10(v-if="!isMobile()") {{head}}
+    h4.m-b-0.m-t-10(v-if="isMobile()") {{head}}
     //ol.breadcrumb
       li.breadcrumb-item
        <router-link :to="getTagLink('all')">
