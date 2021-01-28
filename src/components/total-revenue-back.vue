@@ -1,15 +1,15 @@
 <template lang="pug">
 .total-revenue-wrap
-  h2.c-white
-    span(v-html = "showAmount(totalRevenue, false, true) || 0" :id="tour.revenueAmountId")
-  span.small.cursor-hand.f-s-12(@click="syncUser()" :id="tour.revenueWithdrawId")
-    i.fa.fa-sign-out.m-r-2
-    | Withdraw
-    <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
+  h3.m-b-0.font-light
+    span(v-html = "showAmount(totalRevenue) || 0" :id="tour.revenueAmountId")
+    span.small.text-muted.cursor-hand.f-s-12.m-l-6.text-success(@click="syncUser()" :id="tour.revenueWithdrawId")
+      i.fa.fa-sign-out.m-r-2
+      | Withdraw
+      <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
       //i.mdi.mdi-information-outline.m-l-2
-  //h5.text-muted.m-b-0
+  h5.text-muted.m-b-0
     | Total Earnings
-    i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button to get this money transferred to your bank, Paytm or other accounts.")
+    i.mdi.mdi-information-outline.cursor-hand.m-l-2.f-s-14(data-container="body" title="Total Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank, Paytm or other accounts.")
   <withdraw-money ref="withdrawMoneyComp"/>
   <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
   <v-tour name="myTour" v-if="tour.tourSteps.length" :steps="tour.tourSteps" :options="tour.options"></v-tour>

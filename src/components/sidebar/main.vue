@@ -2,7 +2,7 @@
 aside.left-sidebar.bg-special-2(style='overflow: visible;')
     // Sidebar scroll
     .scroll-sidebar(style='overflow: hidden;')
-      <user-location />
+      <revenue />
       // Preloader
       .sidebar-preloader(v-show="preloader")
         <preloader></preloader>
@@ -49,17 +49,17 @@ import auth from '@/auth/helpers'
 import mixin from '@/globals/mixin.js'
 import Service from './service'
 import Preloader from '../preloader'
-import UserLocation from './user_location'
 import Multiselect from 'vue-multiselect'
 import { router } from '@/http'
+import Revenue from './revenue'
 
 export default {
   name: 'AppSidebar',
   service: new Service(),
   components: {
     Preloader,
-    UserLocation,
-    Multiselect
+    Multiselect,
+    Revenue
   },
   mixins: [mixin],
   props: {
