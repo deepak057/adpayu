@@ -6,8 +6,9 @@
     i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Your Location" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Click on Withdraw button above to get this money transferred to your bank, Paytm or other accounts.")
   div.text-center.centered-content.side-bar-revenue-wrap.m-r-15
     <total-revenue />
-  .profile-img.cursor-hand(title="Toggle Map")
-    i.mdi.mdi-map-marker.sidebar-map-icon.text-danger.toggle-sidebar
+  .profile-img.cursor-hand(title="See your earnings")
+    span.sidebar-map-icon.c-white.toggle-sidebar(v-html="getUserCurrencySymbol()")
+    //i.mdi.mdi-map-marker.sidebar-map-icon.text-danger.toggle-sidebar
   //.profile-text
     a.small(href='javascript: void(0)')
       span.d-inherit(:class="{'truncate-text': !detailMenuExpended}" @click="showLocationDetails()")
