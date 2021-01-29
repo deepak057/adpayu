@@ -376,6 +376,10 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
+  updateState (variable, value_) {
+    store.state.auth[variable] = value_
+    store.dispatch('auth/update', store.state.auth)
+  },
   updateUserState (user) {
     store.state.auth.user = user
     store.dispatch('auth/update', store.state.auth)

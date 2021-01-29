@@ -94,6 +94,7 @@
   // ==============================================================
   <overlay-view :noMoreFeed = "noMoreFeed" :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
   <ad-popup @AdTutorialTaken = "closeOverlayView" @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
+  <v-tour name="myTour" v-if="tour.tourSteps.length" :steps="tour.tourSteps" :options="tour.options"></v-tour>
 </template>
 
 <script>
@@ -129,6 +130,20 @@ export default {
   },
   data () {
     return {
+      tour: {
+        tourSteps: [],
+        revenueAmountId: 'total-revenue-header-amount',
+        revenueWithdrawId: 'total-revenue-header-withdraw',
+        toggleSideBarId: 'sidebar-revenue-trigger-sidebar',
+        options: {
+          labels: {
+            buttonSkip: 'Skip',
+            buttonPrevious: 'Previous',
+            buttonNext: 'Next',
+            buttonStop: 'Finish'
+          }
+        }
+      },
       adEnabled: true,
       newsFeedEnabled: true,
       newCommentText: '',
@@ -299,7 +314,35 @@ export default {
       }, 30000)
     },
     triggerRevenueTour () {
-      this.$refs.TotalRevenue.triggerTour()
+      let updateSteps = () => {
+        this.tour.tourSteps = [
+          {
+            target: '#' + this.tour.revenueAmountId,
+            content: 'This is the total amount of money you have made',
+            params: {
+              highlight: true,
+              enableScrolling: false
+            }
+          },
+          {
+            target: '#' + this.tour.revenueWithdrawId,
+            content: 'Click this button to withdraw money to your Paytm or Bank account',
+            params: {
+              highlight: true,
+              enableScrolling: false
+            }
+          }
+        ]
+      }
+      document.getElementById(this.tour.toggleSideBarId).click()
+      this.scrollToTop()
+      updateSteps()
+      auth.togglePageTitle(true)
+      setTimeout(() => {
+        this.$tours['myTour'].start()
+      }, 200)
+      // auth.updateState('TRT', true)
+      // this.$refs.TotalRevenue.triggerTour()
     },
     updateFeedPreference () {
       this.noMoreFeed = false
