@@ -1,5 +1,5 @@
 <template lang="pug">
-aside.left-sidebar.bg-special-2(style='overflow: visible;')
+aside.left-sidebar.bg-special-2
     // Sidebar scroll
     .scroll-sidebar(style='overflow: hidden;')
       <revenue />

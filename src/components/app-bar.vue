@@ -31,10 +31,10 @@ header.topbar
         ul.navbar-nav.mr-auto.mt-md-0
           // This is
           li.nav-item
-            a.nav-link.nav-toggler.hidden-md-up.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
+            a.nav-link.nav-toggler.hidden-md-up.text-muted.waves-effect.waves-dark(:id="constants.appBarElementsIDs.mobileNavTriggerId" href='javascript:void(0)')
               i.mdi.mdi-menu
           li.nav-item
-            a.nav-link.sidebartoggler.hidden-sm-down.text-muted.waves-effect.waves-dark(href='javascript:void(0)')
+            a.nav-link.sidebartoggler.hidden-sm-down.text-muted.waves-effect.waves-dark(:id="constants.appBarElementsIDs.navTriggerId" href='javascript:void(0)')
               i.ti-menu
           // ==============================================================
           // Search

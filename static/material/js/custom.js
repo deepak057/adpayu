@@ -153,6 +153,7 @@ $(function () {
 
             // this is for close icon when navigation open in mobile view
             $(document).on("click", ".nav-toggler", function () {
+                $(this).find("i").removeClass('blowAnimation circle')
                 $("body").toggleClass("show-sidebar");
 
 
@@ -268,6 +269,7 @@ $(function () {
             });
 
             $(document).on("click", ".sidebartoggler, .profile-img", function () {
+                $(this).find("i").removeClass('blowAnimation circle')
                 if ($("body").hasClass("mini-sidebar")) {
                     $("body").trigger("resize");
                     $(".scroll-sidebar, .slimScrollDiv").css("overflow", "hidden").parent().css("overflow", "visible");

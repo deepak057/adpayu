@@ -7,7 +7,18 @@ export default {
   data () {
     return {
       siteName: constants.SITE_NAME,
-      defaultCurrency: 'USD'
+      defaultCurrency: 'USD',
+      constants: {
+        sideBarElementsIDs: {
+          revenueAmountId: 'total-revenue-header-amount',
+          revenueWithdrawId: 'total-revenue-header-withdraw',
+          toggleSideBarId: 'sidebar-revenue-trigger-sidebar'
+        },
+        appBarElementsIDs: {
+          navTriggerId: 'AB-NavTrigger-elem',
+          mobileNavTriggerId: 'AB-mobile-NavTrigger-elem'
+        }
+      }
     }
   },
   filters: {
@@ -32,6 +43,40 @@ export default {
     this.toHome()
   },
   methods: {
+    highlightNavTriggerer () {
+      let elem = this.getActiveNavtriggerer()
+      if (elem) {
+        elem.childNodes[0].classList.add('blowAnimation', 'circle')
+      }
+    },
+    getActiveNavtriggerer () {
+      return document.getElementById((this.isMobile() ? this.constants.appBarElementsIDs.mobileNavTriggerId : this.constants.appBarElementsIDs.navTriggerId))
+    },
+    toggleSideBar () {
+      let elem = this.getActiveNavtriggerer()
+      if (elem) {
+        elem.click()
+      }
+    },
+    stopTours (tourname = '') {
+      if (this.$tours) {
+        for (let i in this.$tours) {
+          if (tourname && this.$tours[tourname]) {
+            this.$tours[i].stop()
+            return
+          } else {
+            this.$tours[i].stop()
+          }
+        }
+      }
+    },
+    isSidebarOpen () {
+      let body = document.getElementsByTagName('body')[0]
+      if (body) {
+        return this.isMobile() ? body.classList.contains('show-sidebar') : !body.classList.contains('mini-sidebar')
+      }
+      return false
+    },
     isLoggedIn () {
       return store.state.auth.isLoggedIn
     },

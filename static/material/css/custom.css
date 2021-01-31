@@ -218,3 +218,11 @@
 .side-bar-revenue-wrap {
 	height: 100px;
 }
+.blowAnimation {
+	animation: 2.5s blow 0s linear infinite;
+	-moz-animation:2.5s blow 0s linear infinite;
+	-webkit-animation: 2.5s blow 0s linear infinite;
+}
+.circle {
+	border-radius: 50%;
+}

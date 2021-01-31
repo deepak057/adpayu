@@ -7,8 +7,8 @@
   div.text-center.centered-content.side-bar-revenue-wrap.m-r-15
     .total-revenue-wrap
       h2.c-white
-        span(v-html = "showAmount(totalRevenue, false, true) || 0" :id="tour.revenueAmountId")
-      span.small.cursor-hand.f-s-12(@click="syncUser()" :id="tour.revenueWithdrawId")
+        span(v-html = "showAmount(totalRevenue, false, true) || 0" :id="constants.sideBarElementsIDs.revenueAmountId")
+      span.small.cursor-hand.f-s-12(@click="syncUser()" :id="constants.sideBarElementsIDs.revenueWithdrawId")
         i.fa.fa-sign-out.m-r-2
         | Withdraw
         <preloader v-if="loader" class="preloader-h-10 m-l-5"/>
@@ -19,8 +19,7 @@
       <withdraw-money ref="withdrawMoneyComp"/>
       <verify-account ref="verifyAccountComp" v-if="!accountVerified()"/>
   .profile-img.cursor-hand(title="See your earnings")
-    span.sidebar-map-icon.c-white.toggle-sidebar(:id="tour.toggleSideBarId" v-html="getUserCurrencySymbol()")
-  <v-tour style="position: fixed" name="myTour" v-if="tour.tourSteps.length" :steps="tour.tourSteps" :options="tour.options"></v-tour>
+    span.sidebar-map-icon.c-white.toggle-sidebar(:id="constants.sideBarElementsIDs.toggleSideBarId" v-html="getUserCurrencySymbol()")
 </template>
 <script>
 import auth from '@/auth/helpers'
@@ -42,21 +41,7 @@ export default {
       totalRevenue: auth.getLocalRevenue(),
       currentUser: auth.getUser(),
       loader: false,
-      revenueUpdateInterval: 30000,
-      tour: {
-        tourSteps: [],
-        revenueAmountId: 'total-revenue-header-amount',
-        revenueWithdrawId: 'total-revenue-header-withdraw',
-        toggleSideBarId: 'sidebar-revenue-trigger-sidebar',
-        options: {
-          labels: {
-            buttonSkip: 'Skip',
-            buttonPrevious: 'Previous',
-            buttonNext: 'Next',
-            buttonStop: 'Finish'
-          }
-        }
-      }
+      revenueUpdateInterval: 30000
     }
   },
   watch: {
@@ -100,7 +85,7 @@ export default {
       }, this.revenueUpdateInterval))
     },
     syncUser () {
-      this.stopTour()
+      this.stopTours()
       if (this.loader) {
         return
       }
@@ -118,47 +103,6 @@ export default {
     },
     accountVerified () {
       return this.currentUser.accountStatus === 'verified'
-    },
-    triggerTour () {
-      let updateSteps = () => {
-        this.tour.tourSteps = [
-          {
-            target: '#' + this.tour.toggleSideBarId,
-            content: 'Click here to see how much money you have made',
-            params: {
-              enableScrolling: false,
-              placement: 'left'
-            }
-          },
-          {
-            target: '#' + this.tour.revenueAmountId,
-            content: 'This is the total amount of money you have made',
-            params: {
-              highlight: true,
-              enableScrolling: false
-            }
-          },
-          {
-            target: '#' + this.tour.revenueWithdrawId,
-            content: 'Click this button to withdraw money to your Paytm or Bank account',
-            params: {
-              highlight: true,
-              enableScrolling: false
-            }
-          }
-        ]
-      }
-      this.scrollToTop()
-      updateSteps()
-      auth.togglePageTitle(true)
-      setTimeout(() => {
-        this.$tours['myTour'].start()
-      }, 200)
-    },
-    stopTour () {
-      if (this.$tours['myTour']) {
-        this.$tours['myTour'].stop()
-      }
     }
   }
 }

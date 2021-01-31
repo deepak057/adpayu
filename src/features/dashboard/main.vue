@@ -94,7 +94,7 @@
   // ==============================================================
   <overlay-view :noMoreFeed = "noMoreFeed" :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
   <ad-popup @AdTutorialTaken = "closeOverlayView" @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
-  <v-tour name="myTour" v-if="tour.tourSteps.length" :steps="tour.tourSteps" :options="tour.options"></v-tour>
+  <v-tour name="revenueTour" v-if="tour.tourSteps.length" :callbacks="tour.callbacks" :steps="tour.tourSteps" :options="tour.options"></v-tour>
 </template>
 
 <script>
@@ -132,9 +132,6 @@ export default {
     return {
       tour: {
         tourSteps: [],
-        revenueAmountId: 'total-revenue-header-amount',
-        revenueWithdrawId: 'total-revenue-header-withdraw',
-        toggleSideBarId: 'sidebar-revenue-trigger-sidebar',
         options: {
           labels: {
             buttonSkip: 'Skip',
@@ -142,6 +139,10 @@ export default {
             buttonNext: 'Next',
             buttonStop: 'Finish'
           }
+        },
+        callbacks: {
+          onFinish: this.revenueTourFinished,
+          onSkip: this.revenueTourFinished
         }
       },
       adEnabled: true,
@@ -313,11 +314,14 @@ export default {
         }
       }, 30000)
     },
+    revenueTourFinished () {
+      this.highlightNavTriggerer()
+    },
     triggerRevenueTour () {
       let updateSteps = () => {
         this.tour.tourSteps = [
           {
-            target: '#' + this.tour.revenueAmountId,
+            target: '#' + this.constants.sideBarElementsIDs.revenueAmountId,
             content: 'This is the total amount of money you have made',
             params: {
               highlight: true,
@@ -325,7 +329,7 @@ export default {
             }
           },
           {
-            target: '#' + this.tour.revenueWithdrawId,
+            target: '#' + this.constants.sideBarElementsIDs.revenueWithdrawId,
             content: 'Click this button to withdraw money to your Paytm or Bank account',
             params: {
               highlight: true,
@@ -334,12 +338,14 @@ export default {
           }
         ]
       }
-      document.getElementById(this.tour.toggleSideBarId).click()
+      if (!this.isSidebarOpen()) {
+        this.toggleSideBar()
+      }
       this.scrollToTop()
       updateSteps()
       auth.togglePageTitle(true)
       setTimeout(() => {
-        this.$tours['myTour'].start()
+        this.$tours['revenueTour'].start()
       }, 200)
       // auth.updateState('TRT', true)
       // this.$refs.TotalRevenue.triggerTour()
