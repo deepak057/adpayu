@@ -8,16 +8,17 @@
   .row
     .col-12.p-0
       .card
-        .card-body.min-h-400
+        .card-body.min-h-400(:class="{'p-l-5-ns p-r-5-ns': isMobile()}")
           .row
             .col-md-8
-              h4.card-title.m-b-20 Search Results For "{{$route.query.k}}"
+              h4.card-title.m-b-20(:class="{'m-l-5': isMobile()}")
+                | Search Results For "{{$route.query.k}}"
             .col-md-4.text-right
               .row.m-0.p-0
                 .text-left.m-0.p-0.search-sort-wrap(:class="{'col-2': showFilter(), 'col-1': !showFilter()}")
                   .btn-group.m-r-5(role="group" v-if="showFilter()")
                     span.pointer(title="Filter results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
-                      i.mdi.mdi-filter.v-align-sub.search-sort-icon.text-muted
+                      i.mdi.mdi-filter.v-align-sub.search-sort-icon.text-muted(:class="{'m-l-5': isMobile()}")
                     .dropdown-menu
                       a.dropdown-item.cursor-auto(href='javascript:void(0)') Filter Results
                       .dropdown-divider
@@ -26,7 +27,7 @@
                         | Unanswered
                   .btn-group(role="group")
                     span.pointer(title="Sort results" data-toggle='dropdown' aria-haspopup='true' aria-expanded='true')
-                      i.mdi.mdi-sort.v-align-sub.search-sort-icon.text-muted
+                      i.mdi.mdi-sort.v-align-sub.search-sort-icon.text-muted(:class="{'m-l-5': isMobile()}")
                     .dropdown-menu
                       a.dropdown-item.cursor-auto(href='javascript:void(0)') Sort Results
                       .dropdown-divider

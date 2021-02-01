@@ -1,5 +1,5 @@
 <template lang="pug">
-.upload-video-comment-wrap.p-l-20.m-t-10
+.upload-video-comment-wrap.p-l-10.m-t-10
   span.cursor-hand(@click="triggerVideoSelect()")
     i.mdi.mdi-upload.m-r-5
     | Upload a video {{commentType}}
@@ -7,9 +7,6 @@
     i.mdi.mdi-information-outline.m-l-2.v-align-text-bottom-desktop
   </router-link>
   .m-t-10.m-l-5(:class="{'m-b-5': commentType === 'comment', 'm-b-15': commentType === 'answer'}")
-    <template v-if="!uploadPercentage">
-    | Or
-    </template>
     <template v-if="uploadPercentage">
     .post-media-file-upload-progress.m-t-10(v-if="uploadPercentage")
       span.post-img-preloader.m-r-5

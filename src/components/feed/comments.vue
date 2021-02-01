@@ -18,11 +18,11 @@
   .row.m-t-10.leave-comment-wrap
     div
       <video-comment :commentType="getCommentType()" @videoUploaded="triggerVideoComment" ref="videoCommentComponent"/>
-    .col-11.submit-comment-textwrap
+    //.col-11.submit-comment-textwrap
       //<wysiwyg v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()" />
       <vue-editor useCustomImageHandler @imageAdded="handleImageAdded" v-model.trim="newCommentText" v-if="isQuestion()" :placeholder="placeholderText()"></vue-editor>
       textarea.form-control.b-0.bg-none(:placeholder="placeholderText()" v-if="!isQuestion()" v-model.trim="newCommentText" @keydown.enter="leaveComment()")
-    .col-1.text-right.submit-comment-btn
+    //.col-1.text-right.submit-comment-btn
       button.btn.btn-info.btn-circle.btn-lg.make-comment-btn(type='button' @click='leaveComment()')
         i.fa.fa-paper-plane-o.pr-t--3-l--3
       .comment-preloader(v-show="preloader")

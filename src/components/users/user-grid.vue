@@ -1,6 +1,6 @@
 <template lang="pug">
 .row.el-element-overlay(v-show="users.length")
-    .p-7(:class="colClass" v-for="user in users")
+    div(:class="[colClass, {'p-7': !isMobile()}]" v-for="user in users")
       .card.friend-block-up
         .el-card-item
           .el-card-avatar.el-overlay-1
