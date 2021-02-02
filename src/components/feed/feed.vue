@@ -98,10 +98,7 @@
             span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'click')")
               span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['click']}" v-html="'+' + showAmount(f['AdOption'].cpc, false, true, false, false)")
             i.mdi.mdi-information.m-l-4
-        .feed-tags.m-b-15(v-if="f['Tags'] && f['Tags'].length && (!manipulativePage())")
-          <router-link @click.native = "closeAllModals()" class="m-r-5 label-default" v-for="tag in f['Tags']" :key="tag.name" :to="getTagLink(tag.name)" :title="getTagTooltip(tag.name)">
-            | &#x23;{{tag.name}}
-          </router-link>
+        <tag-list :post = f :showTags = "!manipulativePage()"/>
         .like-comm.f-s-16(:class="{'m-t-15': !userFeed}" v-if="!preview && (!f['Question'] || !manipulativePage() || !f['CommentsCount'] || !f['defaultComment'])")
           a.link.m-r-10.f-s-16(v-if="isQuestion(f)" href='javascript:void(0)' @click="toggleComments(f)") {{f['CommentsCount'] > 0? f['CommentsCount']: ''}} {{f['type']=='question' ? 'Answer': 'Comment'}}{{f['CommentsCount'] > 1 ? "s": ''}}
           <like :likesCount="parseInt(f['LikesCount'])" :hasLiked="!!f['HasLiked']" :postId="f['id']"></like>
@@ -151,6 +148,7 @@ import FeedVideoPlayer from './feed-video-player'
 import EditPost from './edit'
 import SocialShare from '../../components/social-share'
 import Reaction from './reaction'
+import TagList from './tag-list'
 
 export default {
   name: 'Feed',
@@ -164,7 +162,8 @@ export default {
     AdStats,
     EditPost,
     SocialShare,
-    Reaction
+    Reaction,
+    TagList
   },
   mixins: [mixin, AdMixin],
   props: {
@@ -463,9 +462,6 @@ export default {
           this.feed.splice(i, 1)
         }
       }
-    },
-    getTagTooltip (text) {
-      return 'Tagged with ' + text
     },
     postVisibilityChanged (isVisible, entry, postObj) {
       if (isVisible && this.triggerAdActions()) {
