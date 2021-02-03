@@ -1,86 +1,148 @@
 <template lang="pug">
 .card-body
-  form.form-horizontal.form-material(@submit.prevent='updateProfile()')
-    h4 Basic Details
-      br
-      small.text-muted More information you provide, more relevant ads you'll see
-    .form-group.m-t-20(:class="{'has-danger': nameError}")
-      label.col-md-12(for='up-user-name-field')
-        | Full Name
-        i.mdi.mdi-earth.text-muted.m-l-5(title="Full name is publicly visible")
-      .col-md-12
-        input#up-user-name-field.form-control.form-control-line(placeholder='Enter Name' type='text' v-model.trim="name" autocomplete="off")
-        small.form-control-feedback(v-show="nameError")
-          | {{nameError}}
-    .form-group(:class="{'has-danger': taglineError}")
-      label.col-md-12
-        | Tagline
-        i.mdi.mdi-earth.text-muted.m-l-5(title="Tagline is publicly visible")
-      .col-md-12
-        input.form-control.form-control-line(type="text" v-model.trim="user.tagline" placeholder="Enter your tagline")
-        small.form-control-feedback(v-show="taglineError")
-          | {{taglineError}}
-    .form-group(:class="{'has-danger': phoneNumberError}")
-      label.col-md-12
-        | Phone Number
-        i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your phone number")
-      .col-md-12
-        input.form-control.form-control-line(type="text" @keypress="isNumber(event)" v-model.trim="user.phone" placeholder="Enter Phone number")
-        small.form-control-feedback(v-show="phoneNumberError")
-          | {{phoneNumberError}}
-    .form-group
-      label.col-sm-12
-        | Gender
-        i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your gender")
-      .col-sm-12
-        select.form-control.form-control-line(v-model="user.gender")
-          option(value="" selected disabled hidden) Choose here
-          option(value="male") Male
-          option(value="female") Female
-          option(value="other") Other
-    .form-group
-      label.col-sm-12
-        | Select Country
-        i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your country")
-      .col-sm-12
-        select.form-control.form-control-line(v-model="user.location")
-          option(value="" selected disabled hidden) Choose here
-          option(v-for="country in countryList" :value='country.code') {{country.text}}
-    h4 Security
-    .form-group.m-t-20
-      label.col-md-12(for='up-user-email')
-        | Email
-        i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your email")
-      .col-md-12
-        input#up-user-email.form-control.form-control-line(placeholder='Enter email', type='email' v-model = "user.email" readonly autocomplete="off")
-    .form-group(:class="{'has-danger': passwordError}")
-      label.col-md-12
-        | New Password
-        i.mdi.mdi-lock.text-muted.m-l-5(title="Only you know your password")
-      .col-md-12
-        input.form-control.form-control-line(type='password' placeholder="Enter new password" v-model="newPassword")
-        small.form-control-feedback(v-show="passwordError")
-          | {{passwordError}}
-    .form-group
-      .col-sm-12
-        button.btn.btn-success Update Profile
-    h4 Referrals
-      br
-      small.text-muted Get referral link to track people registered through you
-      .form-group
-        <template v-if="!refCode">
-        a.btn.btn-secondary.btn-sm.m-t-10(@click="getReferralLink()")
-          i.mdi.mdi-link.m-r-5
-          | Get Referral Link
-        <preloader v-if="gettingReferralLink" class="preloader-next-to-text m-l-5 m-t-5"/>
-        </template>
-        <template v-if="refCode">
-          .m-t-10.small
-            a(:href="refCode" target="_blank")
-              | {{refCode}}
-            input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="refCode")
-            i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy Link" @click="copyURLToClipboard()")
-        </template>
+  .accordion.accordion-blue(:id="accordion.parentId")
+    .card
+      .card-header(:id = "getAccSectionIds(1)" :aria-controls="getAccSectionIds(1, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(1, 'content')")
+        h2.mb-0
+          button.btn
+            i.mdi.mdi-account-edit
+            span.tab-label.m-l-10
+              | Basic Details
+      .collapse(:id = "getAccSectionIds(1, 'content')" :data-parent="'#'+accordion.parentId")
+        .card-body
+          .row
+            .col-12
+              form.form-horizontal.form-material(@submit.prevent='updateProfile()')
+                span
+                  | More information you provide, more relevant ads you'll see
+                .form-group.m-t-20(:class="{'has-danger': nameError}")
+                  label.col-md-12(for='up-user-name-field')
+                    | Full Name
+                    i.mdi.mdi-earth.text-muted.m-l-5(title="Full name is publicly visible")
+                  .col-md-12
+                    input#up-user-name-field.form-control.form-control-line(placeholder='Enter Name' type='text' v-model.trim="name" autocomplete="off")
+                    small.form-control-feedback(v-show="nameError")
+                      | {{nameError}}
+                .form-group(:class="{'has-danger': taglineError}")
+                  label.col-md-12
+                    | Tagline
+                    i.mdi.mdi-earth.text-muted.m-l-5(title="Tagline is publicly visible")
+                  .col-md-12
+                    input.form-control.form-control-line(type="text" v-model.trim="user.tagline" placeholder="Enter your tagline")
+                    small.form-control-feedback(v-show="taglineError")
+                      | {{taglineError}}
+                .form-group(:class="{'has-danger': phoneNumberError}")
+                  label.col-md-12
+                    | Phone Number
+                    i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your phone number")
+                  .col-md-12
+                    input.form-control.form-control-line(type="text" @keypress="isNumber(event)" v-model.trim="user.phone" placeholder="Enter Phone number")
+                    small.form-control-feedback(v-show="phoneNumberError")
+                      | {{phoneNumberError}}
+                .form-group
+                  label.col-sm-12
+                    | Gender
+                    i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your gender")
+                  .col-sm-12
+                    select.form-control.form-control-line(v-model="user.gender")
+                      option(value="" selected disabled hidden) Choose here
+                      option(value="male") Male
+                      option(value="female") Female
+                      option(value="other") Other
+                .form-group
+                  label.col-sm-12
+                    | Select Country
+                    i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your country")
+                  .col-sm-12
+                    select.form-control.form-control-line(v-model="user.location")
+                      option(value="" selected disabled hidden) Choose here
+                      option(v-for="country in countryList" :value='country.code') {{country.text}}
+                h4 Security
+                .form-group.m-t-20
+                  label.col-md-12(for='up-user-email')
+                    | Email
+                    i.mdi.mdi-lock.text-muted.m-l-5(title="No one can see your email")
+                  .col-md-12
+                    input#up-user-email.form-control.form-control-line(placeholder='Enter email', type='email' v-model = "user.email" readonly autocomplete="off")
+                .form-group(:class="{'has-danger': passwordError}")
+                  label.col-md-12
+                    | New Password
+                    i.mdi.mdi-lock.text-muted.m-l-5(title="Only you know your password")
+                  .col-md-12
+                    input.form-control.form-control-line(type='password' placeholder="Enter new password" v-model="newPassword")
+                    small.form-control-feedback(v-show="passwordError")
+                      | {{passwordError}}
+                .form-group
+                  .col-sm-12
+                    button.btn.btn-success Update Profile
+    .card
+      .card-header(:id = "getAccSectionIds(2)" :aria-controls="getAccSectionIds(2, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(2, 'content')")
+        h2.mb-0
+          button.btn
+            i.mdi.mdi-newspaper
+            span.tab-label.m-l-10
+              | Feed Settings
+      .collapse(:id = "getAccSectionIds(2, 'content')" :data-parent="'#' + accordion.parentId")
+        .card-body
+          .row
+            .col-12
+              span
+                | Customize your feed
+              .feed-ads-options-wrap.p-0
+                label.m-r-5(for='show-feed-option')
+                  i.mdi.mdi-newspaper
+                  span(title = "Enable or disable feed")
+                    |  Feed
+                <toggle-button title = "Enable or disable feed" v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
+                label.m-l-10(for='show-ads-option')
+                  i.mdi.mdi-currency-usd
+                  span(title = "Enable or disable Ads")
+                    | Ads
+                <toggle-button title = "Enable or disable Ads" v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
+                label.m-l-10.m-r-5
+                  i.mdi.mdi-comment-question-outline
+                  span(title = "Enable or disable unanswered questions")
+                    |  Questions
+                <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled"
+    .card
+      .card-header(:id = "getAccSectionIds(3)" :aria-controls="getAccSectionIds(3, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(3, 'content')")
+        h2.mb-0
+          button.btn
+            i.mdi.mdi-map-marker
+            span.tab-label.m-l-10
+              | Location
+      .collapse(:id = "getAccSectionIds(3, 'content')" :data-parent="'#' + accordion.parentId")
+        .card-body
+          .row
+            .col-12
+              h4 Content
+    .card
+      .card-header(:id = "getAccSectionIds(4)" :aria-controls="getAccSectionIds(4, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(4, 'content')")
+        h2.mb-0
+          button.btn
+            i.mdi.mdi-account-multiple
+            span.tab-label.m-l-10
+              | Referral
+      .collapse(:id = "getAccSectionIds(4, 'content')" :data-parent="'#' + accordion.parentId")
+        .card-body
+          .row
+            .col-12
+              span
+                | Get referral link to track people registered through you
+              .form-group
+                <template v-if="!refCode">
+                a.btn.btn-secondary.btn-sm.m-t-10(@click="getReferralLink()")
+                  i.mdi.mdi-link.m-r-5
+                  | Get Referral Link
+                <preloader v-if="gettingReferralLink" class="preloader-next-to-text m-l-5 m-t-5"/>
+                </template>
+                <template v-if="refCode">
+                  .m-t-10
+                    a(:href="refCode" target="_blank")
+                      | {{refCode}}
+                    input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="refCode")
+                    i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy Link" @click="copyURLToClipboard()")
+                </template>
 </template>
 <script>
 import mixin from '../../../globals/mixin.js'
@@ -105,6 +167,9 @@ export default {
   },
   data () {
     return {
+      accordion: {
+        parentId: 'sp-main-acc-wrap'
+      },
       user: Object.assign({}, this.currentUser),
       name: this.userName(this.currentUser, false),
       id: this.getUniqueId() + '-ref-link',
@@ -132,6 +197,9 @@ export default {
     }
   },
   methods: {
+    getAccSectionIds (id, type_ = 'header') {
+      return this.accordion.parentId + 'sec-' + id + '-' + type_
+    },
     copyURLToClipboard () {
       this.URLCopied = true
       let copyElem = document.getElementById(this.copyTextElementId)
