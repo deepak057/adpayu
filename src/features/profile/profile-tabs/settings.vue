@@ -1,6 +1,6 @@
 <template lang="pug">
-.card-body
-  .accordion.accordion-blue(:id="accordion.parentId")
+.card-body.min-h-400
+  .accordion.accordion-blue.f-s-16(:id="accordion.parentId")
     .card
       .card-header(:id = "getAccSectionIds(1)" :aria-controls="getAccSectionIds(1, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(1, 'content')")
         h2.mb-0
@@ -84,26 +84,30 @@
               | Feed Settings
       .collapse(:id = "getAccSectionIds(2, 'content')" :data-parent="'#' + accordion.parentId")
         .card-body
+          .m-b-10
+            | Customize your feed
           .row
-            .col-12
-              span
-                | Customize your feed
-              .feed-ads-options-wrap.p-0
-                label.m-r-5(for='show-feed-option')
-                  i.mdi.mdi-newspaper
-                  span(title = "Enable or disable feed")
-                    |  Feed
-                <toggle-button title = "Enable or disable feed" v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
-                label.m-l-10(for='show-ads-option')
+            .col-12.col-md-3
+              label.m-r-5(for='show-feed-option')
+                i.mdi.mdi-newspaper
+                span(title = "Enable or disable feed")
+                  |  Feed
+                i.mdi.mdi-information-outline.m-l-5.cursor-hand.m-r-5(data-container="body" title="Feed" data-toggle="popover" data-content="Enable or disable regular posts in your feed.")
+              <toggle-button title = "Enable or disable feed" v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
+            .col-md-3.col-12
+                label(for='show-ads-option')
                   i.mdi.mdi-currency-usd
                   span(title = "Enable or disable Ads")
                     | Ads
+                  i.mdi.mdi-information-outline.m-l-5.cursor-hand.m-r-5(data-container="body" title="Ads" data-toggle="popover" data-content="Enable or disable ads in your feed")
                 <toggle-button title = "Enable or disable Ads" v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
-                label.m-l-10.m-r-5
+            .col-md-6.col-12
+                label.m-r-5
                   i.mdi.mdi-comment-question-outline
                   span(title = "Enable or disable unanswered questions")
                     |  Questions
-                <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled"
+                  i.mdi.mdi-information-outline.m-l-5.cursor-hand(data-container="body" title="Questions" data-toggle="popover" data-content="Enable or disable unanswered questions in your feed.")
+                <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
     .card
       .card-header(:id = "getAccSectionIds(3)" :aria-controls="getAccSectionIds(3, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(3, 'content')")
         h2.mb-0
@@ -115,7 +119,12 @@
         .card-body
           .row
             .col-12
-              h4 Content
+              span
+                | Specify your location to see more relevant promoted posts/ads from your local area. If you don't specify your location, you will be able to see only the national and international ads, not the ads from your local area.
+              .m-t-10
+                button.btn.btn-danger(@click="triggerLocation()")
+                  | Get My Location Now
+        <update-location ref="updateLocationComp"/>
     .card
       .card-header(:id = "getAccSectionIds(4)" :aria-controls="getAccSectionIds(4, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(4, 'content')")
         h2.mb-0
@@ -131,7 +140,7 @@
                 | Get referral link to track people registered through you
               .form-group
                 <template v-if="!refCode">
-                a.btn.btn-secondary.btn-sm.m-t-10(@click="getReferralLink()")
+                a.btn.btn-secondary.m-t-10(@click="getReferralLink()")
                   i.mdi.mdi-link.m-r-5
                   | Get Referral Link
                 <preloader v-if="gettingReferralLink" class="preloader-next-to-text m-l-5 m-t-5"/>
@@ -151,12 +160,14 @@ import userRegistrationMixin from '../../../globals/user-register'
 import auth from '@/auth/helpers'
 import Preloader from './../../../components/preloader'
 import Service from './service'
+import UpdateLocation from '@/components/location/update_location'
 
 export default {
   name: 'Settings',
   service: new Service(),
   components: {
-    Preloader
+    Preloader,
+    UpdateLocation
   },
   mixins: [mixin, userRegistrationMixin, countryList],
   props: {
@@ -194,9 +205,21 @@ export default {
   watch: {
     '$store.state.auth.user' (user) {
       this.user = user
+    },
+    'currentUser.feedEnabled' (newV) {
+      this.saveUser(this.currentUser)
+    },
+    'currentUser.adsEnabled' (newV) {
+      this.saveUser(this.currentUser)
+    },
+    'currentUser.unCommentedEnabled' (newV) {
+      this.saveUser(this.currentUser)
     }
   },
   methods: {
+    triggerLocation () {
+      this.$refs.updateLocationComp.triggerPopup()
+    },
     getAccSectionIds (id, type_ = 'header') {
       return this.accordion.parentId + 'sec-' + id + '-' + type_
     },
@@ -242,15 +265,18 @@ export default {
     updateProfile () {
       if (this.nameValidate() && this.validateTagLine() && this.PhoneValidate() && this.passwordVaildate()) {
         // this.showNotification('Saving profile, please wait....', 'warn', -1)
-        auth.updateCurrentUser(this.getUserObject())
-          .then((data) => {
-            this.showNotification('Profile updated', 'success')
-            this.reset()
-          })
-          .catch((errUser) => {
-            this.showNotification('Something went wrong, please try again', 'error')
-          })
+        this.saveUser(this.getUserObject())
       }
+    },
+    saveUser (userObj) {
+      auth.updateCurrentUser(userObj)
+        .then((data) => {
+          this.showNotification('Changes Saved', 'success')
+          this.reset()
+        })
+        .catch((errUser) => {
+          this.showNotification('Something went wrong, please try again', 'error')
+        })
     },
     // get updated properties of
     // User object after successfull validation
