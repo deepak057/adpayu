@@ -254,7 +254,7 @@ export default {
     },
     handleTutorial () {
       let key = 'overlayViewTutorial'
-      let maxTutorialAttempts = 3
+      let maxTutorialAttempts = 1
       let overlayViewTutorial = sessionStorage.getItem(key)
       if ((overlayViewTutorial === null || overlayViewTutorial <= maxTutorialAttempts) && !store.state.auth.overlayViewTutorialDisabled) {
         this.animation.up = true

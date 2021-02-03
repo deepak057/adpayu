@@ -6,6 +6,7 @@ File: js
 */
 
 
+
 $(function () {
     "use strict";
     $(function () {
@@ -14,8 +15,6 @@ $(function () {
     jQuery(document).on('click', '.mega-dropdown', function (e) {
         e.stopPropagation()
     });
-
-
     
         /* ---------------------------------------------- /*
          * Scroll top
