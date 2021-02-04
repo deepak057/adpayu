@@ -1,5 +1,5 @@
 <template lang="pug">
-.card-body.min-h-400
+.card-body(:class="{'min-h-400': !isMobile(), 'min-h-300': isMobile()}")
   .accordion.accordion-blue.f-s-16(:id="accordion.parentId")
     .card
       .card-header(:id = "getAccSectionIds(1)" :aria-controls="getAccSectionIds(1, 'content')" data-toggle="collapse" :data-target = "'#' + getAccSectionIds(1, 'content')")
@@ -147,7 +147,7 @@
                 </template>
                 <template v-if="refCode">
                   .m-t-10
-                    a(:href="refCode" target="_blank")
+                    a.small(:href="refCode" target="_blank")
                       | {{refCode}}
                     input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="refCode")
                     i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy Link" @click="copyURLToClipboard()")

@@ -1,5 +1,5 @@
 <template lang="pug">
-.reaction-popup(v-if="triggered" :id="id")
+.reaction-popup.f-s-16(v-if="triggered" :id="id")
   .reaction-wrap(:class="{'block': shown, 'none': !shown}")
     .reaction-modal-header
       .text-center
