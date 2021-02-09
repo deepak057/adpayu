@@ -4,6 +4,9 @@ div(v-if="triggered")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
+        #background
+        #midground
+        #foreground
         .modal-header.no-border(v-if="!isMobile()")
           .row.w-100
             .col-2
