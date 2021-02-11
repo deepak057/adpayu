@@ -4,52 +4,7 @@ div(v-if="triggered")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
-        <template v-if="animationTemplate === 1">
-          -for (i = 1; i <= 100; i++)
-            .circle-container
-              .circle
-        </template>
-        <template v-if="animationTemplate === 2">
-        #background
-        #midground
-        #foreground
-        </template>
-        <template v-if="animationTemplate === 3">
-        #stars
-        #stars2
-        #stars3
-        </template>
-        <template v-if="animationTemplate === 4">
-        .stars
-        .twinkling
-        .clouds
-        </template>
-        <template v-if="animationTemplate === 5">
-        .night
-          - for (i = 0; i < 20; i++)
-            .shooting_star
-        </template>
-        <template v-if="animationTemplate === 6">
-         .background
-          - for (i = 0; i < 20; i++)
-            span
-        </template>
-        <template v-if="animationTemplate === 7">
-          div
-            .light.x1
-            .light.x2
-            .light.x3
-            .light.x4
-            .light.x5
-            .light.x6
-            .light.x7
-            .light.x8
-            .light.x9
-        </template>
-        <template v-if="animationTemplate === 8">
-          - for (var i = 1; i <= 100; i++)
-            .firefly
-        </template>
+        <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
         .modal-header.no-border(v-if="!isMobile()")
           .row.w-100
             .col-2
@@ -72,7 +27,21 @@ div(v-if="triggered")
         .modal-body.p-b-0
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
-          i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+          //i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+          .btn-group.overlay-screen-info-icon
+            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16.text-muted.hide-after(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+             i.ti.ti-more-alt
+            .dropdown-menu.prevent-close-on-click
+              span.dropdown-item
+                i.fa.fa-film.m-r-5
+                | Background effect
+                .m-t-5
+                  select.form-control.custom-select(v-model="animationTemplate")
+                    option(v-for="animation in animations" :value="animation.id")
+                      | {{animation.name}}
+              a.dropdown-item(href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+                i.fa.fa-info-circle.m-r-5
+                | Controls
           // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
           </template>
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
@@ -101,9 +70,10 @@ div(v-if="triggered")
           //<preloader class="m-l-5 preloader-next-to-text"/>
 </template>
 <script>
-import mixin from '../../globals/mixin.js'
-import Preloader from './../../components/preloader'
-import Feed from './../../components/feed/feed'
+import mixin from '../../../globals/mixin.js'
+import Preloader from './../../../components/preloader'
+import Feed from './../../../components/feed/feed'
+import AnimationTemplate from './animation-template'
 import { router } from '@/http'
 import store from '@/store'
 
@@ -111,7 +81,8 @@ export default {
   name: 'OverlayView',
   components: {
     Preloader,
-    Feed
+    Feed,
+    AnimationTemplate
   },
   mixins: [mixin],
   props: {
@@ -143,7 +114,41 @@ export default {
       prevCommandInvoked: false,
       spinRefreshIcon: false,
       TextNoMoreFeed: 'Sorry, no more posts.',
-      animationTemplate: 8
+      animationTemplate: 2,
+      animations: [
+        {
+          id: 1,
+          name: 'Stars'
+        },
+        {
+          id: 2,
+          name: 'Cosmos'
+        },
+        {
+          id: 3,
+          name: 'Starry Night'
+        },
+        {
+          id: 4,
+          name: 'Space Clouds'
+        },
+        {
+          id: 5,
+          name: 'Shooting Stars'
+        },
+        {
+          id: 6,
+          name: 'Moving balls'
+        },
+        {
+          id: 7,
+          name: 'Lines'
+        },
+        {
+          id: 8,
+          name: 'Fireflies'
+        }
+      ]
     }
   },
   computed: {

@@ -267,6 +267,10 @@ $(function () {
                 $(".app-search").find('input:first').focus()
             });
 
+            $(document).on("click", ".prevent-close-on-click", function(e) {
+                e.stopPropagation()
+            })
+
             $(document).on("click", ".sidebartoggler, .profile-img", function () {
                 $(this).find("i").removeClass('blowAnimation circle')
                 if ($("body").hasClass("mini-sidebar")) {

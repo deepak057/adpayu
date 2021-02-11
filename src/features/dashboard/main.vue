@@ -106,7 +106,7 @@ import Feed from './../../components/feed/feed'
 import Service from './service'
 import auth from '@/auth/helpers'
 import TitleCollapse from '../../components/title-collapse'
-import OverlayView from './overlay-view'
+import OverlayView from './overlay-view/overlay-view'
 import AdPopup from './components/ad-system/ad-popup'
 
 export default {
