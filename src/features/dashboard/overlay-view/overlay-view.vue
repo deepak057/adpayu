@@ -27,23 +27,22 @@ div(v-if="triggered")
         .modal-body.p-b-0
           <template v-if="isMobile()">
           i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
-          //i.mdi.mdi-18px.mdi-information-outline.pointer.overlay-screen-info-icon.text-muted( data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+          // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
+          </template>
           .btn-group.overlay-screen-info-icon
-            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16.text-muted.hide-after(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+            button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16.text-muted.hide-after(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options" :id="triggerOVOptionsBtn")
              i.ti.ti-more-alt
             .dropdown-menu.prevent-close-on-click
-              span.dropdown-item
+              span.dropdown-item.no-active-effect
                 i.fa.fa-film.m-r-5
                 | Background effect
                 .m-t-5
                   select.form-control.custom-select(v-model="animationTemplate")
                     option(v-for="animation in animations" :value="animation.id")
                       | {{animation.name}}
-              a.dropdown-item(href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+              a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
                 i.fa.fa-info-circle.m-r-5
                 | Controls
-          // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
-          </template>
           .text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
@@ -76,6 +75,7 @@ import Feed from './../../../components/feed/feed'
 import AnimationTemplate from './animation-template'
 import { router } from '@/http'
 import store from '@/store'
+import auth from '@/auth/helpers'
 
 export default {
   name: 'OverlayView',
@@ -114,11 +114,15 @@ export default {
       prevCommandInvoked: false,
       spinRefreshIcon: false,
       TextNoMoreFeed: 'Sorry, no more posts.',
-      animationTemplate: 2,
+      animationTemplate: auth.getUser().animationTemplate,
       animations: [
         {
+          id: 0,
+          name: 'None'
+        },
+        {
           id: 1,
-          name: 'Stars'
+          name: 'Cloudy Night'
         },
         {
           id: 2,
@@ -126,29 +130,30 @@ export default {
         },
         {
           id: 3,
-          name: 'Starry Night'
+          name: 'Glowing Bubbles'
         },
         {
           id: 4,
-          name: 'Space Clouds'
+          name: 'Fireflies'
         },
         {
           id: 5,
-          name: 'Shooting Stars'
-        },
-        {
-          id: 6,
-          name: 'Moving balls'
-        },
-        {
-          id: 7,
           name: 'Lines'
         },
         {
+          id: 6,
+          name: 'Moving Balls'
+        },
+        {
+          id: 7,
+          name: 'Shooting Stars'
+        },
+        {
           id: 8,
-          name: 'Fireflies'
+          name: 'Starry Night'
         }
-      ]
+      ],
+      triggerOVOptionsBtn: 'trigger-OV-Options-Btn'
     }
   },
   computed: {
@@ -207,9 +212,27 @@ export default {
         this.showNotification(this.TextNoMoreFeed, 'info')
         this.currentPost = this.feed.length - 1
       }
+    },
+    animationTemplate (newV) {
+      this.updateUser()
     }
   },
   methods: {
+    toggleMoreOptions () {
+      let el = document.getElementById(this.triggerOVOptionsBtn)
+      if (el) {
+        el.click()
+      }
+    },
+    updateUser () {
+      this.toggleMoreOptions()
+      let currentUser = auth.getUser()
+      currentUser.animationTemplate = this.animationTemplate
+      auth.updateCurrentUser(currentUser)
+        .then((data) => {
+          this.showNotification('Changes saved', 'success')
+        })
+    },
     refreshFeed () {
       this.spinRefreshIcon = true
       this.closePopup()
