@@ -111,7 +111,7 @@ export default {
       }
     },
     profileUserId: {
-      type: String,
+      type: [String, Number],
       default () {
         return ''
       }
