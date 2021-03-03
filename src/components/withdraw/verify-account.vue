@@ -20,8 +20,8 @@ div
             li.m-b-10
               | Please upload any
               strong
-                |  2 documents
-              |  that verify your identity.
+                |  document
+              |  that verifies your identity.
             li.m-b-10
               | You can upload images of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
             li.m-b-10

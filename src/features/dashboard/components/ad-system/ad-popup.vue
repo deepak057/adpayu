@@ -19,7 +19,7 @@ div(v-if="triggered")
             h3.bold.all-caps
               span(v-if="steps.step1.text1")
                 | {{steps.step1.text1}}
-              span(v-if="steps.step1.text2" v-html="showAmount(steps.step1.totalMoney)")
+              span(v-if="steps.step1.text2")
               | {{steps.step1.text2}}
             .m-t-5(v-if="steps.step1.enableImage")
               img.w-100.fadeIn(:src="staticImageUrl('money-banner.jpg')")
@@ -39,6 +39,8 @@ div(v-if="triggered")
               img.w-100.fadeIn(:src="staticImageUrl('money-banner-3.jpg')")
             h4.m-t-10.all-caps(v-if="steps.step2.text2")
               | {{steps.step2.text2}}
+              span(v-html="this.showAmount(steps.step1.cashBack.FirstAd.priceUSD)" v-if="steps.step1.cashBack.FirstAd.enable")
+              | {{steps.step2.text3}}
           </template>
           .celebration-wrap(:class="{'fade-out': steps.celebration.fadeOut}" v-if="steps.celebration.enable")
             .text-wrap.text-center
@@ -98,19 +100,19 @@ div(v-if="triggered")
           button.btn.btn-secondary(@click="closePopup")
             | Remind Me Later
           button.btn.btn-danger(type='button' @click="enableNextStep()")
-            | Yes
+            | {{this.steps.actionBtnLabel}}
 </template>
 <script>
 import mixin from '../../../../globals/mixin'
 import Preloader from '../../../../components/preloader'
 import Service from './service'
 import Feed from './../../../../components/feed/feed'
-// import auth from '@/auth/helpers'
 import auth from '@/auth/helpers'
 
 function adSystemInitialState () {
   return {
     modalTitle: 'Make Money',
+    actionBtnLabel: 'Yes',
     modalSubTitle: '',
     celebration: {
       price: 0,
@@ -133,8 +135,9 @@ function adSystemInitialState () {
     },
     step2: {
       enable: false,
-      text1: 'Watch beautiful ads in your feed and collect money everyday',
+      text1: 'Watch ads in your feed and make money everyday',
       text2: '',
+      text3: '',
       enableImage: false
     },
     step3: {
@@ -239,17 +242,18 @@ export default {
     },
     enableStep1 () {
       let showAnimationText = () => {
-        this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
+        // this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
+        this.steps.step1.text1 = 'Wait up !!'
         this.textAnimationEffect('text1')
           .then((d) => {
-            this.steps.step1.text2 = ' so far !!'
+            this.steps.step1.text2 = ''
             this.textAnimationEffect('text2')
               .then((d1) => {
-                this.steps.step1.text3 = 'Would you also like to make some real quick money?'
+                this.steps.step1.text3 = 'Do you want to make some money?'
                 this.textAnimationEffect('text3')
                   .then((d2) => {
                     setTimeout(() => {
-                      this.steps.step1.enableImage = true
+                      this.steps.step1.enableImage = false
                     }, 1000)
                   })
               })
@@ -276,9 +280,16 @@ export default {
         .then((d) => {
           this.steps.step2.enableImage = true
           setTimeout(() => {
-            this.steps.step2.text2 = 'So do you want to watch your first ad and make money now?'
+            this.steps.step2.text2 = this.steps.step1.cashBack.FirstAd.enable ? 'Get cashback of ' : 'So lets watch your first ad now?'
             this.textAnimationEffect('text2', 'step2')
               .then((d1) => {
+                this.steps.step2.text3 = this.steps.step1.cashBack.FirstAd.enable ? ' on watching your first ad' : ''
+                this.textAnimationEffect('text3', 'step2')
+                  .then((d2) => {
+                    if (this.steps.step1.cashBack.FirstAd.enable) {
+                      this.steps.actionBtnLabel = 'Watch Your First Ad Now'
+                    }
+                  })
               })
           }, 2000)
         })
@@ -357,6 +368,9 @@ export default {
       this.steps.step3.enable = false
       this.steps.step4.enable = false
     },
+    resetValues () {
+      this.steps.actionBtnLabel = 'Yes'
+    },
     cleanDOM () {
       let arrowElm = document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId)
       if (arrowElm) {
@@ -373,6 +387,7 @@ export default {
     },
     enableStep (step) {
       this.resetSteps()
+      this.resetValues()
       if (step === 1) {
         this.enableStep1()
       }

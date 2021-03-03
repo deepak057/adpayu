@@ -25,52 +25,11 @@
             i.mdi.mdi-comment-plus-outline
             |  Video Answer
           </router-link>
-  //.row.page-titles.bg-special-2(:class="{'collapsed': currentUser.pageTitleCollapsed}")
-    .col-md-4.col-12.align-self-center
-      h3.text-themecolor.m-b-0.m-t-0
-        | {{pageTitle() | capitalize}}
-        i.mdi.mdi-refresh.cursor-hand.m-l-5.text-muted.f-s-14(v-if="currentUser.pageTitleCollapsed" @click="reloadFeed()" title="Refresh the feed to pull newer posts.")
-      ol.breadcrumb
-        li.breadcrumb-item
-          <router-link :to="getTagLink('all')">
-            | Home
-          </router-link>
-        li.breadcrumb-item.active
-          | {{pageTitle(true) | capitalize}}
-          i.mdi.mdi-refresh.cursor-hand.m-l-5(@click="reloadFeed()" title="Refresh the feed to pull newer posts.")
-    .col-md-6.col-12.align-self-center.m-t-10.feed-ads-options-wrap.p-0
-      label.m-r-5(for='show-feed-option')
-        i.mdi.mdi-newspaper
-        span(title = "Enable or disable feed")
-          |  Feed
-      <toggle-button title = "Enable or disable feed" v-model="currentUser.feedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
-      label.m-l-10(for='show-ads-option')
-        i.mdi.mdi-currency-usd
-        span(title = "Enable or disable Ads")
-          | Ads
-      <toggle-button title = "Enable or disable Ads" v-model="currentUser.adsEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5 m-l-5"></toggle-button>
-      label.m-l-10.m-r-5
-        i.mdi.mdi-comment-question-outline
-        span(title = "Enable or disable unanswered questions")
-          |  Questions
-      <toggle-button title = "Enable or disable unanswered questions" v-model="currentUser.unCommentedEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
-      // label.m-l-10.m-r-5(for='show-recent-activity-option')
-        i.mdi.mdi-clock
-        span
-          |  Recent
-      // <toggle-button v-model="currentUser.recentActivitiesEnabled" color="#009efb" :width="35" :heigh="20" class="m-t-5"></toggle-button>
-    .col-md-2.col-12.align-self-center
-      <total-revenue ref="TotalRevenue"/>
-    <title-collapse />
-  // ==============================================================
-  // End Bread crumb and right sidebar toggle
-  // ==============================================================
-  // ==============================================================
-  // Start Page Content
-  // ==============================================================
   .row.dashboard-feed-view
     .col-12.feed-container-col
       .card
+        button(@click="triggerAdTut()")
+          | Trigger Ad Tu
         .card-body.bg-special-1
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
@@ -251,6 +210,9 @@ export default {
     next()
   },
   methods: {
+    triggerAdTut () {
+      this.$refs.AdPopupComp.triggerPopup()
+    },
     adReminder () {
       let showMessage = (stats) => {
         let text = ''
