@@ -16,14 +16,14 @@ div(v-if="triggered")
           <template v-if ="steps.step1.enable">
           <template v-if ="!steps.step1.loader">
           .text-center
-            h3.bold.all-caps
+            h3.bold
               span(v-if="steps.step1.text1")
                 | {{steps.step1.text1}}
               span(v-if="steps.step1.text2")
               | {{steps.step1.text2}}
             .m-t-5(v-if="steps.step1.enableImage")
               img.w-100.fadeIn(:src="staticImageUrl('money-banner.jpg')")
-            h4.m-t-10.all-caps(v-if="steps.step1.text3")
+            h4.m-t-10.f-w-500(v-if="steps.step1.text3")
               | {{steps.step1.text3}}
           </template>
             <template v-if ="steps.step1.loader">
@@ -33,11 +33,11 @@ div(v-if="triggered")
           </template>
           <template v-if ="steps.step2.enable">
           .text-center
-            h3.bold.all-caps
+            h3.bold
               | {{steps.step2.text1}}
             .m-t-5(v-if="steps.step2.enableImage")
-              img.w-100.fadeIn(:src="staticImageUrl('money-banner-3.jpg')")
-            h4.m-t-10.all-caps(v-if="steps.step2.text2")
+              img.w-100.fadeIn(:src="staticImageUrl('ad-popup-banner-1.png')")
+            h4.m-t-15.f-w-500(v-if="steps.step2.text2")
               | {{steps.step2.text2}}
               span(v-html="this.showAmount(steps.step1.cashBack.FirstAd.priceUSD)" v-if="steps.step1.cashBack.FirstAd.enable")
               | {{steps.step2.text3}}
@@ -84,7 +84,7 @@ div(v-if="triggered")
                 span.m-l-5(v-html="showAmount(getTotalMoney())")
               .m-t-20(:class="{'v-hidden': steps.celebration.enable}")
                 img.h-150(:src="staticImageUrl('success.png')")
-              p.m-t-10.all-caps.bold.text-warning(v-if="steps.step4.text2")
+              p.m-t-10.bold.text-warning(v-if="steps.step4.text2")
                 | {{steps.step4.text2}}
               .m-t-20.m-b-20(v-if="steps.step4.enableButton")
                 button.btn.btn-success.all-caps(data-dismiss='modal' @click = "triggerRevenueTutorial()")

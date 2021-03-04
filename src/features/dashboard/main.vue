@@ -28,8 +28,6 @@
   .row.dashboard-feed-view
     .col-12.feed-container-col
       .card
-        button(@click="triggerAdTut()")
-          | Trigger Ad Tu
         .card-body.bg-special-1
           .feed-preloader(v-show="preloader")
             <preloader></preloader>
@@ -210,9 +208,6 @@ export default {
     next()
   },
   methods: {
-    triggerAdTut () {
-      this.$refs.AdPopupComp.triggerPopup()
-    },
     adReminder () {
       let showMessage = (stats) => {
         let text = ''
