@@ -64,7 +64,7 @@ import Service from './service'
 import auth from '@/auth/helpers'
 import TitleCollapse from '../../components/title-collapse'
 import OverlayView from './overlay-view/overlay-view'
-import AdPopup from './components/ad-system/ad-popup'
+import AdPopup from './../../components/ad-system/ad-popup'
 
 export default {
   name: 'Dashboard',

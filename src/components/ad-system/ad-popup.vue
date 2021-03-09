@@ -103,10 +103,10 @@ div(v-if="triggered")
             | {{this.steps.actionBtnLabel}}
 </template>
 <script>
-import mixin from '../../../../globals/mixin'
-import Preloader from '../../../../components/preloader'
+import mixin from '../../globals/mixin'
+import Preloader from '../../components/preloader'
 import Service from './service'
-import Feed from './../../../../components/feed/feed'
+import Feed from './../../components/feed/feed'
 import auth from '@/auth/helpers'
 
 function adSystemInitialState () {

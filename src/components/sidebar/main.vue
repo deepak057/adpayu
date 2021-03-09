@@ -30,18 +30,24 @@ aside.left-sidebar.bg-special-2
                   <span>No Results</span>
                 </template>
               </multiselect>
-          li(add-topics-wrap)
+          li
             <router-link tag="a" to="/tags" class="waves-effect waves-dark" title="Browse and add more topics in your feed">
               i.mdi.mdi-tag-plus
               span.hide-menu
                 |  Follow Tags
             </router-link>
-          li(add-topics-wrap)
+          li
             <router-link tag="a" :to="postAnswerPageLink()" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
               i.mdi.mdi-comment-plus-outline
               span.hide-menu
                 |  Add Answer
             </router-link>
+          li(v-if="showMakeMoneyOption()")
+            a.waves-effect.waves-dark(href="javascript:void(0)" @click="triggerAdTutorial" title="Make some money by watching ads")
+              i.mdi(:class="{'mdi-currency-inr': isUserCurrencyINR(), 'mdi-currency-usd': !isUserCurrencyINR()}")
+              span.hide-menu
+                |  Make Money
+    <ad-popup ref="AdPopupComp"/>
 </template>
 
 <script>
@@ -52,6 +58,7 @@ import Preloader from '../preloader'
 import Multiselect from 'vue-multiselect'
 import { router } from '@/http'
 import Revenue from './revenue'
+import AdPopup from '../ad-system/ad-popup'
 
 export default {
   name: 'AppSidebar',
@@ -59,7 +66,8 @@ export default {
   components: {
     Preloader,
     Multiselect,
-    Revenue
+    Revenue,
+    AdPopup
   },
   mixins: [mixin],
   props: {
@@ -115,6 +123,12 @@ export default {
   methods: {
     logout () {
       auth.logout()
+    },
+    triggerAdTutorial () {
+      this.$refs.AdPopupComp.triggerPopup()
+    },
+    showMakeMoneyOption () {
+      return !this.user.adTutorialTaken
     },
     tagSelected (selectedOption, id) {
       router.push(this.getTagLink(selectedOption.name))

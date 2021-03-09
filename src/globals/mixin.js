@@ -104,6 +104,9 @@ export default {
     getCurrencySymbol (currency) {
       return currency === 'INR' ? '&#x20B9;' : '$'
     },
+    isUserCurrencyINR (user = false) {
+      return this.getUserCurrency(user) === 'INR'
+    },
     showAmount (USDAmount, user = false, spacing = false, round = false, trim = true) {
       user = user || auth.getUser()
       let defaultCurrency = this.getUserCurrency(user)
