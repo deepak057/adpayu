@@ -101,6 +101,7 @@ div(v-if="triggered")
             | Remind Me Later
           button.btn.btn-danger(type='button' @click="enableNextStep()")
             | {{this.steps.actionBtnLabel}}
+  <revenue-tour ref="RevenueTourComp" @TourFinished="tourFinished"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -108,6 +109,7 @@ import Preloader from '../../components/preloader'
 import Service from './service'
 import Feed from './../../components/feed/feed'
 import auth from '@/auth/helpers'
+import RevenueTour from './revenue-tour'
 
 function adSystemInitialState () {
   return {
@@ -195,7 +197,8 @@ export default {
   service: new Service(),
   components: {
     Preloader,
-    Feed
+    Feed,
+    RevenueTour
   },
   mixins: [mixin],
   data () {
@@ -237,6 +240,9 @@ export default {
   mounted () {
   },
   methods: {
+    tourFinished () {
+      this.triggered = false
+    },
     getCashBackInfoContent (price) {
       return 'Before being able to withdraw money, you will be asked to complete your KYC. You wiil get ' + this.showAmount(price) + ' cashback for completing your KYC.'
     },
@@ -596,19 +602,21 @@ export default {
         main()
       })
     },
-    closePopup () {
+    closePopup (triggered = false) {
       this.disableAdTutorial()
       let closeBtn = document.getElementById(this.closeButtonId)
       if (closeBtn) {
         closeBtn.click()
       }
       this.cleanDOM()
-      this.triggered = false
+      this.triggered = triggered
     },
     triggerRevenueTutorial () {
       this.closeAllModals()
-      this.closePopup()
-      this.$emit('TriggerRevenueTour')
+      // don't set Triggered property to false so that 
+      // ad popup DOM stays and Ad revenue tour can run
+      this.closePopup(true)
+      this.$refs.RevenueTourComp.triggerRevenueTour()
     }
   }
 }

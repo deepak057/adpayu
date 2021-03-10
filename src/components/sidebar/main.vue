@@ -128,7 +128,8 @@ export default {
       this.$refs.AdPopupComp.triggerPopup()
     },
     showMakeMoneyOption () {
-      return !this.user.adTutorialTaken
+      // return !this.user.adTutorialTaken
+      return true
     },
     tagSelected (selectedOption, id) {
       router.push(this.getTagLink(selectedOption.name))

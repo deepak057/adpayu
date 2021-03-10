@@ -50,8 +50,7 @@
   // End Right sidebar
   // ==============================================================
   <overlay-view :noMoreFeed = "noMoreFeed" :popupFeed="feed" @ReloadFeed="reloadFeed()" @GetMoreFeed="loadMoreFeed()" ref="overlayViewComp"/>
-  <ad-popup @AdTutorialTaken = "closeOverlayView" @TriggerRevenueTour =  "triggerRevenueTour" ref="AdPopupComp"/>
-  <v-tour name="revenueTour" v-if="tour.tourSteps.length" :callbacks="tour.callbacks" :steps="tour.tourSteps" :options="tour.options"></v-tour>
+  <ad-popup @AdTutorialTaken = "closeOverlayView" ref="AdPopupComp"/>
 </template>
 
 <script>
@@ -87,21 +86,6 @@ export default {
   },
   data () {
     return {
-      tour: {
-        tourSteps: [],
-        options: {
-          labels: {
-            buttonSkip: 'Skip',
-            buttonPrevious: 'Previous',
-            buttonNext: 'Next',
-            buttonStop: 'Finish'
-          }
-        },
-        callbacks: {
-          onFinish: this.revenueTourFinished,
-          onSkip: this.revenueTourFinished
-        }
-      },
       adEnabled: true,
       newsFeedEnabled: true,
       newCommentText: '',
@@ -270,42 +254,6 @@ export default {
             })
         }
       }, 30000)
-    },
-    revenueTourFinished () {
-      this.highlightNavTriggerer()
-    },
-    triggerRevenueTour () {
-      let updateSteps = () => {
-        this.tour.tourSteps = [
-          {
-            target: '#' + this.constants.sideBarElementsIDs.revenueAmountId,
-            content: 'This is the total amount of money you have made',
-            params: {
-              highlight: true,
-              enableScrolling: false
-            }
-          },
-          {
-            target: '#' + this.constants.sideBarElementsIDs.revenueWithdrawId,
-            content: 'Click this button to withdraw money to your Paytm or Bank account',
-            params: {
-              highlight: true,
-              enableScrolling: false
-            }
-          }
-        ]
-      }
-      if (!this.isSidebarOpen()) {
-        this.toggleSideBar()
-      }
-      this.scrollToTop()
-      updateSteps()
-      auth.togglePageTitle(true)
-      setTimeout(() => {
-        this.$tours['revenueTour'].start()
-      }, 200)
-      // auth.updateState('TRT', true)
-      // this.$refs.TotalRevenue.triggerTour()
     },
     updateFeedPreference () {
       this.noMoreFeed = false
