@@ -41,6 +41,9 @@ div(v-if="triggered")
               | {{steps.step2.text2}}
               span(v-html="this.showAmount(steps.step1.cashBack.FirstAd.priceUSD)" v-if="steps.step1.cashBack.FirstAd.enable")
               | {{steps.step2.text3}}
+              a.d-block.small.m-t-10(href="javascript:void(0)" title= "Lean more")
+                | {{steps.step1.totalUsers}} users have already made
+                span.m-l-5(v-html="showAmount(steps.step1.totalMoney)")
           </template>
           .celebration-wrap(:class="{'fade-out': steps.celebration.fadeOut}" v-if="steps.celebration.enable")
             .text-wrap.text-center
@@ -101,7 +104,7 @@ div(v-if="triggered")
             | Remind Me Later
           button.btn.btn-danger(type='button' @click="enableNextStep()")
             | {{this.steps.actionBtnLabel}}
-  <revenue-tour ref="RevenueTourComp" @TourFinished="tourFinished"/>
+  <revenue-tour ref="RevenueTourComp"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
@@ -240,14 +243,11 @@ export default {
   mounted () {
   },
   methods: {
-    tourFinished () {
-      this.triggered = false
-    },
     getCashBackInfoContent (price) {
       return 'Before being able to withdraw money, you will be asked to complete your KYC. You wiil get ' + this.showAmount(price) + ' cashback for completing your KYC.'
     },
     enableStep1 () {
-      let showAnimationText = () => {
+      /* let showAnimationText = () => {
         // this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
         this.steps.step1.text1 = 'Wait up !!'
         this.textAnimationEffect('text1')
@@ -264,7 +264,7 @@ export default {
                   })
               })
           })
-      }
+      } */
       this.steps.step1.enable = true
       if (this.steps.step1.loader) {
         auth.getWithdrawlStats()
@@ -273,7 +273,8 @@ export default {
             this.steps.step1.totalUsers = this.formatNumber(d.stats.totalUsers)
             this.steps.step1.totalMoney = d.stats.totalMoneyMadeUSD
             this.steps.step1.cashBack = d.stats.cashBack
-            showAnimationText()
+            this.enableStep(2)
+            // showAnimationText()
           })
           .catch((sErr) => {
             this.showNotification('Something went wrong while getting withdrawal stats', 'error')
@@ -286,7 +287,7 @@ export default {
         .then((d) => {
           this.steps.step2.enableImage = true
           setTimeout(() => {
-            this.steps.step2.text2 = this.steps.step1.cashBack.FirstAd.enable ? 'Get cashback of ' : 'So lets watch your first ad now?'
+            this.steps.step2.text2 = this.steps.step1.cashBack.FirstAd.enable ? 'Get bonus of ' : 'So lets watch your first ad now?'
             this.textAnimationEffect('text2', 'step2')
               .then((d1) => {
                 this.steps.step2.text3 = this.steps.step1.cashBack.FirstAd.enable ? ' on watching your first ad' : ''
@@ -308,8 +309,8 @@ export default {
             if (d.ads && d.ads.length) {
               this.steps.step3.ad.feed = [d.ads[0]]
             } else {
-              this.showNotification('Sorry, there is currently no ad for you, please try again later ', 'error')
-              this.closePopup()
+              this.showNotification('Sorry, there is currently no ad for you, please try again after 24 hours', 'error')
+              this.cleaenModal()
             }
           })
           .catch((e) => {
@@ -346,7 +347,7 @@ export default {
                 setUserCashback()
                 let temp = this.steps.step4.text1
                 this.steps.step4.text1 = ''
-                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 8000)
+                this.celebrate(this.steps.step1.cashBack.FirstAd.priceUSD, ' ', 'Bonus !! you have got', ' for watching your first ad', 5000)
                   .then((d2) => {
                     this.steps.step4.text1 = temp
                     this.steps.step4.enableButton = true
@@ -373,6 +374,9 @@ export default {
       this.steps.step2.enable = false
       this.steps.step3.enable = false
       this.steps.step4.enable = false
+    },
+    reset () {
+      this.steps = adSystemInitialState()
     },
     resetValues () {
       this.steps.actionBtnLabel = 'Yes'
@@ -511,7 +515,7 @@ export default {
           this.gimmick(5000)
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
-              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 7000)
+              this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 5000)
                 .then(() => {
                   setTimeout(() => {
                     this.enableStep(4)
@@ -567,6 +571,8 @@ export default {
     triggerPopup () {
       /*eslint-disable*/
       this.pauseAllOtherVideos()
+      this.reset()
+      this.resetValues()
       this.triggered = true
       this.gimmick(5000)
       let d = document.getElementById(this.triggerButtonId)
@@ -602,20 +608,27 @@ export default {
         main()
       })
     },
-    closePopup (triggered = false) {
+    closePopup () {
       this.disableAdTutorial()
       let closeBtn = document.getElementById(this.closeButtonId)
       if (closeBtn) {
         closeBtn.click()
       }
+    },
+    cleaenModal (triggered = false) {
+      this.closePopup()
+      let modal = document.getElementById(this.modalId)
       this.cleanDOM()
+      if (modal) {
+        modal.remove()
+      }
       this.triggered = triggered
     },
     triggerRevenueTutorial () {
       this.closeAllModals()
       // don't set Triggered property to false so that 
       // ad popup DOM stays and Ad revenue tour can run
-      this.closePopup(true)
+      this.cleaenModal(true)
       this.$refs.RevenueTourComp.triggerRevenueTour()
     }
   }

@@ -34,7 +34,6 @@ export default {
   methods: {
     revenueTourFinished () {
       this.highlightNavTriggerer()
-      this.$emit('TourFinished')
     },
     triggerRevenueTour () {
       let updateSteps = () => {
