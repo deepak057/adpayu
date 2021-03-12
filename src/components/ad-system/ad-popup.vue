@@ -117,7 +117,7 @@ import RevenueTour from './revenue-tour'
 function adSystemInitialState () {
   return {
     modalTitle: 'Make Money',
-    actionBtnLabel: 'Yes',
+    actionBtnLabel: 'Next',
     modalSubTitle: '',
     celebration: {
       price: 0,
@@ -210,7 +210,8 @@ export default {
       id: this.getUniqueId() + '-ad-system-popup-',
       currentUser: auth.getUser(),
       triggered: false,
-      steps: adSystemInitialState()
+      steps: adSystemInitialState(),
+      defaultStep: 1
     }
   },
   computed: {
@@ -247,15 +248,15 @@ export default {
       return 'Before being able to withdraw money, you will be asked to complete your KYC. You wiil get ' + this.showAmount(price) + ' cashback for completing your KYC.'
     },
     enableStep1 () {
-      /* let showAnimationText = () => {
+      let showAnimationText = () => {
         // this.steps.step1.text1 = this.steps.step1.totalUsers + ' people have made '
-        this.steps.step1.text1 = 'Wait up !!'
+        this.steps.step1.text1 = 'Sorry for the interruption !'
         this.textAnimationEffect('text1')
           .then((d) => {
             this.steps.step1.text2 = ''
             this.textAnimationEffect('text2')
               .then((d1) => {
-                this.steps.step1.text3 = 'Do you want to make some money?'
+                this.steps.step1.text3 = 'But do you know you can make money on ' + this.siteName + '?'
                 this.textAnimationEffect('text3')
                   .then((d2) => {
                     setTimeout(() => {
@@ -264,7 +265,7 @@ export default {
                   })
               })
           })
-      } */
+      }
       this.steps.step1.enable = true
       if (this.steps.step1.loader) {
         auth.getWithdrawlStats()
@@ -273,8 +274,11 @@ export default {
             this.steps.step1.totalUsers = this.formatNumber(d.stats.totalUsers)
             this.steps.step1.totalMoney = d.stats.totalMoneyMadeUSD
             this.steps.step1.cashBack = d.stats.cashBack
-            this.enableStep(2)
-            // showAnimationText()
+            if (this.defaultStep !== 1) {
+              this.enableStep(this.defaultStep)
+            } else {
+              showAnimationText()
+            }
           })
           .catch((sErr) => {
             this.showNotification('Something went wrong while getting withdrawal stats', 'error')
@@ -309,7 +313,7 @@ export default {
             if (d.ads && d.ads.length) {
               this.steps.step3.ad.feed = [d.ads[0]]
             } else {
-              this.showNotification('Sorry, there is currently no ad for you, please try again after 24 hours', 'error')
+              this.showNotification('Sorry, there is currently no ad for you. Watch more videos or try again after 24 hours.', 'error', 6000)
               this.cleaenModal()
             }
           })
@@ -339,7 +343,7 @@ export default {
       this.textAnimationEffect('text1', 'step4')
         .then((d) => {
           this.steps.step4.text2 = 'There will be limited ads in your feed everyday so come back everyday, watch videos and unlock more ads'
-          this.textAnimationEffect('text2', 'step4')
+          this.textAnimationEffect('text2', 'step4', 50, true)
             .then((d1) => {
               this.disableAdTutorial(true)
               this.$emit('AdTutorialTaken')
@@ -377,9 +381,10 @@ export default {
     },
     reset () {
       this.steps = adSystemInitialState()
+      this.defaultStep = 1
     },
     resetValues () {
-      this.steps.actionBtnLabel = 'Yes'
+      this.steps.actionBtnLabel = 'Next'
     },
     cleanDOM () {
       let arrowElm = document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId)
@@ -512,7 +517,7 @@ export default {
         let init = () => {
           document.getElementById(this.steps.step3.ad.tour.steps.step1.descriptionWrapId).classList.add('none')
           document.getElementById(this.steps.step3.ad.tour.steps.step1.arrowId).classList.add('none')
-          this.gimmick(5000)
+          // this.gimmick(5000)
           this.celebrate(this.steps.step3.ad.feed[0]['AdOption'].cpc, 'You made', false, 'more')
             .then(() => {
               this.celebrate(this.getTotalMoney(), ' ', 'All done !! you made total', ' through this ad', 5000)
@@ -568,13 +573,14 @@ export default {
       }
       this.steps.step3.ad.tour.steps.step1.adVideoPlayedText = 'Watch the full video'
     },
-    triggerPopup () {
+    triggerPopup (defaultStep = 1) {
       /*eslint-disable*/
       this.pauseAllOtherVideos()
       this.reset()
       this.resetValues()
       this.triggered = true
-      this.gimmick(5000)
+      this.defaultStep = defaultStep
+      // this.gimmick(5000)
       let d = document.getElementById(this.triggerButtonId)
       if (!d) {
           let interval = setInterval(()=> {
@@ -590,22 +596,26 @@ export default {
         this.enableStep(1)
       }
     },
-    textAnimationEffect (text, step = 'step1', speed_ = 50) {
+    textAnimationEffect (text, step = 'step1', speed_ = 50, enable = false) {
       return new Promise((resolve, reject) => {
-        let i = 0
-        let txt = this.steps[step][text]
-        let speed = speed_
-        this.steps[step][text] = ''
-        let main  = () => {
-          if (i < txt.length) {
-            this.steps[step][text] += txt.charAt(i)
-            i++
-            setTimeout(main, speed)
-          } else {
-            resolve(this.steps[step][text])
+        if (enable) {
+          let i = 0
+          let txt = this.steps[step][text]
+          let speed = speed_
+          this.steps[step][text] = ''
+          let main  = () => {
+            if (i < txt.length) {
+              this.steps[step][text] += txt.charAt(i)
+              i++
+              setTimeout(main, speed)
+            } else {
+              resolve(this.steps[step][text])
+            }
           }
+          main()
+        } else {
+          resolve(this.steps[step][text])
         }
-        main()
       })
     },
     closePopup () {
@@ -614,11 +624,11 @@ export default {
       if (closeBtn) {
         closeBtn.click()
       }
+      this.cleanDOM()
     },
     cleaenModal (triggered = false) {
       this.closePopup()
       let modal = document.getElementById(this.modalId)
-      this.cleanDOM()
       if (modal) {
         modal.remove()
       }

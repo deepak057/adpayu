@@ -125,7 +125,7 @@ export default {
       auth.logout()
     },
     triggerAdTutorial () {
-      this.$refs.AdPopupComp.triggerPopup()
+      this.$refs.AdPopupComp.triggerPopup(2)
     },
     showMakeMoneyOption () {
       return !this.user.adTutorialTaken
