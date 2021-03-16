@@ -1,7 +1,7 @@
 <template lang="pug">
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
-  .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true')
+  .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-labelledby='AdStatsModalLabel', aria-hidden='true' :class="{'special-modal': steps.step2.enable || steps.step1.enable}")
     .modal-dialog(:class="{'modal-lg': steps.step3.enable && steps.step3.ad.feed.length}")
       .modal-content
         .modal-header
@@ -16,7 +16,7 @@ div(v-if="triggered")
           <template v-if ="steps.step1.enable">
           <template v-if ="!steps.step1.loader">
           .text-center
-            h3.bold
+            h3.bold.m-t-30
               span(v-if="steps.step1.text1")
                 | {{steps.step1.text1}}
               span(v-if="steps.step1.text2")
@@ -33,15 +33,15 @@ div(v-if="triggered")
           </template>
           <template v-if ="steps.step2.enable">
           .text-center
-            h3.bold
+            div(v-if="steps.step2.enableImage")
+              img.w-100.fadeIn.modal-main-img(:src="staticImageUrl('money-banner-3.jpg')")
+            h3.m-t-30.bold
               | {{steps.step2.text1}}
-            .m-t-5(v-if="steps.step2.enableImage")
-              img.w-100.fadeIn(:src="staticImageUrl('ad-popup-banner-1.png')")
-            h4.m-t-15.f-w-500(v-if="steps.step2.text2")
+            p.m-t-15.f-w-500(v-if="steps.step2.text2")
               | {{steps.step2.text2}}
               span(v-html="this.showAmount(steps.step1.cashBack.FirstAd.priceUSD)" v-if="steps.step1.cashBack.FirstAd.enable")
               | {{steps.step2.text3}}
-              a.d-block.small.m-t-10(href="javascript:void(0)" title= "Lean more")
+              span.d-block.small.m-t-10(href="javascript:void(0)" title= "Lean more")
                 | {{steps.step1.totalUsers}} users have already made
                 span.m-l-5(v-html="showAmount(steps.step1.totalMoney)")
           </template>
@@ -100,10 +100,11 @@ div(v-if="triggered")
                   | Close
           </template>
         .modal-footer(v-if="!steps.step3.enable && !steps.step4.enable")
-          button.btn.btn-secondary(@click="closePopup")
-            | Remind Me Later
-          button.btn.btn-danger(type='button' @click="enableNextStep()")
+          button.btn.btn-danger.btn-md(type='button' @click="enableNextStep()")
             | {{this.steps.actionBtnLabel}}
+          .m-t-10.m-b-20
+            span.pointer.small.text-muted.underline(@click="closePopup")
+              | Remind Me Later
   <revenue-tour ref="RevenueTourComp"/>
 </template>
 <script>
@@ -140,7 +141,7 @@ function adSystemInitialState () {
     },
     step2: {
       enable: false,
-      text1: 'Watch ads in your feed and make money everyday',
+      text1: 'Watch ads and make money everyday',
       text2: '',
       text3: '',
       enableImage: false
