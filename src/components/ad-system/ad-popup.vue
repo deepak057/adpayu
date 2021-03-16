@@ -28,7 +28,7 @@ div(v-if="triggered")
           </template>
             <template v-if ="steps.step1.loader">
             .text-center
-              <preloader class="m-t-10"/>
+              <preloader class="m-t-30"/>
             </template>
           </template>
           <template v-if ="steps.step2.enable">
