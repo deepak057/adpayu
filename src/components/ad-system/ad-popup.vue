@@ -23,7 +23,7 @@ div(v-if="triggered")
               | {{steps.step1.text2}}
             .m-t-5(v-if="steps.step1.enableImage")
               img.w-100.fadeIn(:src="staticImageUrl('money-banner.jpg')")
-            h4.m-t-10.f-w-500(v-if="steps.step1.text3")
+            h4.f-w-500(:class="{'m-t-10': !isMobile(), 'm-15': isMobile()}" v-if="steps.step1.text3")
               | {{steps.step1.text3}}
           </template>
             <template v-if ="steps.step1.loader">
