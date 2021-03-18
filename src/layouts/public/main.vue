@@ -10,7 +10,7 @@ main
     // link(href='static/titan-master/assets/lib/animate.css/animate.css', rel='stylesheet')
     link(href='/static/titan-master/assets/lib/components-font-awesome/css/font-awesome.min.css', rel='stylesheet')
     link(href='/static/titan-master/assets/lib/et-line-font/et-line-font.css', rel='stylesheet')
-    // link(href='static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
+    link(href='static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.carousel.min.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/magnific-popup/dist/magnific-popup.css', rel='stylesheet')
@@ -19,7 +19,7 @@ main
     link(href='/static/titan-master/assets/css/style.min.css', rel='stylesheet')
     link(href='/static/titan-master/assets/css/custom.css', rel='stylesheet')
     // link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
-    nav.navbar.navbar-custom.navbar-fixed-top.one-page(role='navigation')
+    nav.navbar.navbar-custom.navbar-fixed-top.one-page(:class="{'navbar-transparent make-transparent': ifHomePage()}" role='navigation')
         .container
             .navbar-header
                 button.navbar-toggle(type='button', data-toggle='collapse', data-target='#custom-collapse')
@@ -55,7 +55,9 @@ main
                             | FAQs
                         </router-link>
                     li
-                        a.section-scroll(href='#contact') Contact
+                        <router-link :to="getPageURL('contact')">
+                            | Contact
+                        </router-link>
                     li(v-if="!isLoggedIn()")
                         <router-link :to="redirectURLs('login')">
                             | Login
@@ -127,11 +129,11 @@ export default {
         'static/titan-master/assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js',
         'static/titan-master/assets/lib/isotope/dist/isotope.pkgd.js',
         'static/titan-master/assets/lib/imagesloaded/imagesloaded.pkgd.js',
-        'static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
         'static/titan-master/assets/lib/owl.carousel/dist/owl.carousel.min.js',
         'static/titan-master/assets/lib/magnific-popup/dist/jquery.magnific-popup.js',
         'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
         'static/titan-master/assets/js/plugins.js', */
+        'static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
         '/static/titan-master/assets/js/main.js'
       ]
     }

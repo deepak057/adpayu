@@ -1,10 +1,10 @@
 <template lang="pug">
 div
-    .top-bar-sticker-nav(v-if="!siteIntro.enable")
+    //.top-bar-sticker-nav(v-if="!siteIntro.enable")
         .font-alt
             i.fa.fa-info-circle.faded-color
             |  People Ask Questions, Others leave Video Answers
-    section.hpv-contanier.text-center.full-height.d-table.d-table
+    //section.hpv-contanier.text-center.full-height.d-table.d-table
         <template v-if="siteIntro.enable">
         .hp-site-intro-wrap.all-caps(:class="{'fade-out': siteIntro.animationOn}")
             .font-alt.mb-30.titan-title-size-1
@@ -45,11 +45,11 @@ div
                     // i.fa.fa-info-circle.text-muted
                     |  {{slogan}}
         </template>
-    //section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
+    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
         .hpv-container
-            video.home-page-full-video(autoplay loop id="home-page-video")
+            //video.home-page-full-video(autoplay loop id="home-page-video")
                 source(src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4")
-            //.hp-overlay
+            .hp-overlay
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
@@ -61,7 +61,7 @@ div
                   | Log In
                 </router-link>
     .main
-        section#services.module.p-b-0
+        section#services.module
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -128,10 +128,155 @@ div
                             h3.features-title.font-alt Profiles and Friends
                             p
                                 | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
-                    .col-12.text-center
-                      <router-link class="btn btn-warning m-t-80" to="/signup">
-                        | Free Sign Up
-                      </router-link>
+        section.module.bg-dark.landing-reason
+          .container
+            .row
+              .col-sm-6
+                img(src='assets/images/landing/why_choose.png' alt='')
+              .col-sm-6
+                h2.module-title.font-alt.align-left Why Titan is best
+                p.module-subtitle.font-serif.align-left
+                  | A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                p
+                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                a.btn.btn-border-w.btn-round.video-pop-up(href='https://www.youtube.com/watch?v=TTxZj3DZiIM')
+                  i.icon-video
+                  |  Watch our video
+        section
+          .container
+            .row.landing-image-text
+              .col-sm-6.col-sm-push-6
+                img.center-block(src='assets/images/landing/ipad.png' alt='')
+              .col-sm-6.col-sm-pull-6
+                h2.font-alt Keep the conversation going
+                p
+                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                a.btn.btn-border-d.btn-circle(href='#') Try free version
+            .row.landing-image-text
+              .col-sm-6
+                img.center-block(src='assets/images/landing/iphone-mockup.png' alt='')
+              .col-sm-6
+                h2.font-alt How it works
+                p.font-serif
+                  | Lorem ipsum dolor sitamet consectetur adipisicing elit ullamut consequatur repellendus amet nemo dignissimos possimus eius fugiat
+                ul
+                  li Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  li
+                    | Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  li Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  li Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                a.btn.btn-border-d.btn-circle(href='#') Download App
+        section.module.bg-dark-60.pt-0.pb-0.testimonial(data-background='assets/images/testimonial_bg.jpg' style='background-image: url("assets/images/testimonial_bg.jpg");')
+          .testimonials-slider.pt-140.pb-140
+            .flex-viewport(style='overflow: hidden; position: relative; height: 247px;')
+              ul.slides(style='width: 1000%; transition-duration: 0s; transform: translate3d(-1608px, 0px, 0px);')
+                li.clone(aria-hidden='true' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Adele Snow
+                            .testimonial-descr SomeCompany INC, CEO
+                li(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Jack Woods
+                            .testimonial-descr SomeCompany INC, CEO
+                li.flex-active-slide(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Jim Stone
+                            .testimonial-descr SomeCompany INC, CEO
+                li(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Adele Snow
+                            .testimonial-descr SomeCompany INC, CEO
+                li.clone(aria-hidden='true' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Jack Woods
+                            .testimonial-descr SomeCompany INC, CEO
+            ol.flex-control-nav.flex-control-paging
+              li
+                a(href='#') 1
+              li
+                a.flex-active(href='#') 2
+              li
+                a(href='#') 3
+            ul.flex-direction-nav
+              li.flex-nav-prev
+                a.flex-prev(href='#') Previous
+              li.flex-nav-next
+                a.flex-next(href='#') Next
+
+        section.module-small.free-trial
+          .container.text-center
+            .row
+              .col-sm-8.col-sm-offset-2
+                h2.font-alt
+                  | Start your
+                  span.color-golden free 30 days trial
+                  |  now
+                p.color-light.font-15
+                  | Aliquam mattis efficitur massa vel commodo. Nam non euismod ante. Proin consequat sem quis massa rhoncus, vel convallis eros tincidunt. Ut consequat eget nulla eu ultrices.
+            div
+              <router-link class="btn btn-warning btn-circle" to="/signup">
+                | Free Sign Up
+              </router-link>
         // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
             .container
                 .row
@@ -353,7 +498,7 @@ div
                             .team-descr.font-alt
                                 .team-name Dylan Woods
                                 .team-role Developer
-        // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-3.jpg')
+        section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-3.jpg')
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -584,8 +729,21 @@ div
                                     span.input-group-btn
                                         button#subscription-form-submit.btn.btn-g.btn-round(type='submit') Submit
                             #subscription-response.text-center
-        <contact/>
-        section.text-center
+        section.module.download.pb-0
+          .container.text-center
+            h2.module-title.font-alt Why are you waiting for?
+            .row
+              .col-md-6.col-md-offset-3
+                p.module-subtitle
+                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat.
+                //a(href='#')
+                  img.image-button(src='assets/images/landing/apple-store-icon.png')
+                a(href='target="_blank" href="https://play.google.com/store/apps/details?id=com.svanq&hl=en_IN"')
+                  img.image-button.w-100-px(:src="staticImageUrl('play_store.png')")
+                //a(href='#')
+                  img.image-button(src='assets/images/landing/windows-store-icon.png')
+            img(src='/static/titan-master/assets/images/landing/landscap-mockup.jpg')
+        //section.text-center
             .module-title.font-alt
                 | Download the App
             a(target="_blank" href="https://play.google.com/store/apps/details?id=com.svanq&hl=en_IN")
@@ -662,7 +820,6 @@ div
 </template>
 <script>
 import mixin from '../../globals/mixin'
-import Contact from './contact'
 import * as constants from '@/constants'
 import Preloader from '../../components/preloader'
 import Service from './service'
@@ -677,7 +834,6 @@ export default {
     }
   },
   components: {
-    Contact,
     Preloader
   },
   mixins: [mixin],

@@ -1,5 +1,5 @@
 <template lang="pug">
-section#contact.module
+section#contact
     .container
         .row
             .col-sm-6.col-sm-offset-3

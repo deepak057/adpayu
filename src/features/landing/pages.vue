@@ -8,6 +8,7 @@
       <faqs v-if="page('faqs')"/>
       <user-base v-if="page('user-base')"/>
       <Video-answer-guidelines v-if="page('video-answer-guidelines')"/>
+      <contact v-if="page('contact')"/>
 </template>
 <script>
 import Privacy from './privacy'
@@ -15,7 +16,8 @@ import Terms from './terms'
 import Advertise from './advertise'
 import Faqs from './faqs'
 import UserBase from './user_base'
-import VideoAnswerGuidelines from './video_comment_guidelines.vue'
+import VideoAnswerGuidelines from './video_comment_guidelines'
+import Contact from './contact'
 
 export default {
   name: 'Pages',
@@ -25,7 +27,8 @@ export default {
     Advertise,
     Faqs,
     UserBase,
-    VideoAnswerGuidelines
+    VideoAnswerGuidelines,
+    Contact
   },
   methods: {
     page (page) {
