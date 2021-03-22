@@ -25,8 +25,8 @@ export default class Service {
         return new Promise((resolve, reject) => { reject(error) })
       })
   }
-  getPublicFeed (page = 1) {
-    return auth.get('/getPublicPosts?page=' + page)
+  getStats () {
+    return auth.get('/general/getStats')
       .then((response) => {
         return new Promise((resolve) => { resolve(response) })
       })

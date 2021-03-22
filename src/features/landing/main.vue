@@ -139,9 +139,9 @@ div
                   | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
                 p
                   | Additionally, you can opt to watch short sponsored videos or ads and get paid for it. So you learn and earn at the same time.
-                a.btn.btn-border-w.btn-round.video-pop-up(href='https://www.youtube.com/watch?v=TTxZj3DZiIM')
-                  i.icon-video
-                  |  Watch our video
+                a.btn.btn-border-w.btn-round.video-pop-up(target="_blank" href='https://svanq.blogspot.com/')
+                  i.icon-edit
+                  |  See our blog
         section
           .container
             .row.landing-image-text
@@ -159,7 +159,9 @@ div
                   li Use fast, efficient and speed-optimized search feature
                   li Be friends with like minded people to see their non-public content
                   li And much more.
-                a.btn.btn-border-d.btn-circle(href='#') Try free version
+                <router-link class="btn btn-border-d btn-circle" :to="redirectURLs('signup')">
+                    | Free Sign Up
+                </router-link>
             .row.landing-image-text
               .col-sm-6
                 img.center-block(src='assets/images/landing/iphone-mockup.png' alt='')
@@ -175,7 +177,9 @@ div
                     | Withdraw money to your bank, Paytm or any other accounts.
                   li Help and support in case of any disputes or money withdrawal issues
                   li And much more.
-                a.btn.btn-border-d.btn-circle(href='#') Download App
+                <router-link class="btn btn-border-d btn-circle" :to="getPageURL('faqs')">
+                  | See FAQs
+                </router-link>
         section.module.bg-dark-60.pt-0.pb-0.testimonial(data-background='assets/images/testimonial_bg.jpg' style='background-image: url("assets/images/testimonial_bg.jpg");')
           .testimonials-slider.pt-140.pb-140
             .flex-viewport(style='overflow: hidden; position: relative; height: 247px;')
@@ -278,14 +282,14 @@ div
             .row
               .col-sm-8.col-sm-offset-2
                 h2.font-alt
-                  | Start your
-                  span.color-golden free 30 days trial
-                  |  now
+                  | Ads that are
+                  span.color-golden
+                    |  never skipped
                 p.color-light.font-15
-                  | Aliquam mattis efficitur massa vel commodo. Nam non euismod ante. Proin consequat sem quis massa rhoncus, vel convallis eros tincidunt. Ut consequat eget nulla eu ultrices.
+                  | Run ads on {{siteName}} at affordable prices and make almost every one watch your full ads as people get paid for watching them.
             div
-              <router-link class="btn btn-warning btn-circle" to="/signup">
-                | Free Sign Up
+              <router-link class="btn btn-warning btn-circle" :to="getPageURL('advertise')">
+                | Learn More
               </router-link>
         // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
             .container
@@ -512,33 +516,33 @@ div
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
-                        h2.module-title.font-alt Scoreboard
+                        h2.module-title.font-alt Stats
                         .module-subtitle.font-serif
                 .row.multi-columns-row
                     .col-sm-6.col-md-3.col-lg-3
                         .count-item.mb-sm-40
                             .count-icon
+                                span.icon-profile-male
+                            h3.count-to.font-alt(:data-countto='stats.users')
+                            h5.count-title.font-serif Active users
+                    .col-sm-6.col-md-3.col-lg-3
+                        .count-item.mb-sm-40
+                            .count-icon
+                                span.icon-megaphone
+                            h3.count-to.font-alt(:data-countto='stats.adsPosted')
+                            h5.count-title.font-serif Ads created
+                    .col-sm-6.col-md-3.col-lg-3
+                        .count-item.mb-sm-40
+                            .count-icon
+                                span.icon-video
+                            h3.count-to.font-alt(:data-countto='stats.videosPosted')
+                            h5.count-title.font-serif Video answers posted
+                    .col-sm-6.col-md-3.col-lg-3
+                        .count-item.mb-sm-40
+                            .count-icon
                                 span.icon-wallet
-                            h3.count-to.font-alt(data-countto='6543')
-                            h5.count-title.font-serif Dollars raised for charity
-                    .col-sm-6.col-md-3.col-lg-3
-                        .count-item.mb-sm-40
-                            .count-icon
-                                span.icon-wine
-                            h3.count-to.font-alt(data-countto='8')
-                            h5.count-title.font-serif Cups of wine consumed
-                    .col-sm-6.col-md-3.col-lg-3
-                        .count-item.mb-sm-40
-                            .count-icon
-                                span.icon-camera
-                            h3.count-to.font-alt(data-countto='184')
-                            h5.count-title.font-serif Photographs taken
-                    .col-sm-6.col-md-3.col-lg-3
-                        .count-item.mb-sm-40
-                            .count-icon
-                                span.icon-map-pin
-                            h3.count-to.font-alt(data-countto='32')
-                            h5.count-title.font-serif Locations covered
+                            h3.count-to.font-alt(:data-countto='stats.adsPosted')
+                            h5.count-title.font-serif dollars ($) earned by users
         // section#pricing.module
             .container
                 .row
@@ -741,11 +745,11 @@ div
                             #subscription-response.text-center
         section.module.download.pb-0
           .container.text-center
-            h2.module-title.font-alt Why are you waiting for?
+            h2.module-title.font-alt Download the app
             .row
               .col-md-6.col-md-offset-3
                 p.module-subtitle
-                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat.
+                  | {{siteName}} is best when used in the app. Download the app for the best experience.
                 //a(href='#')
                   img.image-button(src='assets/images/landing/apple-store-icon.png')
                 a(href='target="_blank" href="https://play.google.com/store/apps/details?id=com.svanq&hl=en_IN"')
@@ -869,16 +873,29 @@ export default {
       videoPlayerId: 'hp-video-player',
       postsThreshold: 3,
       noMorePosts: false,
-      muted: true
+      muted: true,
+      stats: {
+        users: 0,
+        totalMoneyMadeUSD: 0,
+        adsPosted: 0,
+        videosPosted: 0
+      }
     }
   },
   mounted () {
     this.scrollToTop()
     this.siteIntroInit()
-    this.getPosts()
+    // this.getPosts()
     this.setRefCode()
+    this.getStats()
   },
   methods: {
+    getStats () {
+      this.$options.service.getStats()
+        .then((d) => {
+          this.stats = d.stats
+        })
+    },
     getPosts () {
       if (this.noMorePosts) {
         return true
