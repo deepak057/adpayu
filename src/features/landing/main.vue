@@ -128,17 +128,17 @@ div
                             h3.features-title.font-alt Profiles and Friends
                             p
                                 | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
-        section.module.bg-dark.landing-reason
+        section.module.bg-dark.landing-reason(style="background: url('/static/titan-master/assets/images/landing/why_choose_bg.png');background-size:cover")
           .container
             .row
               .col-sm-6
-                img(src='assets/images/landing/why_choose.png' alt='')
+                img(src='/static/titan-master/assets/images/section-14.png' alt='')
               .col-sm-6
-                h2.module-title.font-alt.align-left Why Titan is best
+                h2.module-title.font-alt.align-left What is {{siteName}}?
                 p.module-subtitle.font-serif.align-left
-                  | A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                  | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
                 p
-                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  | Additionally, you can opt to watch short sponsored videos or ads and get paid for it. So you learn and earn at the same time.
                 a.btn.btn-border-w.btn-round.video-pop-up(href='https://www.youtube.com/watch?v=TTxZj3DZiIM')
                   i.icon-video
                   |  Watch our video
@@ -148,23 +148,33 @@ div
               .col-sm-6.col-sm-push-6
                 img.center-block(src='assets/images/landing/ipad.png' alt='')
               .col-sm-6.col-sm-pull-6
-                h2.font-alt Keep the conversation going
-                p
-                  | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                h2.font-alt Gain KNOWLEDGE and connect
+                p.font-serif
+                  | Knowledge served through entertaining videos, coupled with social media and easy content discovery features.
+                ul
+                  li See the feed of questions and their video answers right in your dashboard.
+                  li
+                    | Customize the feed based on your interests.
+                  li Customize your profile and see other user's public profiles
+                  li Use fast, efficient and speed-optimized search feature
+                  li Be friends with like minded people to see their non-public content
+                  li And much more.
                 a.btn.btn-border-d.btn-circle(href='#') Try free version
             .row.landing-image-text
               .col-sm-6
                 img.center-block(src='assets/images/landing/iphone-mockup.png' alt='')
               .col-sm-6
-                h2.font-alt How it works
+                h2.font-alt Make Money
                 p.font-serif
-                  | Lorem ipsum dolor sitamet consectetur adipisicing elit ullamut consequatur repellendus amet nemo dignissimos possimus eius fugiat
+                  | Now get paid for spending time on social media. Your time is your money.
                 ul
-                  li Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  li See entertaining short ads in your feed and get paid for it.
+                  li Disable or enable ads anytime at your will.
+                  li Get bonuses and cashbacks on watching your first ad
                   li
-                    | Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  li Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  li Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    | Withdraw money to your bank, Paytm or any other accounts.
+                  li Help and support in case of any disputes or money withdrawal issues
+                  li And much more.
                 a.btn.btn-border-d.btn-circle(href='#') Download App
         section.module.bg-dark-60.pt-0.pb-0.testimonial(data-background='assets/images/testimonial_bg.jpg' style='background-image: url("assets/images/testimonial_bg.jpg");')
           .testimonials-slider.pt-140.pb-140
@@ -1003,6 +1013,6 @@ export default {
 </script>
 <style>
 .home-section {
-  background-image: url('/static/titan-master/assets/images/section-10.jpg') !important
+  background-image: url('/static/titan-master/assets/images/section-12.jpg') !important
 }
 </style>
