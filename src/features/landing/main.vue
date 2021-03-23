@@ -34,7 +34,7 @@ div
                 video(:muted = "muted" :id="videoPlayerId" :class="{'w-100': isMobile()}" :src="currentPost.videoPath" autoplay)
                 //.video-overlay(v-if="!isMobile()")
                 .btns-wrap(:class="{'btn-center': !isMobile(), 'm-t-40': isMobile()}")
-                    <router-link to="/signup" class="btn btn-info btn-round color-white">
+                    <router-link to="/signup" class="btn btn-info btn-round color-white btn-info-custom">
                       | Sign Up
                     </router-link>
                     <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
@@ -54,7 +54,7 @@ div
             .caption-content
                 .font-alt.mb-30.titan-title-size-1 A content network
                 .font-alt.mb-40.titan-title-size-4 {{slogan}}
-                <router-link to="/signup" class="btn btn-info btn-round color-white">
+                <router-link to="/signup" class="btn btn-info btn-round color-white btn-info custom">
                   | Sign Up
                 </router-link>
                 <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
@@ -128,27 +128,29 @@ div
                             h3.features-title.font-alt Profiles and Friends
                             p
                                 | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
-        section.module.bg-dark.landing-reason(style="background: url('/static/titan-master/assets/images/landing/why_choose_bg.png');background-size:cover")
+        section.module.bg-dark.landing-reason.custom-theme-blue
           .container
             .row
               .col-sm-6
                 img(src='/static/titan-master/assets/images/section-14.png' alt='')
               .col-sm-6
-                h2.module-title.font-alt.align-left What is {{siteName}}?
+                h2.module-title.font-alt.align-left.color-white What is {{siteName}}?
                 p.module-subtitle.font-serif.align-left
                   | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
                 p
                   | Additionally, you can opt to watch short sponsored videos or ads and get paid for it. So you learn and earn at the same time.
-                a.btn.btn-border-w.btn-round.video-pop-up(target="_blank" href='https://svanq.blogspot.com/')
+                a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" href='https://svanq.blogspot.com/')
                   i.icon-edit
                   |  See our blog
-        section
+        section.pb-140
           .container
             .row.landing-image-text
               .col-sm-6.col-sm-push-6
-                img.center-block(src='assets/images/landing/ipad.png' alt='')
+                img.center-block(src='/static/titan-master/assets/images/section-16.png' alt='')
               .col-sm-6.col-sm-pull-6
-                h2.font-alt Gain KNOWLEDGE and connect
+                h2.font-alt Gain KNOWLEDGE
+                  span.blue-text
+                    |  and connect
                 p.font-serif
                   | Knowledge served through entertaining videos, coupled with social media and easy content discovery features.
                 ul
@@ -166,7 +168,9 @@ div
               .col-sm-6
                 img.center-block(src='assets/images/landing/iphone-mockup.png' alt='')
               .col-sm-6
-                h2.font-alt Make Money
+                h2.font-alt Make
+                  span.blue-text
+                    |   Money
                 p.font-serif
                   | Now get paid for spending time on social media. Your time is your money.
                 ul
@@ -180,11 +184,60 @@ div
                 <router-link class="btn btn-border-d btn-circle" :to="getPageURL('faqs')">
                   | See FAQs
                 </router-link>
-        section.module.bg-dark-60.pt-0.pb-0.testimonial(data-background='assets/images/testimonial_bg.jpg' style='background-image: url("assets/images/testimonial_bg.jpg");')
+        section.module.bg-dark-60.pt-0.pb-0.testimonial(style='background-image: url("/static/titan-master/assets/images/testimonial_bg.jpg");')
           .testimonials-slider.pt-140.pb-140
-            .flex-viewport(style='overflow: hidden; position: relative; height: 247px;')
-              ul.slides(style='width: 1000%; transition-duration: 0s; transform: translate3d(-1608px, 0px, 0px);')
-                li.clone(aria-hidden='true' style='width: 804px; margin-right: 0px; float: left; display: block;')
+            .flex-viewport
+              ul.slides
+                li.clone(aria-hidden='true')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | This app is really great because it gives you real money by just watching short ads.
+
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Rishab Naagar
+                            .testimonial-descr Delhi
+                li(data-thumb-alt='')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | This all is so easy to use, very simple and well designed. I will recommend everyone to learn and earn money online using this website.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Nikhil Guglani
+                            .testimonial-descr Punjab
+                li.flex-active-slide(data-thumb-alt='')
+                  .container
+                    .row
+                      .col-sm-12
+                        .module-icon
+                          span.icon-quote
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        blockquote.testimonial-text.font-alt
+                          | This is a wonderful website which is easy to use and easy to understand. You get to learn and make some quick money unlike any other social media platform.
+                    .row
+                      .col-sm-4.col-sm-offset-4
+                        .testimonial-author
+                          .testimonial-caption.font-alt
+                            .testimonial-title Pooja Mishra
+                            .testimonial-descr Rajasthan
+                li(data-thumb-alt='')
                   .container
                     .row
                       .col-sm-12
@@ -200,55 +253,7 @@ div
                           .testimonial-caption.font-alt
                             .testimonial-title Adele Snow
                             .testimonial-descr SomeCompany INC, CEO
-                li(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Jack Woods
-                            .testimonial-descr SomeCompany INC, CEO
-                li.flex-active-slide(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Jim Stone
-                            .testimonial-descr SomeCompany INC, CEO
-                li(data-thumb-alt='' style='width: 804px; margin-right: 0px; float: left; display: block;')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Adele Snow
-                            .testimonial-descr SomeCompany INC, CEO
-                li.clone(aria-hidden='true' style='width: 804px; margin-right: 0px; float: left; display: block;')
+                li.clone(aria-hidden='true')
                   .container
                     .row
                       .col-sm-12
@@ -277,18 +282,18 @@ div
               li.flex-nav-next
                 a.flex-next(href='#') Next
 
-        section.module-small.free-trial
+        section.module-small.free-trial.custom
           .container.text-center
             .row
               .col-sm-8.col-sm-offset-2
                 h2.font-alt
                   | Ads that are
-                  span.color-golden
+                  span
                     |  never skipped
                 p.color-light.font-15
                   | Run ads on {{siteName}} at affordable prices and make almost every one watch your full ads as people get paid for watching them.
             div
-              <router-link class="btn btn-warning btn-circle" :to="getPageURL('advertise')">
+              <router-link class="btn btn-border-w highlighted-button blue-text font-bold btn-circle" :to="getPageURL('advertise')">
                 | Learn More
               </router-link>
         // section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-6.jpg')
