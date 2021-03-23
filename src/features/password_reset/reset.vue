@@ -31,7 +31,7 @@
               small.form-control-feedback(v-show="confirmPasswordError")
                 | {{confirmPasswordError}}
             .form-group
-              button.btn.btn-round.btn-info Reset Password
+              button.btn.btn-round.btn-info.custom Reset Password
               span.preloader-next-to-buttton(v-if="btnLoader")
                 <preloader />
             .form-group

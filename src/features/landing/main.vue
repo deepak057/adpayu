@@ -45,7 +45,7 @@ div
                     // i.fa.fa-info-circle.text-muted
                     |  {{slogan}}
         </template>
-    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient
+    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient(:style="getTheImage('user-images-collage.jpg')")
         .hpv-container
             //video.home-page-full-video(autoplay loop id="home-page-video")
                 source(src="https://d22tzv0y5oufao.cloudfront.net/480/1vo6164k8183qq428957.mp4")
@@ -57,7 +57,7 @@ div
                 <router-link to="/signup" class="btn btn-info btn-round color-white btn-info custom">
                   | Sign Up
                 </router-link>
-                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button m-l-10">
+                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button font-bold blue-text m-l-10">
                   | Log In
                 </router-link>
     .main
@@ -128,11 +128,11 @@ div
                             h3.features-title.font-alt Profiles and Friends
                             p
                                 | Maintain your profile and request or accept friendship with others. You can choose to share content privately only with your friends.
-        section.module.bg-dark.landing-reason.custom-theme-blue
+        section.module.bg-dark.landing-reason(:style="getTheImage('app-intro-background.png')")
           .container
             .row
               .col-sm-6
-                img(src='/static/titan-master/assets/images/section-14.png' alt='')
+                img(:src="getTheImage('app-preview-tab-mobile.png', false)" alt='App preview in mobile and tab')
               .col-sm-6
                 h2.module-title.font-alt.align-left.color-white What is {{siteName}}?
                 p.module-subtitle.font-serif.align-left
@@ -146,7 +146,7 @@ div
           .container
             .row.landing-image-text
               .col-sm-6.col-sm-push-6
-                img.center-block(src='/static/titan-master/assets/images/section-16.png' alt='')
+                img.center-block(:src="getTheImage('app-dashboard-preview.png', false)" alt='App dashboard preview')
               .col-sm-6.col-sm-pull-6
                 h2.font-alt Gain KNOWLEDGE
                   span.blue-text
@@ -184,11 +184,11 @@ div
                 <router-link class="btn btn-border-d btn-circle" :to="getPageURL('faqs')">
                   | See FAQs
                 </router-link>
-        section.module.bg-dark-60.pt-0.pb-0.testimonial(style='background-image: url("/static/titan-master/assets/images/testimonial_bg.jpg");')
+        section.module.bg-dark-60.pt-0.pb-0.testimonial(:style="getTheImage('testimonial-background.png', true, true)")
           .testimonials-slider.pt-140.pb-140
             .flex-viewport
               ul.slides
-                li.clone(aria-hidden='true')
+                li.clone(aria-hidden='true' v-for="t in testimonials")
                   .container
                     .row
                       .col-sm-12
@@ -197,78 +197,14 @@ div
                     .row
                       .col-sm-8.col-sm-offset-2
                         blockquote.testimonial-text.font-alt
-                          | This app is really great because it gives you real money by just watching short ads.
+                          | {{t.text}}
 
                     .row
                       .col-sm-4.col-sm-offset-4
                         .testimonial-author
                           .testimonial-caption.font-alt
-                            .testimonial-title Rishab Naagar
-                            .testimonial-descr Delhi
-                li(data-thumb-alt='')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | This all is so easy to use, very simple and well designed. I will recommend everyone to learn and earn money online using this website.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Nikhil Guglani
-                            .testimonial-descr Punjab
-                li.flex-active-slide(data-thumb-alt='')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | This is a wonderful website which is easy to use and easy to understand. You get to learn and make some quick money unlike any other social media platform.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Pooja Mishra
-                            .testimonial-descr Rajasthan
-                li(data-thumb-alt='')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Adele Snow
-                            .testimonial-descr SomeCompany INC, CEO
-                li.clone(aria-hidden='true')
-                  .container
-                    .row
-                      .col-sm-12
-                        .module-icon
-                          span.icon-quote
-                    .row
-                      .col-sm-8.col-sm-offset-2
-                        blockquote.testimonial-text.font-alt
-                          | I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
-                    .row
-                      .col-sm-4.col-sm-offset-4
-                        .testimonial-author
-                          .testimonial-caption.font-alt
-                            .testimonial-title Jack Woods
-                            .testimonial-descr SomeCompany INC, CEO
+                            .testimonial-title {{t.title}}
+                            .testimonial-descr {{t.subTitle}}
             ol.flex-control-nav.flex-control-paging
               li
                 a(href='#') 1
@@ -282,7 +218,7 @@ div
               li.flex-nav-next
                 a.flex-next(href='#') Next
 
-        section.module-small.free-trial.custom
+        section.module-small.free-trial.custom(:style="getTheImage('app-intro-background.png')")
           .container.text-center
             .row
               .col-sm-8.col-sm-offset-2
@@ -517,7 +453,7 @@ div
                             .team-descr.font-alt
                                 .team-name Dylan Woods
                                 .team-role Developer
-        section.module.bg-dark-60(data-background='static/titan-master/assets/images/section-3.jpg')
+        section.module.bg-dark-60(:style="getTheImage('stats-background.png', true, true)")
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -750,7 +686,9 @@ div
                             #subscription-response.text-center
         section.module.download.pb-0
           .container.text-center
-            h2.module-title.font-alt Download the app
+            h2.module-title.font-alt Download
+              span.blue-text
+                |  the app
             .row
               .col-md-6.col-md-offset-3
                 p.module-subtitle
@@ -758,10 +696,10 @@ div
                 //a(href='#')
                   img.image-button(src='assets/images/landing/apple-store-icon.png')
                 a(href='target="_blank" href="https://play.google.com/store/apps/details?id=com.svanq&hl=en_IN"')
-                  img.image-button.w-100-px(:src="staticImageUrl('play_store.png')")
+                  img.image-button.w-100-px.mb-40(:src="staticImageUrl('play_store.png')")
                 //a(href='#')
                   img.image-button(src='assets/images/landing/windows-store-icon.png')
-            img(src='/static/titan-master/assets/images/landing/landscap-mockup.jpg')
+            img(:src="getTheImage('app-download-banner.png', false)" alt="Download the app banner")
         //section.text-center
             .module-title.font-alt
                 | Download the App
@@ -884,7 +822,39 @@ export default {
         totalMoneyMadeUSD: 0,
         adsPosted: 0,
         videosPosted: 0
-      }
+      },
+      testimonials: [
+        {
+          text: 'This app is really great because it gives you real money by just watching short ads.',
+          title: 'Rishab Naagar',
+          subTitle: 'Delhi'
+        }, {
+          text: 'This all is so easy to use, very simple and well designed. I will recommend everyone to learn and earn money online using this website.',
+          title: 'Nikhil Guglani',
+          subTitle: 'Punjab'
+        }, {
+          text: 'This is a wonderful website which is easy to use and easy to understand. You get to learn and make some quick money unlike any other social media platform.',
+          title: 'Pooja Mishra',
+          subTitle: 'Rajasthan'
+        }, {
+          text: 'To be honest this website is really good.',
+          title: 'Amitabh Goswami',
+          subTitle: 'Gujrat'
+        }, {
+          text: 'This website is the best of the best because it really paid me money for watching ads. trust me you won\'t regret after using this website.',
+          title: 'Ankita Chitlangia',
+          subTitle: 'Maharashtra'
+        }, {
+          text: 'An excellent and awesome program. Very easy to use and great videos.',
+          title: 'Pun Lary',
+          subTitle: 'Assam'
+        }, {
+          text: 'This app is very useful and made my life better.',
+          title: 'Mansi Saxena',
+          subTitle: 'Karnataka'
+        }
+
+      ]
     }
   },
   mounted () {
@@ -895,6 +865,9 @@ export default {
     this.getStats()
   },
   methods: {
+    getTheImage (img, style = true, image = false, folder = 'landing') {
+      return !style ? this.publicThemeImg(img, folder) : 'background' + (image ? '-image' : '') + ':url("' + this.publicThemeImg(img, folder) + '")'
+    },
     getStats () {
       this.$options.service.getStats()
         .then((d) => {
@@ -1033,8 +1006,3 @@ export default {
   }
 }
 </script>
-<style>
-.home-section {
-  background-image: url('/static/titan-master/assets/images/section-12.jpg') !important
-}
-</style>

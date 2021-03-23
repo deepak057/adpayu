@@ -38,7 +38,7 @@
                   | Video answer is basically a short video clip made in response to a given question asked on the platform. So, say there can be a question, such as "Show us your Pet?" and people can make a very small video clip (ideally 10-15 seconds) and post it as a response to that question. After you post it, a site moderator will review the video and upon their approval, you will get 10 INR added to your {{siteName}} account. If they reject it, you will not be paid for that video. You get notified about the status of the video via an on-site notification and an email.
                   br
                   br
-                  <router-link :class="pointer" :to="getPageURL('video-answer-guidelines')">
+                  <router-link class="pointer" :to="getPageURL('video-answer-guidelines')">
                     | See Guidelines for video answers
                   </router-link>
             .panel.panel-default

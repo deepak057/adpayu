@@ -18,7 +18,7 @@ section#contact
                         small.form-control-feedback(v-show="messageError")
                           | {{messageError}}
                     .text-center
-                        button#cfsubmit.btn.btn-block.btn-round.btn-info(type='submit') {{btnText}}
+                        button#cfsubmit.btn.btn-block.btn-round.btn-info.custom(type='submit') {{btnText}}
                 #contactFormResponse.ajax-response.font-alt
         .row
             .col-sm-6.col-sm-offset-3

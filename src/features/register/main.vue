@@ -42,7 +42,7 @@
                small.form-control-feedback.block.m-t-10(v-show="termsError.length")
                  | {{termsError}}
             .form-group
-              button.btn.btn-round.btn-info(:class="{'disabled': loader}" :disabled="loader" @click="signup") Sign Up
+              button.btn.btn-round.btn-info.custom(:class="{'disabled': loader}" :disabled="loader" @click="signup") Sign Up
               <preloader class="m-l-10 h-15" v-if="loader"/>
             .form-group
               | Already have an account?

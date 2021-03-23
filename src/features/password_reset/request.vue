@@ -17,7 +17,7 @@
               small.form-control-feedback(v-show="emailError")
                 | {{emailError}}
             .form-group
-              button.btn.btn-round.btn-info {{btnText}}
+              button.btn.btn-round.btn-info.custom {{btnText}}
               span.preloader-next-to-buttton(v-if="loader")
                 <preloader />
             .form-group

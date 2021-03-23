@@ -14,7 +14,7 @@
             .form-group
               input.form-control(required='', placeholder='Password*', type='password', v-model="credentials.password")
             .form-group
-              button.btn.btn-round.btn-info(@click="login") Login
+              button.btn.btn-round.btn-info.custom(@click="login") Login
             .form-group
               <router-link to="/passwordReset">
                 | Forgot Password?

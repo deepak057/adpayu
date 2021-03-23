@@ -31,8 +31,9 @@
     h4.m-l-10.all-caps Payment for Video Answers
     p
       | To know more about how you will get paid, please
-      a(href="/#contact")
+      <router-link :to="getPageURL('contact')" >
         |  contact us
+      </router-link>
       | . We will be very happy to appreciate your efforts, creativity and value that you put in your content.
     h4.m-l-10.all-caps Reasons your video answer could be deleted or be unpaid
     ol

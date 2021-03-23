@@ -33,12 +33,14 @@ main
             #custom-collapse.collapse.navbar-collapse
                 ul.nav.navbar-nav.navbar-right
                     li
-                        a.section-scroll(href='#home' :class="{'active': ifHomePage()}") Home
+                        <router-link to="/" exact>
+                            | Home
+                        </router-link>
                     // li
                         a.section-scroll(href='#services') Services
                     // li
                         a.section-scroll(href='#works') Works
-                    li
+                    // li
                         a.section-scroll(href='#services') About
                     // li
                         a.section-scroll(href='#team') Team

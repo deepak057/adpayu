@@ -487,7 +487,10 @@ export default {
     loadGoogleMapScript () {
       this.loadScript('https://maps.googleapis.com/maps/api/js?key=' + constants.GOOGLE_MAP_KEY + '&callback=initMap')
     },
-    staticImageUrl (img) {
+    publicThemeImg (img, folder = false) {
+      return '/static/titan-master/assets/images/' + (folder ? folder + '/' : '') + img
+    },
+    staticImageUrl (img, theme = false) {
       return '/static/images/' + img
     },
     getAsset(path) {
