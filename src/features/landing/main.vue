@@ -214,7 +214,7 @@ div
                         .count-item.mb-sm-40
                             .count-icon
                                 span.icon-wallet
-                            h3.count-to.font-alt(:data-countto='stats.adsPosted')
+                            h3.count-to.font-alt(:data-countto='stats.totalMoneyMadeUSD')
                             h5.count-title.font-serif dollars ($) earned by users
         section.module.download.pb-0
           .container.text-center
