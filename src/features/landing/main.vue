@@ -166,7 +166,7 @@ div
                 </router-link>
             .row.landing-image-text
               .col-sm-6
-                img.center-block(src='assets/images/landing/iphone-mockup.png' alt='')
+                img.center-block(:src="getTheImage('app-ad-preview.png', false)" alt="App ad preview")
               .col-sm-6
                 h2.font-alt Make
                   span.blue-text
