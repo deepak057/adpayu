@@ -7,7 +7,6 @@ export default {
   data () {
     return {
       siteName: constants.SITE_NAME,
-      mode: constants.ENV,
       defaultCurrency: 'USD',
       constants: {
         sideBarElementsIDs: {
@@ -45,7 +44,7 @@ export default {
   },
   methods: {
     isProductionMode () {
-      return this.mode === 'production'
+      return constants.ENV === 'production'
     },
     getStaticFile (fileName) {
       return fileName + (this.isProductionMode() ? '.min' : '')
