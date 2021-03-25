@@ -49,6 +49,9 @@ export default {
     getStaticFile (fileName) {
       return fileName + (this.isProductionMode() ? '.min' : '')
     },
+    getTheImage (img, style = true, image = false, folder = 'landing') {
+      return !style ? this.publicThemeImg(img, folder) : 'background' + (image ? '-image' : '') + ':url("' + this.publicThemeImg(img, folder) + '")'
+    },
     highlightNavTriggerer () {
       let elem = this.getActiveNavtriggerer()
       if (elem) {

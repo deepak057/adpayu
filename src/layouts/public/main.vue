@@ -10,7 +10,7 @@ main
     // link(href='static/titan-master/assets/lib/animate.css/animate.css', rel='stylesheet')
     link(href='/static/titan-master/assets/lib/components-font-awesome/css/font-awesome.min.css', rel='stylesheet')
     link(href='/static/titan-master/assets/lib/et-line-font/et-line-font.css', rel='stylesheet')
-    link(href='static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
+    link(href='/static/titan-master/assets/lib/flexslider/flexslider.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.carousel.min.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css', rel='stylesheet')
     // link(href='static/titan-master/assets/lib/magnific-popup/dist/magnific-popup.css', rel='stylesheet')
@@ -135,7 +135,7 @@ export default {
         'static/titan-master/assets/lib/magnific-popup/dist/jquery.magnific-popup.js',
         'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
         'static/titan-master/assets/js/plugins.js', */
-        'static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
+        '/static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
         '/static/titan-master/assets/js/' + this.getStaticFile('main') + '.js'
       ]
     }
