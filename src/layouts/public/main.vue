@@ -133,10 +133,10 @@ export default {
         'static/titan-master/assets/lib/imagesloaded/imagesloaded.pkgd.js',
         'static/titan-master/assets/lib/owl.carousel/dist/owl.carousel.min.js',
         'static/titan-master/assets/lib/magnific-popup/dist/jquery.magnific-popup.js',
-        'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js', */
-        'static/titan-master/assets/js/plugins.js',
+        'static/titan-master/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js',
+        'static/titan-master/assets/js/plugins.js', */
         'static/titan-master/assets/lib/flexslider/jquery.flexslider.js',
-        '/static/titan-master/assets/js/main.js'
+        '/static/titan-master/assets/js/' + this.getStaticFile('main') + '.js'
       ]
     }
   },

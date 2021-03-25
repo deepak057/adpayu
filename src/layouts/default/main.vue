@@ -49,7 +49,7 @@ export default {
         'static/assets/plugins/sparkline/jquery.sparkline.min.js',
         'static/assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js', */
         '/static/material/js/all-plugins-compressed.js',
-        '/static/material/js/custom.js'
+        '/static/material/js/' + this.getStaticFile('custom') + '.js'
       ]
     }
   },

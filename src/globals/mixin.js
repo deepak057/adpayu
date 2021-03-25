@@ -7,6 +7,7 @@ export default {
   data () {
     return {
       siteName: constants.SITE_NAME,
+      mode: constants.ENV,
       defaultCurrency: 'USD',
       constants: {
         sideBarElementsIDs: {
@@ -43,6 +44,12 @@ export default {
     this.toHome()
   },
   methods: {
+    isProductionMode () {
+      return this.mode === 'production'
+    },
+    getStaticFile (fileName) {
+      return fileName + (this.isProductionMode() ? '.min' : '')
+    },
     highlightNavTriggerer () {
       let elem = this.getActiveNavtriggerer()
       if (elem) {

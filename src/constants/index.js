@@ -4,7 +4,7 @@ export const DEBUG = false
 let SiteName = process.env.SITE_NAME || 'Svanq'
 export const SITE_NAME = SiteName
 export const SITE_SLOGAN = process.env.SITE_SLOGAN
-
+export const ENV = process.env.NODE_ENV
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL
 export const CONTACT_NUMBER = process.env.CONTACT_NUMBER
 export const CONTACT_NUMBER_2 = process.env.CONTACT_NUMBER_2
