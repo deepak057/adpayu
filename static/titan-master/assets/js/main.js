@@ -314,9 +314,13 @@
          ** reinitializes the testimonial flexslider
          /* ---------------------------------------------- */
 
-
+        setupTestimonials()
 
         $(window).scroll(function (e){
+            setupTestimonials()
+        })
+        
+        function setupTestimonials () {
             if ($('.testimonials-slider').length > 0 ) {
                 let alreadyExists = $('.testimonials-slider').data('flexslider');
                 if (!alreadyExists) {
@@ -327,8 +331,8 @@
                     setupStatsCounter()  
                 }
             }
-        })
-        
+        }
+
         /* ---------------------------------------------- /*
          * Funfact Count-up
          /* ---------------------------------------------- */

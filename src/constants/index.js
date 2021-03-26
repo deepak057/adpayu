@@ -11,6 +11,12 @@ export const CONTACT_NUMBER_2 = process.env.CONTACT_NUMBER_2
 export const GOOGLE_MAP_KEY = process.env.GOOGLE_MAP_KEY
 export const PAYMENT_MODE = process.env.PAYMENT_MODE
 
+// Social media URLs
+export const SM_FB_URL = process.env.SM_FB_URL
+export const SM_YOUTUBE_URL = process.env.SM_YOUTUBE_URL
+export const SM_TWITTER_URL = process.env.SM_TWITTER_URL
+export const SM_INSTAGRAM_URL = process.env.SM_INSTAGRAM_URL
+
 // Backend API endpoints
 export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000/v1'
 export const REFRESH_TOKEN_URL = process.env.REFRESH_TOKEN_URL || '/auth'

@@ -19,7 +19,7 @@ main
     link(href='/static/titan-master/assets/css/style.min.css', rel='stylesheet')
     link(href='/static/titan-master/assets/css/custom.css', rel='stylesheet')
     // link#color-scheme(href='static/titan-master/assets/css/colors/default.css', rel='stylesheet')
-    nav.navbar.navbar-custom.navbar-fixed-top.one-page(:class="{'navbar-transparent make-transparent': ifHomePage()}" role='navigation')
+    nav.navbar.navbar-custom.custom.navbar-fixed-top.one-page(:class="{'navbar-transparent make-transparent': ifHomePage()}" role='navigation')
         .container
             .navbar-header
                 button.navbar-toggle(type='button', data-toggle='collapse', data-target='#custom-collapse')

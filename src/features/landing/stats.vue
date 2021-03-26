@@ -1,6 +1,6 @@
 <template lang="pug">
 div.stats-page-wrap
-  section.module.bg-dark-60.about-page-header(data-background='/static/titan-master/assets/images/about_bg.jpg' style='background-image: url("assets/images/about_bg.jpg");')
+  section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('stats-and-testimonial.png')")
     .container
       .row
         .col-sm-6.col-sm-offset-3
@@ -9,11 +9,13 @@ div.stats-page-wrap
             | See a brief overview of stats and what people have to say about {{siteName}}.
   <stats-overview :background="false"/>
   <testimonial />
+  <social-media :moduleSmall="true"/>
 </template>
 <script>
 import mixin from '../../globals/mixin'
 import Testimonial from './components/testimonial'
 import StatsOverview from './components/stats-overview'
+import SocialMedia from './components/social-media'
 
 export default {
   name: 'Stats',
@@ -24,7 +26,8 @@ export default {
   },
   components: {
     Testimonial,
-    StatsOverview
+    StatsOverview,
+    SocialMedia
   },
   mixins: [mixin],
   data () {

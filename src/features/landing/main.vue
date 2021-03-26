@@ -14,7 +14,7 @@ div
                   | Log In
                 </router-link>
     .main
-        section#services.module
+        section#services.module.custom
             .container
                 .row
                     .col-sm-6.col-sm-offset-3
@@ -153,6 +153,7 @@ div
                 | Learn More
               </router-link>
         <stats-overview />
+        <social-media :specialSection="true"/>
         section.module.download.pb-0
           .container.text-center
             h2.module-title.font-alt Download
@@ -178,6 +179,7 @@ import Preloader from '../../components/preloader'
 import auth from '@/auth/helpers'
 import Testimonial from './components/testimonial'
 import StatsOverview from './components/stats-overview'
+import SocialMedia from './components/social-media'
 
 export default {
   name: 'Landing',
@@ -189,7 +191,8 @@ export default {
   components: {
     Preloader,
     Testimonial,
-    StatsOverview
+    StatsOverview,
+    SocialMedia
   },
   mixins: [mixin],
   data () {
@@ -200,7 +203,6 @@ export default {
   mounted () {
     this.scrollToTop()
     this.setRefCode()
-    this.getStats()
   },
   methods: {
     setRefCode () {

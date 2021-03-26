@@ -41,9 +41,10 @@ div(v-if="triggered")
               | {{steps.step2.text2}}
               span(v-html="this.showAmount(steps.step1.cashBack.FirstAd.priceUSD)" v-if="steps.step1.cashBack.FirstAd.enable")
               | {{steps.step2.text3}}
-              span.d-block.small.m-t-10(href="javascript:void(0)" title= "Lean more")
-                | {{steps.step1.totalUsers}} users have already made
-                span.m-l-5(v-html="showAmount(steps.step1.totalMoney)")
+              a(:href ="getPageURL('stats')" target="_blank" class="underline")
+                span.d-block.small.m-t-10(href="javascript:void(0)" title= "Lean more")
+                  | {{steps.step1.totalUsers}} users have already made
+                  span.m-l-5(v-html="showAmount(steps.step1.totalMoney)")
           </template>
           .celebration-wrap(:class="{'fade-out': steps.celebration.fadeOut}" v-if="steps.celebration.enable")
             .text-wrap.text-center
