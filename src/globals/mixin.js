@@ -288,6 +288,22 @@ export default {
     roundToDecimalPlaces (number) {
       return Math.round(number * 100) / 100
     },
+    handleMobileBackButton () {
+      if (this.isAnyModalOpen()) {
+        this.closeAllModals()
+        return false
+      } else if (this.isSidebarOpen) {
+        this.toggleSideBar()
+        return false
+      }
+      return true
+    },
+    isAnyModalOpen () {
+      // A hacky way that uses jQuery directly to
+      /* eslint-disable */
+      return $('.modal.in').length > 0
+      /* eslint-enable */
+    },
     closeAllModals () {
       // A hacky way that uses jQuery directly to
       // close all the Bootstrap modals

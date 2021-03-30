@@ -58,6 +58,7 @@ export default {
   },
   mounted () {
     this.loadScripts()
+    document.addEventListener('backbutton', this.handleMobileBackButton)
     // updateUser()
   },
   methods: {
