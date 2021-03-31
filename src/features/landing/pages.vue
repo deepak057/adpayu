@@ -11,6 +11,7 @@
       <contact v-if="page('contact')"/>
   <template v-if="specialPage()">
   <stats v-if="page('stats')"/>
+  <about v-if="page('about')"/>
   </template>
 </template>
 <script>
@@ -22,6 +23,7 @@ import UserBase from './user_base'
 import VideoAnswerGuidelines from './video_comment_guidelines'
 import Contact from './contact'
 import Stats from './stats'
+import About from './about'
 
 export default {
   name: 'Pages',
@@ -33,11 +35,12 @@ export default {
     UserBase,
     VideoAnswerGuidelines,
     Contact,
-    Stats
+    Stats,
+    About
   },
   data () {
     return {
-      specialPages: ['stats']
+      specialPages: ['stats', 'about']
     }
   },
   methods: {

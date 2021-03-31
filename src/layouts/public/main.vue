@@ -36,23 +36,15 @@ main
                         <router-link to="/" exact>
                             | Home
                         </router-link>
-                    // li
-                        a.section-scroll(href='#services') Services
-                    // li
-                        a.section-scroll(href='#works') Works
-                    // li
-                        a.section-scroll(href='#services') About
-                    // li
-                        a.section-scroll(href='#team') Team
-                    // li
-                        a.section-scroll(href='#pricing') Prices
-                    // li
-                        a.section-scroll(href='#news') News
+                    li
+                      <router-link :to="getPageURL('about')">
+                          | About
+                      </router-link>
                     li
                         <router-link :to="getPageURL('advertise')">
                             | Advertise
                         </router-link>
-                    li
+                    // li
                         <router-link :to="getPageURL('faqs')">
                             | FAQs
                         </router-link>

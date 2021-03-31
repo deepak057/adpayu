@@ -29,7 +29,7 @@ section.module(:class="{'bg-dark-60': background}" :style="background? getTheIma
                     .count-icon
                         span.icon-wallet
                     h3.count-to.font-alt(:data-countto='stats.totalMoneyMadeUSD')
-                    h5.count-title.font-serif dollars ($) earned by users
+                    h5.count-title.font-serif Dollars ($) earned by users
 </template>
 <script>
 import Service from '../service'
