@@ -8,8 +8,8 @@
   .row
     .col-12.p-0
       .card
-        .card-body.comment-response-container.hide-hr(:class="{'p-ab-5': isMobile(), 'min-h-400': pageLoading}")
-          .m-t-20.text-center(v-show="pageLoading")
+        .card-body.comment-response-container.hide-hr(v-if="!showError()" :class="{'p-ab-5': isMobile(), 'min-h-400': pageLoading}")
+          .m-t-20.text-center(v-if="pageLoading")
             <preloader></preloader>
           <template v-if="!pageLoading">
           h3.response-head-title
@@ -23,10 +23,14 @@
             </router-link>
           <single-comment :comment="comment" :videoWrapCol="6" @deleteComment="deleteComment" :commentType="commentType"/>
           </template>
+        <template v-if="showError()">
+        <page-404 :errDes="commentNotFoundError"/>
+        </template>
 </template>
 <script>
 import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
+import Page404 from './../../components/404'
 import mixin from '../../globals/mixin.js'
 import PageTitle from './../../components/page-title'
 import SingleComment from '../../components/feed/single-comment'
@@ -43,7 +47,8 @@ export default {
   components: {
     Preloader,
     PageTitle,
-    SingleComment
+    SingleComment,
+    Page404
   },
   mixins: [mixin, commentMixin],
   data () {
@@ -53,7 +58,8 @@ export default {
       comment: {},
       post: {},
       commentUser: {},
-      breadcrumbSubHead: 'Response'
+      breadcrumbSubHead: 'Response',
+      commentNotFoundError: 'Sorry, this video answer doesn\'t exist or has been deleted.'
     }
   },
   computed: {
@@ -80,7 +86,8 @@ export default {
           this.breadcrumbSubHead = this.getCommentType()
         })
         .catch((cErr) => {
-          this.showNotification('Something went wrong while getting the comment.', 'error')
+          this.pageLoading = false
+          this.showNotification(this.commentNotFoundError, 'error')
           throw new Error('Soemthing went wrong')
         })
     } catch (e) {
@@ -88,6 +95,12 @@ export default {
     }
   },
   methods: {
+    redirectToPost () {
+      router.push(this.getPostLink(this.post.id))
+    },
+    showError () {
+      return this.isEmptyObject(this.comment) && !this.pageLoading
+    },
     deleteComment () {
       if (confirm('Are you sure you want to delete it?')) {
         this.showNotification('Deleting...', 'warn')
@@ -95,7 +108,7 @@ export default {
           .then((d) => {
             if (d.success) {
               this.showNotification('Deleted successfully.', 'success')
-              router.push(this.getPostLink(this.post.id))
+              this.redirectToPost()
             } else {
               this.showNotification(d.error, 'error')
             }
