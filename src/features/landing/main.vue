@@ -5,8 +5,8 @@ div
             .hp-overlay
         .titan-caption
             .caption-content
-                .font-alt.mb-30.titan-title-size-1 A content network
-                .font-alt.mb-40.titan-title-size-4 {{slogan}}
+                .font-alt.mb-30.titan-title-size-4.main-banner-title-custom {{slogan}}
+                .font-alt.mb-50.titan-title-size-2 Learn and earn at the same time
                 <router-link to="/signup" class="btn btn-info btn-round color-white btn-info custom">
                   | Sign Up
                 </router-link>
@@ -14,19 +14,48 @@ div
                   | Log In
                 </router-link>
     .main
-        section.module
-          h2.module-title.font-alt
-            | How we
-            span.blue-text
-              |  help you?
-          .module-subtitle.font-serif.large-text
-            | Watch short entertaining videos and learn new things.
-            br
-            | And also make money at the same time.
-            br
-            <router-link class="mt-20 btn btn-border-d btn-circle" :to="getPageURL('about')">
-              | Learn More
-            </router-link>
+        section.pb-140.pt-50
+          .container
+              h1.font-alt.text-center
+                | How we
+                span.blue-text
+                  |  help you?
+              .row.landing-image-text
+                .col-sm-6.col-sm-push-6
+                  h2.font-alt Watch
+                    span.blue-text
+                      |  Videos
+                  p.module-subtitle.font-serif.align-left
+                    | Watch short entertaining videos and learn new things. We love videos at Svanq and we know you do too! So make videos and share your opinion on the videos.
+                  <router-link class="btn btn-border-d btn-circle" :to="getPageURL('about')">
+                      | Learn More
+                  </router-link>
+                .col-sm-6.col-sm-pull-6
+                  img.center-block(:src="getTheImage('app-dashboard-preview.png', false)" alt='App dashboard preview')
+              .row.landing-image-text
+                .col-sm-6
+                  h2.font-alt Make
+                    span.blue-text
+                      |   Money
+                  p.module-subtitle.font-serif.align-left
+                    | Watch entertaining videos and earn money. {{siteName}} allows you to make money with videos. Our video inventory refreshes daily. Find more ways to make even more money.
+                  <router-link class="btn btn-border-d btn-circle" :to="getPageURL('faqs')">
+                    | See FAQs
+                  </router-link>
+                .col-sm-6
+                  img.center-block(:src="getTheImage('app-ad-preview.png', false)" alt="App ad preview")
+        section.module.bg-dark.landing-reason(:style="getTheImage('app-intro-background.png')")
+          .container
+            .row
+              .col-sm-6
+                img(:src="getTheImage('app-preview-tab-mobile.png', false)" alt='App preview in mobile and tab')
+              .col-sm-6
+                h2.module-title.font-alt.align-left.color-white.font-bold We just paid
+                p.module-subtitle.font-serif.align-left
+                  | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
+                a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" href='https://svanq.blogspot.com/')
+                  i.icon-edit
+                  |  See our blog
         <testimonial />
         <stats-overview />
         <social-media :specialSection="true"/>
