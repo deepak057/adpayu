@@ -14,7 +14,7 @@ div
                   | Log In
                 </router-link>
     .main
-        section.pb-140.pt-50
+        section.pb-140.pt-50(:style="getTheImage('main-white-background.png')")
           .container
               h1.font-alt.text-center
                 | How we
@@ -31,7 +31,7 @@ div
                       | Learn More
                   </router-link>
                 .col-sm-6.col-sm-pull-6
-                  img.center-block(:src="getTheImage('app-dashboard-preview.png', false)" alt='App dashboard preview')
+                  img.center-block(:class="{'mt-20': isMobile()}" :src="getTheImage('app-benefits-watch-videos.png', false)" alt='App Benefits, Watch Videos')
               .row.landing-image-text
                 .col-sm-6
                   h2.font-alt Make
@@ -43,20 +43,55 @@ div
                     | See FAQs
                   </router-link>
                 .col-sm-6
-                  img.center-block(:src="getTheImage('app-ad-preview.png', false)" alt="App ad preview")
-        section.module.bg-dark.landing-reason(:style="getTheImage('app-intro-background.png')")
+                  img.center-block(:src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")
+        section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.png')")
           .container
-            .row
+            .row(:class="{'change-direction-row': isMobile()}")
+              .col-sm-6(:class="{'mt-20': isMobile()}")
+                .div
+                  .col-md-12.col-sm-12
+                    .row
+                      #myCarousel.carousel.slide.vertical.paid-users-carousel
+                        // Carousel items
+                        .carousel-inner
+                          .item.active
+                            .row.paid-user-row
+                              .col-md-2.col-sm-2.col-xs-2
+                                | Text 1
+                              .col-md-10.col-sm-10.col-xs-10
+                                h3
+                                  | User Name
+                                h3.font-bold.blue-text
+                                  | $34
+                            .row.paid-user-row
+                              .col-md-2.col-sm-2.col-xs-2
+                                | Text 1
+                              .col-md-10.col-sm-10.col-xs-10
+                                h3
+                                  | Xorane Shah
+                                h3.font-bold.blue-text
+                                  | $22
+                            .row.paid-user-row
+                              .col-md-2.col-sm-2.col-xs-2
+                                | Text 1
+                              .col-md-10.col-sm-10.col-xs-10
+                                h3
+                                  | Jiya Khan
+                                h3.font-bold.blue-text
+                                  | $49
+                          .item
+                            img(src="//placehold.it/800x400/dd4444/fff")
+                          .item
+                            img(src="//placehold.it/800x400/777")
+                        // Carousel nav
+                        a.carousel-control.left(href='#myCarousel' data-slide='prev') ‹
+                        a.carousel-control.right(href='#myCarousel' data-slide='next') ›
               .col-sm-6
-                img(:src="getTheImage('app-preview-tab-mobile.png', false)" alt='App preview in mobile and tab')
-              .col-sm-6
-                h2.module-title.font-alt.align-left.color-white.font-bold We just paid
+                h1.font-alt.align-left.color-white.font-bold We just paid
                 p.module-subtitle.font-serif.align-left
-                  | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
-                a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" href='https://svanq.blogspot.com/')
-                  i.icon-edit
-                  |  See our blog
-        <testimonial />
+                  | Don't go by our words, just see the stats. See some users who recently made money on {{siteName}}.
+                a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" :href='getPageURL("stats")')
+                  |  Learn More
         <stats-overview />
         <social-media :specialSection="true"/>
         section.module.download.pb-0
@@ -82,7 +117,6 @@ import mixin from '../../globals/mixin'
 import * as constants from '@/constants'
 import Preloader from '../../components/preloader'
 import auth from '@/auth/helpers'
-import Testimonial from './components/testimonial'
 import StatsOverview from './components/stats-overview'
 import SocialMedia from './components/social-media'
 
@@ -95,7 +129,6 @@ export default {
   },
   components: {
     Preloader,
-    Testimonial,
     StatsOverview,
     SocialMedia
   },
