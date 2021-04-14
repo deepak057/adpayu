@@ -26,8 +26,9 @@
                   | While using the site, you will see the promoted posts or ads in your feed. You make money as soon as you see an ad in your feed. Optionally, more money can be made by clicking the links or watching the videos in the ad (if links or video are available in the ad).
                   br
                   | You can also make money by uploading video comments or answers on the questions or videos uploaded on the site. At the moment of writing this FAQs, for each video comment, you will be paid 10 INR. However, you can
-                  a(href="/#contact")
+                  <router-link :to="getPageURL('contact')">
                     |  contact us
+                  </router-link>
                   |  if you think you want a different price for your video.
             .panel.panel-default
               .panel-heading
@@ -69,8 +70,9 @@
               #support5.panel-collapse.collapse(aria-expanded='false')
                 .panel-body
                   | You can
-                  a(href="/#contact")
+                  <router-link :to="getPageURL('contact')">
                     |  contact us
+                  </router-link>
                   |  and share details about the issue. We will be in touch with you and try to resolve the issue for you as soon as possible.
         // #sales.tab-pane
           #accordion.panel-group

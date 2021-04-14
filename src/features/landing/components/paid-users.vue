@@ -5,7 +5,9 @@ section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.
       .col-sm-6.col-md-6.col-xs-12.table-coulmn(:class="{'mt-20': isMobile()}")
         .div
           .col-md-12.col-sm-12
-            .row
+            .text-center.mt-100(v-if="loader")
+              <preloader />
+            .row(v-if="!loader")
               #paidUsersCarousel.carousel.slide.vertical.paid-users-carousel(data-ride="carousel")
                 // Carousel items
                 .carousel-inner
@@ -19,67 +21,60 @@ section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.
                         h3.font-bold.blue-text
                           | ${{user.amount}}
                 // Carousel nav
-                a.carousel-control.left(href='#paidUsersCarousel' data-slide='prev') ‹
-                a.carousel-control.right(href='#paidUsersCarousel' data-slide='next') ›
+                //a.carousel-control.left(href='#paidUsersCarousel' data-slide='prev')
+                  i.fa.fa-arrow-left
+                //a.carousel-control.right(href='#paidUsersCarousel' data-slide='next')
+                  i.fa.fa-arrow-right
       .col-sm-6.col-md-6.col-xs-12.table-coulmn(:class="{'pl-50': !isMobile()}")
         h1.font-alt.align-left.color-white.font-bold We just paid
         p.module-subtitle.font-serif.align-left
           | Don't go by our words, just see the stats. See some users who recently made money on {{siteName}}.
-        a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" :href='getPageURL("stats")')
+        <router-link :to='getPageURL("stats")' class="btn btn-border-w btn-round video-pop-up highlighted-button blue-text font-bold">
           |  Learn More
+        </router-link>
 </template>
 <script>
 import mixin from '../../../globals/mixin'
 import CountryFlag from 'vue-country-flag'
+import Service from '../service'
+import Preloader from '../../../components/preloader'
 
 export default {
   name: 'PaidUsers',
+  service: new Service(),
   components: {
-    CountryFlag
+    CountryFlag,
+    Preloader
   },
   mixins: [mixin],
   data () {
     return {
-      users: [
-        {
-          name: 'Harish Rawat',
-          country: 'In',
-          amount: 25
-        },
-        {
-          name: 'James Chin',
-          country: 'US',
-          amount: 30
-        },
-        {
-          name: 'Javed Khan',
-          country: 'in',
-          amount: 20
-        },
-        {
-          name: 'Sam Curren',
-          country: 'Us',
-          amount: 35
-        }
-      ],
+      loader: true,
       maxRecordsInOneSlide: 3,
       slides: []
     }
   },
   mounted () {
-    this.slides = this.formatTheData()
+    this.getStats()
   },
   methods: {
-    formatTheData () {
+    getStats () {
+      this.$options.service.getPaidUsersStats()
+        .then((d) => {
+          this.loader = false
+          this.slides = this.formatTheData(d.users)
+        })
+    },
+    formatTheData (users) {
       let finalArr = []
       let index_ = 0
       finalArr[index_] = []
-      for (let i in this.users) {
+      for (let i in users) {
         if (i > 0 && (i % this.maxRecordsInOneSlide === 0)) {
           ++index_
           finalArr.splice(index_, 0, [])
         }
-        finalArr[index_].push(this.users[i])
+        finalArr[index_].push(users[i])
       }
       return finalArr
     }

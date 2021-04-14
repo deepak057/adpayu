@@ -39,8 +39,8 @@ div
                       |   Money
                   p.module-subtitle.font-serif.align-left
                     | Watch entertaining videos and earn money. {{siteName}} allows you to make money with videos. Our video inventory refreshes daily. Find more ways to make even more money.
-                  <router-link class="btn btn-border-d btn-circle" :to="getPageURL('faqs')">
-                    | See FAQs
+                  <router-link class="btn btn-border-d btn-circle" :to="getPageURL('make-money')">
+                    | Learn More
                   </router-link>
                 .col-sm-6
                   img.center-block(:src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")

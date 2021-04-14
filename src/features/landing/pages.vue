@@ -12,9 +12,11 @@
   <template v-if="specialPage()">
   <stats v-if="page('stats')"/>
   <about v-if="page('about')"/>
+  <make-money v-if="page('make-money')"/>
   </template>
 </template>
 <script>
+import mixin from '../../globals/mixin'
 import Privacy from './privacy'
 import Terms from './terms'
 import Advertise from './advertise'
@@ -24,6 +26,7 @@ import VideoAnswerGuidelines from './video_comment_guidelines'
 import Contact from './contact'
 import Stats from './stats'
 import About from './about'
+import MakeMoney from './make-money'
 
 export default {
   name: 'Pages',
@@ -36,12 +39,17 @@ export default {
     VideoAnswerGuidelines,
     Contact,
     Stats,
-    About
+    About,
+    MakeMoney
   },
+  mixins: [mixin],
   data () {
     return {
-      specialPages: ['stats', 'about']
+      specialPages: ['stats', 'about', 'make-money']
     }
+  },
+  mounted () {
+    this.scrollToTop()
   },
   methods: {
     page (page) {

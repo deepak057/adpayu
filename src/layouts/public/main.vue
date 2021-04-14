@@ -79,18 +79,16 @@ main
                     a(href="https://svanq.blogspot.com/" target="_blank")
                       | Blog
                     |  |
+                    <router-link :to="getPageURL('faqs')">
+                      |  FAQs
+                    </router-link>
+                    |  |
                     <router-link :to="getPageURL('terms')">
                       |  Terms
                     </router-link>
                     |  |
                     <router-link :to="getPageURL('privacy')">
                       |  Privacy
-                    </router-link>
-                    |  |
-                    span.c-faded  Made with passion and
-                    i.icon-heart.m-l-5
-                    // <router-link :to="getPageURL('privacy')">
-                      |  FAQs
                     </router-link>
                 //.col-sm-3
                     .footer-social-links
