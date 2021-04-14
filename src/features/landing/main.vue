@@ -44,54 +44,7 @@ div
                   </router-link>
                 .col-sm-6
                   img.center-block(:src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")
-        section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.png')")
-          .container
-            .row(:class="{'change-direction-row': isMobile()}")
-              .col-sm-6(:class="{'mt-20': isMobile()}")
-                .div
-                  .col-md-12.col-sm-12
-                    .row
-                      #myCarousel.carousel.slide.vertical.paid-users-carousel
-                        // Carousel items
-                        .carousel-inner
-                          .item.active
-                            .row.paid-user-row
-                              .col-md-2.col-sm-2.col-xs-2
-                                | Text 1
-                              .col-md-10.col-sm-10.col-xs-10
-                                h3
-                                  | User Name
-                                h3.font-bold.blue-text
-                                  | $34
-                            .row.paid-user-row
-                              .col-md-2.col-sm-2.col-xs-2
-                                | Text 1
-                              .col-md-10.col-sm-10.col-xs-10
-                                h3
-                                  | Xorane Shah
-                                h3.font-bold.blue-text
-                                  | $22
-                            .row.paid-user-row
-                              .col-md-2.col-sm-2.col-xs-2
-                                | Text 1
-                              .col-md-10.col-sm-10.col-xs-10
-                                h3
-                                  | Jiya Khan
-                                h3.font-bold.blue-text
-                                  | $49
-                          .item
-                            img(src="//placehold.it/800x400/dd4444/fff")
-                          .item
-                            img(src="//placehold.it/800x400/777")
-                        // Carousel nav
-                        a.carousel-control.left(href='#myCarousel' data-slide='prev') ‹
-                        a.carousel-control.right(href='#myCarousel' data-slide='next') ›
-              .col-sm-6
-                h1.font-alt.align-left.color-white.font-bold We just paid
-                p.module-subtitle.font-serif.align-left
-                  | Don't go by our words, just see the stats. See some users who recently made money on {{siteName}}.
-                a.btn.btn-border-w.btn-round.video-pop-up.highlighted-button.blue-text.font-bold(target="_blank" :href='getPageURL("stats")')
-                  |  Learn More
+        <paid-users />
         <stats-overview />
         <social-media :specialSection="true"/>
         section.module.download.pb-0
@@ -119,6 +72,7 @@ import Preloader from '../../components/preloader'
 import auth from '@/auth/helpers'
 import StatsOverview from './components/stats-overview'
 import SocialMedia from './components/social-media'
+import PaidUsers from './components/paid-users'
 
 export default {
   name: 'Landing',
@@ -130,7 +84,8 @@ export default {
   components: {
     Preloader,
     StatsOverview,
-    SocialMedia
+    SocialMedia,
+    PaidUsers
   },
   mixins: [mixin],
   data () {

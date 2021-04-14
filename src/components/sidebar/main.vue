@@ -40,7 +40,7 @@ aside.left-sidebar.bg-special-2
             <router-link tag="a" :to="postAnswerPageLink()" class="waves-effect waves-dark" title="Add video or text answers to unanswered questions">
               i.mdi.mdi-comment-plus-outline
               span.hide-menu
-                |  Add Answer
+                |  Post Answer
             </router-link>
           li(v-if="showMakeMoneyOption()")
             a.waves-effect.waves-dark(href="javascript:void(0)" @click="triggerAdTutorial" title="Make some money by watching ads")

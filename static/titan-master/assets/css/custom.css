@@ -67,3 +67,15 @@
     border-radius: 9px;
     margin-top: 15px;
 }
+
+.is-table-row {
+        display: table;
+    }
+.is-table-row .table-coulmn {
+        float: none;
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .pl-50{
+    	padding-left: 50px;
+    }
