@@ -3,33 +3,33 @@ section.module(:class="{'bg-dark-60': background}" :style="background? getTheIma
     .container
         .row
             .col-sm-6.col-sm-offset-3
-                h2.module-title.font-alt Stats
+                h1.font-alt.text-center.font-bold Stats
                 .module-subtitle.font-serif
         .row.multi-columns-row
+            .col-sm-6.col-md-3.col-lg-3.stats-right-border
+                .count-item.mb-sm-40
+                    .count-icon
+                        i.fa.fa-users
+                    h2.count-to.font-alt(:data-countto='stats.users')
+                    h4.count-title.font-serif Active users
+            .col-sm-6.col-md-3.col-lg-3.stats-right-border
+                .count-item.mb-sm-40
+                    .count-icon
+                        i.fa.fa-bullhorn
+                    h2.count-to.font-alt(:data-countto='stats.adsPosted')
+                    h4.count-title.font-serif Ads created
+            .col-sm-6.col-md-3.col-lg-3.stats-right-border
+                .count-item.mb-sm-40
+                    .count-icon
+                        i.fa.fa-film
+                    h2.count-to.font-alt(:data-countto='stats.videosPosted')
+                    h4.count-title.font-serif Video answers posted
             .col-sm-6.col-md-3.col-lg-3
                 .count-item.mb-sm-40
                     .count-icon
-                        span.icon-profile-male
-                    h3.count-to.font-alt(:data-countto='stats.users')
-                    h5.count-title.font-serif Active users
-            .col-sm-6.col-md-3.col-lg-3
-                .count-item.mb-sm-40
-                    .count-icon
-                        span.icon-megaphone
-                    h3.count-to.font-alt(:data-countto='stats.adsPosted')
-                    h5.count-title.font-serif Ads created
-            .col-sm-6.col-md-3.col-lg-3
-                .count-item.mb-sm-40
-                    .count-icon
-                        span.icon-video
-                    h3.count-to.font-alt(:data-countto='stats.videosPosted')
-                    h5.count-title.font-serif Video answers posted
-            .col-sm-6.col-md-3.col-lg-3
-                .count-item.mb-sm-40
-                    .count-icon
-                        span.icon-wallet
-                    h3.count-to.font-alt(:data-countto='stats.totalMoneyMadeUSD')
-                    h5.count-title.font-serif Dollars ($) earned by users
+                        i.fa.fa-dollar
+                    h2.count-to.font-alt(:data-countto='stats.totalMoneyMadeUSD')
+                    h4.count-title.font-serif Earned by users
 </template>
 <script>
 import Service from '../service'

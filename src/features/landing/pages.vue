@@ -48,6 +48,11 @@ export default {
       specialPages: ['stats', 'about', 'make-money']
     }
   },
+  watch: {
+    '$route.params.page' (newV) {
+      this.scrollToTop()
+    }
+  },
   mounted () {
     this.scrollToTop()
   },

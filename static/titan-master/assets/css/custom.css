@@ -79,3 +79,9 @@
     .pl-50{
     	padding-left: 50px;
     }
+.stats-right-border {
+	border-right: 1px solid rgba(255, 255, 255, .3);
+}
+.count-item .count-icon i {
+	font-size: 70px;
+}

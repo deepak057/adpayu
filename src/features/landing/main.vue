@@ -16,7 +16,7 @@ div
     .main
         section.pb-140.pt-50(:style="getTheImage('main-white-background.png')")
           .container
-              h1.font-alt.text-center
+              h1.font-alt.text-center.font-bold
                 | How we
                 span.blue-text
                   |  help you?

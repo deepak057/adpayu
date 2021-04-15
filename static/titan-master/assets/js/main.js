@@ -315,9 +315,11 @@
          /* ---------------------------------------------- */
 
         setupTestimonials()
+        setupStatsCounter()
 
         $(window).scroll(function (e){
             setupTestimonials()
+            setupStatsCounter()
         })
         
         function setupTestimonials () {
@@ -327,8 +329,7 @@
                     $('.testimonials-slider').flexslider( {
                         animation: "slide",
                         smoothHeight: true
-                    });
-                    setupStatsCounter()  
+                    });  
                 }
             }
         }
@@ -338,12 +339,15 @@
          /* ---------------------------------------------- */
 
         function setupStatsCounter () {
-            $('.count-item').each(function(i) {
-                $(this).appear(function() {
-                    var number = $(this).find('.count-to').data('countto');
-                    $(this).find('.count-to').countTo({from: 0, to: number, speed: 1200, refreshInterval: 30});
+            //alert($.trim($('.count-item').first().html()))
+            if($('.count-item').length && !$.trim($('.count-to').first().html())) {
+                $('.count-item').each(function(i) {
+                    $(this).appear(function() {
+                        var number = $(this).find('.count-to').data('countto');
+                        $(this).find('.count-to').countTo({from: 0, to: number, speed: 1200, refreshInterval: 30});
+                    });
                 });
-            });
+            }
         }
         
         

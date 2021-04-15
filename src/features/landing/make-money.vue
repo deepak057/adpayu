@@ -17,14 +17,14 @@ div.stats-page-wrap
             span.blue-text
               |  short ads
           p.font-serif
-            | Knowledge served through entertaining videos, coupled with social media and easy content discovery features.
+            | Now get paid for spending time on social media. On {{siteName}}, your time is your money.
           ul
-            li See the feed of questions and their video answers right in your dashboard.
+            li See entertaining short ads in your feed and get paid for it.
+            li Disable or enable ads anytime at your will.
+            li Get bonuses and cashbacks on watching your first ad.
             li
-              | Customize the feed based on your interests.
-            li Customize your profile and see other user's public profiles
-            li Use fast, efficient and speed-optimized search feature
-            li Be friends with like minded people to see their non-public content
+              | Withdraw money to your bank, Paytm or any other accounts.
+            li Help and support in case of any disputes or money withdrawal issues.
             li And much more.
           <router-link class="btn btn-border-d btn-circle" :to="redirectURLs('signup')">
               | Free Sign Up
@@ -37,14 +37,14 @@ div.stats-page-wrap
             span.blue-text
               |   short videos
           p.font-serif
-            | Now get paid for spending time on social media. Your time is your money.
+            | Get paid for creating and uploading short videos.
           ul
-            li See entertaining short ads in your feed and get paid for it.
-            li Disable or enable ads anytime at your will.
-            li Get bonuses and cashbacks on watching your first ad
+            li Create "Video answer" which is basically a short video clip made in response to a given question asked on the platform.
+            li Create the content which people, as well as you yourself will love to watch.
+            li No fixed price, get a flexible amount of money depending on the quality, creativity and presentation of the videos.
+            li Be an influencer and gain followers.
             li
-              | Withdraw money to your bank, Paytm or any other accounts.
-            li Help and support in case of any disputes or money withdrawal issues
+              | Instant money withdrawal on video approval.
             li And much more.
           <router-link class="btn btn-border-d btn-circle" :to="getPageURL('video-answer-guidelines')">
             | Learn More
@@ -57,15 +57,11 @@ div.stats-page-wrap
             span.blue-text
               |  friends
           p.font-serif
-            | Knowledge served through entertaining videos, coupled with social media and easy content discovery features.
+            | Invite your contacts and get paid when they sign up on {{siteName}}.
           ul
-            li See the feed of questions and their video answers right in your dashboard.
-            li
-              | Customize the feed based on your interests.
-            li Customize your profile and see other user's public profiles
-            li Use fast, efficient and speed-optimized search feature
-            li Be friends with like minded people to see their non-public content
-            li And much more.
+            li Get referral tracking link from your Settings page and share with your contacts.
+            li You get paid for each user that signs up on {{siteName}} using your referral link.
+            li 24*7 help and support in case of any questions or dispute.
           <router-link class="btn btn-border-d btn-circle" :to="redirectURLs('signup')">
               | Free Sign Up
           </router-link>
