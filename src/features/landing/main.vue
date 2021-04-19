@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+.landing-page-wrap
     section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient(:style="getTheImage('user-images-collage.jpg')")
         .hpv-container
             .hp-overlay
@@ -14,13 +14,13 @@ div
                   | Log In
                 </router-link>
     .main
-        section.pb-140.pt-50(:style="getTheImage('main-white-background.png')")
+        section.pt-50.custom(:class="{'pb-140': !isMobile(), 'pb-70': isMobile()}" :style="getTheImage('main-white-background.png')")
           .container
               h1.font-alt.text-center.font-bold
                 | How we
                 span.blue-text
                   |  help you?
-              .row.landing-image-text
+              .row.landing-image-text(:class="{'change-direction-row': isMobile()}")
                 .col-sm-6.col-sm-push-6
                   h2.font-alt Watch
                     span.blue-text
@@ -31,10 +31,10 @@ div
                       | Learn More
                   </router-link>
                 .col-sm-6.col-sm-pull-6
-                  img.center-block(:class="{'mt-20': isMobile()}" :src="getTheImage('app-benefits-watch-videos.png', false)" alt='App Benefits, Watch Videos')
-              .row.landing-image-text
+                  img.center-block.change-pos-on-mobile(:src="getTheImage('app-benefits-watch-videos.png', false)" alt='App Benefits, Watch Videos')
+              .row.landing-image-text(:class="{'change-direction-row': isMobile()}")
                 .col-sm-6
-                  h2.font-alt Make
+                  h2.font-alt() Make
                     span.blue-text
                       |   Money
                   p.module-subtitle.font-serif.align-left
@@ -43,7 +43,7 @@ div
                     | Learn More
                   </router-link>
                 .col-sm-6
-                  img.center-block(:src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")
+                  img.center-block(:class="{'mt-40': isMobile()}" :src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")
         <paid-users />
         <stats-overview />
         <social-media :specialSection="true"/>

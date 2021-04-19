@@ -1,5 +1,5 @@
 <template lang="pug">
-section.module(:class="{'bg-dark-60': background}" :style="background? getTheImage('stats-background.png', true, true) : ''")
+section.module.stats-wrap(:class="{'bg-dark-60': background}" :style="background? getTheImage('stats-background.png', true, true) : ''")
     .container
         .row
             .col-sm-6.col-sm-offset-3

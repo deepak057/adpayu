@@ -1,5 +1,5 @@
 <template lang="pug">
-section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.png')")
+section.module.bg-dark.landing-reason.custom(:style="getTheImage('paid-user-background.png')")
   .container
     .row(:class="{'change-direction-row': isMobile(), 'is-table-row': !isMobile()}")
       .col-sm-6.col-md-6.col-xs-12.table-coulmn(:class="{'mt-20': isMobile()}")
@@ -25,11 +25,11 @@ section.module.bg-dark.landing-reason(:style="getTheImage('paid-user-background.
                   i.fa.fa-arrow-left
                 //a.carousel-control.right(href='#paidUsersCarousel' data-slide='next')
                   i.fa.fa-arrow-right
-      .col-sm-6.col-md-6.col-xs-12.table-coulmn(:class="{'pl-50': !isMobile()}")
+      .col-sm-6.col-md-6.col-xs-12.table-coulmn.text-center-mobile(:class="{'pl-50': !isMobile()}")
         h1.font-alt.align-left.color-white.font-bold We just paid
         p.module-subtitle.font-serif.align-left
           | Don't go by our words, just see the stats. See some users who recently made money on {{siteName}}.
-        <router-link :to='getPageURL("stats")' class="btn btn-border-w btn-round video-pop-up highlighted-button blue-text font-bold">
+        <router-link :to='getPageURL("stats")' class="btn btn-border-w btn-round video-pop-up highlighted-button blue-text font-bold" :class="{'mb-30': isMobile()}">
           |  Learn More
         </router-link>
 </template>
