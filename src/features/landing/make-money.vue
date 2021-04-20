@@ -1,6 +1,6 @@
 <template lang="pug">
 div.stats-page-wrap
-  section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('stats-and-testimonial.png')")
+  section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('users-banner.png')")
     .container
       .row
         .col-sm-6.col-sm-offset-3
@@ -11,7 +11,7 @@ div.stats-page-wrap
     .container
       .row.landing-image-text
         .col-sm-6.col-sm-push-6
-          img.center-block(:src="getTheImage('app-ad-preview.png', false)" alt="App ad preview")
+          img.center-block(:src="getTheImage('short-ad-preview-app.png', false)" alt="App ad preview")
         .col-sm-6.col-sm-pull-6
           h2.font-alt Watch
             span.blue-text
@@ -31,7 +31,7 @@ div.stats-page-wrap
           </router-link>
       .row.landing-image-text
         .col-sm-6
-          img.center-block(:src="getTheImage('app-dashboard-preview.png', false)" alt='App dashboard preview')
+          img.center-block(:src="getTheImage('make-videos-app.png', false)" alt='App dashboard preview')
         .col-sm-6
           h2.font-alt Make
             span.blue-text
@@ -51,7 +51,7 @@ div.stats-page-wrap
           </router-link>
       .row.landing-image-text
         .col-sm-6.col-sm-push-6
-          img.center-block(:src="getTheImage('app-ad-preview.png', false)" alt="App ad preview")
+          img.center-block(:src="getTheImage('referral-preview.png', false)" alt="App ad preview")
         .col-sm-6.col-sm-pull-6
           h2.font-alt Invite
             span.blue-text

@@ -13,9 +13,9 @@ section.module.bg-dark.landing-reason.custom(:style="getTheImage('paid-user-back
                 .carousel-inner
                   .item(:class="{'active': !n}" v-for="(slide, n) in slides")
                     .row.paid-user-row(v-for ="user in slide")
-                      .col-md-2.col-sm-2.col-xs-3.pt-20
+                      .col-md-3.col-sm-4.col-xs-3.pt-20
                             <country-flag :country='user.country' size='big'/>
-                      .col-md-10.col-sm-10.col-xs-9
+                      .col-md-9.col-sm-8.col-xs-9
                         h3
                           | {{user.name}}
                         h3.font-bold.blue-text

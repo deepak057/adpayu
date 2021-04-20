@@ -1,6 +1,6 @@
 <template lang="pug">
 div.stats-page-wrap
-  section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('stats-and-testimonial.png')")
+  section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('testimonial-page-banner.png')")
     .container
       .row
         .col-sm-6.col-sm-offset-3

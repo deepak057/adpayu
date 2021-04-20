@@ -52,6 +52,11 @@ function contactInitialState () {
 
 export default {
   name: 'Contact',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('Contact Us')
+    }
+  },
   service: new Service(),
   mixins: [mixin, userRegister],
   data () {

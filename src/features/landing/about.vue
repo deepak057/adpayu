@@ -142,6 +142,11 @@ div
 import mixin from '../../globals/mixin'
 export default {
   name: 'About',
+  metaInfo () {
+    return {
+      title: this.getPageTitle('About')
+    }
+  },
   mixins: [mixin],
   mounted () {
     this.scrollToTop()

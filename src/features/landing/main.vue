@@ -1,6 +1,6 @@
 <template lang="pug">
 .landing-page-wrap
-    section#home.home-section.custom-home.home-full-height.bg-dark.bg-gradient(:style="getTheImage('user-images-collage.jpg')")
+    section#home.home-section.custom-home.home-full-height.bg-dark(:style="getTheImage('home-page-banner-users-collage.png')")
         .hpv-container
             .hp-overlay
         .titan-caption
