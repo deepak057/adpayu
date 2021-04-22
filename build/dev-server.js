@@ -94,6 +94,14 @@ app.post('/order/check', function(req, res) {
 });
 /*ends*/
 
+/*
+* Serve robots.txt on website root
+*/
+app.get('/robots.txt', function (req, res) {
+  res.sendFile(__dirname + '/robots.txt')
+});
+  
+
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
