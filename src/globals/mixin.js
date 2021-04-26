@@ -122,7 +122,7 @@ export default {
       let space = spacing ? ' ' : ''
       return defaultCurrency === 'INR' ? this.getCurrencySymbol('INR') + space + this.formatNumber(USDAmount * auth.getForex(), round) : this.getCurrencySymbol('USD') + space + (!trim ? USDAmount : this.formatNumber(USDAmount, round))
     },
-    formatNumber (labelValue, round = false) {
+    formatNumber (labelValue, round = false, n = 100) {
       if (!labelValue) {
         return 0
       }
@@ -131,14 +131,14 @@ export default {
       }
       // Nine Zeroes for Billions
       return Math.abs(Number(labelValue)) >= 1.0e+9
-        ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+9) + 'B'
+        ? this.roundToDecimalPlaces((Math.abs(Number(labelValue)) / 1.0e+9), n) + 'B'
         // Six Zeroes for Millions
         : Math.abs(Number(labelValue)) >= 1.0e+6
-          ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+6) + 'M'
+          ? this.roundToDecimalPlaces((Math.abs(Number(labelValue)) / 1.0e+6), n) + 'M'
           // Three Zeroes for Thousands
           : Math.abs(Number(labelValue)) >= 1.0e+3
-            ? this.roundToDecimalPlaces(Math.abs(Number(labelValue)) / 1.0e+3) + 'K'
-            : this.roundToDecimalPlaces(Math.abs(Number(labelValue)))
+            ? this.roundToDecimalPlaces((Math.abs(Number(labelValue)) / 1.0e+3), n) + 'K'
+            : this.roundToDecimalPlaces(Math.abs(Number(labelValue)), n)
     },
     isVisible (elem) {
       return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
@@ -285,8 +285,8 @@ export default {
       }
       this.$notify(Object.assign(config, options))
     },
-    roundToDecimalPlaces (number) {
-      return Math.round(number * 100) / 100
+    roundToDecimalPlaces (number, n = 100) {
+      return Math.round(number * n) / n
     },
     handleMobileBackButton () {
       if (this.isAnyModalOpen()) {

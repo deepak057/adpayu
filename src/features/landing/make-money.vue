@@ -1,5 +1,5 @@
 <template lang="pug">
-div.stats-page-wrap
+.make-money-page-wrap
   section.module.bg-dark-60.about-page-header.b-cover(:style="getTheImage('users-banner.png')")
     .container
       .row

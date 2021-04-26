@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+.about-page-wrap
   section.module.bg-dark.landing-reason(:style="getTheImage('app-intro-background.png')")
     .container
       .row

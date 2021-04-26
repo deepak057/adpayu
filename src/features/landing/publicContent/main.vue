@@ -38,12 +38,12 @@
             .col-md-12.m-t-10
               <router-link :to = "content.url" title="Log in to like it">
                 span(v-if = "parseInt(content.likesCount)")
-                  | {{content.likesCount}}
+                  | {{formatNumber(content.likesCount, false, 10)}}
                 i.fa.fa-heart.m-l-5.text-danger
               </router-link>
               <router-link class="m-l-5" :to = "content.url" title="Log in to leave your response">
                 span(v-if = "content.commentsCount")
-                  | {{content.commentsCount}}
+                  | {{formatNumber(content.commentsCount, false, 10)}}
                 |  {{content.commentLabel}}
                 span(v-if = "content.commentsCount && content.commentsCount > 1")
                   | s
@@ -110,17 +110,22 @@ export default {
         commentDescription: false,
         url: false,
         user: false,
-        images: []
+        images: [],
+        keywords: ''
       }
     }
   },
   metaInfo () {
     return {
-      title: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response')),
+      title: this.getTitle(),
       meta: [
         {
+          name: 'keywords',
+          content: this.content.keywords
+        },
+        {
           property: 'og:title',
-          content: this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
+          content: this.getTitle()
         },
         {
           property: 'og:image',
@@ -145,7 +150,7 @@ export default {
         },
         {
           property: 'og:type',
-          content: 'website'
+          content: this.content.video ? 'video' : 'website'
         }
       ]
     }
@@ -166,6 +171,9 @@ export default {
     }
   },
   methods: {
+    getTitle () {
+      return this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
+    },
     onPlay () {
       auth.markEntityAsViewed(this.contentId, (this.isPost ? 'post' : 'comment'), auth.getGuestId())
     },
@@ -207,6 +215,16 @@ export default {
       let getPostDescription = () => {
         return post.Video && post.Video.description ? post.Video.description : (post.Question && post.Question.description ? post.Question.description : false)
       }
+      let getKeyWordsFromTags = () => {
+        let keywords = []
+        if (post.Tags && post.Tags.length) {
+          for (let i in post.Tags) {
+            keywords.push(post.Tags[i].name)
+          }
+        }
+        return keywords.join(',')
+      }
+      this.content.keywords = getKeyWordsFromTags(post.Tags)
       if (this.isPost) {
         this.content.url = this.getPostLink(post.id)
         this.content.title = post.type !== 'text' ? this.getPostTitle(post) : false
@@ -218,6 +236,7 @@ export default {
         this.content.user = post.User
         this.content.content = post.content || false
         this.content.images = post.Images && post.Images.length ? post.Images : []
+        this.content.keywords = getKeyWordsFromTags(post.Tags)
       } else {
         this.content.url = this.getCommentLink(comment.id)
         this.content.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)

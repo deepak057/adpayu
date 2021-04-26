@@ -105,7 +105,7 @@
           span.pointer.reactions-count-wrap.pointer.f-s-17(v-if="!isQuestion(f)" title="Comments or Reactions" @click="toggleComments(f)")
             i.mdi.mdi-comment-outline.m-r-5
             span.m-r-5
-              | {{ (f['ReactionsCount'] ? f['ReactionsCount']: '') }}
+              | {{ (f['ReactionsCount'] ? formatNumber(f['ReactionsCount'], false, 10): '') }}
           .btn-group
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
              i.fa.fa-list

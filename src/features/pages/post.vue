@@ -7,13 +7,17 @@
         .card-body.p-0(:class="{'min-h-400': pageLoading}")
           div.m-t-20.text-center(v-show="pageLoading")
             <preloader></preloader>
-          <feed :feed="feed" class="hide-hr" v-show="!pageLoading" :customClasses="'p-t-10'"></feed>
+          <feed :feed="feed" class="hide-hr" v-if="feed.length && !pageLoading" :customClasses="'p-t-10'"></feed>
+          <template v-if="!feed.length && !pageLoading">
+          <page-404 :errDes="commentNotFoundError"/>
+          </template>
 </template>
 <script>
 import auth from '@/auth/helpers'
 import Preloader from './../../components/preloader'
 import Feed from './../../components/feed/feed'
 import mixin from '../../globals/mixin.js'
+import Page404 from './../../components/404'
 import PageTitle from './../../components/page-title'
 
 export default {
@@ -26,7 +30,8 @@ export default {
   components: {
     Preloader,
     Feed,
-    PageTitle
+    PageTitle,
+    Page404
   },
   mixins: [mixin],
   data () {
@@ -48,6 +53,9 @@ export default {
     this.loadPost()
   },
   methods: {
+    showError () {
+      return this.isEmptyObject(this.comment) && !this.pageLoading
+    },
     loadPost () {
       this.scrollToTop()
       this.pageLoading = true
@@ -62,7 +70,7 @@ export default {
         })
         .catch((postErr) => {
           this.pageLoading = false
-          this.showNotification('Something went wrong while getting the data, please try again later.', 'error')
+          this.showNotification('The page/post is not found or not available', 'error')
         })
     },
     getPageTitle (post) {
