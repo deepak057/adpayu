@@ -142,7 +142,7 @@ export default {
         },
         {
           property: 'og:description',
-          content: 'Watch amazing videos'
+          content: this.getTitle()
         },
         {
           property: 'og:video',
