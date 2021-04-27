@@ -106,8 +106,8 @@ export default {
         var data = {
           email: this.email,
           password: this.password,
-          first: this.first,
-          last: this.last,
+          first: this.capitalizeString(this.first),
+          last: this.capitalizeString(this.last),
           location: this.location,
           refCode: auth.getRefCode()
         }

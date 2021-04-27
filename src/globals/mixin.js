@@ -494,7 +494,7 @@ export default {
     * as prefix to the given page title
     */
     getPageTitle (title) {
-      return constants.SITE_NAME + ' - ' + title
+      return constants.SITE_NAME + ' - ' + this.capitalizeString(title)
     },
     handleImageAdded (file, Editor, cursorLocation, resetUploader) {
       let formData = new FormData()
