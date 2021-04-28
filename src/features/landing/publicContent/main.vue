@@ -48,6 +48,9 @@
                 span(v-if = "content.commentsCount && content.commentsCount > 1")
                   | s
               </router-link>
+          .row(v-if="canLoadComments()")
+            .col-md-12
+              <preloader class="mt-20 preloader-h-15"/>
         .col-md-4.col-sm-12.pc-user-info-container.text-center(:class="{'m-t-100': !isMobile(), 'm-t-20': isMobile()}")
           h4
             span.all-caps
@@ -100,6 +103,7 @@ export default {
     return {
       loader: true,
       content: {
+        post: false,
         title: false,
         description: false,
         content: false,
@@ -111,7 +115,10 @@ export default {
         url: false,
         user: false,
         images: [],
-        keywords: ''
+        keywords: '',
+        comments: [],
+        commentsLoader: false,
+        type: ''
       }
     }
   },
@@ -185,6 +192,15 @@ export default {
       this.showNotification('This page might be available after log in', 'error')
       this.redirectToRealPage()
     },
+    fetchComments () {
+      if (this.canLoadComments()) {
+        auth.loadComments(this.contentId, true)
+          .then((d) => {
+            // this.pageLoader = false
+            // this.comments = d.comments
+          })
+      }
+    },
     fetchData () {
       try {
         this.loader = true
@@ -211,7 +227,14 @@ export default {
         this.showNotification('Something went wrong, please try again later', 'error')
       }
     },
+    isQuestion () {
+      return this.content.post && this.content.post.type === 'question'
+    },
+    canLoadComments () {
+      return !this.loader && this.isQuestion() && !this.comment && this.content.commentsCount
+    },
     prepareContentObject (post, comment = false) {
+      this.content.post = post
       let getPostDescription = () => {
         return post.Video && post.Video.description ? post.Video.description : (post.Question && post.Question.description ? post.Question.description : false)
       }
@@ -231,8 +254,8 @@ export default {
         this.content.video = post.Video || false
         this.content.description = getPostDescription()
         this.content.likesCount = post.LikesCount
-        this.content.commentLabel = post.type === 'question' ? 'Answer' : 'Comment'
-        this.content.commentsCount = post.type === 'question' ? post.CommentsCount : post.ReactionsCount
+        this.content.commentLabel = this.isQuestion() ? 'Answer' : 'Comment'
+        this.content.commentsCount = this.isQuestion() ? post.CommentsCount : post.ReactionsCount
         this.content.user = post.User
         this.content.content = post.content || false
         this.content.images = post.Images && post.Images.length ? post.Images : []
@@ -247,6 +270,7 @@ export default {
         this.content.commentLabel = 'Comment'
         this.content.user = comment.User
       }
+      this.fetchComments()
     }
   }
 }

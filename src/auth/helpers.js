@@ -294,6 +294,20 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
+
+  loadComments (postId, userFeed = false) {
+    return Vue.http({
+      method: 'get',
+      url: constants.API_BASE_URL + '/comments/' + postId + '?userFeed=' + userFeed
+    })
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response.data) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  },
+
   getComment (commentId, publicURL = false) {
     return Vue.http({
       method: 'get',
