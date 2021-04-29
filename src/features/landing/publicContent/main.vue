@@ -22,7 +22,7 @@
               .m-t-10.m-b-10.w-s-pre(v-if="content.content" v-html="content.content")
               p.text-muted(v-html="content.description" v-if = "content.description")
           .row(v-if="content.video")
-            .col-10.col-md-10.col-sm-12
+            .col-12.col-md-12.col-sm-12
                <video-player class="vjs-3-4" @play="onPlay" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
                .small.text-muted(v-html="content.commentDescription" v-if="content.commentDescription")
           .row.multi-columns-row(v-if="content.images.length")
@@ -34,23 +34,60 @@
                     .gallery-caption
                       .gallery-icon
                         span.icon-magnifying-glass
-          .row
-            .col-md-12.m-t-10
+          .row.m-t-10
+            .col-md-6.col-xs-6
               <router-link :to = "content.url" title="Log in to like it">
-                span(v-if = "parseInt(content.likesCount)")
+                span(v-if="parseInt(content.likesCount)")
                   | {{formatNumber(content.likesCount, false, 10)}}
                 i.fa.fa-heart.m-l-5.text-danger
               </router-link>
-              <router-link class="m-l-5" :to = "content.url" title="Log in to leave your response">
+              a.m-l-5(href="javascript:void(0)" @click="toggleComments()" v-if="canLoadComments()")
                 span(v-if = "content.commentsCount")
                   | {{formatNumber(content.commentsCount, false, 10)}}
                 |  {{content.commentLabel}}
                 span(v-if = "content.commentsCount && content.commentsCount > 1")
                   | s
+              <router-link class="m-l-5" v-if="!canLoadComments()" :to = "content.url" title="Log in to leave your response">
+                span(v-if = "content.commentsCount")
+                  | {{formatNumber(content.commentsCount, false, 10)}}
+                <template v-if="isQuestion() && !content.comment">
+                |  {{content.commentLabel}}
+                span(v-if = "content.commentsCount && content.commentsCount > 1")
+                  | s
+                </template>
+                span(v-if="!isQuestion() || content.comment ")
+                  i.fa.fa-comment-o(:class="{'m-l-5': parseInt(content.commentsCount)}")
               </router-link>
-          .row(v-if="canLoadComments()")
-            .col-md-12
-              <preloader class="mt-20 preloader-h-15"/>
+            .col-md-6.col-xs-6.text-right
+              <timeago :datetime="content.date" :auto-update="60" :title="content.date | date"></timeago>
+          .row.mt-20(v-if="canLoadComments()")
+            .col-md-12(v-if="content.commentsLoader")
+              <preloader class="preloader-h-15"/>
+            <template v-if="!content.commentsLoader && content.comments.length">
+            .col-10.col-md-10.col-sm-12.mt-20(v-for="comment in content.comments" v-if="showComment(comment)")
+               <router-link :to="getCommentLink(comment.id, true, false)">
+                 | {{userName(comment.User)}}
+               </router-link>
+               <video-player class="vjs-3-4" @play="onPlay" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}"/>
+               .small.text-muted(v-html="comment.comment" v-if="comment.comment")
+               .row.video-footer
+                 .col-md-6.col-xs-6.col-sm-6
+                   <router-link class="mt-5" :to = "getCommentLink(comment.id)" title="Log in to like it">
+                     span(v-if = "parseInt(comment.CommentsLikesCount)")
+                      | {{formatNumber(comment.CommentsLikesCount, false, 10)}}
+                     i.fa.fa-heart.text-danger(:class="{'m-l-5': parseInt(comment.CommentsLikesCount)}")
+                   </router-link>
+                   <router-link class="m-l-5" :to = "getCommentLink(comment.id)" title="Log in to leave your response">
+                    span(v-if = "comment.ReactionsCount")
+                      | {{formatNumber(comment.ReactionsCount, false, 10)}}
+                    i.fa.fa-comment-o(:class="{'m-l-5': parseInt(comment.ReactionsCount)}")
+                   </router-link>
+                 .col-md-6.col-xs-6.col-sm-6.text-right
+                   <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
+            .col-md-12.mt-40(v-if="content.comments.length > 1")
+              a(href="javascript:void(0)" @click="toggleComments()")
+                | {{(content.showCommentsLabel)}}
+            </template>
         .col-md-4.col-sm-12.pc-user-info-container.text-center(:class="{'m-t-100': !isMobile(), 'm-t-20': isMobile()}")
           h4
             span.all-caps
@@ -92,6 +129,29 @@ import Preloader from '../../../components/preloader'
 import auth from '@/auth/helpers'
 import { router } from '@/http'
 
+function publicContentPagInitialConfig () {
+  return {
+    post: false,
+    title: false,
+    description: false,
+    content: false,
+    video: false,
+    likesCount: false,
+    commentsCount: false,
+    comment: false,
+    commentDescription: false,
+    url: false,
+    user: false,
+    images: [],
+    keywords: '',
+    comments: [],
+    commentsLoader: false,
+    showAllComments: false,
+    showCommentsLabel: 'Show all answers',
+    date: ''
+  }
+}
+
 export default {
   name: 'PublicContent',
   components: {
@@ -102,24 +162,7 @@ export default {
   data () {
     return {
       loader: true,
-      content: {
-        post: false,
-        title: false,
-        description: false,
-        content: false,
-        video: false,
-        likesCount: false,
-        commentsCount: false,
-        comment: false,
-        commentDescription: false,
-        url: false,
-        user: false,
-        images: [],
-        keywords: '',
-        comments: [],
-        commentsLoader: false,
-        type: ''
-      }
+      content: publicContentPagInitialConfig()
     }
   },
   metaInfo () {
@@ -170,14 +213,40 @@ export default {
       return this.$route.params.id || false
     }
   },
-  mounted () {
-    if (!this.isLoggedIn()) {
-      this.fetchData()
-    } else {
-      this.redirectToRealPage()
+  watch: {
+    '$route.name' () {
+      this.content = publicContentPagInitialConfig()
+      this.init()
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
+    init () {
+      this.scrollToTop()
+      if (!this.isLoggedIn()) {
+        this.fetchData()
+      } else {
+        this.redirectToRealPage()
+      }
+    },
+    toggleComments () {
+      this.scrollToTop()
+      this.content.showAllComments = !this.content.showAllComments
+      if (!this.content.showAllComments) {
+        this.content.showCommentsLabel = publicContentPagInitialConfig().showCommentsLabel
+      } else {
+        this.content.showCommentsLabel = 'Show top answer'
+      }
+    },
+    showComment (comment) {
+      if (this.content.showAllComments) {
+        return true
+      } else {
+        return comment.setDefault
+      }
+    },
     getTitle () {
       return this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
     },
@@ -194,10 +263,16 @@ export default {
     },
     fetchComments () {
       if (this.canLoadComments()) {
+        this.commentsLoader = true
         auth.loadComments(this.contentId, true)
           .then((d) => {
-            // this.pageLoader = false
-            // this.comments = d.comments
+            this.content.commentsLoader = false
+            this.content.comments = d.comments
+            this.content.commentsCount = d.comments.length
+          })
+          .catch((cE) => {
+            this.content.commentsLoader = false
+            this.showNotification('Something went wrong while fetching the answeres/videos', 'error')
           })
       }
     },
@@ -231,10 +306,11 @@ export default {
       return this.content.post && this.content.post.type === 'question'
     },
     canLoadComments () {
-      return !this.loader && this.isQuestion() && !this.comment && this.content.commentsCount
+      return !this.loader && this.isQuestion() && !this.content.comment && this.content.commentsCount
     },
     prepareContentObject (post, comment = false) {
       this.content.post = post
+      this.content.comment = comment
       let getPostDescription = () => {
         return post.Video && post.Video.description ? post.Video.description : (post.Question && post.Question.description ? post.Question.description : false)
       }
@@ -260,6 +336,7 @@ export default {
         this.content.content = post.content || false
         this.content.images = post.Images && post.Images.length ? post.Images : []
         this.content.keywords = getKeyWordsFromTags(post.Tags)
+        this.content.date = post.updatedAt
       } else {
         this.content.url = this.getCommentLink(comment.id)
         this.content.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)
@@ -269,6 +346,7 @@ export default {
         this.content.commentsCount = comment.ReactionsCount
         this.content.commentLabel = 'Comment'
         this.content.user = comment.User
+        this.content.date = comment.updatedAt
       }
       this.fetchComments()
     }

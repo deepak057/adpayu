@@ -198,11 +198,11 @@ export default {
       let validImageTypes = this.getValidImageTypes()
       return validImageTypes.indexOf(file['type']) !== -1
     },
-    getPublicContentBaseURL () {
-      return this.getDomainName() + '/content'
+    getPublicContentBaseURL (includeDomain = true) {
+      return (includeDomain ? this.getDomainName() : '') + '/content'
     },
-    getPostLink (postId, publicLink = false) {
-      return !publicLink ? '/p/' + postId : this.getPublicContentBaseURL() + '/post/' + postId
+    getPostLink (postId, publicLink = false, includeDomain = true) {
+      return !publicLink ? '/p/' + postId : this.getPublicContentBaseURL(includeDomain) + '/post/' + postId
     },
     leavePage () {
       this.$emit('closeModal')
@@ -427,8 +427,8 @@ export default {
       }
     },
     /* eslint-disable */
-    getCommentLink (commentId, publicLink = false) {
-      return !publicLink ? '/c/' + commentId : this.getPublicContentBaseURL() + '/response/' + commentId
+    getCommentLink (commentId, publicLink = false, includeDomain = true) {
+      return !publicLink ? '/c/' + commentId : this.getPublicContentBaseURL(includeDomain) + '/response/' + commentId
     },
     getPostTitle (postObj) {
       if ('Question' in postObj && postObj.Question) {
