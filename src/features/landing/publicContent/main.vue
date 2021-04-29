@@ -23,7 +23,7 @@
               p.text-muted(v-html="content.description" v-if = "content.description")
           .row(v-if="content.video")
             .col-12.col-md-12.col-sm-12
-               <video-player class="vjs-3-4" @play="onPlay" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
+               <video-player class="vjs-3-4" @play="onPlay($event)" :options="videoPlayerOptions(content.video)" :playsinline="true" data-setup="{fluid: true}"/>
                .small.text-muted(v-html="content.commentDescription" v-if="content.commentDescription")
           .row.multi-columns-row(v-if="content.images.length")
             .col-sm-6.col-md-4.col-lg-4(v-for="image in content.images")
@@ -58,6 +58,13 @@
                 span(v-if="!isQuestion() || content.comment ")
                   i.fa.fa-comment-o(:class="{'m-l-5': parseInt(content.commentsCount)}")
               </router-link>
+              .btn-group.custom
+                button.btn.btn-xs.dropdown-toggle.no-border-shadow.bg-none.custom(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+                 i.fa.fa-list
+                .dropdown-menu
+                  a.dropdown-item.mb-10(href='javascript:void(0)')
+                    i.fa.fa-share-alt.m-r-5.m-l-5
+                    | Share
             .col-md-6.col-xs-6.text-right
               <timeago :datetime="content.date" :auto-update="60" :title="content.date | date"></timeago>
           .row.mt-20(v-if="canLoadComments()")
@@ -68,7 +75,7 @@
                <router-link :to="getCommentLink(comment.id, true, false)">
                  | {{userName(comment.User)}}
                </router-link>
-               <video-player class="vjs-3-4" @play="onPlay" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}"/>
+               <video-player class="vjs-3-4" @play="onPlay($event, comment.id, 'comment')" :options="videoPlayerOptions(comment)" :playsinline="true" data-setup="{fluid: true}"/>
                .small.text-muted(v-html="comment.comment" v-if="comment.comment")
                .row.video-footer
                  .col-md-6.col-xs-6.col-sm-6
@@ -82,6 +89,17 @@
                       | {{formatNumber(comment.ReactionsCount, false, 10)}}
                     i.fa.fa-comment-o(:class="{'m-l-5': parseInt(comment.ReactionsCount)}")
                    </router-link>
+                   .btn-group.custom
+                      button.btn.btn-xs.dropdown-toggle.no-border-shadow.bg-none.custom(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
+                       i.fa.fa-list
+                      .dropdown-menu
+                        <router-link class="dropdown-item" :to="getCommentLink(comment.id, true, false)">
+                          i.fa.fa-eye.m-r-5.m-l-5
+                          | View Page
+                        </router-link>
+                        a.dropdown-item.mb-10(href='javascript:void(0)' @click="triggerSocialShare(comment)")
+                          i.fa.fa-share-alt.m-r-5.m-l-5
+                          | Share
                  .col-md-6.col-xs-6.col-sm-6.text-right
                    <timeago :datetime="comment.createdAt" :auto-update="60" :title="comment.createdAt | date"></timeago>
             .col-md-12.mt-40(v-if="content.comments.length > 1")
@@ -120,6 +138,7 @@
             </router-link>
             |  to see more
       </template>
+  <social-share ref="socialShareComp" :customClass="public-social-share-wrap"/>
 </template>
 <script>
 import 'video.js/dist/video-js.css'
@@ -128,6 +147,7 @@ import mixin from '../../../globals/mixin'
 import Preloader from '../../../components/preloader'
 import auth from '@/auth/helpers'
 import { router } from '@/http'
+import SocialShare from '../../../components/social-share'
 
 function publicContentPagInitialConfig () {
   return {
@@ -156,7 +176,8 @@ export default {
   name: 'PublicContent',
   components: {
     Preloader,
-    videoPlayer
+    videoPlayer,
+    SocialShare
   },
   mixins: [mixin],
   data () {
@@ -231,6 +252,9 @@ export default {
         this.redirectToRealPage()
       }
     },
+    triggerSocialShare (obj) {
+      this.$refs.socialShareComp.triggerPopup(obj)
+    },
     toggleComments () {
       this.scrollToTop()
       this.content.showAllComments = !this.content.showAllComments
@@ -250,8 +274,9 @@ export default {
     getTitle () {
       return this.getPageTitle(this.content.title || (this.isPost ? 'Post' : 'Response'))
     },
-    onPlay () {
-      auth.markEntityAsViewed(this.contentId, (this.isPost ? 'post' : 'comment'), auth.getGuestId())
+    onPlay (e, id = false, type = false) {
+      this.pauseAllOtherVideos(e)
+      auth.markEntityAsViewed((id || this.contentId), (type || (this.isPost ? 'post' : 'comment')), auth.getGuestId())
     },
     redirectToRealPage () {
       let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)

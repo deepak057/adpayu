@@ -2,7 +2,7 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.topmost-modal(:id="modalId" tabindex='-1', role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
-    .modal-dialog
+    .modal-dialog(:class="customClass")
       .modal-content
         .modal-header
           h4.modal-title
@@ -18,7 +18,7 @@ div(v-if="triggered")
               .w-s-pre(v-if="originalObject.type === 'text'" v-html = "shareObject.title")
               span(v-if="originalObject.type !== 'text'")
                 |  {{shareObject.title}}
-            i.mdi.mdi-content-copy.pointer.m-l-10(title="Copy the link" @click="copyURLToClipboard()")
+            i.fa.fa-copy.pointer.m-l-10(title="Copy the link" @click="copyURLToClipboard()")
             input(:type="URLCopied ? 'hidden' : 'text' " :class="{'hidden-from-view': !URLCopied}" type="text" :id="copyTextElementId" :value="shareObject.url")
             // i.mdi.mdi-pencil.m-l-10.pointer(title="Edit sharing title")
           hr
@@ -61,6 +61,14 @@ export default {
     Preloader
   },
   mixins: [mixin],
+  props: {
+    customClass: {
+      type: String,
+      default () {
+        return ''
+      }
+    }
+  },
   data () {
     return {
       pageLoader: true,
@@ -193,3 +201,6 @@ export default {
   }
 }
 </script>
+<style>
+.social-share-wrap .round{font-size:20px;display:flex;justify-content:center;align-items:center;width:40px;height:40px;background:#fff}
+</style>

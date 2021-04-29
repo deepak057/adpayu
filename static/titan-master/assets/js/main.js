@@ -26,6 +26,10 @@
         $('.page-loader').delay(350).fadeOut('slow');
     });*/
 
+    $(document).on('show.bs.modal', '.modal-append-to-body', function(){
+        $(this).appendTo("body");
+     })
+
     $(document).ready(function() {
 
         
