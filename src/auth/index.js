@@ -22,6 +22,9 @@ export default {
     if (store.state.auth.accessToken) {
       Vue.auth.defaults.headers.common['Authorization'] = store.state.auth.accessToken
     }
+    if (store.state.auth.guestId) {
+      Vue.auth.defaults.headers.common['GuestId'] = store.state.auth.guestId
+    }
 
     // Watch for accessToken changes and update our common Auth header.
     store.watch((state) => {

@@ -62,7 +62,7 @@
                 button.btn.btn-xs.dropdown-toggle.no-border-shadow.bg-none.custom(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options")
                  i.fa.fa-list
                 .dropdown-menu
-                  a.dropdown-item.mb-10(href='javascript:void(0)')
+                  a.dropdown-item.mb-10(href='javascript:void(0)' @click="triggerSocialShare((content.comment || content.post))")
                     i.fa.fa-share-alt.m-r-5.m-l-5
                     | Share
             .col-md-6.col-xs-6.text-right
@@ -138,7 +138,7 @@
             </router-link>
             |  to see more
       </template>
-  <social-share ref="socialShareComp" :customClass="public-social-share-wrap"/>
+  <social-share ref="socialShareComp" :customClass="'public-social-share-wrap'"/>
 </template>
 <script>
 import 'video.js/dist/video-js.css'
@@ -363,7 +363,7 @@ export default {
         this.content.keywords = getKeyWordsFromTags(post.Tags)
         this.content.date = post.updatedAt
       } else {
-        this.content.url = this.getCommentLink(comment.id)
+        this.content.url = this.getPostLink(post.id, true, false)
         this.content.title = comment.User.first + '\'s response on ' + this.getPostTitle(post)
         this.content.video = comment.videoPath ? comment : false
         this.content.commentDescription = comment.comment || false

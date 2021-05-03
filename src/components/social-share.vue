@@ -10,7 +10,7 @@ div(v-if="triggered")
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         .modal-body
           <template v-if="!loader">
-          p
+          p.link-description
             // <router-link :to="shareObject.url">
               |  {{shareObject.title}}
             </router-link>
@@ -202,5 +202,5 @@ export default {
 }
 </script>
 <style>
-.social-share-wrap .round{font-size:20px;display:flex;justify-content:center;align-items:center;width:40px;height:40px;background:#fff}
+.social-share-wrap .round{font-size:20px;display:inline-flex!important;justify-content:center;align-items:center;width:40px;height:40px;background:#fff}.facebook-color{color:#3b5998}.facebook-border{border:1px solid #3b5998}.google-plus-color{color:#db4a39}.google-plus-border{border:1px solid #db4a39}.linkedin-color{color:#0e76a8}.linkedin-border{border:1px solid #0e76a8}.pinterest-color{color:#c8232c}.pinterest-border{border:1px solid #c8232c}.sms-color{color:#00f}.sms-border{border:1px solid #00f}.skype-color{color:#00aff0}.skype-border{border:1px solid #00aff0}.twitter-color{color:#00acee}.twitter-border{border:1px solid #00acee}.watsapp-color{color:#4fce5d}.watsapp-border{border:1px solid #4fce5d}.reddit-color{color:#ff4301}.reddit-border{border:1px solid #ff4301}.round{line-height:48px;color:#fff;width:45px;height:45px;display:inline-block!important;font-weight:400;text-align:center;border-radius:100%}
 </style>
