@@ -276,7 +276,7 @@ export default {
     },
     onPlay (e, id = false, type = false) {
       this.pauseAllOtherVideos(e)
-      auth.markEntityAsViewed((id || this.contentId), (type || (this.isPost ? 'post' : 'comment')), auth.getGuestId())
+      auth.markEntityAsViewed((id || this.contentId), (type || (this.isPost ? 'post' : 'comment')))
     },
     redirectToRealPage () {
       let url = this.isPost ? this.getPostLink(this.contentId) : this.getCommentLink(this.contentId)

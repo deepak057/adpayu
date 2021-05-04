@@ -274,17 +274,14 @@ export default {
         return new Promise((resolve, reject) => { reject(error) })
       })
   },
-  markEntityAsViewed (id, entityType = 'comment', guestUserId = false) {
+  markEntityAsViewed (id, entityType = 'comment') {
     let data = {
       entityType: entityType,
       id: id
     }
-    if (guestUserId) {
-      data.guestUserId = guestUserId
-    }
     return Vue.http({
       method: 'put',
-      url: constants.API_BASE_URL + '/users/' + (guestUserId ? 'public/' : '') + 'markAsViewed',
+      url: constants.API_BASE_URL + '/users/markAsViewed',
       data: data
     })
       .then((response) => {
@@ -506,13 +503,9 @@ export default {
       })
   },
   getCurrentUserRevenue () {
-    let guestUserId = this.getGuestId()
     return Vue.http({
       method: 'post',
-      url: constants.API_BASE_URL + '/users/getUserRevenue',
-      data: {
-        guestUserId: guestUserId
-      }
+      url: constants.API_BASE_URL + '/users/getUserRevenue'
     })
       .then((response) => {
         return new Promise((resolve) => {
