@@ -27,8 +27,9 @@ main
                     span.icon-bar
                     span.icon-bar
                     span.icon-bar
-                <router-link to="/" class="navbar-brand">
-                  | {{siteName}}
+                <router-link to="/" class="navbar-brand custom">
+                  img(id="main-logo-img" :colored-logo="staticImageUrl('logo-colored.png')" :white-logo="staticImageUrl('logo-white.png')" :src="getLogo()")
+                  //| {{siteName}}
                 </router-link>
             #custom-collapse.collapse.navbar-collapse
                 ul.nav.navbar-nav.navbar-right
@@ -143,46 +144,14 @@ export default {
   methods: {
     ifHomePage () {
       return this.$route.name === 'home'
+    },
+    getLogo () {
+      return this.ifHomePage() ? this.staticImageUrl('logo-colored.png') : this.staticImageUrl('logo-white.png')
     }
   }
 }
 </script>
 
 <style>
-.page-loader {
-  position: fixed;
-  background: #000;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-  z-index: 9998;
-}
-.loader {
-  position: absolute;
-  border-left: 2px solid #ffffff;
-  border-top: 2px solid rgba(255, 255, 255, 0.2);
-  border-right: 2px solid rgba(255, 255, 255, 0.2);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-  height: 46px;
-  width: 46px;
-  left: 50%;
-  top: 50%;
-  margin: -23px 0 0 -23px;
-  text-indent: -9999em;
-  font-size: 10px;
-  z-index: 9999;
-  -webkit-animation: load 0.8s infinite linear;
-  -moz-animation: load 0.8s infinite linear;
-  ms-animation: load 0.8s infinite linear;
-  o-animation: load 0.8s infinite linear;
-  animation: load 0.8s infinite linear;
-}
-
-.loader,.loader:after {
-  border-radius: 50%;
-  width: 46px;
-  height: 46px;
-}
-
+.page-loader{position:fixed;background:#000;bottom:0;right:0;left:0;top:0;z-index:9998}.loader{position:absolute;border-left:2px solid #fff;border-top:2px solid rgba(255,255,255,.2);border-right:2px solid rgba(255,255,255,.2);border-bottom:2px solid rgba(255,255,255,.2);height:46px;width:46px;left:50%;top:50%;margin:-23px 0 0 -23px;text-indent:-9999em;font-size:10px;z-index:9999;-webkit-animation:load .8s infinite linear;-moz-animation:load .8s infinite linear;ms-animation:load .8s infinite linear;o-animation:load .8s infinite linear;animation:load .8s infinite linear}.loader,.loader:after{border-radius:50%;width:46px;height:46px}
 </style>

@@ -171,10 +171,13 @@
             if (navbar.hasClass('make-transparent')) {
                var topScroll = $(window).scrollTop();
                if (navbar.length > 0 && homeSection.length > 0) {
+                  let logoElm = $('#main-logo-img')
                   if(topScroll >= navHeight) {
-                        navbar.removeClass('navbar-transparent');
+                        navbar.removeClass('navbar-transparent')
+                        logoElm.attr('src', logoElm.attr('white-logo'))
                     } else {
-                    navbar.addClass('navbar-transparent');
+                        navbar.addClass('navbar-transparent')
+                        logoElm.attr('src', logoElm.attr('colored-logo'))
                   }
                 } 
             }
