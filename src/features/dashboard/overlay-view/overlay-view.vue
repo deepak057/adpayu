@@ -55,6 +55,11 @@ div(v-if="triggered")
                 | See more answers
               </router-link>
           </template>
+          .video-controls-nav-wrap
+              button.btn(@click="prev()")
+                | Prev
+              button.btn(@click="next()")
+                | Next
           //.text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
             .nav-text
              | Swipe down for previous video

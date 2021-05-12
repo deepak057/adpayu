@@ -10,16 +10,16 @@ header.topbar
           b.p-r-t--12
             // You can put here icon as well // <i class="wi wi-sunset"></i> //
             // Dark Logo icon
-            img.dark-logo(:src="getAsset('images/logo-icon.png')" alt='homepage')
+            // img.dark-logo(:src="getAsset('images/logo-icon.png')" alt='homepage')
             // Light Logo icon
-            img.light-logo(:src="getAsset('images/logo-light-icon.png')" alt='homepage')
+            img.light-logo.logo-icon(:src="getAsset('images/logo-light-icon.png')" alt='homepage')
           // End Logo icon
           // Logo text
           span.m-l-10.p-r-t--12(style='display: none;')
             // dark Logo text
-            img.dark-logo(:src="getAsset('images/logo-text.png')" alt='homepage')
+            // img.dark-logo(:src="getAsset('images/logo-text.png')" alt='homepage')
             // Light Logo text
-            img.light-logo(:src="getAsset('images/logo-light-text.png')" alt='homepage')
+            img.light-logo.m-t-8(:src="getAsset('images/logo-light-text.png')" alt='homepage')
         </router-link>
       // ==============================================================
       // End Logo
