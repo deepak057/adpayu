@@ -56,9 +56,9 @@ div(v-if="triggered")
               </router-link>
           </template>
           .video-controls-nav-wrap
-              button.btn(@click="prev()")
+              button.btn.btn-lg.prev-btn(@click="prev()")
                 | Prev
-              button.btn(@click="next()")
+              button.btn.btn-lg.next-btn(@click="next()")
                 | Next
           //.text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
             .nav-text
