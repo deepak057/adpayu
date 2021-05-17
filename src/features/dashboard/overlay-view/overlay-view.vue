@@ -1,7 +1,7 @@
 <template lang="pug">
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
-  .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true')
+  .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'h-85': isAd()}")
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
         <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
@@ -251,6 +251,9 @@ export default {
       if (closeAll) {
         this.closeAllModals()
       }
+    },
+    isAd () {
+      return this.getCurrentPost().AdOptionId
     },
     highlightArrow (action = 'next') {
       let highlightDuration = 500
