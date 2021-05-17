@@ -1,11 +1,11 @@
 <template lang="pug">
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
-  .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'h-85': isAd()}")
+  .modal.modal-append-to-body.video-overlay-view.modal-lg(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
     .modal-dialog(v-touch:swipe = "onSwipe")
       .modal-content
         <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
-        .modal-header.no-border(v-if="!isMobile()")
+        .modal-header.no-border.none(v-if="!isMobile()")
           .row.w-100
             .col-2
               img.img-icon.pointer(:src= "getAsset('images/logo-light-icon.png')" @click="closePopup()")
@@ -43,6 +43,9 @@ div(v-if="triggered")
               a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
                 i.fa.fa-info-circle.m-r-5
                 | Controls
+              a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" @click="closePopup(true)")
+                i.fa.fa-window-close.m-r-5
+                | Close
           //.text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
             img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
             .nav-text
@@ -297,8 +300,7 @@ export default {
           this.prev()
           break
         case 'left':
-          this.closePopup()
-          this.closeAllModals()
+          this.closePopup(true)
           break
         default:
           this.redirectToProfile()

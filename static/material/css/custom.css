@@ -22,10 +22,14 @@
 
 
 .modal.video-overlay-view {
-	height: 70%;
-	top: auto;
+
+	
 	border-top-right-radius: 30px;
 	border-top-left-radius: 30px; 
+}
+
+.mobile-device .modal.video-overlay-view {
+	height: 70%;
 }
 
 .modal.video-overlay-view .modal-dialog{
@@ -44,7 +48,7 @@
 .video-overlay-view .video-controls-nav-wrap .btn{
 	width: 50%;
 }
-.h-85{
+.mobile-device .m-h-85{
 	height: 85% !important;
 }
 .video-overlay-view .video-controls-nav-wrap .next-btn{
