@@ -1,8 +1,8 @@
 <template lang="pug">
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
-  .modal.modal-append-to-body.video-overlay-view.modal-lg(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
-    .modal-dialog(v-touch:swipe = "onSwipe")
+  .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
+    .modal-dialog.modal-lg(v-touch:swipe = "onSwipe")
       .modal-content
         <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
         .modal-header.no-border.none(v-if="!isMobile()")
@@ -40,10 +40,10 @@ div(v-if="triggered")
                   select.form-control.custom-select(v-model="animationTemplate")
                     option(v-for="animation in animations" :value="animation.id")
                       | {{animation.name}}
-              a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
+              // a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
                 i.fa.fa-info-circle.m-r-5
                 | Controls
-              a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" @click="closePopup(true)")
+              a.dropdown-item(href="javascript:void(0)" @click="closePopup(true)")
                 i.fa.fa-window-close.m-r-5
                 | Close
           //.text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
@@ -53,7 +53,7 @@ div(v-if="triggered")
           <template v-if="!isLastPost() || noMoreFeed">
           .overlay-view-content-wrap
             <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
-            .show-more-answer-link( v-if="enableShowMoreAnswerLink()")
+            //.show-more-answer-link( v-if="enableShowMoreAnswerLink()")
               <router-link class=" text-muted" :to="getPostLink(getCurrentPost().id)" @click.native="closeAllModals()">
                 | See more answers
               </router-link>

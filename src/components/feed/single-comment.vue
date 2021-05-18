@@ -5,7 +5,7 @@
       span.round
         img(:src='getMedia(comment.User.pic)', alt='user', width='50')
     </router-link>
-  .col-12.col-md-10.col-xs-12.comment-text.p-0
+  .col-12.col-md-12.col-xs-12.comment-text.p-0
     h5.user-name-wrap
       <router-link @click.native = "closeAllModals()" :to="userProfileLink(comment.User.id)">
         | {{userName(comment.User)}}
@@ -15,7 +15,7 @@
       | {{comment.comment}}
       </template>
     <template v-if="getVideo(comment)">
-    .row.m-0
+    .row.m-0.comments-video-comp-wrap
       //.comments.video-container.col-xs-12.col-sm-8.col-md-8.col-lg-6.p-0(:class="videoWrapColClass")
       .comments.video-container.col-lg-6.col-md-8.p-0.m-t-5(:class="videoWrapColClass")
         <comment-video-player  :triggerPopupView = "triggerPopupView" ref="videoCommentComp" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay = "autoReplay" :comment="comment"/>
