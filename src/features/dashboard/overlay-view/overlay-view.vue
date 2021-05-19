@@ -2,7 +2,7 @@
 div(v-if="triggered")
   span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
-    .modal-dialog.modal-lg(v-touch:swipe = "onSwipe")
+    .modal-dialog.modal-lg()
       .modal-content
         <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
         .modal-header.no-border.none(v-if="!isMobile()")
@@ -22,7 +22,7 @@ div(v-if="triggered")
                 span.small.m-l-5(v-if="isMobile()")
                   | Swipe Up
                 i.mdi.mdi-arrow-right.m-l-5
-          i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
+          // i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
         span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
           <template v-if="isMobile()">
@@ -43,6 +43,10 @@ div(v-if="triggered")
               // a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
                 i.fa.fa-info-circle.m-r-5
                 | Controls
+              a.dropdown-item(href="javascript:void(0)" :class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
+                i.fa.fa-refresh.m-r-5
+                //i.fa.fa-window-close.m-r-5
+                | Refresh
               a.dropdown-item(href="javascript:void(0)" @click="closePopup(true)")
                 i.fa.fa-window-close.m-r-5
                 | Close
@@ -232,6 +236,15 @@ export default {
         el.click()
       }
     },
+    scrollToTop () {
+      let modal = document.getElementById(this.modalId)
+      if (modal) {
+        let container = modal.getElementsByClassName('overlay-view-content-wrap')[0]
+        if (container) {
+          container.scrollTo(0, 0)
+        }
+      }
+    },
     updateUser () {
       this.toggleMoreOptions()
       let currentUser = auth.getUser()
@@ -333,6 +346,7 @@ export default {
         let text = this.noMoreFeed ? this.TextNoMoreFeed : 'Loading more posts...'
         this.showNotification(text, 'info')
       }
+      this.scrollToTop()
     },
     isLastPost () {
       return this.currentPost >= (this.feed.length - 1)
@@ -395,6 +409,7 @@ export default {
       } else {
         this.showNotification('Sorry, there is no previous post, please go to next one.', 'info')
       }
+      this.scrollToTop()
     },
     getPostIndexById (postId) {
       for (let i in this.feed) {

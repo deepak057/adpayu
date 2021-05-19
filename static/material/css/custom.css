@@ -35,6 +35,14 @@
 	top: 20px;
 	z-index: 1;
 }
+.overlay-screen-info-icon .dropdown-menu.show{
+	right: 0px;
+	left: auto !important;
+}
+.mobile-device .overlay-screen-info-icon .dropdown-menu.show{
+	left: 0px !important;
+	right: auto;
+}
 .mobile-device .overlay-screen-info-icon{
 			right:12px!important;top:33px!important}
 
@@ -66,6 +74,7 @@
 }
 .video-overlay-view .video-controls-nav-wrap .btn{
 	width: 50%;
+	border-radius: 0px;
 }
 .mobile-device .m-h-85{
 	height: 85% !important;
@@ -115,6 +124,8 @@
 }
 .modal.video-overlay-view .modal-dialog{
 	height: 92%;
+	overflow: hidden;
+	border-radius: 18px;
 }
 .mobile-device .modal.video-overlay-view .modal-dialog{
 	height: 100%;
