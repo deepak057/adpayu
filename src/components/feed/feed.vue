@@ -83,8 +83,8 @@
           .col-md-8.video-container.p-b-0(:class="'col-lg-'+config.colWidth")
             <feed-video-player @FeedVideoPlayed = "feedVideoPlayed" @PostVideoPlayed = "postVideoPlayed" :triggerPopupView = "triggerPopupView" :autoReplay = "autoReplay" :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
           .col-md-4.col-sm-12.p-0(:class="'col-lg-'+(12-config.colWidth)" v-if="enableAdOption(f, 'view')")
-            span.hidden-sm-down.m-l-10
-            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'view')")
+            span.hidden-sm-down.hidden-video-badge.m-l-10
+            span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7.ad-video-badge(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'view')")
               span(v-html="'+ ' + showAmount(f['AdOption'].cpv, false, true, false, false)")
               span.ad-amount-added-animation-wrap(v-if="!preview && adConsumed(f, 'view')")
                 span.amount.text-warning.bold.amount-container( :class ="{'fadeOutDiagon': f['view']}" v-html="'+' + showAmount(f['AdOption'].cpv, false, true, false, false)")

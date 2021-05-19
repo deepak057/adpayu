@@ -14,7 +14,6 @@
 	position:absolute;width:auto;left:0;top:30px;/*transform:translate(0,-50%);padding:5px;*/right:0;
 	height: 90%;overflow-y: auto;
 	overflow-x: hidden;
-	padding-bottom: 10px;
 
 	}.video-overlay-view .modal-content{background:#272525;color:#fff}.video-overlay-view .modal-content .excerpt,.video-overlay-view .modal-content .upload-video-comment-wrap,.video-overlay-view .modal-content a{color:#fff}.video-overlay-view .modal-content .dropdown-menu a{color:#455a64}.video-overlay-view .comment-footer .action-icons{margin-left:5px}.video-overlay-view .like-comm{margin-left:5px}.fixed-br{position:absolute;bottom:10px;right:10px}.video-overlay-view .video-comment-content .excerpt *{color:#d2d2d2!important}
 
@@ -138,4 +137,16 @@
 }
 .mobile-device  .video-overlay-view .overlay-view-content-wrap{
 	top: 10px !important; 
+}
+.modal.video-overlay-view .modal-dialog .hidden-video-badge{
+	margin-left: 5px !important;
+}
+.modal.video-overlay-view .modal-dialog .ad-video-badge {
+	margin-top: 5px;
+}
+.modal.video-overlay-view .modal-dialog .post-image-grid-wrap{
+	display: none;
+}
+.modal.video-overlay-view .modal-dialog .comment-footer{
+	margin-bottom: 10px;
 }

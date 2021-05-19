@@ -355,7 +355,8 @@ export default {
       this.feed = this.feed.concat(this.removeDuplicates(this.feed, data.posts))
       this.truncateFeed()
       if (this.currentPage === 1 && this.feedHasVideo()) {
-        this.autoTriggerOverlayView()
+        // disable auto triggering Overlay View
+        // this.autoTriggerOverlayView()
       }
       if ('nextPage' in data && data.nextPage) {
         this.currentPage = data.nextPage

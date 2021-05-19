@@ -1,34 +1,13 @@
 <template lang="pug">
 div(v-if="triggered")
-  span(:id="triggerButtonId" data-toggle="modal" data-backdrop="static" :data-target="modalIdHash" data-keyboard="false")
+  span(:id="triggerButtonId" data-toggle="modal" :data-target="modalIdHash" data-keyboard="false")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
-    .modal-dialog.modal-lg()
+    .modal-dialog.modal-lg
       .modal-content
         <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
         .modal-header.no-border.none(v-if="!isMobile()")
-          .row.w-100
-            .col-2
-              img.img-icon.pointer(:src= "getAsset('images/logo-light-icon.png')" @click="closePopup()")
-            .col-8.text-center
-              a.m-l-5(href="javascript:void(0)" @click="prev()")
-                i.mdi.mdi-arrow-left.m-r-5
-                span(v-if="!isMobile()")
-                  | Prev
-                span.small(v-if="isMobile()")
-                  | Swipe Down
-              a.m-l-5(href="javascript:void(0)" @click="next()")
-                span(v-if="!isMobile()")
-                  | Next
-                span.small.m-l-5(v-if="isMobile()")
-                  | Swipe Up
-                i.mdi.mdi-arrow-right.m-l-5
-          // i.mdi.mdi-refresh.mdi-24px.pointer.c-white(:class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
         span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
-          <template v-if="isMobile()">
-          // i.mdi.mdi-24px.mdi-arrow-left.pointer.mobile-back-icon(@click="closePopup()" title="Back")
-          // i.mdi.mdi-refresh.pointer.overlay-refresh-icon(@click="refreshFeed()" title = "Refresh the feed")
-          </template>
           .btn-group.overlay-screen-info-icon
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16.text-muted.hide-after(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options" :id="triggerOVOptionsBtn")
              i.ti.ti-more-alt
@@ -40,53 +19,31 @@ div(v-if="triggered")
                   select.form-control.custom-select(v-model="animationTemplate")
                     option(v-for="animation in animations" :value="animation.id")
                       | {{animation.name}}
-              // a.dropdown-item(v-if="isMobile()" href="javascript:void(0)" title="Edit the video"  data-container="body" :title="getInfoTitle()" data-toggle="popover" data-placement="bottom" :data-content='getInfoContent()')
-                i.fa.fa-info-circle.m-r-5
-                | Controls
               a.dropdown-item(href="javascript:void(0)" :class="{'spin': spinRefreshIcon}" @click="refreshFeed()" title="Refresh the feed")
                 i.fa.fa-refresh.m-r-5
-                //i.fa.fa-window-close.m-r-5
                 | Refresh
               a.dropdown-item(href="javascript:void(0)" @click="closePopup(true)")
                 i.fa.fa-window-close.m-r-5
                 | Close
-          //.text-center.video-controls-nav-wrap.up(:class="{'animation white-arrow': animation.up, 'white-arrow': nextCommandInvoked}" v-if="isMobile() && currentPost < (feed.length -1 )")
-            img.pointer(:src="staticImageUrl('arrow-up-grey.png')" @click="next()")
-            .nav-text
-              | Swipe up for next video
           <template v-if="!isLastPost() || noMoreFeed">
           .overlay-view-content-wrap
             <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
-            //.show-more-answer-link( v-if="enableShowMoreAnswerLink()")
-              <router-link class=" text-muted" :to="getPostLink(getCurrentPost().id)" @click.native="closeAllModals()">
-                | See more answers
-              </router-link>
           </template>
           .video-controls-nav-wrap
               button.btn.btn-lg.prev-btn(@click="prev()")
                 | Prev
               button.btn.btn-lg.next-btn(@click="next()")
                 | Next
-          //.text-center.video-controls-nav-wrap.down(:class="{'animation white-arrow': animation.down, 'white-arrow': prevCommandInvoked}" v-if="isMobile() && currentPost > 0")
-            .nav-text
-             | Swipe down for previous video
-            img.pointer(:src="staticImageUrl('arrow-down-grey.png')" @click="prev()")
-          //i.mdi.mdi-24px.mdi-refresh.pointer.overlay-refresh-icon.text-info(v-if="isMobile()" @click="refreshFeed()" title = "Refresh the feed" :class="{'spin': spinRefreshIcon}")
           <template v-if="isLastPost() && !noMoreFeed">
           .align-in-middle.text-center
             <preloader :option="3" class="w-100px"/>
           </template>
-        //.modal-footer
-          button.btn.btn-default.waves-effect(type='button', data-dismiss='modal' :id="closeButtonId") Close
-          //<preloader class="m-l-5 preloader-next-to-text"/>
 </template>
 <script>
 import mixin from '../../../globals/mixin.js'
 import Preloader from './../../../components/preloader'
 import Feed from './../../../components/feed/feed'
 import AnimationTemplate from './animation-template'
-import { router } from '@/http'
-import store from '@/store'
 import auth from '@/auth/helpers'
 
 export default {
@@ -118,12 +75,6 @@ export default {
       autoReplay: true,
       useDefaultComment: true,
       feed: [],
-      animation: {
-        up: false,
-        down: false
-      },
-      nextCommandInvoked: false,
-      prevCommandInvoked: false,
       spinRefreshIcon: false,
       TextNoMoreFeed: 'Sorry, no more posts.',
       animationTemplate: auth.getUser().animationTemplate,
@@ -271,70 +222,20 @@ export default {
     isAd () {
       return this.getCurrentPost().AdOptionId
     },
-    highlightArrow (action = 'next') {
-      let highlightDuration = 500
-      if (action === 'next') {
-        this.nextCommandInvoked = true
-        setTimeout(() => {
-          this.nextCommandInvoked = false
-        }, highlightDuration)
-      } else {
-        this.prevCommandInvoked = true
-        setTimeout(() => {
-          this.prevCommandInvoked = false
-        }, highlightDuration)
-      }
-    },
-    enableShowMoreAnswerLink () {
-      let f = this.getCurrentPost()
-      return f && f.type === 'question'
-    },
     manipulateFeed (feed) {
       let arr = []
       for (let i in feed) {
-        if ((feed[i].type === 'question' && 'defaultComment' in feed[i] && feed[i].defaultComment) || feed[i].type === 'video' || feed[i].AdOptionId) {
+        if ((feed[i].type === 'question' && 'defaultComment' in feed[i] && feed[i].defaultComment) || feed[i].type === 'video') {
           arr.push(feed[i])
         }
       }
       return arr
     },
-    getInfoTitle () {
-      return 'Controls'
-    },
-    getInfoContent () {
-      return 'Swipe Up = Next Video, Swipe Down = Previous Video, Swipe Right = User Profile, Swipe Left = Close'
-    },
-    onSwipe (direction) {
-      switch (direction) {
-        case 'top':
-          this.next()
-          break
-        case 'bottom':
-          this.prev()
-          break
-        case 'left':
-          this.closePopup(true)
-          break
-        default:
-          this.redirectToProfile()
-          break
-      }
-    },
     getCurrentPost () {
       return this.feed[this.currentPost]
     },
-    redirectToProfile () {
-      let currentPost = this.getCurrentPost()
-      let defaultComment = this.getLastComment(currentPost)
-      let uid = defaultComment ? defaultComment.User.id : currentPost.User.id
-      this.closePopup()
-      this.closeAllModals()
-      router.push(this.userProfileLink(uid))
-    },
     next () {
       this.closeReactions()
-      this.animation.up = false
-      this.highlightArrow('next')
       let threshholdPostNumber = 3
       if (this.currentPost >= (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
@@ -350,20 +251,6 @@ export default {
     },
     isLastPost () {
       return this.currentPost >= (this.feed.length - 1)
-    },
-    handleTutorial () {
-      let key = 'overlayViewTutorial'
-      let maxTutorialAttempts = 1
-      let overlayViewTutorial = sessionStorage.getItem(key)
-      if ((overlayViewTutorial === null || overlayViewTutorial <= maxTutorialAttempts) && !store.state.auth.overlayViewTutorialDisabled) {
-        this.animation.up = true
-        this.animation.down = true
-        let newV = overlayViewTutorial ? ++overlayViewTutorial : 1
-        sessionStorage.setItem(key, newV)
-      } else {
-        store.state.auth.overlayViewTutorialDisabled = true
-        store.dispatch('auth/update', store.state.auth)
-      }
     },
     autoPlayVideo () {
       setTimeout(() => {
@@ -401,8 +288,6 @@ export default {
     },
     prev () {
       this.closeReactions()
-      this.animation.down = false
-      this.highlightArrow('prev')
       if (this.currentPost > 0) {
         this.currentPost--
         this.autoPlayVideo()
@@ -444,13 +329,11 @@ export default {
             d.click()
             clearInterval(interval)
             this.autoPlayVideo()
-            this.handleTutorial()
           }
         }, 100)
       } else {
         d.click()
         this.autoPlayVideo()
-        this.handleTutorial()
       }
     }
   }
