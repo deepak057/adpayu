@@ -45,6 +45,18 @@ export default {
       deep: true
     })
 
+    // Watch for GuestUserId changes and update our common GuestId header.
+    store.watch((state) => {
+      return state.auth.guestId
+    }, (guestId) => {
+      Vue.auth.defaults.headers.common['GuestId'] = guestId
+      if (constants.DEBUG) {
+        console.log('GuestId set')
+      }
+    }, {
+      deep: true
+    })
+
     // Intercept the response and refresh (one retry) if invalid token.
     Vue.auth.interceptors.response.use(function (response) {
       return Promise.resolve(response)

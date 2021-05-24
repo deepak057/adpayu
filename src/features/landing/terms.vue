@@ -38,7 +38,10 @@
       <router-link :to="getPageURL('advertise')">
         |  Ad Services
       </router-link>
-      |  which is subject to change.
+      |  which are subject to change.
+      h4.m-l-10 CONTENT MODERATION AND REMOVAL
+      p
+        | Content including videos uploaded by the users is reviewed by our moderators. {{siteName}} doesn't gaurentee the authenticity of the videos as they are uploaded by the users on the platform and so those users are solely responsible for their videos. We strongly condemn any kind of pirated, plagiarised or copyright content uploaded by users on the platform and if any such video is found by moderators or through any complaints, we will immediately remove it from the platform.
     h4.m-l-10 RESTRICTED ACTIVITIES
     p
       | Access to and use of the Services is subject to all applicable international, federal, state and local laws and regulations. User agrees not to use the Services in any way that violates such laws or regulations.
