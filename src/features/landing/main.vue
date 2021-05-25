@@ -6,12 +6,12 @@
         .titan-caption
             .caption-content
                 .font-alt.mb-30.titan-title-size-4.main-banner-title-custom {{slogan}}
-                .font-alt.mb-50.titan-title-size-2 Learn and earn at the same time
+                .font-alt.mb-50.titan-title-size-2 Learn and earn in your spare time
                 <router-link to="/signup" class="btn btn-info btn-round color-white btn-info custom">
                   | Sign Up
                 </router-link>
-                <router-link to="/login" class="btn btn-border-w btn-round highlighted-button font-bold blue-text m-l-10">
-                  | Log In
+                <router-link :to="getPageURL('about')" class="btn btn-border-w btn-round highlighted-button font-bold blue-text m-l-10">
+                  | Know More
                 </router-link>
     .main
         section.pt-50.custom(:class="{'pb-140': !isMobile(), 'pb-70': isMobile()}" :style="getTheImage('main-white-background.png')")
@@ -38,7 +38,7 @@
                     span.blue-text
                       |   Money
                   p.module-subtitle.font-serif.align-left
-                    | Watch entertaining videos and earn money. {{siteName}} allows you to make money with videos. Our video inventory refreshes daily. Find more ways to make even more money.
+                    | Watch entertaining videos and earn money in your spare time. {{siteName}} allows you to make money with videos. Our video inventory refreshes daily. Find more ways to make even more money.
                   <router-link class="btn btn-border-d btn-circle" :to="getPageURL('make-money')">
                     | Learn More
                   </router-link>

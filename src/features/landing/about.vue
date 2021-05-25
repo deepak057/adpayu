@@ -1,12 +1,12 @@
 <template lang="pug">
 .about-page-wrap
-  section.module.bg-dark.landing-reason(:style="getTheImage('app-intro-background.png')")
+  section.module.bg-dark.landing-reason.custom(:style="getTheImage('app-intro-background.png')")
     .container
       .row
         .col-sm-6
           img(:src="getTheImage('app-preview-tab-mobile.png', false)" alt='App preview in mobile and tab')
         .col-sm-6
-          h2.module-title.font-alt.align-left.color-white What is {{siteName}}?
+          h2.module-title.font-alt.align-left.color-white Make extra money in your spare time
           p.module-subtitle.font-serif.align-left
             | {{siteName}} is a Q&A network where answers are given in the form of short and entertaining videos instead of traditional text answers.
           p
