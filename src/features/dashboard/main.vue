@@ -253,7 +253,7 @@ export default {
               }
             })
         }
-      }, 30000)
+      }, 200000)
     },
     updateFeedPreference () {
       this.noMoreFeed = false
