@@ -39,7 +39,7 @@
               <router-link :to = "content.url" title="Log in to like it">
                 span(v-if="parseInt(content.likesCount)")
                   | {{formatNumber(content.likesCount, false, 10)}}
-                i.fa.fa-heart.m-l-5.text-danger
+                i.fa.fa-heart.m-l-5.like-icon
               </router-link>
               a.m-l-5(href="javascript:void(0)" @click="toggleComments()" v-if="canLoadComments()")
                 span(v-if = "content.commentsCount")
@@ -82,7 +82,7 @@
                    <router-link class="mt-5" :to = "getCommentLink(comment.id)" title="Log in to like it">
                      span(v-if = "parseInt(comment.CommentsLikesCount)")
                       | {{formatNumber(comment.CommentsLikesCount, false, 10)}}
-                     i.fa.fa-heart.text-danger(:class="{'m-l-5': parseInt(comment.CommentsLikesCount)}")
+                     i.fa.fa-heart.like-icon(:class="{'m-l-5': parseInt(comment.CommentsLikesCount)}")
                    </router-link>
                    <router-link class="m-l-5" :to = "getCommentLink(comment.id)" title="Log in to leave your response">
                     span(v-if = "comment.ReactionsCount")
