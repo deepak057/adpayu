@@ -284,6 +284,7 @@ export default {
       this.currentPage = 1
     },
     getFeed () {
+      this.scrollToTop()
       if (this.currentPage === 1) {
         this.preloader = true
       }

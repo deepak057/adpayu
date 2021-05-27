@@ -170,6 +170,12 @@ $(function () {
                 $(this).appendTo("body");
              })
 
+             function closeReactions () {
+               if ($('.reaction-popup').length) {
+                 $('.reaction-popup').remove()
+               }
+             }
+
              $(document).on('hidden.bs.modal', '.modal', function(){
                 let audio = $(this).find("audio")[0]
                 let video = $(this).find("video")[0]
@@ -179,6 +185,7 @@ $(function () {
                 if (video) {
                     video.pause()
                 }
+                closeReactions()
              })
 
              $(document).on('shown.bs.modal', '.topmost-modal', function(){
