@@ -9,27 +9,27 @@ section.module.stats-wrap(:class="{'bg-dark-60': background}" :style="background
             .col-sm-6.col-md-3.col-lg-3.stats-right-border
                 .count-item.mb-sm-40
                     .count-icon
-                        i.fa.fa-users
-                    h2.count-to.font-alt(:data-countto='stats.users')
-                    h4.count-title.font-serif Active users
+                        i.fa.fa-question-circle
+                    h2.count-to.font-alt(:data-countto='stats.questionsPosted')
+                    h4.count-title.font-serif Questions Asked
             .col-sm-6.col-md-3.col-lg-3.stats-right-border
                 .count-item.mb-sm-40
                     .count-icon
                         i.fa.fa-bullhorn
                     h2.count-to.font-alt(:data-countto='stats.adsPosted')
-                    h4.count-title.font-serif Ads created
+                    h4.count-title.font-serif Ads Created
             .col-sm-6.col-md-3.col-lg-3.stats-right-border
                 .count-item.mb-sm-40
                     .count-icon
                         i.fa.fa-film
                     h2.count-to.font-alt(:data-countto='stats.videosPosted')
-                    h4.count-title.font-serif Video answers posted
+                    h4.count-title.font-serif Video Answers Posted
             .col-sm-6.col-md-3.col-lg-3
                 .count-item.mb-sm-40
                     .count-icon
-                        i.fa.fa-dollar
-                    h2.count-to.font-alt(:data-countto='stats.totalMoneyMadeUSD')
-                    h4.count-title.font-serif Earned by users
+                        i.fa.fa-users
+                    h2.count-to.font-alt(:data-countto='stats.usersPaid')
+                    h4.count-title.font-serif Users Paid
 </template>
 <script>
 import Service from '../service'

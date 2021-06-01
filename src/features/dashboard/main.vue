@@ -284,9 +284,9 @@ export default {
       this.currentPage = 1
     },
     getFeed () {
-      this.scrollToTop()
       if (this.currentPage === 1) {
         this.preloader = true
+        this.scrollToTop()
       }
       let that = this
       this.$options.service.getFeed(that.getCat(), that.currentPage)

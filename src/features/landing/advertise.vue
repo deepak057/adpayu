@@ -86,8 +86,8 @@
         | Once your ad exhausts its Impression target, it will cease to be an ad post and will simply turn into a regular public post. In which case, it will show up only in the feed of category that it was tagged to.
       li
         | Once CPC or CPV target has been achieved but CPI target is still not achieved on your ad, the links and videos will be there for users to click or watch. However, no money will be paid to them for clicking the link or watching the video as the CPC or CPV budget is already over. So there will always be a chance of getting a click or view at the very cheap price of an impression.
-    h4.m-l-10 EXPLORE OUR USER BASE
-    p
+    // h4.m-l-10 EXPLORE OUR USER BASE
+    // p
       <router-link :to="getPageURL('user-base')">
         |  Click here
       </router-link>

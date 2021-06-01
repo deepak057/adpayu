@@ -28,18 +28,18 @@
       div
         span.post-description-text-wrap
           <router-link v-if="isQuestion(f) || !manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="hide-on-mobile" :to="userProfileLink(getPostUser(f).id)">
-            | {{userName(getPostUser(f))}}
+            | {{getUserName(getPostUser(f))}}
           </router-link>
           <router-link @click.native = "closeAllModals()" :to="userProfileLink(getPostUser(f).id)" class="show-on-mobile">
             img.img-circle.m-r-5(:src='getMedia(getPostUser(f).pic)', alt='user' style="max-width: 25px")
           </router-link>
           <router-link v-if="isQuestion(f) || !manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="show-on-mobile" :to="userProfileLink(getPostUser(f).id)">
-            | {{userName(getPostUser(f))}}
+            | {{getUserName(getPostUser(f))}}
           </router-link>
           span(v-if="manipulatePostDescriptionText(f)")
             | {{getRecentActivityText(f)}}
           <router-link v-if="!isQuestion(f) && manipulatePostDescriptionText(f)" @click.native = "closeAllModals()" class="" :to="userProfileLink(getPostUser(f).id)">
-            | {{userName(getPostUser(f))}}
+            | {{getUserName(getPostUser(f))}}
           </router-link>
           |  {{getPostDescriptionText(f)}}
           span.sl-date
@@ -255,6 +255,9 @@ export default {
     }
   },
   methods: {
+    getUserName (user) {
+      return this.isMobile() ? this.userName(user, true, true) : this.userName(user)
+    },
     updateReactionsCount (obj) {
       let getFeedItem = (fId) => {
         for (let i in this.feed) {

@@ -46,8 +46,8 @@
                   img.center-block(:class="{'mt-40': isMobile()}" :src="getTheImage('app-benefits-make-money.png', false)" alt="App Benefits, Make Money")
         <paid-users />
         <stats-overview />
-        <social-media :specialSection="true"/>
-        section.module.download.pb-0
+        <social-media/>
+        // section.module.download.pb-0
           .container.text-center
             h2.module-title.font-alt Download
               span.blue-text

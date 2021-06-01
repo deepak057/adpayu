@@ -183,8 +183,8 @@ export default {
     userProfileLink (uid) {
       return '/profile/' + (uid || '')
     },
-    userName (user, trim = true) {
-      let n = this.titleCase(user.first + ' ' + user.last)
+    userName (user, trim = true, showOnlyFirst = false) {
+      let n = this.titleCase(user.first + (!showOnlyFirst ? (' ' + user.last) : ''))
       return trim && n.length > 17 ? n.substring(0, 14) + '...' : n
     },
     titleCase (str) {
