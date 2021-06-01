@@ -213,7 +213,7 @@ export default {
         },
         {
           property: 'og:description',
-          content: this.getTitle()
+          content: (this.content.video ? 'Uploaded' : 'Created') + ' by ' + this.userName(this.content.user)
         },
         {
           property: 'og:video',
