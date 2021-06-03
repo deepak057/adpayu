@@ -241,9 +241,25 @@ export default {
     }
   },
   mounted () {
+    this.removeSiteImage()
     this.init()
   },
   methods: {
+    /*
+    * function to remove the Meta og:image tag so that
+    * the og:image tag created by this component is
+    * detected by the search engine crwallers
+    */
+    removeSiteImage () {
+      try {
+        let elem = document.querySelector("[name='site.image.url']")
+        if (elem) {
+          elem.remove()
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
     init () {
       this.scrollToTop()
       if (!this.isLoggedIn()) {
