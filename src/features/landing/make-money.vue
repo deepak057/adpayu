@@ -23,7 +23,7 @@
             li Disable or enable ads anytime at your will.
             li Get bonuses and cashbacks on watching your first ad.
             li
-              | Withdraw money to your bank, Paytm or any other accounts.
+              | Withdraw money to your bank or any other accounts.
             li Help and support in case of any disputes or money withdrawal issues.
             li And much more.
           <router-link class="btn btn-border-d btn-circle" :to="redirectURLs('signup')">
@@ -74,7 +74,7 @@
             span
               |  money now?
           p.color-light.font-15
-            | Get cashback on sign up and many more rewards. What are you waiting for?
+            | Get cashbacks and many more rewards. What are you waiting for?
       div
         <router-link class="btn btn-border-w highlighted-button blue-text font-bold btn-circle" to="/signup">
           | Free Sign Up

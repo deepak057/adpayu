@@ -14,12 +14,12 @@ div
               input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" value="bank" type="radio" id="pwo-rd-bank-account")
               label.small.m-r-5(for="pwo-rd-bank-account")
                 | Bank Account
-              input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" type="radio" value="paytm" id="pwo-rd-paytm")
-              label.small.m-r-5(for="pwo-rd-paytm")
+              // input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" type="radio" value="paytm" id="pwo-rd-paytm")
+              // label.small.m-r-5(for="pwo-rd-paytm")
                 | Paytm
               input.m-r-5.with-gap(v-model.trim="data.transfermodeDetails.mode" name="group4" type="radio" value="manual" id="pwo-rd-manual")
               label.small(for="pwo-rd-manual")
-                | Manual
+                | Other Accounts
           .text-center.m-t-20(v-if="pageLoader")
             <preloader/>
           <template v-if="!pageLoader">
@@ -95,12 +95,11 @@ div
             .pwo-selected-option-wrap
               .text-left.m-b-10.alert.alert-info.m-t--10(v-if="!ifMode('paytm')")
                 span(v-if="ifMode('manual')")
-                  | Please write to us and let us know if you are having trouble getting paid with other options or if you'd like us to help you withdraw your money in some other ways, especially, if you don't have an Indian Bank or Paytm account.
+                  | Please write to us and let us know if you are having trouble getting paid in your bank account or if you'd like us to help you withdraw your money in some other ways.
                 span(v-if="ifMode('bank')")
-                  | Note- Please use this option only if you have an Indian bank account. If you're from outside of India, please
+                  | Note - For other payment options, please
                   a(href="javascript:void(0)" @click="data.transfermodeDetails.mode='manual'")
-                    |  click here
-                  |  to choose manual money transfer mode.
+                    |  click here.
               form
                 .alert.alert-danger.small(v-if="data.serverError")
                   | {{data.serverError}}

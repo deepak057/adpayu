@@ -240,8 +240,10 @@ export default {
       this.init()
     }
   },
-  mounted () {
+  created () {
     this.removeSiteImage()
+  },
+  mounted () {
     this.init()
   },
   methods: {

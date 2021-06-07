@@ -52,7 +52,7 @@
                         span.icon-wallet
                     h3.features-title.font-alt Make money
                     p
-                        | Consume beautiful and entertaining ads in your feed and get paid. Withdraw money to your bank, Paytm or other accounts.
+                        | Consume beautiful and entertaining ads in your feed and get paid. Withdraw money to your bank or other accounts.
             .col-md-3.col-sm-6.col-xs-12
                 .features-item
                     .features-icon
@@ -117,7 +117,7 @@
                   li Disable or enable ads anytime at your will.
                   li Get bonuses and cashbacks on watching your first ad
                   li
-                    | Withdraw money to your bank, Paytm or any other accounts.
+                    | Withdraw money to your bank or any other accounts.
                   li Help and support in case of any disputes or money withdrawal issues
                   li And much more.
                 <router-link class="btn btn-border-d btn-circle" :to="getPageURL('make-money')">

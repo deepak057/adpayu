@@ -4,7 +4,7 @@
     .text-center
       h2.font-alt Privacy Policy
     p.m-t-40
-      | Our Privacy Policy was last updated and posted on 2nd April, 2019. It governs the privacy terms of our Website, located at http://{{siteName}}.com. Any capitalized terms not defined in our Privacy Policy, have the meaning as specified in our Terms of Service.
+      | Our Privacy Policy was last updated and posted on 2nd June, 2021. It governs the privacy terms of our Website, located at http://{{siteName}}.com. Any capitalized terms not defined in our Privacy Policy, have the meaning as specified in our Terms of Service.
     p
       | Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at http://{{siteName}}.com. The following outlines our privacy policy.
     p

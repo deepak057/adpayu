@@ -3,7 +3,7 @@
   .sidebar-map-header-wrap.f-s-16
     span.m-r-5(v-html="getUserCurrencySymbol()")
     | Total Earnings
-    i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Your Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Go to your Feed Settings in Settings to enable or disable ads in your feed. Click on Withdraw button below to get this money transferred to your bank, Paytm or other accounts.")
+    i.mdi.mdi-information-outline.cursor-hand.m-l-5(data-container="body" title="Your Earnings" data-toggle="popover" data-placement="right" data-content="It's total amount of money you have made by consuming the ads. Go to your Feed Settings in Settings to enable or disable ads in your feed. Click on Withdraw button below to get this money transferred to your bank or other accounts.")
   div.text-center.centered-content.side-bar-revenue-wrap.m-r-15
     .total-revenue-wrap
       h2.c-white

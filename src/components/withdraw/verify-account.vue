@@ -25,7 +25,7 @@ div
             li.m-b-10
               | You can upload images of your ID, Passport, Driving license, Aadhaar card, PAN card etc.
             li.m-b-10
-              | After successfull KYC, you'd be able to withdraw money instantly to your Bank, Paytm or other accounts.
+              | After successfull KYC, you'd be able to withdraw money instantly to your bank or other accounts.
           .text-center
             p
               button.btn.btn-info.btn-lg.m-t-10(@click="triggerFileSelection()")
