@@ -220,7 +220,7 @@ export default {
       }
     },
     isAd () {
-      return this.getCurrentPost().AdOptionId
+      return this.getCurrentPost() ? this.getCurrentPost().AdOptionId : false
     },
     manipulateFeed (feed) {
       let arr = []

@@ -152,12 +152,12 @@ export default {
   name: 'Terms',
   metaInfo () {
     return {
-      title: this.getPageTitle('Terms and Conditions')
+      title: this.getPageTitle('Terms And Conditions')
     }
   },
   mixins: [mixin],
   mounted () {
-    // this.setDocumentTitle(this.getPageTitle('Terms and Conditions'))
+    // this.setDocumentTitle(this.getPageTitle('Terms And Conditions'))
     this.scrollToTop()
   }
 }
