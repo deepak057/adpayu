@@ -151,6 +151,7 @@ export default {
             this.$emit('statusPosted', data)
           })
           .catch((pErr) => {
+            this.preloader = false
             this.showNotification('Something went wrong while creating your post.', 'error')
           })
         this.closePopup()

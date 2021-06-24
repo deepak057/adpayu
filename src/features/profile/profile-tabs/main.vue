@@ -2,7 +2,9 @@
 .card
   ul.nav.nav-tabs.profile-tab(role='tablist')
     li.nav-item
-      a.nav-link(data-toggle='tab', href='#up-home-tab', role='tab' id="default-tab-up" :class="{'active': this.defaultTab === 'timeline'}") Timeline
+      a.nav-link(data-toggle='tab', href='#up-home-tab', role='tab' id="default-tab-up" :class="{'active': this.defaultTab === 'timeline'}") Content
+    li.nav-item(v-if='isOwnProfile')
+      a.nav-link(data-toggle='tab', href='#up-history-tab', role='tab' :class="{'active': this.defaultTab === 'history'}") History
     li.nav-item(v-if='isOwnProfile')
       a.nav-link(data-toggle='tab', href='#up-friends-tab', role='tab' :class="{'active': this.defaultTab === 'friends'}") Friends
     li.nav-item(v-if='isOwnProfile')
@@ -11,6 +13,8 @@
   .tab-content
     #up-home-tab.tab-pane(role='tabpanel' :class="{'active': this.defaultTab === 'timeline'}")
       <timeline :profileUser='profileUser'></timeline>
+    #up-history-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'history'}")
+      <history :profileUser='profileUser'></history>
     #up-friends-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'friends'}")
       <friend-list :currentUser="currentUser"></friend-list>
     #up-settings-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'settings'}")
@@ -18,6 +22,7 @@
 </template>
 <script>
 import Timeline from './timeline'
+import History from './history'
 import FriendList from './friend-list'
 import Settings from './settings'
 
@@ -25,6 +30,7 @@ export default {
   name: 'ProfileTabs',
   components: {
     Timeline,
+    History,
     FriendList,
     Settings
   },

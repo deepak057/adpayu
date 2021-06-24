@@ -16,6 +16,16 @@ export default class Service {
       })
   }
 
+  getWatchedContentHistory (page) {
+    return auth.post('/getWatchedContentHistory', {page: page})
+      .then((response) => {
+        return new Promise((resolve) => { resolve(response) })
+      })
+      .catch((error) => {
+        return new Promise((resolve, reject) => { reject(error) })
+      })
+  }
+
   getFriends () {
     return auth.get('/friends')
       .then((response) => {
