@@ -1,6 +1,6 @@
 <template lang="pug">
 .card
-  ul.nav.nav-tabs.profile-tab(role='tablist')
+  ul.nav.nav-tabs.profile-tab(role='tablist' :class="{'own-profile': isOwnProfile}")
     li.nav-item
       a.nav-link(data-toggle='tab', href='#up-home-tab', role='tab' id="default-tab-up" :class="{'active': this.defaultTab === 'timeline'}") Content
     li.nav-item(v-if='isOwnProfile')
@@ -14,7 +14,7 @@
     #up-home-tab.tab-pane(role='tabpanel' :class="{'active': this.defaultTab === 'timeline'}")
       <timeline :profileUser='profileUser'></timeline>
     #up-history-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'history'}")
-      <history :profileUser='profileUser'></history>
+      <timeline :feedPage="'history'" :profileUser='profileUser'></timeline>
     #up-friends-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'friends'}")
       <friend-list :currentUser="currentUser"></friend-list>
     #up-settings-tab.tab-pane(role='tabpanel' v-if="isOwnProfile" :class="{'active': this.defaultTab === 'settings'}")
@@ -22,7 +22,6 @@
 </template>
 <script>
 import Timeline from './timeline'
-import History from './history'
 import FriendList from './friend-list'
 import Settings from './settings'
 
@@ -30,7 +29,6 @@ export default {
   name: 'ProfileTabs',
   components: {
     Timeline,
-    History,
     FriendList,
     Settings
   },

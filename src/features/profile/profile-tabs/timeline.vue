@@ -22,8 +22,7 @@ function getInitialData () {
     page: 1,
     disableLoadMore: true,
     noMoreFeed: false,
-    loadMorePreloader: false,
-    feedPage: 'profile'
+    loadMorePreloader: false
   }
 }
 export default {
@@ -37,6 +36,12 @@ export default {
     profileUser: {
       type: Object,
       required: true
+    },
+    feedPage: {
+      type: String,
+      default () {
+        return 'profile'
+      }
     }
   },
   data () {
@@ -45,31 +50,50 @@ export default {
   watch: {
     profileUser: {
       handler () {
-        this.reset()
-        this.loadTimelineFeed()
+        this.init()
       },
       deep: true
     }
   },
   mounted () {
+    if (this.feedPage === 'history') {
+      this.init()
+    }
   },
   methods: {
-    loadTimelineFeed () {
-      this.$options.service.getTimelineFeed(this.profileUser.id, this.page)
-        .then((data) => {
-          this.pageLoader = false
-          this.loadMorePreloader = false
-          if (data.posts.length) {
-            this.feed = this.feed.concat(data.posts)
-            this.disableLoadMore = false
-            this.page++
-          } else {
-            this.noMoreFeed = true
-          }
-        })
-        .catch((feedErr) => {
-          alert('Somehting went wrong while getting the feed.')
-        })
+    init () {
+      this.reset()
+      this.loadContent()
+    },
+    afterLoad (data) {
+      this.pageLoader = false
+      this.loadMorePreloader = false
+      if (data.posts.length) {
+        this.feed = this.feed.concat(data.posts)
+        this.disableLoadMore = false
+        this.page++
+      } else {
+        this.noMoreFeed = true
+      }
+    },
+    loadContent () {
+      if (this.feedPage === 'profile') {
+        this.$options.service.getTimelineFeed(this.profileUser.id, this.page)
+          .then((data) => {
+            this.afterLoad(data)
+          })
+          .catch((feedErr) => {
+            alert('Somehting went wrong while getting the feed.')
+          })
+      } else if (this.feedPage === 'history') {
+        this.$options.service.getWatchedContentHistory(this.page)
+          .then((data) => {
+            this.afterLoad(data)
+          })
+          .catch((feedErr) => {
+            alert('Somehting went wrong while getting the feed.')
+          })
+      }
     },
     reset () {
       Object.assign(this.$data, getInitialData())
@@ -77,7 +101,7 @@ export default {
     loadMoreFeed () {
       this.disableLoadMore = true
       this.loadMorePreloader = true
-      this.loadTimelineFeed()
+      this.loadContent()
     }
   }
 }

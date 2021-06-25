@@ -79,6 +79,10 @@ header.topbar
                     i.ti-user
                     |  My Content
                   </router-link>
+                  <router-link :to="userProfileLink()+'?tab=history'">
+                    i.mdi.mdi-history
+                    |  History
+                  </router-link>
                   <router-link :to="userProfileLink()+'?tab=friends'">
                     i.mdi.mdi-account-multiple-outline
                     |  My Friends

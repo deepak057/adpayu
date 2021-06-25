@@ -329,9 +329,12 @@ export default {
     showAdStats (postObj) {
       this.$refs.adStatsComponent.triggerPopup(postObj.id)
     },
+    profilePage () {
+      return ['profile', 'history'].includes(this.feedPage)
+    },
     disableEnableCommentsByDefault (feed) {
       for (let i in feed) {
-        if (this.feedPage === 'profile' && feed[i] && !feed[i].defaultComment) {
+        if (this.profilePage() && feed[i] && !feed[i].defaultComment) {
           feed[i].showComments = false
         }
         if (this.manipulativePage() && feed[i] && feed[i].defaultComment && feed[i].Question && feed[i].CommentsCount) {
@@ -442,7 +445,7 @@ export default {
       return this.currentUser.recentActivitiesEnabled && this.manipulativePage() && this.recentActivity(f) && f.defaultComment
     },
     manipulativePage () {
-      return this.userFeed || (this.feedPage && this.feedPage === 'profile')
+      return this.userFeed || (this.feedPage && this.profilePage())
     },
     editPost (f) {
       this.$refs.editPostComponent.trigger(f)

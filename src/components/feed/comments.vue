@@ -3,7 +3,7 @@
   .text-center.m-t-10(v-if="pageLoader")
     <preloader class="preloader-h-20"/>
   <template v-if="!pageLoader">
-  .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed && (feedPage !=='profile' || !postHasDefaultComment())")
+  .row.comment-row.m-0.no-border.p-l-0.p-b-0(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && !userFeed && (!profilePage() || !postHasDefaultComment())")
     a(href="javascript:void(0)" @click="showAllComments()" :class="{'m-t-20 m-b-10': isMobile(), 'm-t-10': !isMobile()}" )
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
@@ -153,10 +153,13 @@ export default {
     // this method helps choose default number of comments to be shown, if the page is Profile and
     // there is no default Comment on the post
     manipulateAnswers () {
-      if (this.feedPage === 'profile') {
+      if (this.profilePage()) {
         return this.postHasDefaultComment()
       }
       return false
+    },
+    profilePage () {
+      return ['profile', 'history'].includes(this.feedPage)
     },
     CommentVideoPlayed (comment) {
       this.$emit('CommentVideoPlayed', {
@@ -169,7 +172,7 @@ export default {
     },
     manipulativePage () {
       // return this.userFeed || this.feedPage === 'profile'
-      return (this.userFeed && this.isQuestion()) || (this.feedPage === 'profile' && this.postHasDefaultComment())
+      return (this.userFeed && this.isQuestion()) || (this.profilePage() && this.postHasDefaultComment())
     },
     enableComments () {
       this.commentsEnabled = !this.commentsEnabled
@@ -179,10 +182,12 @@ export default {
         return index_ >= (this.comments.length - this.defaultCommentsCount)
       }
       if (this.enableLoadPreviousComments) {
-        if (this.userFeed && this.isQuestion() && this.feedPage !== 'profile') {
+        if (this.userFeed && this.isQuestion() && !this.profilePage()) {
           return this.comments.length > 1 ? comment.setDefault : true
         } else if (this.feedPage === 'profile') {
           return this.postObj.defaultComment ? comment.UserId === this.profileUserId : defaultCondition()
+        } else if (this.feedPage === 'history') {
+          return comment.HasViewed
         } else {
           return defaultCondition()
         }
