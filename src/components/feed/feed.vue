@@ -358,16 +358,32 @@ export default {
       feed = this.disableEnableCommentsByDefault(feed)
       let duplicates = []
       this.initialized = true
-      /*
-      * Traverse the array from the bottom
-      * so that new duplicate record is
-      * not added to the feed array
-      */
-      for (let i = (feed.length - 1); i >= 0; i--) {
+
+      let execute = (i) => {
         if (feed[i] && duplicates.indexOf(feed[i].id) === -1) {
           duplicates.push(feed[i].id)
         } else {
           feed.splice(i, 1)
+        }
+      }
+
+      if (this.feedPage === 'history') {
+        /*
+        * Traverse the array from the start
+        * to keep the original order sent
+        * from the backend on History page
+        */
+        for (let i in feed) {
+          execute(i)
+        }
+      } else {
+        /*
+        * Traverse the array from the bottom
+        * so that new duplicate record is
+        * not added to the feed array
+        */
+        for (let i = (feed.length - 1); i >= 0; i--) {
+          execute(i)
         }
       }
       return this.sortTheTopPosts(this.feed)
