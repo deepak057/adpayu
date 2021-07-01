@@ -49,12 +49,12 @@
             i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
             i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
         .m-t-10.m-b-1rem.w-s-pre.custom-status-update-wrap(v-if="f['content']" v-html="f['content']")
-        div.m-t-10(v-if="f['Question']")
+        div.m-t-10.discription(v-if="f['Question']")
           h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
               | {{f['Question'].question | capitalize}}
             <router-link @click.native = "closeAllModals()" :to="getPostLink(f.id)" class="font-dark" v-if="!preview">
-              i.mdi.mdi-video.m-r-2(v-if="isVideoComment(f)")
+              // i.mdi.mdi-video.m-r-2(v-if="isVideoComment(f)")
               | {{f['Question'].question | capitalize}}
             </router-link>
             //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
@@ -64,7 +64,7 @@
             span(v-if="f['enableFullDescription']") ...
             span.underline.pointer(@click="showFullDescription(f)" v-if="f['Question'].description.length > descriptionExcerptCharsCount")
               | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
-        div.m-t-10(v-if="f['Video']")
+        div.m-t-10.discription(v-if="f['Video']")
           h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
               | {{f['Video'].title | capitalize}}
