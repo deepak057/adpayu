@@ -7,7 +7,7 @@
     a(href="javascript:void(0)" @click="showAllComments()" :class="{'m-t-20 m-b-10': isMobile(), 'm-t-10': !isMobile()}" )
       | Show all {{getCommentType()}}s
   <template v-for="(comment, n) in comments" v-if="isCommentEnabled(n, comment)">
-  <single-comment :key="comment.id" :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay= "autoReplay" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
+  <single-comment :key="comment.id" :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :autoReplay= "autoReplay" :videoRes="videoRes" :class="{'hide-comment-user-name': enableLoadPreviousComments && isCommentEnabled(n, comment) && manipulativePage() && getCommentType() === 'answer', 'comment-divider': n < (comments.length -1 )}" :comment = "comment" :index="n" @deleteComment="deleteComment" :commentType = "commentType"/>
   </template>
   .row.comment-row.m-0.no-border.p-l-0.show-all-comments-wrap(v-if="comments.length > defaultCommentsCount && enableLoadPreviousComments && userFeed")
     a(href="javascript:void(0)" @click="showAllComments()" class="m-t-10")
@@ -121,6 +121,10 @@ export default {
       default () {
         return []
       }
+    },
+    videoRes: {
+      type: Number,
+      default: 1
     }
   },
   data () {

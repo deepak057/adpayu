@@ -81,7 +81,7 @@
           //p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-md-8.video-container.p-b-0(:class="'col-lg-'+config.colWidth")
-            <feed-video-player @FeedVideoPlayed = "feedVideoPlayed" @PostVideoPlayed = "postVideoPlayed" :triggerPopupView = "triggerPopupView" :autoReplay = "autoReplay" :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
+            <feed-video-player @FeedVideoPlayed = "feedVideoPlayed" @PostVideoPlayed = "postVideoPlayed" :triggerPopupView = "triggerPopupView" :autoReplay = "autoReplay" :videoRes = "videoRes" :feed = "f" @ready="onPlayerReady" @ended="onPlayerEnded"/>
           .col-md-4.col-sm-12.p-0(:class="'col-lg-'+(12-config.colWidth)" v-if="enableAdOption(f, 'view')")
             span.hidden-sm-down.hidden-video-badge.m-l-10
             span.badge.badge-warning.ml-auto.f-w-400.pr-t--2.f-s-12.cursor-hand.m-m-t-7.ad-video-badge(:class="{'bg-999': !preview && adConsumed(f, 'view')}" data-container="body" title="Ad Revenue" data-toggle="popover" data-placement="right" data-html="true" :data-content="getText(f, 'view')")
@@ -127,7 +127,7 @@
           .pull-right.text-muted.show-on-mobile
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" :title="f['createdAt'] | date"></timeago>
             <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" :title="f['updatedAt'] | date"></timeago>
-    <comments :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
+    <comments :triggerPopupView = "triggerPopupView" @CommentVideoPlayed = "CommentVideoPlayed" :defaultComments = getDefaultComments(f) :autoReplay="autoReplay" :videoRes = "videoRes" :userFeed="userFeed" :postObj="f" :profileUserId ="profileUserId" :feedPage="feedPage" @CommentsCountUpdated = "updateCommentsCount" :commentType="f['type']" :postId="f['id']" v-if="f['showComments']" :class="{'question-on-user-feed': manipulativePage() && f['Question'], 'question-has-answers': manipulativePage() && f['Question'] && f['CommentsCount']}" @closeModal="leavePage"></comments>
     hr(v-if="!userFeed")
   <ad-stats ref="adStatsComponent"/>
   <social-share ref="socialShareComp" />
@@ -226,6 +226,10 @@ export default {
       default () {
         return ''
       }
+    },
+    videoRes: {
+      type: Number,
+      default: 1
     }
   },
   data () {

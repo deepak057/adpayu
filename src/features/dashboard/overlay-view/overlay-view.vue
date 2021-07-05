@@ -4,7 +4,7 @@ div(v-if="triggered")
   .modal.modal-append-to-body.video-overlay-view(:id="modalId" role='dialog', aria-label.smallledby='AdStatsModallabel.small', aria-hidden='true' :class="{'m-h-85': isAd()}")
     .modal-dialog.modal-lg
       .modal-content
-        <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp"/>
+        <animation-template :animationTemplate = "animationTemplate" ref="AnimationTemplateComp" v-if="!isMobile()"/>
         .modal-header.no-border.none(v-if="!isMobile()")
         span(data-dismiss='modal', aria-hidden='true' :id="closeButtonId")
         .modal-body.p-b-0
@@ -12,7 +12,7 @@ div(v-if="triggered")
             button.btn.btn-xs.btn-secondary.dropdown-toggle.no-border-shadow.bg-none.f-s-16.text-muted.hide-after(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true' title="More Options" :id="triggerOVOptionsBtn")
              i.ti.ti-more-alt
             .dropdown-menu.prevent-close-on-click
-              span.dropdown-item.no-active-effect
+              span.dropdown-item.no-active-effect(v-if="!isMobile()")
                 i.fa.fa-film.m-r-5
                 | Background effect
                 .m-t-5
@@ -27,7 +27,7 @@ div(v-if="triggered")
                 | Close
           <template v-if="!isLastPost() || noMoreFeed">
           .overlay-view-content-wrap
-            <feed :useDefaultComment = useDefaultComment :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
+            <feed :useDefaultComment = useDefaultComment :videoRes="480" :autoReplay= "autoReplay" :userFeed = true :feed="[feed[currentPost]]"/>
           </template>
           .video-controls-nav-wrap
               button.btn.btn-lg.prev-btn(@click="prev()")

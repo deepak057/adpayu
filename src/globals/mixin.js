@@ -330,9 +330,9 @@ export default {
       let path = this.getVideoPath(videoObj)
       return this.getMedia(path, 'videoPoster')
     },
-    videoPlayerOptions (videoObj) {
+    videoPlayerOptions (videoObj, vidRes = 1) {
       let r = {
-        sources: this.getVideoSources(videoObj),
+        sources: this.getVideoSources(videoObj, vidRes),
         responsive: true,
         poster: this.getVideoPoster(videoObj),
         dataSetup: {'fluid': true},
@@ -382,16 +382,20 @@ export default {
       }
       return newArr
     },
-    getVideoURL (videoObj) {
+    getVideoURL (videoObj, vidRes = 1) {
       let path = this.getVideoPath(videoObj)
       let optimzed = 'optimized' in videoObj ? videoObj.optimized : videoObj.videoOptimized
       let baseURL = this.getStaticContentURL(!this.hasQueryString(path))
       let subDir = false
       if (optimzed) {
-        if (this.isMobile()) {
-          subDir = '360'
+        if (vidRes === 1) {
+          if (this.isMobile()) {
+            subDir = '360'
+          } else {
+            subDir = '480'
+          }  
         } else {
-          subDir = '480'
+          subDir = vidRes
         }
       }
       return baseURL + '/' + (subDir ? subDir + '/' : '') + path
@@ -402,8 +406,8 @@ export default {
     getPostVideoPlayerClass (p) {
       return 'post-video-' + p.id
     },
-    getVideoSources (videoObj) {
-      let src = this.getVideoURL(videoObj)
+    getVideoSources (videoObj, vidRes = 1) {
+      let src = this.getVideoURL(videoObj, vidRes)
       return [
         {
           src: src

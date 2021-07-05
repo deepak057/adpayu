@@ -1,5 +1,5 @@
 <template lang="pug">
-<video-player class="vjs-3-4" :class="getPostVideoPlayerClass(feed)" :options="videoPlayerOptions(feed.Video)" :playsinline="true" @ready="onReady($event, feed)" @ended="onPlayEnded($event, feed)" @play="onPlay($event, feed)" data-setup="{fluid: true}"/>
+<video-player class="vjs-3-4" :class="getPostVideoPlayerClass(feed)" :options="videoPlayerOptions(feed.Video, videoRes)" :playsinline="true" @ready="onReady($event, feed)" @ended="onPlayEnded($event, feed)" @play="onPlay($event, feed)" data-setup="{fluid: true}"/>
 </template>
 <script>
 // require styles
@@ -30,6 +30,10 @@ export default {
       default () {
         return false
       }
+    },
+    videoRes: {
+      type: Number,
+      default: 1
     }
   },
   methods: {
