@@ -68,6 +68,12 @@ $(function () {
     // ==============================================================     
     
 
+    $(document).on('shown.bs.modal', '.video-overlay-view', function (e) {
+        $('body').addClass('overlay-view-open')
+    })
+    .on('hidden.bs.modal', '.video-overlay-view', function (e) {
+        $('body').removeClass('overlay-view-open')
+    })
 
     // topbar stickey on scroll
     
