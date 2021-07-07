@@ -44,7 +44,7 @@
           |  {{getPostDescriptionText(f)}}
           span.sl-date
             <timeago v-if="!manipulatePostDescriptionText(f)" :datetime="f['createdAt']" :auto-update="60" class="m-l-5 hide-on-mobile" :title="f['createdAt'] | date"></timeago>
-            <timeago v-if="manipulatePostDescriptionText(f) && !isQuestion(f)" :datetime="f['updatedAt']" :auto-update="60" class="m-l-5 hide-on-mobile" :title="f['updatedAt'] | date"></timeago>
+            <timeago v-if="manipulatePostDescriptionText(f)" :datetime="f['updatedAt']" :auto-update="60" class="m-l-5 hide-on-mobile" :title="f['updatedAt'] | date"></timeago>
             i.mdi.mdi-earth.m-l-5(title="Public, everyone can see it" v-if="f['public'] && !f['AdOption']")
             i.mdi.mdi-lock.m-l-5(title="Only friends can see it" v-if="!f['public'] && !f['AdOption']")
             i.mdi.mdi-earth-off.m-l-5(title="Sponsored, visible to target audience" v-if="f['AdOption']")
