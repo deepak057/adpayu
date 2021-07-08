@@ -323,6 +323,13 @@ export default {
       }
       /* eslint-enable */
     },
+    closeAllPopovers () {
+      // A hacky way that uses jQuery directly to
+      // close all the Bootstrap popovers
+      /* eslint-disable */
+      $("[data-toggle='popover']").popover('hide')
+      /* eslint-enable */
+    },
     audioURL (trackObj) {
       return this.getStaticContentURL() + '/audio/' + trackObj.path
     },

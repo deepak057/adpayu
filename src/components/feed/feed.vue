@@ -58,12 +58,16 @@
               | {{f['Question'].question | capitalize}}
             </router-link>
             //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("question")')
-          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Question'].description")
+          <template v-if="f['Question'].description">
+          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" )
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Question'].description}}
             span(v-if="f['enableFullDescription']") ...
             span.underline.pointer(@click="showFullDescription(f)" v-if="f['Question'].description.length > descriptionExcerptCharsCount")
               | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
+          .post-description-trigger
+            i.mdi.mdi-information.pointer(data-container="body" title="Description" data-toggle="popover" :data-content="f['Question'].description" data-html="true")
+          </template>
         div.m-t-10.discription(v-if="f['Video']")
           h3.font-bold
             a.font-dark(href="javascript:void(0)" v-if="preview")
@@ -72,12 +76,16 @@
               | {{f['Video'].title | capitalize}}
             </router-link>
             //i.mdi.mdi-clock.m-l-5.f-s-12.post-recent-activity-icon.cursor-hand(v-if="manipulatePostDescriptionText(f)" data-container="body" title="Recent Activity" data-toggle="popover" data-placement="right" :data-content='recentActivityText("video")')
-          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}" v-if="f['Video'].description")
+          <template v-if="f['Video'].description">
+          p.text-muted.post-description(:class="{'d-flex': !f['enableFullDescription']}")
             span(:class="{'post-description-excerpt': !f['enableFullDescription']}" )
               | {{f['Video'].description}}
             span(v-if="f['enableFullDescription']") ...
             span.underline.pointer(@click="showFullDescription(f)" v-if="f['Video'].description.length > descriptionExcerptCharsCount")
               | {{(!f['enableFullDescription'] ? ' show' : ' hide')}} description
+          .post-description-trigger
+            i.mdi.mdi-information.pointer(data-container="body" data-html="true" title="Description" data-toggle="popover" :data-content="f['Video'].description")
+          </template>
           //p.text-muted {{f['Video'].description}}
         .row.m-0.feed-video-wrap(v-if="!isEmptyObject(f['Video'])")
           .col-md-8.video-container.p-b-0(:class="'col-lg-'+config.colWidth")

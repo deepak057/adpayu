@@ -22,11 +22,13 @@
     </template>
     div.m-b-5.answer-content-wrap(v-html="comment.comment" v-if="isQuestion() && !isVideoAnswer() && comment.comment")
     <template v-if="isQuestion() && isVideoAnswer() && comment.comment">
-    div(:class="{'row p-0 m-0': !commentDescriptionEnabled}")
+    .comment-des-wrap(:class="{'row p-0 m-0': !commentDescriptionEnabled}")
       .video-comment-content(:class="{'col-lg-6 col-md-8 p-0 d-flex': !commentDescriptionEnabled}")
         div(:class="{'excerpt': !commentDescriptionEnabled, 'm-t-5': commentDescriptionEnabled}" v-html="comment.comment")
         span.underline.pointer.m-t-1.toggle(v-if="comment.comment.length > defaultVideoCommentDescriptionCharLength" @click="toggleVideoCommentDescription()")
           | show {{(!commentDescriptionEnabled ? "more" : "less")}}
+    .comment-des-trigger
+      i.mdi.mdi-information.pointer(data-container="body" title="Description" data-toggle="popover" :data-content='comment.comment' data-html="true")
     </template>
     .comment-footer(:class="{'m-t-10': getVideo(comment)}")
       span.text-muted.pull-right.comment-datetimestamp.m-l-5

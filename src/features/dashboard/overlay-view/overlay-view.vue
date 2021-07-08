@@ -236,6 +236,7 @@ export default {
     },
     next () {
       this.closeReactions()
+      this.closeAllPopovers()
       let threshholdPostNumber = 3
       if (this.currentPost >= (this.feed.length - threshholdPostNumber)) {
         this.$emit('GetMoreFeed')
@@ -288,6 +289,7 @@ export default {
     },
     prev () {
       this.closeReactions()
+      this.closeAllPopovers()
       if (this.currentPost > 0) {
         this.currentPost--
         this.autoPlayVideo()
