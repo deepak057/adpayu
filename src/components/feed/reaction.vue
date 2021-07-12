@@ -35,7 +35,7 @@
               <timeago :datetime="reaction.createdAt" :auto-update="60" :title="reaction.createdAt | date"></timeago>
       .m-t-10.m-b-10.text-center(v-if="loadMoreReactions || noMoreReactions")
         <preloader class="loader-medium" v-if="loadMoreReactions"/>
-        span(v-if="reactions.length && noMoreReactions")
+        span.reactions-no-more(v-if="reactions.length && noMoreReactions")
             i.mdi.mdi-emoticon-sad.m-r-5
             | No More Reactions
     .reaction-modal-footer
