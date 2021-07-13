@@ -23,7 +23,7 @@
             .chat-content
               h5
                 <router-link @click.native="closeReactionsPopup()" class="pointer" tag="span" :to="userProfileLink(reaction.User.id)">
-                  | {{userName(reaction.User)}}
+                  | {{userName(reaction.User, true, true)}}
                 </router-link>
               .box
                 | {{reaction.text}}
